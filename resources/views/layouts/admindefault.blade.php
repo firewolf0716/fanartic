@@ -10,16 +10,26 @@
     <title></title>
 
     <!-- Bootstrap -->
-    <link href="{{ url('')}}/public/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ url('')}}/public/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="{{ url('')}}/public/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/nprogress/nprogress.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-    <link href="{{ url('')}}/public/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- bootstrap-datetimepicker -->
+    <link href="{{ url('')}}/public/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="{{ url('')}}/public/css/custom.css" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link href="{{ url('')}}/public/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap Colorpicker -->
     <link href="{{ url('')}}/public/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
@@ -58,10 +68,10 @@
                             </li>
                             <li class="navproduct"><a><i class="fa fa-table"></i> 商品管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('mer_manage_product') }}">商品一覧（販売中）</a></li>
-                                    <li><a href="{{ url('mer_sold_product') }}">商品一覧（売切）</a></li>
+                                    <li><a href="{{ url('merchant_product_manage') }}">商品一覧（販売中）</a></li>
+                                    <li><a href="{{ url('merchant_product_sold') }}">商品一覧（売切）</a></li>
                                     <li class="navproductadd"><a href="{{ url('merchant_product_add') }}">新規登録</a></li>
-                                    <li><a href="{{ url('mer_product_bulk_upload') }}">CSV登録</a></li>
+                                    <li><a href="{{ url('merchant_product_csvupload') }}">CSV登録</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
@@ -251,55 +261,5 @@
         <!-- /footer content -->
     </div>
 </div>
-    <!-- jQuery -->
-    <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="{{ URL::asset('public/gvendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <!-- FastClick -->
-    <script src="{{ URL::asset('public/gvendor/fastclick/lib/fastclick.js') }}"></script>
-    <!-- NProgress -->
-    <script src="{{ URL::asset('public/gvendor/nprogress/nprogress.js') }}"></script>
-    <!-- Chart.js -->
-    <script src="{{ URL::asset('public/gvendor/Chart.js/dist/Chart.min.js') }}"></script>
-    <!-- jQuery Sparklines -->
-    <script src="{{ URL::asset('public/gvendor/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
-    <!-- Flot -->
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.pie.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.time.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.stack.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.resize.js') }}"></script>
-    <!-- Flot plugins -->
-    <script src="{{ URL::asset('public/gvendor/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/flot.curvedlines/curvedLines.js') }}"></script>
-    <!-- DateJS -->
-    <script src="{{ URL::asset('public/gvendor/DateJS/build/date.js') }}"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="{{ URL::asset('public/gvendor/moment/min/moment.min.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-
-    <!-- Custom Theme Scripts -->
-
-
-    <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
-    <!-- Parsley -->
-    <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
-    <!-- starrr -->
-    <script src="{{ URL::asset('public/gvendor/starrr/dist/starrr.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ URL::asset('public/gvendor/select2/dist/js/select2.full.min.js') }}"></script>
-    <!-- jQuery Tags Input -->
-    <script src="{{ URL::asset('public/gvendor/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
-    <!-- bootstrap-wysiwyg -->
-    <script src="{{ URL::asset('public/gvendor/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/jquery.hotkeys/jquery.hotkeys.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/google-code-prettify/src/prettify.js') }}"></script>
-    <!-- Dropzone.js -->
-    <script src="{{ URL::asset('public/gvendor/dropzone/dist/min/dropzone.min.js') }}"></script>
-    <!-- Bootstrap Colorpicker -->
-    <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
-    <!-- Custom Theme Scripts -->
-    <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 </body>
 </html>

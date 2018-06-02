@@ -5,19 +5,8 @@
 @section('content')
 <div class="">
     <div class="page-title">
-        <div class="title_left">
+        <div class="title_left" style="margin-Bottom:20px">
             <h3>Home / Add Products</h3>
-        </div>
-
-        <div class="title_right">
-            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                </span>
-                </div>
-            </div>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -26,10 +15,7 @@
             <form id="demo-form1" class="form-horizontal form-label-left">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Add Products</h2>
-                        <ul class="nav navbar-right">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                        </ul>
+                        <h4>Add Products</h4>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
@@ -44,9 +30,11 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="top-category">Top Category<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="top-category" class="form-control" required>
+                                <select id="top-category" class="form-control" onChange="get_maincategory(this.value)" required>
                                     <option value="">--Select--</option>
-                                    <option value="press">Press</option>
+                                    @foreach($productcategory as $product_mc)  
+              			            <option value="{{ $product_mc->mc_id }}"> {{ $product_mc->mc_name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -62,9 +50,9 @@
                         </div>
                         <!--Sub Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sub-category">Sub Category<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sub-category">Sub Category</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="sub-category" class="form-control" required>
+                                <select id="sub-category" class="form-control">
                                     <option value="">--Select Sub Category--</option>
                                     <option value="press">Press</option>
                                 </select>
@@ -72,9 +60,9 @@
                         </div>
                         <!--Second Sub Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="secondsub-category">Second Sub Category<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="secondsub-category">Second Sub Category</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="secondsub-category" class="form-control" required>
+                                <select id="secondsub-category" class="form-control">
                                     <option value="">--Select Second Sub Category--</option>
                                     <option value="press">Press</option>
                                 </select>
@@ -111,7 +99,7 @@
                         <div class="form-group" id="collapse8" style="display:none">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                             <div class="checkbox col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="tax-percentage-input" required="required" class="form-control col-md-7 col-xs-12" value=0>
+                                <input type="number" id="tax-percentage-input" class="form-control col-md-7 col-xs-12" value=0>
                             </div>
                         </div>
                         <!--Shipping Amount-->
@@ -285,9 +273,9 @@
                         </div>
                         <!--Delivery-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery-input">Delivery Within</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery-input">Delivery Within<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="delivery-input" class="form-control col-md-7 col-xs-12">
+                                <input type="number" id="delivery-input" class="form-control col-md-7 col-xs-12" required="required">
                             </div>
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery-input"></label>
                             Days
@@ -701,6 +689,25 @@
         $('#tax-percentage-check').change(function(){
             $('#collapse8').slideToggle(250);
         });
+
+        //change category
+        function get_maincategory(id)
+	    {
+		    var passcategoryid = 'id='+id;
+            $.ajax({
+                type: 'get',
+                data: passcategoryid,
+                url: 'mer_product_getmaincategory',
+                success: function(responseText){
+                if(responseText)
+                    {
+                        $('#Product_MainCategory').html(responseText);
+                        $('#Product_SubCategory').html(0);	
+                        $('#Product_SecondSubCategory').html(0);					
+                    }
+                }
+            });
+	    }
     });
 </script>
 
