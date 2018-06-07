@@ -77,27 +77,27 @@
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">受注一覧</a></li>
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">受注追加（マニュアル）</a></li>
+                                    <li><a href="#">受注一覧</a></li>
+                                    <li><a href="#">受注追加（マニュアル）</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-dollar"></i> 売上管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">売上分析</a></li>
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">アクセス解析</a></li>
+                                    <li><a href="#">売上分析</a></li>
+                                    <li><a href="#">アクセス解析</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-file-o"></i> コンテンツ管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">新着情報</a></li>
+                                    <li><a href="#">新着情報</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-edit"></i> 店舗設定 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_settings') }}">一般設定</a></li>
-                                    <li><a href="{{ url('merchant_settings') }}">メンバー管理</a></li>
-                                    <li><a href="{{ url('merchant_settings') }}">権限管理</a></li>
-                                    <li><a href="{{ url('change_merchant_password')}}">パスワードの変更</a></li>
+                                    <li><a href="#">一般設定</a></li>
+                                    <li><a href="#">メンバー管理</a></li>
+                                    <li><a href="#">権限管理</a></li>
+                                    <li><a href="#">パスワードの変更</a></li>
                                     <li><a href="https://site3.ec-cube.net/admin/setting/shop/csv">CSV設定</a></li>
                                 </ul>
                             </li>
@@ -108,7 +108,7 @@
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-sitemap"></i> サイト構築 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_settings') }}">トップページ編集</a></li>
+                                    <li><a href="#">トップページ編集</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -119,9 +119,9 @@
                         <ul class="nav side-menu">
                             <li><a><i class="fa fa-bar-chart-o"></i> 買取サービス <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">見積依頼一覧</a></li>
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">見積中商品</a></li>
-                                    <li><a href="{{ url('merchant_deals_all_orders') }}">落札商品</a></li>
+                                    <li><a href="#">見積依頼一覧</a></li>
+                                    <li><a href="#">見積中商品</a></li>
+                                    <li><a href="#">落札商品</a></li>
                                 </ul>
                             </li>
                         </ul>

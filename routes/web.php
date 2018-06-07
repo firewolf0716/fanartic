@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {return view('welcome');});
+Route::get('/', 'DashboardController@dashboard_merchant');
 
 //merchants
 Route::get('merchant_dashboard', 'DashboardController@dashboard_merchant');
