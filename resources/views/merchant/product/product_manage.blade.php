@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <label class="control-label col-xs-4" style="text-Align:center">From Date</label>
                         <div class='input-group date' id='dtFrom'>
-                            <input type='text' class="form-control" />
+                            <input type='text' name="from_date" class="form-control" />
                             <span class="input-group-addon">
                                <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -28,7 +28,7 @@
                     <div class="form-group">
                         <label class="control-label col-xs-4" style="text-Align:center">To Date</label>
                         <div class='input-group date' id='dtTo'>
-                            <input type='text' class="form-control" />
+                            <input type='text' name="to_date" class="form-control" />
                             <span class="input-group-addon">
                                <span class="glyphicon glyphicon-calendar"></span>
                             </span>
@@ -64,20 +64,60 @@
                         </tr>
                       </thead>
                       <tbody>
+                        @php $i = 1 ;   @endphp
+                        @if(count($products_saling)>0)
+                        @foreach($products_saling as $product_list)
+                        @php $product_get_img = explode("/**/",$product_list->pro_Img); @endphp
                         <tr>
-                            <td>1</td>
-                            <td>check_calc</td>
-                            <td>Fun Store</td>
-                            <td>Tokyo</td>
-                            <td>$61</td>
-                            <td>$50</td>
-                            <td><img src="{{ URL::asset('public/images/img.jpg') }}" alt="..." width="50px"></td>
-                            <td style="text-align:center">
-                                <a style="margin:10px"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                <a style="margin:10px"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            <td>{{ $i }}</td>
+                            <td>{{ substr($product_list->pro_title,0,45) }}</td>
+                            <td>{{ $product_list->stor_name }}</td>
+                            <td>{{ $product_list->ci_name }}</td>
+                            <td>${{ $product_list->pro_price }}</td>
+                            <td>${{ $product_list->pro_disprice }}</td>
+                            <td>
+                                <?php  $prod_path = url('').'/public/assets/default_image/No_image_product.png'; ?>
+								@if($product_get_img != '')  {{-- image is null--}}
+									@php	
+									$pro_img = $product_get_img[0]; 
+									$img_data = "public/assets/product/".$pro_img;@endphp	
+									@if(file_exists($img_data) && $pro_img !='')  {{-- image not exists in folder  --}}
+										@php 		
+									    $prod_path = url('').'/public/assets/product/'.$pro_img;
+										@endphp	 
+									@else 
+										@if(isset($DynamicNoImage['productImg']))
+                                            @php
+                                            $dyanamicNoImg_path= "public/assets/noimage/".$DynamicNoImage['productImg']; 
+                                            @endphp
+                                            @if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
+                                            @php
+                                            $prod_path = url('').'/public/assets/noimage/'.$DynamicNoImage['productImg'];  
+                                            @endphp
+										@endif
+									@endif										 
+							@endif
+						    @else
+						        @if(isset($DynamicNoImage['productImg']))
+									@php					
+									$dyanamicNoImg_path= "public/assets/noimage/".$DynamicNoImage['productImg']; @endphp	
+									@if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
+									    @php	
+									    $prod_path = url('').'/public/assets/noimage/'.$DynamicNoImage['productImg'];  @endphp	
+									@endif
+								@endif
+							@endif			
+							<a href="#"><img style="height:40px;" src="{{ $prod_path }}"></a>
                             </td>
-                            <td style="text-align:center"><a href="#" style="color:#077DFB">View Details</a></td>
+                            <td style="text-align:center">
+                                <a style="margin:10px" href="{{ url('mer_edit_product/'.$product_list->pro_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                <a style="margin:10px" href="{{ url('mer_delete_product') }}/{{ $product_list->pro_id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            </td>
+                            <td style="text-align:center"><a href="{{ url('mer_product_details')."/".$product_list->pro_id }}" style="color:#077DFB">View Details</a></td>
                         </tr>
+                        @php $i++;   @endphp
+                        @endforeach
+                        @endif
                       </tbody>
                     </table>
                 </div>

@@ -21,6 +21,10 @@ Route::get('merchant_product_manage', 'MerchantproductController@merchant_produc
 Route::get('merchant_product_sold', 'MerchantproductController@merchant_product_sold');
 Route::get('merchant_product_csvupload', 'MerchantproductController@merchant_product_csvupload');
 
+Route::get('mer_product_details/{id}', 'MerchantproductController@mer_product_details');
+Route::get('mer_edit_product/{id}', 'MerchantproductController@mer_edit_product');
+Route::get('mer_delete_product/{id}', 'MerchantproductController@mer_delete_product');
+
 Route::post('merchant_product_addpost', 'MerchantproductController@merchant_product_addpost');
 //product
 Route::get('mer_product_getmaincategory', 'ProductController@mer_product_getmaincategory');

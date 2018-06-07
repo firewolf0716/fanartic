@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Products;
+use App\MerchantProducts;
 
 class MerchantproductController extends Controller
 {
@@ -120,7 +121,6 @@ class MerchantproductController extends Controller
             'created_date' => $datenow
         );
         $productid = Products::insert_product($entry);
-// $productid = 1;
         if($productid > 0){
             //insert color
             $colorarray = explode(",", trim(Input::get('co'), ","));
@@ -175,10 +175,29 @@ class MerchantproductController extends Controller
         }
     }
     public function merchant_product_manage(){
-        return view('merchant.product.product_manage');
+        // $merchant_id = Session::get('merchantid');
+        $merchant_id = 41;
+        $from_date = Input::get('from_date');
+        $to_date = Input::get('to_date');
+        $products_saling = Merchantproducts::products_saling($from_date, $to_date, $merchant_id);
+        
+        $details         = Merchantproducts::get_product_details($merchant_id);
+        $delete_product  = Merchantproducts::get_order_details();
+
+        return view('merchant.product.product_manage')
+                    ->with('product_details', $details)
+                    ->with('products_saling', $products_saling)
+                    ->with('delete_product', $delete_product)
+                    ->with('from_date',$from_date)
+                    ->with('to_date',$to_date);
     }
     public function merchant_product_sold(){
         return view('merchant.product.product_sold');
+    }
+    public function mer_product_details($id){
+        $product = Products::get_product($id);
+        // $top_category = 
+        return view('merchant.product.product_detail')->with('productinfo', $product[0]);
     }
     public function merchant_product_csvupload(){
         return view('merchant.product.product_csvupload');

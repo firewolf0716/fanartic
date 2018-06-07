@@ -88,4 +88,13 @@ class Products extends Model{
     public static function product_get_spec($spec_group_id){
         return DB::table('nm_specification')->where('sp_spg_id','=',$spec_group_id)->get();
     }
+    public static function get_product($id)
+    {
+        return DB::table('nm_product')->where('pro_id', '=', $id)
+                                      ->LeftJoin('nm_maincategory', 'nm_maincategory.mc_id', '=', 'nm_product.pro_mc_id')
+                                      ->LeftJoin('nm_secmaincategory', 'nm_secmaincategory.smc_id', '=', 'nm_product.pro_smc_id')
+                                      ->LeftJoin('nm_subcategory', 'nm_subcategory.sb_id', '=', 'nm_product.pro_sb_id')
+                                      ->LeftJoin('nm_secsubcategory', 'nm_secsubcategory.ssb_id', '=', 'nm_product.pro_ssb_id')
+                                      ->get();
+    }
 }
