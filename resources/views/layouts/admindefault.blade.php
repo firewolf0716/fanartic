@@ -33,6 +33,7 @@
 
     <!-- Bootstrap Colorpicker -->
     <link href="{{ url('')}}/public/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url('') }}/public/css/multi-select.css" />
 </head>
 
 <body class="nav-md">

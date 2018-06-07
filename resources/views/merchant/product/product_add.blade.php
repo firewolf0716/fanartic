@@ -12,7 +12,7 @@
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            <form id="demo-form1" class="form-horizontal form-label-left">
+            {!! Form::open(array('id' => 'form_product_add','url'=>'merchant_product_addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                 <div class="x_panel">
                     <div class="x_title">
                         <h4>Add Products</h4>
@@ -21,16 +21,16 @@
                     <div class="x_content">
                         <!--Product Title-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-title">Product Title<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_title">Product Title<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="product-title" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Your Product Title">
+                                <input type="text" id="product_title" name="product_title" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Your Product Title">
                             </div>
                         </div>
                         <!--Top Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="top-category">Top Category<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="top_category">Top Category<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="top-category" class="form-control" onChange="get_maincategory(this.value)" required>
+                                <select id="top_category" name="top_category" class="form-control" onChange="get_maincategory(this.value);get_specification_details();" required>
                                     <option value="">--Select--</option>
                                     @foreach($productcategory as $product_mc)  
               			            <option value="{{ $product_mc->mc_id }}"> {{ $product_mc->mc_name }}</option>
@@ -40,87 +40,84 @@
                         </div>
                         <!--Main Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="main-category">Main Category<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="main_category">Main Category<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="main-category" class="form-control" required>
+                                <select id="main_category" name="main_category" class="form-control" required onChange="get_subcategory(this.value);get_specification_details();">
                                     <option value="">--Select Main Category--</option>
-                                    <option value="press">Press</option>
                                 </select>
                             </div>
                         </div>
                         <!--Sub Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sub-category">Sub Category</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sub_category">Sub Category</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="sub-category" class="form-control">
-                                    <option value="">--Select Sub Category--</option>
-                                    <option value="press">Press</option>
+                                <select id="sub_category" name="sub_category" class="form-control" onChange="get_second_subcategory(this.value)">
+                                    <option value="0">--Select Sub Category--</option>
                                 </select>
                             </div>
                         </div>
                         <!--Second Sub Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="secondsub-category">Second Sub Category</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="secondsub_category">Second Sub Category</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="secondsub-category" class="form-control">
-                                    <option value="">--Select Second Sub Category--</option>
-                                    <option value="press">Press</option>
+                                <select id="secondsub_category" name="secondsub_category" class="form-control">
+                                    <option value="0">--Select Second Sub Category--</option>
                                 </select>
                             </div>
                         </div>
                         <!--Product Quantity-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-quantity">Product Quantity<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_quantity">Product Quantity<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="product-quantity" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Quantity of Product">
+                                <input type="number" id="product_quantity" name="product_quantity" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Quantity of Product">
                             </div>
                         </div>
                         <!--Original Price-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="original-price">Original Price<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="original_price">Original Price<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="original-price" required="required" class="form-control col-md-7 col-xs-12" placeholder="Numbers Only">
+                                <input type="number" id="original_price" name="original_price" required="required" class="form-control col-md-7 col-xs-12" placeholder="Numbers Only">
                             </div>
                         </div>
                         <!--Discounted Price-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="discounted-price">Discounted Price<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="discounted_price">Discounted Price<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="discounted-price" required="required" class="form-control col-md-7 col-xs-12" placeholder="Numbers Only">
+                                <input type="number" id="discounted_price" name="discounted_price" required="required" class="form-control col-md-7 col-xs-12" placeholder="Numbers Only">
                             </div>
                         </div>
                         <!--Tax rate-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
                             <div class="checkbox col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="checkbox" id="tax-percentage-check" value="">( Including tax Percentage ) %</label>
+                                <label><input type="checkbox" id="tax_percentage_check" name="tax_percentage_check">( Including tax Percentage ) %</label>
                             </div>
                         </div>
                         <div class="form-group" id="collapse8" style="display:none">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-                            <div class="checkbox col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="tax-percentage-input" class="form-control col-md-7 col-xs-12" value=0>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <input type="number" id="tax_percentage_input" name="tax_percentage_input" class="form-control col-md-7 col-xs-12" value=0>
                             </div>
                         </div>
                         <!--Shipping Amount-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Shipping Amount<span class="required">*</span></label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="option1" id="optionsShippingFree" name="optionsShippingAmount" checked>Free</label>
-                                <label><input type="radio" value="option1" id="optionsShippingAmount" name="optionsShippingAmount">Amount</label>
+                                <label><input type="radio" value="0" id="optionsShippingFree" name="optionsShippingAmount" checked>Free</label>
+                                <label><input type="radio" value="1" id="optionsShippingAmount" name="optionsShippingAmount">Amount</label>
                             </div>
                         </div>
                         <div class="form-group" id="collapse1" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="shipping-amount">Shipping Amount<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="shipping_amount">Shipping Amount<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="shipping-amount" required="required" class="form-control col-md-7 col-xs-12">
+                                <input type="text" id="shipping_amount" name="shipping_amount" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
                         <!-- Description -->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Description<span class="required">*</span></label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-description">
+                                <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor_description">
                                     <div class="btn-group">
                                         <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
                                         <ul class="dropdown-menu">
@@ -179,114 +176,109 @@
                                     </div>
 
                                     <div class="btn-group">
-                                        <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn1"><i class="fa fa-picture-o"></i></a>
-                                        <input type="file" data-role="magic-overlay" data-target="#pictureBtn1" data-edit="insertImage" />
-                                    </div>
-
-                                    <div class="btn-group">
                                         <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
                                         <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
                                     </div>
                                 </div>
-                                <div id="editor-description" class="editor-wrapper" placeholder="Enter your Description" required="required"></div>
+                                <div id="editor_description" class="editor-wrapper" placeholder="Enter your Description"></div>
+                                {{ Form::hidden('description', '', array('id' => 'description'))}}
                             </div>
-                        </div>    
+                        </div>
                         <!--specification-->
                         <!--Want to add specification-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Want to add specification<span class="required">*</span></label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="option1" id="optionsSpecYes" name="optionsSpec">Yes</label>
-                                <label><input type="radio" value="option1" id="optionsSpecNo" name="optionsSpec" checked>No</label>
+                                <label><input type="radio" value="1" id="optionsSpecYes" name="optionsSpec">Yes</label>
+                                <label><input type="radio" value="0" id="optionsSpecNo" name="optionsSpec" checked>No</label>
                             </div>
                         </div>
-                        <div class="form-group" id="collapse2" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Specification</label>
-                            
-                            <div class="col-md-2 col-sm-6 col-xs-12" id="div-spec-option1">
-                                <select id="specification1" class="form-control" required>
-                                    <option value="">--Select Specification--</option>
-                                    <option value="press">Press</option>
-                                </select>
+                        <div id="collapse2" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Specification</label>
+                                
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <select id="spec_group_0" name="spec_group_0" class="form-control" onChange="spcfunction(0,this.value);">
+                                        <option value="0">--Select Specification--</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <select id="spec_detail_0" name="spec_detail_0" class="form-control">
+                                        <option value="0">--No--</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <input type="text" id="spec_text_0" name="spec_text_0" class="form-control col-md-7 col-xs-12">
+                                </div>
+                                
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <button class="btn btn-primary" type="button" id="btnSpecAdd">Add More</button>
+                                </div>
                             </div>
-                            <div class="col-md-2 col-sm-6 col-xs-12" id="div-spec-option2">
-                                <select id="specification2" class="form-control" required>
-                                    <option value="">--No--</option>
-                                    <option value="press">Press</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 col-sm-6 col-xs-12" id="div-spec-input">
-                                <input type="text" id="specification-input" class="form-control col-md-7 col-xs-12">
-                            </div>
-                            
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <button class="btn btn-primary" type="button" id="btnSpecAdd">Add More</button>
-                            </div>
+                            {{ Form::hidden('spec_ct', '1', array('id' => 'spec_ct'))}}
                         </div>
+
                         <!--Product Size-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Add Product Size</label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="option1" id="optionsProsizeYes" name="optionsProsize">Yes</label>
-                                <label><input type="radio" value="option1" id="optionsProsizeNo" name="optionsProsize" checked>No</label>
+                                <label><input type="radio" value="1" id="optionsProsizeYes" name="optionsProsize">Yes</label>
+                                <label><input type="radio" value="0" id="optionsProsizeNo" name="optionsProsize" checked>No</label>
                             </div>
                         </div>
                         <div class="form-group" id="collapse3" style="display:none">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Size</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12 dropdown dropup docs-options">
-                                <button type="button" class="btn btn-primary btn-block dropdown-toggle" id="toggleOptions" data-toggle="dropdown" aria-expanded="true">
-                                    Select Sizes
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="toggleOptions" role="menu">
-                                    <li role="presentation">
-                                        <label class="checkbox-inline">
-                                        <input type="checkbox" name="responsive">
-                                        responsive
-                                        </label>
-                                    </li>
-                                    <li role="presentation">
-                                        <label class="checkbox-inline">
-                                        <input type="checkbox" name="restore">
-                                        restore
-                                        </label>
-                                    </li>
-                                </ul>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_size[]" id="product_size" multiple="multiple">
+                                @foreach ($productsize as $size) 
+                                    @if($size->si_name!='no size')
+                                        <option value="{{ $size->si_id }}">{!!$size->si_name!!}</option>
+                                    @endif
+                                @endforeach
+                                </select>
                             </div>
                         </div>
                         <!--Color Field-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Add Color Field</label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="option1" id="optionsColorYes" name="optionsColor">Yes</label>
-                                <label><input type="radio" value="option1" id="optionsColorNo" name="optionsColor" checked>No</label>
+                                <label><input type="radio" value="1" id="optionsColorYes" name="optionsColor">Yes</label>
+                                <label><input type="radio" value="0" id="optionsColorNo" name="optionsColor" checked>No</label>
                             </div>
                         </div>
                         <div class="form-group" id="collapse4" style="display:none">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Color</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="input-group demo2">
-                                    <input type="text" value="#e01ab5" class="form-control" />
-                                    <span class="input-group-addon"><i></i></span>
-                                </div>
+                                <select class="form-control" id="selectprocolor" name="selectprocolor" onchange="getcolorname(this.value)">
+                                    <option value="0">--Select Product Color--</option>
+                                    @foreach ($productcolor as $color) 
+                                    <option style="background:{{ $color->co_code }}"  value="{{ $color->co_id}}">{!!$color->co_name!!}</option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
+                        <div class="form-group" id="colordiv" style="display:none;">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Show Colors</label>
+                            <div class="col-md-6 col-sm-6 col-xs-12" id="showcolor">
+
+                            </div>
+                            {{ Form::hidden('co','0',array('id'=>'co')) }}
                         </div>
                         <!--Delivery-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery-input">Delivery Within<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery_input">Delivery Within<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="delivery-input" class="form-control col-md-7 col-xs-12" required="required">
+                                <input type="number" id="delivery_input" name="delivery_input" class="form-control col-md-7 col-xs-12" required="required">
                             </div>
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery-input"></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery_input"></label>
                             Days
                         </div>
                         <!--Select Store-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="store">Select Store<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="store" class="form-control" required>
+                                <select id="store" name="store" class="form-control" required>
                                     <option value="">--Select Store--</option>
-                                    <option value="press">Press</option>
                                 </select>
                             </div>
                         </div>
@@ -294,289 +286,308 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="store">Meta keywords</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea id="meta-keywords" class="form-control" placeholder="Enter Meta Keywords"></textarea>
+                                <textarea id="meta_keywords" name="meta_keywords" class="form-control" placeholder="Enter Meta Keywords"></textarea>
                             </div>
                         </div>
                         <!--Meta description-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="store">Meta description</label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea id="meta-description" class="form-control" placeholder="Enter Meta Description"></textarea>
+                                <textarea id="meta_description" name="meta_description" class="form-control" placeholder="Enter Meta Description"></textarea>
                             </div>
                         </div>
                         <!--Cash Back-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="discounted-price">Cash Back<span class="required">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="cash-back" required="required" class="form-control col-md-7 col-xs-12">
+                                <input type="number" id="cash_back" name="cash_back" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
                         <!--Apply Cancellation Policy-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Apply Cancellation Policy</label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="option1" id="optionspcYes" name="optionsPolicyCancel">Yes</label>
-                                <label><input type="radio" value="option1" id="optionspcNo" name="optionsPolicyCancel" checked>No</label>
+                                <label><input type="radio" value="1" id="optionspcYes" name="optionsPolicyCancel">Yes</label>
+                                <label><input type="radio" value="0" id="optionspcNo" name="optionsPolicyCancel" checked>No</label>
                             </div>
                         </div>
-                        <div class="form-group" id="collapse5" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-cacelpolicy">
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                            <a data-edit="fontSize 5">
-                                                <p style="font-size:17px">Huge</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 3">
-                                                <p style="font-size:14px">Normal</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 1">
-                                                <p style="font-size:11px">Small</p>
-                                            </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                        <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                        <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                        <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                        <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                        <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                        <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                        <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                        <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                                        <div class="dropdown-menu input-append">
-                                            <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                                            <button class="btn" type="button">Add</button>
+                        <div id="collapse5" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
+                                <div class="radio col-md-6 col-sm-6 col-xs-12">
+                                    <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor_cacelpolicy">
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                            </ul>
                                         </div>
-                                        <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                                    </div>
 
-                                    <div class="btn-group">
-                                        <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn2"><i class="fa fa-picture-o"></i></a>
-                                        <input type="file" data-role="magic-overlay" data-target="#pictureBtn2" data-edit="insertImage" />
-                                    </div>
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                <a data-edit="fontSize 5">
+                                                    <p style="font-size:17px">Huge</p>
+                                                </a>
+                                                </li>
+                                                <li>
+                                                <a data-edit="fontSize 3">
+                                                    <p style="font-size:14px">Normal</p>
+                                                </a>
+                                                </li>
+                                                <li>
+                                                <a data-edit="fontSize 1">
+                                                    <p style="font-size:11px">Small</p>
+                                                </a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                                        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                                            <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                                            <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                                            <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                                            <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+                                            <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                                            <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                                            <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                                            <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                                            <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+                                            <div class="dropdown-menu input-append">
+                                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+                                                <button class="btn" type="button">Add</button>
+                                            </div>
+                                            <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                                            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                        </div>
                                     </div>
+                                    <div id="editor_cacelpolicy" class="editor-wrapper"></div>
+                                    {{ Form::hidden('cacelpolicy', '', array('id' => 'cacelpolicy'))}}
                                 </div>
-                                <div id="editor-cacelpolicy" class="editor-wrapper" placeholder="Enter your Description" required="required"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cancel Days</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="number" id="cancel_days" name="cancel_days" class="form-control col-md-7 col-xs-12">
+                                </div>
                             </div>
                         </div>
+
                         <!--Apply Return/Refund Policy-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Apply Return/Refund Policy</label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="option1" id="optionsprtYes" name="optionsPolicyReturn">Yes</label>
-                                <label><input type="radio" value="option1" id="optionsprtNo" name="optionsPolicyReturn" checked>No</label>
+                                <label><input type="radio" value="1" id="optionsprtYes" name="optionsPolicyReturn">Yes</label>
+                                <label><input type="radio" value="0" id="optionsprtNo" name="optionsPolicyReturn" checked>No</label>
                             </div>
                         </div>
-                        <div class="form-group" id="collapse6" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-returnpolicy">
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                            <a data-edit="fontSize 5">
-                                                <p style="font-size:17px">Huge</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 3">
-                                                <p style="font-size:14px">Normal</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 1">
-                                                <p style="font-size:11px">Small</p>
-                                            </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                        <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                        <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                        <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                        <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                        <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                        <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                        <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                        <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                                        <div class="dropdown-menu input-append">
-                                            <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                                            <button class="btn" type="button">Add</button>
+                        <div id="collapse6" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
+                                <div class="radio col-md-6 col-sm-6 col-xs-12">
+                                    <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-returnpolicy">
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                            </ul>
                                         </div>
-                                        <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                                    </div>
 
-                                    <div class="btn-group">
-                                        <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn3"><i class="fa fa-picture-o"></i></a>
-                                        <input type="file" data-role="magic-overlay" data-target="#pictureBtn3" data-edit="insertImage" />
-                                    </div>
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                <a data-edit="fontSize 5">
+                                                    <p style="font-size:17px">Huge</p>
+                                                </a>
+                                                </li>
+                                                <li>
+                                                <a data-edit="fontSize 3">
+                                                    <p style="font-size:14px">Normal</p>
+                                                </a>
+                                                </li>
+                                                <li>
+                                                <a data-edit="fontSize 1">
+                                                    <p style="font-size:11px">Small</p>
+                                                </a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                                        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                                            <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                                            <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                                            <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                                            <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+                                            <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                                            <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                                            <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                                            <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                                            <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+                                            <div class="dropdown-menu input-append">
+                                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+                                                <button class="btn" type="button">Add</button>
+                                            </div>
+                                            <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                                            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                        </div>
                                     </div>
+                                    <div id="editor_returnpolicy" class="editor-wrapper"></div>
+                                    {{ Form::hidden('returnpolicy', '', array('id' => 'returnpolicy'))}}
                                 </div>
-                                <div id="editor-returnpolicy" class="editor-wrapper" placeholder="Enter your Description" required="required"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Return Days</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="number" id="return_days" name="return_days" class="form-control col-md-7 col-xs-12">
+                                </div>
                             </div>
                         </div>
+
                         <!--Apply Replacement Policy-->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Apply Replacement Policy</label>
                             <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="option1" id="optionsprYes" name="optionsPolicyReplacement">Yes</label>
-                                <label><input type="radio" value="option1" id="optionsprNo" name="optionsPolicyReplacement" checked>No</label>
+                                <label><input type="radio" value="1" id="optionsprYes" name="optionsPolicyReplacement">Yes</label>
+                                <label><input type="radio" value="0" id="optionsprNo" name="optionsPolicyReplacement" checked>No</label>
                             </div>
                         </div>
-                        <div class="form-group" id="collapse7" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-replacepolicy">
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                            <a data-edit="fontSize 5">
-                                                <p style="font-size:17px">Huge</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 3">
-                                                <p style="font-size:14px">Normal</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 1">
-                                                <p style="font-size:11px">Small</p>
-                                            </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                        <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                        <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                        <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                        <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                        <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                        <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                        <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                        <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                                        <div class="dropdown-menu input-append">
-                                            <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                                            <button class="btn" type="button">Add</button>
+                        <div id="collapse7" style="display:none">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
+                                <div class="radio col-md-6 col-sm-6 col-xs-12">
+                                    <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor_replacepolicy">
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                            </ul>
                                         </div>
-                                        <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                                    </div>
 
-                                    <div class="btn-group">
-                                        <a class="btn" title="Insert picture (or just drag & drop)" id="pictureBtn4"><i class="fa fa-picture-o"></i></a>
-                                        <input type="file" data-role="magic-overlay" data-target="#pictureBtn4" data-edit="insertImage" />
-                                    </div>
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                <a data-edit="fontSize 5">
+                                                    <p style="font-size:17px">Huge</p>
+                                                </a>
+                                                </li>
+                                                <li>
+                                                <a data-edit="fontSize 3">
+                                                    <p style="font-size:14px">Normal</p>
+                                                </a>
+                                                </li>
+                                                <li>
+                                                <a data-edit="fontSize 1">
+                                                    <p style="font-size:11px">Small</p>
+                                                </a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                                        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                                            <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                                            <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                                            <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                                            <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+                                            <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                                            <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                                            <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                                            <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                                            <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
+                                            <div class="dropdown-menu input-append">
+                                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+                                                <button class="btn" type="button">Add</button>
+                                            </div>
+                                            <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
+                                        </div>
+
+                                        <div class="btn-group">
+                                            <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+                                            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+                                        </div>
                                     </div>
+                                    <div id="editor_replacepolicy" class="editor-wrapper"></div>
+                                    {{ Form::hidden('replacepolicy', '', array('id' => 'replacepolicy'))}}
                                 </div>
-                                <div id="editor-replacepolicy" class="editor-wrapper" placeholder="Enter your Description" required="required"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Replace Days</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="number" id="replace_days" name="replace_days" class="form-control col-md-7 col-xs-12">
+                                </div>
                             </div>
                         </div>
+
                         <!--Product Image-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Image<span class="required">*</span></label>
-                            <div class="radio col-md-2 col-sm-6 col-xs-12" id="div-product-image">
-                                <input type="file"/>
+                        <div id="div_images">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Image<span class="required">*</span></label>
+                                <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
+                                    <input type="file"/ name="product_img_0" class="form-control" required>
+                                </div>
+                                <div class="radio col-md-2 col-sm-6 col-xs-12">
+                                    <button class="btn" type="button" id="btnProductImage">Add</button>
+                                </div>
                             </div>
-                            <div class="radio col-md-2 col-sm-6 col-xs-12">
-                                <button class="btn" type="button" id="btnProductImage">Add</button>
-                            </div>
+                            {{ Form::hidden('proimg_ct', '1', array('id' => 'proimg_ct'))}}
                         </div>
+
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <button type="submit" class="btn btn-warning">Add Product</button>
+                                <button id="btnSubmit" type="submit" class="btn btn-warning">Add Product</button>
                                 <button class="btn btn-primary" type="reset">Reset</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            {{ Form::close() }}
         </div>
     </div>
 </div>
@@ -630,20 +641,197 @@
     <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
+
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         $('#btnProductImage').click(function(){
-            var $ctrl = $('<input/>').attr({ type: 'file'});
-            $('#div-product-image').append($ctrl);
+            var imgct = Number($('#proimg_ct').val()) + 1;
+            $ctrl = '<div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12"></label> <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">';
+            $ctrl = $ctrl + '<input type="file"/ name="product_img_'+imgct+'" class="form-control"></div></div>';
+            $('#div_images').append($ctrl);
+            $('#proimg_ct').val(imgct);
         });
         $('#btnSpecAdd').click(function(){
-            var appendselect1 = '<select id="specification1" class="form-control" required> <option value="">--Select Specification--</option> <option value="press">Press</option> </select>'
-            var appendselect2 = '<select id="specification2" class="form-control" required> <option value="">--No--</option> <option value="press">Press</option> </select>';
-            var appendinput = '<input type="text" id="specification-input" class="form-control col-md-7 col-xs-12">';
-            $('#div-spec-option1').append(appendselect1);
-            $('#div-spec-option2').append(appendselect2);
-            $('#div-spec-input').append(appendinput);
+            var specct = Number($('#spec_ct').val());
+            var newspec = '<div class="form-group"><label class="control-label col-md-3 col-sm-3 col-xs-12"></label>';
+            var newspec = newspec + '<div class="col-md-2 col-sm-6 col-xs-12"><select id="spec_group_'+specct+'" name="spec_group_'+specct+'" class="form-control" onChange="spcfunction('+specct+',this.value);"><option value="0">--Select Specification--</option></select></div>';
+            var newspec = newspec + '<div class="col-md-2 col-sm-6 col-xs-12"><select id="spec_detail_'+specct+'" name="spec_detail_'+specct+'" class="form-control"><option value="0">--No--</option></select></div>';
+            var newspec = newspec + '<div class="col-md-2 col-sm-6 col-xs-12"><input type="text" id="spec_text_'+specct+'" name="spec_text_'+specct+'" class="form-control col-md-7 col-xs-12"></div></div>';
+            $('#spec_ct').val(specct + 1);
+            $('#collapse2').append(newspec);
+            $('select[name=spec_group_'+specct+']').html($('#spec_group_0').html());
         });
+        $('#btnSubmit').click(function(){
+            $('#form_product_add').parsley();
+            $('#description').val($('#editor_description').html());
+            $('#cacelpolicy').val($('#editor_cacelpolicy').html());
+            $('#returnpolicy').val($('#editor_returnpolicy').html());
+            $('#replace').val($('#editor_replace').html());
+        });
+        $.ajax({
+            type: 'get',
+            data: 'id=41',
+            url: 'mer_product_getmerchantshop',
+            success: function(responseText){  
+                if(responseText)
+                {  
+                    $('#store').html(responseText);					   
+                }
+            }
+        });
+    });
+    //change category
+    function get_maincategory(id)
+    {
+        var passcategoryid = 'id='+id;
+        $.ajax({
+            type: 'get',
+            data: passcategoryid,
+            url: 'mer_product_getmaincategory',
+            success: function(responseText){
+                if(responseText)
+                {
+                    $('#main_category').html(responseText);
+                    $('#sub_category').html('<option value="0">--Select Sub Category--</option>');	
+                    $('#secondsub_category').html('<option value="0">--Select Second Sub Category--</option>');					
+                }
+            }
+        });
+    }
+    function get_subcategory(id)
+	{
+        var passsubcategoryid = 'id='+id;
+        $.ajax({
+            type: 'get',
+            data: passsubcategoryid,
+            url: 'mer_product_getsubcategory',
+            success: function(responseText){  
+                if(responseText)
+                {
+                    $('#sub_category').html(responseText);
+                }
+            }
+        });
+	}
+
+	function get_second_subcategory(id)
+	{
+        var passsecondsubcategoryid = 'id='+id;
+        $.ajax({
+            type: 'get',
+            data: passsecondsubcategoryid,
+            url: 'mer_product_getsecondsubcategory',
+            success: function(responseText){  
+                if(responseText)
+                {    
+                   $('#secondsub_category').html(responseText);
+                }
+            }
+        });
+	}
+    function getcolorname(id){
+        var passcolorid = 'id='+id+"&co_text_box="+$('#co').val();
+        $.ajax( {
+            type: 'get',
+            data: passcolorid,
+            url: 'product_getcolor',
+            success: function(responseText){  
+                if(responseText)
+                { 	 
+                // alert(responseText)
+                    var get_result = responseText.split(',');
+                    if(get_result[3]=="success")
+                    {
+                        $('#colordiv').css('display', 'block');
+                        $('#showcolor').append('<span style="width:195px;padding:3px;border:4px solid '+get_result[2]+';margin:5px; display:inline-table">'+get_result[0]+'<input type="checkbox"  name="colorcheckbox'+get_result[1]+'"style="padding-left:30px;" checked="checked" value="1" ></span>&nbsp;&nbsp;');
+                        var co_name_js = $('#co').val(); 
+                        $('#co').val(get_result[1]+","+co_name_js);
+                        $('#selectprocolor').find('option:first').attr('selected', 'selected');
+                    }
+                    else if(get_result[3]=="failed")
+                    {
+                        
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+            }
+        });
+    }
+    function get_specification_details()
+    {
+        var main_cat=$("#top_category").val();
+        var sec_main_cat=$("#main_category").val();
+        /*Top Category*/	
+        if(main_cat == "0"){
+            // $("#Product_Category").css('border', '1px solid red'); 
+            // $('#category_error_msg').html('Please Select Category');
+            // $("#Product_Category").focus();
+            return false;
+        }else{
+            // $("#Product_Category").css('border', ''); 
+            // $('#category_error_msg').html('');
+        }
+        /*Main Category*/	
+        if(sec_main_cat == "0")
+        {
+            // $("#Product_MainCategory").css('border', '1px solid red'); 
+            // $('#main_cat_error_msg').html('Please Select Main Category');
+            // $("#Product_MainCategory").focus();
+            return false;
+        }else{
+            // $("#Product_MainCategory").css('border', ''); 
+            // $('#main_cat_error_msg').html('');
+        }
+        if(sec_main_cat!="" && main_cat!=""&& sec_main_cat!="0" && main_cat!="0")
+        {
+            $.ajax( {
+                type: 'get',
+                data: {
+                    main_cat: main_cat,
+                    sec_main_cat: sec_main_cat
+                },
+                url: 'get_spec_related_to_cat_mer',
+                success: function(data){
+                    var count_id = Number($('#spec_ct').val());
+                    $('#spec_group_0').html(data);
+                    $("#spec_detail_0").html("<option value='0'>--Select--</option>");
+                    for(var i=1;i<=count_id;i++)
+                    {
+                        $("#spec_group_"+i).html(data);
+                        $("#spec_detail_"+i).html("<option value='0'>--Select--</option>");
+                    }
+                }
+            });
+        }
+        else
+        {
+            // $("input[name='specification'][value='2']").attr('checked', true);
+            return false;
+        }
+    }
+    function spcfunction(count,spc_grop_id){
+        var pass_spc_grp_id = 'spc_group_id='+spc_grop_id;
+        $.ajax({
+            type: 'get',
+            data: pass_spc_grp_id,
+            url: 'product_get_spec',
+            success: function(responseText){  
+                if(responseText)
+                {
+                    $('#spec_detail_'+count).html(responseText);
+                }
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        $('#product_size').multiselect({
+            includeSelectAllOption: true
+    	});;
         $('#optionsShippingAmount').change(function(){
             $('#collapse1').slideToggle(250);
         });
@@ -686,28 +874,9 @@
         $('#optionsprNo').change(function(){
             $('#collapse7').slideToggle(500);
         });
-        $('#tax-percentage-check').change(function(){
+        $('#tax_percentage_check').change(function(){
             $('#collapse8').slideToggle(250);
         });
-
-        //change category
-        function get_maincategory(id)
-	    {
-		    var passcategoryid = 'id='+id;
-            $.ajax({
-                type: 'get',
-                data: passcategoryid,
-                url: 'mer_product_getmaincategory',
-                success: function(responseText){
-                if(responseText)
-                    {
-                        $('#Product_MainCategory').html(responseText);
-                        $('#Product_SubCategory').html(0);	
-                        $('#Product_SecondSubCategory').html(0);					
-                    }
-                }
-            });
-	    }
     });
 </script>
 

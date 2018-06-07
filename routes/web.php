@@ -20,5 +20,13 @@ Route::get('merchant_product_add', 'MerchantproductController@merchant_product_a
 Route::get('merchant_product_manage', 'MerchantproductController@merchant_product_manage');
 Route::get('merchant_product_sold', 'MerchantproductController@merchant_product_sold');
 Route::get('merchant_product_csvupload', 'MerchantproductController@merchant_product_csvupload');
+
+Route::post('merchant_product_addpost', 'MerchantproductController@merchant_product_addpost');
 //product
 Route::get('mer_product_getmaincategory', 'ProductController@mer_product_getmaincategory');
+Route::get('product_getcolor', 'ProductController@product_getcolor');
+Route::get('mer_product_getsubcategory', 'ProductController@mer_product_getsubcategory');
+Route::get('mer_product_getsecondsubcategory', 'ProductController@mer_product_getsecondsubcategory');
+Route::get('mer_product_getmerchantshop','ProductController@mer_product_getmerchantshop');
+Route::get('get_spec_related_to_cat_mer', 'MerchantproductController@get_spec_related_to_cat');
+Route::get('product_get_spec','ProductController@product_get_spec');
