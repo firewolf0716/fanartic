@@ -26,6 +26,7 @@ Route::get('mer_edit_product/{id}', 'MerchantproductController@mer_edit_product'
 Route::get('mer_delete_product/{id}', 'MerchantproductController@mer_delete_product');
 
 Route::post('merchant_product_addpost', 'MerchantproductController@merchant_product_addpost');
+Route::post('merchant_product_editpost', 'MerchantproductController@merchant_product_editpost');
 //product
 Route::get('mer_product_getmaincategory', 'ProductController@mer_product_getmaincategory');
 Route::get('product_getcolor', 'ProductController@product_getcolor');

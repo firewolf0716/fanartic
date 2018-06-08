@@ -77,6 +77,7 @@ class ProductController extends Controller
         }
        
         $result_colorname = Products::get_colorname_ajax($colorid);
+        $returnvalue = '';
         foreach ($result_colorname as $result_colorname_ajax) {
             $returnvalue = $result_colorname_ajax->co_name . "," . $result_colorname_ajax->co_id . "," . $result_colorname_ajax->co_code;
         }

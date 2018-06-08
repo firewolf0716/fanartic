@@ -80,10 +80,10 @@
 								@if($product_get_img != '')  {{-- image is null--}}
 									@php	
 									$pro_img = $product_get_img[0]; 
-									$img_data = "public/assets/product/".$pro_img;@endphp	
+									$img_data = "public/assets/products/".$pro_img;@endphp	
 									@if(file_exists($img_data) && $pro_img !='')  {{-- image not exists in folder  --}}
 										@php 		
-									    $prod_path = url('').'/public/assets/product/'.$pro_img;
+									    $prod_path = url('').'/public/assets/products/'.$pro_img;
 										@endphp	 
 									@else 
 										@if(isset($DynamicNoImage['productImg']))
