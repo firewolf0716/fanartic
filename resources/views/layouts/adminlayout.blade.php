@@ -185,7 +185,7 @@
                                     </a>
                                 </li>
                                 <li><a href="javascript:;">Help</a></li>
-                                <li><a href="merchant_signout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="{{url('admin/signout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>
 
