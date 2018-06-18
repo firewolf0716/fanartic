@@ -11,6 +11,7 @@ use App\Products;
 use App\MerchantProducts;
 
 use DB;
+use Session;
 
 class MerchantproductController extends Controller
 {
@@ -19,6 +20,10 @@ class MerchantproductController extends Controller
         // parent::__construct();
     }
     public function merchant_product_add(){
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant_login?redirect=merchant_product_add');
+        }
+        $merchant_id = Session::get('merchantid');
         $productcategory      = Products::get_product_category();
         $productcolor         = Products::get_product_color();
         $productsize          = Products::get_product_size();
@@ -26,9 +31,14 @@ class MerchantproductController extends Controller
         return view('merchant.product.product_add')->with('productcategory', $productcategory)
                                                    ->with('productcolor', $productcolor)
                                                    ->with('productsize', $productsize)
-                                                   ->with('productspecification', $productspecification);
+                                                   ->with('productspecification', $productspecification)
+                                                   ->with('merchant_id', $merchant_id);
     }
     public function mer_edit_product($id){
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant_login?redirect=mer_edit_product/'.$id);
+        }
+        $merchant_id = Session::get('merchantid');
         $category              = Products::get_product_category();
         $product_list          = Products::get_product($id);
         $productcolor          = Products::get_product_color();
@@ -38,6 +48,8 @@ class MerchantproductController extends Controller
         //$mer_commission       = Products::mer_commission($merchantid);
         // $product_return = Products::get_induvidual_product_detail_merchant($id, 41);
         /* $spec_group = Products::get_spec_group(); */
+        if(count($product_list) == 0)
+            return Redirect::to('merchant_login');
         $product = $product_list[0];
         $existingspecification = Products::get_selected_product_spec_details($product);
         $existingcolor         = Products::get_selected_product_color_details($product);
@@ -70,10 +82,15 @@ class MerchantproductController extends Controller
                     ->with('specinfo', $existingspecification)
                     ->with('colorinfo', $existingcolor)
                     ->with('sizeinfo', $existingsize)
-                    ->with('spec_group',$spec_group);            
+                    ->with('spec_group',$spec_group)
+                    ->with('merchant_id', $merchant_id);            
         }
     }
     public function merchant_product_addpost(){
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant_login?redirect=merchant_product_add');
+        }
+        $merchant_id = Session::get('merchantid');
         $inputs = Input::all();
         Log::debug($inputs);
 
@@ -145,7 +162,7 @@ class MerchantproductController extends Controller
             'pro_desc' => Input::get('description'),
             'pro_isspec' => $add_spec,
             'pro_delivery' => Input::get('delivery_input'),
-            'pro_mr_id' => '41',
+            'pro_mr_id' => $merchant_id,
             'pro_sh_id' => Input::get('store'),
             'pro_mkeywords' => Input::get('meta_keywords'),
             'pro_mdesc' => Input::get('meta_description'),
@@ -222,6 +239,13 @@ class MerchantproductController extends Controller
         }
     }
     public function merchant_product_editpost(){
+        if (!Session::has('merchantid')) {
+            if(Input::get('pro_status') == '1')
+                return Redirect::to('merchant_product_manage');
+            else if(Input::get('pro_status') == '2')
+                return Redirect::to('merchant_product_sold');
+        }
+        $merchant_id = Session::get('merchantid');
         $datenow = date('Y/m/d');
 
         $filename_new_get = '';
@@ -284,7 +308,7 @@ class MerchantproductController extends Controller
             'pro_desc' => Input::get('description'),
             'pro_isspec' => $add_spec,
             'pro_delivery' => Input::get('delivery_input'),
-            'pro_mr_id' => '41',
+            'pro_mr_id' => $merchant_id,
             'pro_sh_id' => Input::get('store'),
             'pro_mkeywords' => Input::get('meta_keywords'),
             'pro_mdesc' => Input::get('meta_description'),
@@ -365,8 +389,11 @@ class MerchantproductController extends Controller
             return Redirect::to('merchant_product_sold');
     }
     public function merchant_product_manage(){
-        // $merchant_id = Session::get('merchantid');
-        $merchant_id = 41;
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant_login?redirect=merchant_product_manage');
+        }
+        $merchant_id = Session::get('merchantid');
+        // $merchant_id = 41;
         $from_date = Input::get('from_date');
         $to_date = Input::get('to_date');
         $products_saling = Merchantproducts::products_saling($from_date, $to_date, $merchant_id);
@@ -382,7 +409,10 @@ class MerchantproductController extends Controller
                     ->with('to_date',$to_date);
     }
     public function merchant_product_sold(){
-        $merchant_id = 41;
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant_login?redirect=merchant_product_sold');
+        }
+        $merchant_id = Session::get('merchantid');
         $from_date = Input::get('from_date');
         $to_date = Input::get('to_date');
         $products_saling = Merchantproducts::products_deleted($from_date, $to_date, $merchant_id);
@@ -398,6 +428,9 @@ class MerchantproductController extends Controller
                     ->with('to_date',$to_date);
     }
     public function mer_product_details($id){
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant_login?redirect=mer_product_details/'.$id);
+        }
         $product = Products::get_product($id);
 
         $color_details = Products::get_selected_product_color_details($product[0]);

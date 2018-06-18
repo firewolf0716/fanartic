@@ -65,68 +65,69 @@
                     <div class="menu_section">
                         <h3>共通</h3>
                         <ul class="nav side-menu">
-                            <li><a href="{{ url('merchant_dashboard') }}"><i class="fa fa-home"></i> ダッシュボード</a>
-                            </li>
-                            <li class="navproduct"><a><i class="fa fa-table"></i> 商品管理 <span class="fa fa-chevron-down"></span></a>
+                            <li><a href="{{ url('admin') }}"><i class="fa fa-home"></i> ダッシュボード</a></li>
+                            <li><a><i class="fa fa-table"></i> マスター管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_product_manage') }}">商品一覧（販売中）</a></li>
-                                    <li><a href="{{ url('merchant_product_sold') }}">商品一覧（売切）</a></li>
-                                    <li class="navproductadd"><a href="{{ url('merchant_product_add') }}">新規登録</a></li>
-                                    <li><a href="{{ url('merchant_product_csvupload') }}">CSV登録</a></li>
+                                    <li><a>モール<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/mall/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/mall/list')}}">モール一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>ジャンル<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/genre/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/genre/list')}}">ブランド一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>ブランド<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/brand/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/brand/list')}}">ブランド一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>カテゴリ<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/category/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/category/list')}}">カテゴリ一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>カラー<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/color/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/color/list')}}">カラー一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>サイズカテゴリ<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/size/addcategory')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/size/listcategory')}}">サイズカテゴリ一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>サイズ<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/size/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/size/list')}}">サイズ一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>イベント<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/event/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/event/list')}}">イベント一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>出店プラン<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/plan/add')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/plan/list')}}">出店プラン一覧</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">受注一覧</a></li>
-                                    <li><a href="#">受注追加（マニュアル）</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-dollar"></i> 売上管理 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">売上分析</a></li>
-                                    <li><a href="#">アクセス解析</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-file-o"></i> コンテンツ管理 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">新着情報</a></li>
-                                </ul>
-                            </li>
-                            <li><a><i class="fa fa-edit"></i> 店舗設定 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">一般設定</a></li>
-                                    <li><a href="#">メンバー管理</a></li>
-                                    <li><a href="#">権限管理</a></li>
-                                    <li><a href="#">パスワードの変更</a></li>
-                                    <li><a href="https://site3.ec-cube.net/admin/setting/shop/csv">CSV設定</a></li>
-                                </ul>
+                            <li><a><i class="fa fa-table"></i> 店舗管理 <span class="fa fa-chevron-down"></span></a>
                             </li>
                         </ul>
                     </div>
-                    <div class="menu_section">
-                        <h3>ブランド用</h3>
-                        <ul class="nav side-menu">
-                            <li><a><i class="fa fa-sitemap"></i> サイト構築 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">トップページ編集</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="menu_section">
-                        <h3>アーカイブ用</h3>
-                        <ul class="nav side-menu">
-                            <li><a><i class="fa fa-bar-chart-o"></i> 買取サービス <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">見積依頼一覧</a></li>
-                                    <li><a href="#">見積中商品</a></li>
-                                    <li><a href="#">落札商品</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-
                 </div>
                 <!-- /sidebar menu -->
 

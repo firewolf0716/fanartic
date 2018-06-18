@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -11,6 +15,10 @@ class DashboardController extends Controller
         // parent::__construct();
     }
     public function dashboard_merchant(){
-        return view('merchant.dashboard');
+        if (Session::has('merchantid')) {
+            return view('merchant.dashboard');
+        } else {
+            return Redirect::to('merchant_login?redirect=merchant_dashboard');
+        }
     }
 }

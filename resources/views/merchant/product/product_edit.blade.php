@@ -654,6 +654,7 @@
         </div>
     </div>
 </div>
+{{ Form::hidden('merchant_id', $merchant_id, array('id' => 'merchant_id'))}}
     <!-- jQuery -->
     <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -727,7 +728,7 @@
         });
         $.ajax({
             type: 'get',
-            data: 'id=41',
+            data: 'id=' + $('#merchant_id').val(),
             url: '{{url('')}}/mer_product_getmerchantshop',
             success: function(responseText){  
                 if(responseText)

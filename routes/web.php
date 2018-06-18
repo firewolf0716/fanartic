@@ -10,10 +10,68 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', 'AdminController@login');
+Route::get('admin/login', 'AdminController@login');
+Route::post('admin/signin', 'AdminController@signin');
+//admin
+Route::get('admin','AdminController@dashboard');
 
-Route::get('/', 'DashboardController@dashboard_merchant');
+Route::get('admin/genre/add','GenreController@add');
+Route::post('admin/genre/addpost','GenreController@addpost');
+Route::get('admin/genre/list','GenreController@list');
+Route::get('admin/genre/edit/{id}','GenreController@edit');
+Route::post('admin/genre/editpost','GenreController@editpost');
 
+Route::get('admin/mall/add','MallController@add');
+Route::post('admin/mall/addpost','MallController@addpost');
+Route::get('admin/mall/list','MallController@list');
+Route::get('admin/mall/edit/{id}','MallController@edit');
+Route::post('admin/mall/editpost','MallController@editpost');
+
+Route::get('admin/brand/add','BrandController@add');
+Route::post('admin/brand/addpost','BrandController@addpost');
+Route::get('admin/brand/list','BrandController@list');
+Route::get('admin/brand/edit/{id}','BrandController@edit');
+Route::post('admin/brand/editpost','BrandController@editpost');
+
+Route::get('admin/category/add','CategoryController@add');
+Route::post('admin/category/addpost','CategoryController@addpost');
+Route::get('admin/category/list','CategoryController@list');
+Route::get('admin/category/edit/{id}','CategoryController@edit');
+Route::post('admin/category/editpost','CategoryController@editpost');
+
+Route::get('admin/size/add','SizeController@add');
+Route::post('admin/size/addpost','SizeController@addpost');
+Route::get('admin/size/list','SizeController@list');
+Route::get('admin/size/edit/{id}','SizeController@edit');
+Route::post('admin/size/editpost','SizeController@editpost');
+Route::get('admin/size/addcategory','SizeController@addcategory');
+Route::post('admin/size/addcategorypost','SizeController@addcategorypost');
+Route::get('admin/size/listcategory','SizeController@listcategory');
+Route::get('admin/size/editcategory/{id}','SizeController@editcategory');
+Route::post('admin/size/editcategorypost','SizeController@editcategorypost');
+
+Route::get('admin/color/add','ColorController@add');
+Route::post('admin/color/addpost','ColorController@addpost');
+Route::get('admin/color/list','ColorController@list');
+Route::get('admin/color/edit/{id}','ColorController@edit');
+Route::post('admin/color/editpost','ColorController@editpost');
+
+Route::get('admin/event/add','EventController@add');
+Route::post('admin/event/addpost','EventController@addpost');
+Route::get('admin/event/list','EventController@list');
+Route::get('admin/event/edit/{id}','EventController@edit');
+Route::post('admin/event/editpost','EventController@editpost');
+
+Route::get('admin/plan/add','PlanController@add');
+Route::post('admin/plan/addpost','PlanController@addpost');
+Route::get('admin/plan/list','PlanController@list');
+Route::get('admin/plan/edit/{id}','PlanController@edit');
+Route::post('admin/plan/editpost','PlanController@editpost');
 //merchants
+Route::get('merchant_login', 'MerchantloginController@merchant_login');
+Route::post('merchant_signin', 'MerchantloginController@merchant_signin');
+Route::get('merchant_signout', 'MerchantloginController@merchant_signout');
 Route::get('merchant_dashboard', 'DashboardController@dashboard_merchant');
 //merchant product
 Route::get('merchant_product_add', 'MerchantproductController@merchant_product_add');
