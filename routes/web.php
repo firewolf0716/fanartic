@@ -94,7 +94,7 @@ Route::get('merchant/setting', 'MerchantController@merchant_setting');
 Route::get('merchant/getcity', 'MerchantController@getcity');
 Route::post('merchant/editsetting', 'MerchantController@merchant_editsetting');
 //merchant product
-// Route::get('merchant_product_add', 'MerchantproductController@merchant_product_add');
+Route::get('merchant/product/add', 'MerchantproductController@merchant_product_add');
 // Route::get('merchant_product_manage', 'MerchantproductController@merchant_product_manage');
 // Route::get('merchant_product_sold', 'MerchantproductController@merchant_product_sold');
 // Route::get('merchant_product_csvupload', 'MerchantproductController@merchant_product_csvupload');

@@ -22,20 +22,27 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th style="text-align:center">名前</th>
+                                <th style="text-align:center">英名</th>
                                 <th style="text-align:center">親カテゴリ</th>
                                 <th style="text-align:center">モール</th>
                                 <th style="text-align:center">サイズカテゴリ</th>
                                 <th style="text-align:center">性別</th>
-                                <th style="text-align:center">名前</th>
-                                <th style="text-align:center">英名</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($categorys as $category)
+                        @foreach($categorys as $key => $category)
                             <tr>
                                 <td>{{$category->category_id}}</td>
-                                <td style="text-align:center">{{$category->category_parent}}</td>
+                                <td style="text-align:center">{{$category->category_name}}</td>
+                                <td style="text-align:center">{{$category->category_name_en}}</td>
+                                <td style="text-align:center"><?php 
+                                    $key = $categorys->keyBy('category_id');
+                                    $obj = $key->get($category->category_parent);
+                                    if($obj != null)
+                                        echo $obj->category_name;
+                                ?></td>
                                 <td style="text-align:center">{{$category->mall_name}}</td>
                                 <td style="text-align:center">{{$category->sizecategory_name}}</td>
                                 <td style="text-align:center">
@@ -45,8 +52,6 @@
                                     Woman
                                     @endif
                                 </td>
-                                <td style="text-align:center">{{$category->category_name}}</td>
-                                <td style="text-align:center">{{$category->category_name_en}}</td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/category/edit/'.$category->category_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 </td>
