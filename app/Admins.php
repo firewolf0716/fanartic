@@ -26,7 +26,8 @@ class Admins extends Model
                     return -2;
                 }
                 else if(count($check_password) > 0)
-                { 
+                {
+                    Session::put('site','admin');
                     Session::put('adminid', $admin->admin_name);
                     Session::put('adminname', $admin->admin_password);
                     return 1;

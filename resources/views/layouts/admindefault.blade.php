@@ -53,7 +53,7 @@
                     </div>
                     <div class="profile_info">
                         <span>ようこそ!</span>
-                        <h2>LOOP 井上</h2>
+                        <h2>{{Session::get('merchantname')}}</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -65,14 +65,14 @@
                     <div class="menu_section">
                         <h3>共通</h3>
                         <ul class="nav side-menu">
-                            <li><a href="{{ url('merchant_dashboard') }}"><i class="fa fa-home"></i> ダッシュボード</a>
+                            <li><a href="{{ url('merchant/setting') }}"><i class="fa fa-home"></i> 店舗管理</a>
                             </li>
                             <li class="navproduct"><a><i class="fa fa-table"></i> 商品管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant_product_manage') }}">商品一覧（販売中）</a></li>
-                                    <li><a href="{{ url('merchant_product_sold') }}">商品一覧（売切）</a></li>
-                                    <li class="navproductadd"><a href="{{ url('merchant_product_add') }}">新規登録</a></li>
-                                    <li><a href="{{ url('merchant_product_csvupload') }}">CSV登録</a></li>
+                                    <li><a href="{{ url('merchant/product/manage') }}">商品一覧（販売中）</a></li>
+                                    <li><a href="{{ url('merchant/product/sold') }}">商品一覧（売切）</a></li>
+                                    <li class="navproductadd"><a href="{{ url('merchant/product/add') }}">新規登録</a></li>
+                                    <li><a href="{{ url('merchant/product/csvupload') }}">CSV登録</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
@@ -160,7 +160,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ URL::asset('public/images/img.jpg') }}" alt="">LOOP 井上
+                                <img src="{{ URL::asset('public/images/img.jpg') }}" alt="">{{Session::get('merchantname')}}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -172,7 +172,7 @@
                                     </a>
                                 </li>
                                 <li><a href="javascript:;">Help</a></li>
-                                <li><a href="merchant_signout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="{{url('merchant/signout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>
 

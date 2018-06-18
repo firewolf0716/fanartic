@@ -4,21 +4,22 @@ use DB;
 use Session;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
+use Illuminate\Support\Facades\Log;
 
 class Merchants extends Model{
     protected $table = 'nm_merchant';
     public static function check_login($uname, $pwd){
-        $check_email = DB::table('nm_merchant')->where('mer_email', '=', $uname)->where('mer_staus','=',1)->get();
+        $check_email = DB::table('fan_merchant')->where('merchant_email', '=', $uname)->where('merchant_status','=',1)->get();
         $check_password = 0;
         if(count($check_email)>0)
         { 
             foreach($check_email as $check)
             {
-                if($check->mer_email == $uname)
+                if($check->merchant_email == $uname)
                 {
-                    $check_password = DB::table('nm_merchant')->where('mer_email', '=', $uname)
-                                                              ->where('mer_password', '=', $pwd)
-                                                              ->where('mer_staus','=',1)->get();
+                    $check_password = DB::table('fan_merchant')->where('merchant_email', '=', $uname)
+                                                              ->where('merchant_password', '=', $pwd)
+                                                              ->where('merchant_status','=',1)->get();
                 } else {
                     return -1;
                 }
@@ -27,10 +28,11 @@ class Merchants extends Model{
                     return -2;
                 }
                 else if(count($check_password) > 0)
-                { 
-                    Session::put('sitemerchant','sitemerchant');
-                    Session::put('merchantid', $check->mer_id);
-                    Session::put('merchantname', $check->mer_fname);
+                {
+                    $check = $check_password[0];
+                    Session::put('site','merchant');
+                    Session::put('merchantid', $check->merchant_id);
+                    Session::put('merchantname', $check->merchant_admin);
                     return 1;
                 }
             }
@@ -39,5 +41,19 @@ class Merchants extends Model{
         { 
         return 0;
         }
+    }
+    public static function addMerchant($entry){
+        $check_insert = DB::table('fan_merchant')->insert($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+    public static function getMerchant($id){
+        return DB::table('fan_merchant')->where('merchant_id', $id)->get();
+    }
+    public static function editMerchant($entry, $id){
+        return DB::table('fan_merchant')->where('merchant_id', '=', $id)->update($entry);
     }
 }
