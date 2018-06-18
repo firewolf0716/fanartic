@@ -77,7 +77,7 @@
                                     <li><a>ジャンル<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/genre/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/genre/list')}}">ブランド一覧</a></li>
+                                            <li><a href="{{url('admin/genre/list')}}">ジャンル一覧</a></li>
                                         </ul>
                                     </li>
                                     <li><a>ブランド<span class="fa fa-chevron-down"></span></a>

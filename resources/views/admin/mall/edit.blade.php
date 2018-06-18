@@ -33,6 +33,26 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select class="form-control" name="mall_brands[]" id="brands" multiple="multiple">
+                            @foreach($brands as $brand)
+                                <?php $selected=false?>
+                                @foreach($selbrands as $selbrand)
+                                    @if($brand->brand_id == $selbrand->brand_id)
+                                    <option value="{{$brand->brand_id}}" selected>{{$brand->brand_name}}</option>
+                                    <?php $selected=true?>
+                                    @break                                    
+                                    @endif
+                                @endforeach
+                                @if($selected == false)
+                                <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
                         @if($mall->mall_status == 1)
@@ -121,6 +141,8 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+
 <script type="text/javascript">
     $('#btnReset').click(function(){
         document.getElementById("form_add").reset();
@@ -130,6 +152,9 @@
     $('#btnSubmit').click(function(){
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
+    });
+    $('#brands').multiselect({
+        includeSelectAllOption: true
     });
 </script>
 @endsection

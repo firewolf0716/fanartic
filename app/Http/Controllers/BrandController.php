@@ -9,19 +9,20 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Malls;
 use App\Brands;
-
-
+use App\Genres;
+use App\MallBrands;
 
 class BrandController extends Controller
 {
     //
     public function add(){
         $malls = Malls::get_malls();
-        return view('admin.brand.add')->with('malls', $malls);
+        $genres = Genres::get_genres();
+        return view('admin.brand.add')->with('malls', $malls)->with('genres', $genres);
     }
     public function addpost(){
         $entry =  array(
-            'brand_moll' => Input::get('select_mall'),
+            'brand_genre' => Input::get('select_genre'),
             'brand_name' => Input::get('brand_name'),
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),
@@ -29,7 +30,15 @@ class BrandController extends Controller
             'brand_create' => Input::get('create_date'),
             'brand_update' => Input::get('update_date')
         );
-        Brands::insert_brand($entry);
+        $id = Brands::insert_brand($entry);
+        $malls = Input::get('brand_mall');
+        foreach($malls as $mall){
+            $mentry = array(
+                'mall_id' => $mall,
+                'brand_id' => $id
+            );
+            MallBrands::insert_match($mentry);
+        }
         return Redirect::to('admin/brand/list');
     }
     public function list(){
@@ -39,16 +48,18 @@ class BrandController extends Controller
     public function edit($id){
         $search = Brands::get_brand($id);
         $malls = Malls::get_malls();
+        $genres = Genres::get_genres();
         if(isset($search)){
             $brand = $search[0];
-            return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls);
+            $selmalls = MallBrands::get_malls($brand->brand_id);
+            return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls)->with('genres', $genres)->with('selmalls', $selmalls);
         } else{
             return Redirect::to('admin/brand/list');
         }
     }
     public function editpost(){
         $entry =  array(
-            'brand_moll' => Input::get('select_mall'),
+            'brand_genre' => Input::get('select_genre'),
             'brand_name' => Input::get('brand_name'),
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),
@@ -58,6 +69,15 @@ class BrandController extends Controller
         );
         $id = Input::get('brand_id');
         Brands::edit_brand($entry, $id);
+        MallBrands::remove_malls($id);
+        $malls = Input::get('brand_mall');
+        foreach($malls as $mall){
+            $mentry = array(
+                'mall_id' => $mall,
+                'brand_id' => $id
+            );
+            MallBrands::insert_match($mentry);
+        }
         return Redirect::to('admin/brand/list');
     }
 }

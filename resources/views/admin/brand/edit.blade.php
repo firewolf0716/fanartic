@@ -21,15 +21,35 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モールID<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_mall" name="select_mall" class="form-control" required>
-                            <option value="">--Select Mall--</option>
+                        <select class="form-control" name="brand_mall[]" id="malls" multiple="multiple">
                             @foreach($malls as $mall)
-                            @if($brand->brand_moll == $mall->mall_id)
-                                <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
-                            @else
+                                <?php $selected=false?>
+                                @foreach($selmalls as $selmall)
+                                    @if($mall->mall_id == $selmall->mall_id)
+                                    <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
+                                    <?php $selected=true?>
+                                    @break                                    
+                                    @endif
+                                @endforeach
+                                @if($selected == false)
                                 <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select id="select_genre" name="select_genre" class="form-control">
+                            <option value="">--Select Genre--</option>
+                            @foreach($genres as $genre)
+                            @if($brand->brand_genre == $genre->genre_id)
+                                <option value="{{$genre->genre_id}}" selected>{{$genre->genre_name}}</option>
+                            @else
+                                <option value="{{$genre->genre_id}}">{{$genre->genre_name}}</option>
                             @endif
                             @endforeach
                         </select>
@@ -163,7 +183,7 @@
     <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
-
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
 <script type="text/javascript">
     $('#btnReset').click(function(){
         document.getElementById("form_add").reset();
@@ -173,6 +193,9 @@
     $('#btnSubmit').click(function(){
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
+    });
+    $('#malls').multiselect({
+        includeSelectAllOption: true
     });
 </script>
 @endsection
