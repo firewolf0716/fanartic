@@ -43,4 +43,11 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
     }
+
+    public function signout(){
+        Session::forget('adminid');
+        Session::forget('adminname');
+        Session::flush();
+        return Redirect::to('admin/login');
+    }
 }
