@@ -19,7 +19,7 @@ class AdminController extends Controller
 
     public function login(){
         if (Session::has('adminid')) {
-            return redirect::to('admin');
+            return redirect::to('admin/dashboard');
         } else {
             if(isset($_GET['redirect'])){
                 return view('admin.login')->with('redirect', $_GET['redirect']);

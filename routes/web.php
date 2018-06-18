@@ -15,7 +15,8 @@ Route::get('admin/login', 'AdminController@login');
 Route::get('admin/signout', 'AdminController@signout');
 Route::post('admin/signin', 'AdminController@signin');
 //admin
-Route::get('admin','AdminController@dashboard');
+Route::get('admin','AdminController@login');
+Route::get('admin/dashboard','AdminController@dashboard');
 
 Route::get('admin/genre/add','GenreController@add');
 Route::post('admin/genre/addpost','GenreController@addpost');
@@ -82,10 +83,16 @@ Route::get('admin/notifycustomer/list','CustomerNotifyController@list');
 Route::get('admin/notifycustomer/edit/{id}','CustomerNotifyController@edit');
 Route::post('admin/notifycustomer/editpost','CustomerNotifyController@editpost');
 //merchants
-Route::get('merchant_login', 'MerchantloginController@merchant_login');
-Route::post('merchant_signin', 'MerchantloginController@merchant_signin');
-Route::get('merchant_signout', 'MerchantloginController@merchant_signout');
-Route::get('merchant_dashboard', 'DashboardController@dashboard_merchant');
+Route::get('merchant', 'MerchantloginController@merchant_login');
+Route::get('merchant/login', 'MerchantloginController@merchant_login');
+Route::post('merchant/signin', 'MerchantloginController@merchant_signin');
+Route::post('merchant/signup', 'MerchantloginController@merchant_signup');
+Route::get('merchant/signout', 'MerchantloginController@merchant_signout');
+
+Route::get('merchant/dashboard', 'MerchantController@merchant_dashboard');
+Route::get('merchant/setting', 'MerchantController@merchant_setting');
+Route::get('merchant/getcity', 'MerchantController@getcity');
+Route::post('merchant/editsetting', 'MerchantController@merchant_editsetting');
 //merchant product
 // Route::get('merchant_product_add', 'MerchantproductController@merchant_product_add');
 // Route::get('merchant_product_manage', 'MerchantproductController@merchant_product_manage');

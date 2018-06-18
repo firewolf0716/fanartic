@@ -31,9 +31,9 @@
         <div class="animate form login_form">
           <section class="login_content">
             
-            {!! Form::open(array('id' => 'form_signin','url'=>'merchant_signin')) !!}
+            {!! Form::open(array('id' => 'form_signin','url'=>'merchant/signin')) !!}
             {{ Form::hidden('redirect', $redirect)}}
-              <h1>Login Form</h1>
+              <h1>Login(Merchant)</h1>
               <div>
                 <input type="text" name="username" class="form-control" placeholder="Username" required="" />
               </div>
@@ -62,16 +62,16 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-          {!! Form::open(array('id' => 'form_signup','url'=>'merchant_signup')) !!}
+          {!! Form::open(array('id' => 'form_signup','url'=>'merchant/signup')) !!}
               <h1>Create Account</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" name="username_up" placeholder="Username" required="" />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
+                <input type="email" class="form-control" name="email_up" placeholder="Email" required="" />
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" name="password_up" placeholder="Password" required="" />
               </div>
               <div>
                 <button class="btn btn-default submit">Submit</button>

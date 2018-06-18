@@ -53,7 +53,7 @@
                     </div>
                     <div class="profile_info">
                         <span>ようこそ!</span>
-                        <h2>LOOP 井上</h2>
+                        <h2>{{Session::get('adminname')}}</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
@@ -173,7 +173,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ URL::asset('public/images/img.jpg') }}" alt="">LOOP 井上
+                                <img src="{{ URL::asset('public/images/img.jpg') }}" alt="">{{Session::get('adminname')}}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">

@@ -33,7 +33,7 @@
             
             {!! Form::open(array('id' => 'form_signin','url'=>'admin/signin')) !!}
             {{ Form::hidden('redirect', $redirect)}}
-              <h1>Login Form</h1>
+              <h1>Login(Admin)</h1>
               <div>
                 <input type="text" name="username" class="form-control" placeholder="Username" required="" />
               </div>
