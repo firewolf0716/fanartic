@@ -7,123 +7,120 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Edit Brand</h3>
+            <h3>Admin / Add Notify(Merchant)</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'admin/brand/editpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-        {{ Form::hidden('brand_id', $brand->brand_id)}}
+        {!! Form::open(array('id' => 'form_add','url'=>'admin/genre/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Edit Brand</h4>
+                <h4>Add Notify(Merchant)</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">店舗<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select class="form-control" name="brand_mall[]" id="malls" multiple="multiple">
-                            @foreach($malls as $mall)
-                                <?php $selected=false?>
-                                @foreach($selmalls as $selmall)
-                                    @if($mall->mall_id == $selmall->mall_id)
-                                    <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
-                                    <?php $selected=true?>
-                                    @break                                    
-                                    @endif
-                                @endforeach
-                                @if($selected == false)
-                                <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_genre" name="select_genre" class="form-control">
-                            <option value="">--Select Genre--</option>
-                            @foreach($genres as $genre)
-                            @if($brand->brand_genre == $genre->genre_id)
-                                <option value="{{$genre->genre_id}}" selected>{{$genre->genre_name}}</option>
-                            @else
-                                <option value="{{$genre->genre_id}}">{{$genre->genre_name}}</option>
-                            @endif
-                            @endforeach
+                        <select id="select_merchant" name="select_merchant" class="form-control" required>
+                            <option value="">--Select Merchant--</option>
+                            
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="brand_name" name="brand_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$brand->brand_name}}">
+                        <input type="text" id="genre_name" name="genre_name" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="brand_name_en" name="brand_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$brand->brand_name_en}}">
+                        <input type="text" id="genre_name_en" name="genre_name_en" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">デザイン種類<span class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_design" name="select_design" class="form-control" required>
-                            <option value="">--Select Design Type--</option>
-                            @if($brand->brand_design == 1)
-                                <option value="1" selected>カバー写真と説明のみ</option>
-                                <option value="2">オリジナルTOPページ</option>
-                            @elseif($brand->brand_design == 2)
-                                <option value="1">カバー写真と説明のみ</option>
-                                <option value="2" selected>オリジナルTOPページ</option>
-                            @endif
-                        </select>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-content">
+                            <div class="btn-group">
+                                <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                </ul>
+                            </div>
+
+                            <div class="btn-group">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                    <a data-edit="fontSize 5">
+                                        <p style="font-size:17px">Huge</p>
+                                    </a>
+                                    </li>
+                                    <li>
+                                    <a data-edit="fontSize 3">
+                                        <p style="font-size:14px">Normal</p>
+                                    </a>
+                                    </li>
+                                    <li>
+                                    <a data-edit="fontSize 1">
+                                        <p style="font-size:11px">Small</p>
+                                    </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+                                <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+                                <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
+                                <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
+                                <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
+                                <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+                                <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
+                            </div>
+
+                            <div class="btn-group">
+                                <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+                                <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+                                <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+                                <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+                            </div>
+                        </div>
+
+                        <div id="editor-content" class="editor-wrapper"></div>
+                        {{ Form::hidden('notify_memo','',array('id' => 'notify_memo'))}}
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        @if($brand->brand_status == 0)
-                            <label><input type="radio" value="0" name="optionStatus" checked>非アクティブ</label>
-                        @else
-                            <label><input type="radio" value="0" name="optionStatus">非アクティブ</label>
-                        @endif
-                        @if($brand->brand_status == 1)
-                        <label><input type="radio" value="1" name="optionStatus" checked>アクティブ</label>
-                        @else
-                        <label><input type="radio" value="1" name="optionStatus">アクティブ</label>
-                        @endif
-                        @if($brand->brand_status == 2)
-                        <label><input type="radio" value="2" name="optionStatus" checked>凍結</label>
-                        @else
-                        <label><input type="radio" value="2" name="optionStatus">凍結</label>
-                        @endif
-                        @if($brand->brand_status == 3)
-                        <label><input type="radio" value="3" name="optionStatus" checked>退会</label>
-                        @else
-                        <label><input type="radio" value="3" name="optionStatus">退会</label>
-                        @endif
+                        <label><input type="radio" value="1" name="optionValid" checked>有効</label>
+                        <label><input type="radio" value="0" name="optionValid">無効</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->brand_create}}">
+                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->brand_update}}">
+                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Edit Brand</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">Add Brand</button>
                         <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
                     </div>
                 </div>
@@ -183,19 +180,20 @@
     <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
-    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+
 <script type="text/javascript">
+    $(function(){
+        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+    });
     $('#btnReset').click(function(){
         document.getElementById("form_add").reset();
-        $('#create_date').val('{{$brand->brand_create}}');
-        $('#update_date').val('{{$brand->brand_update}}');
+        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
     $('#btnSubmit').click(function(){
-        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#notify_memo').val($('#editor-content').html());
         $('#form_add').parsley();
-    });
-    $('#malls').multiselect({
-        includeSelectAllOption: true
     });
 </script>
 @endsection

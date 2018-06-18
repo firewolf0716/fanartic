@@ -26,6 +26,16 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select class="form-control" name="mall_brands[]" id="brands" multiple="multiple">
+                            @foreach($brands as $brand)
+                            <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12">
@@ -115,6 +125,8 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+
 <script type="text/javascript">
     $(function(){
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
@@ -127,6 +139,9 @@
     });
     $('#btnSubmit').click(function(){
         $('#form_add').parsley();
+    });
+    $('#brands').multiselect({
+        includeSelectAllOption: true
     });
 </script>
 @endsection

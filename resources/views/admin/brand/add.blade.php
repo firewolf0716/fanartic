@@ -20,12 +20,22 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モールID<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_mall" name="select_mall" class="form-control" required>
-                            <option value="">--Select Mall--</option>
+                        <select class="form-control" name="brand_mall[]" id="malls" multiple="multiple">
                             @foreach($malls as $mall)
                             <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select id="select_genre" name="select_genre" class="form-control">
+                            <option value="">--Select Genre--</option>
+                            @foreach($genres as $genre)
+                            <option value="{{$genre->genre_id}}">{{$genre->genre_name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -138,6 +148,7 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
 <script type="text/javascript">
     $(function(){
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
@@ -150,6 +161,9 @@
     });
     $('#btnSubmit').click(function(){
         $('#form_add').parsley();
+    });
+    $('#malls').multiselect({
+        includeSelectAllOption: true
     });
 </script>
 @endsection

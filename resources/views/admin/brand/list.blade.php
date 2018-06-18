@@ -22,7 +22,6 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="text-align:center">モール</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">デザイン種類</th>
@@ -34,7 +33,6 @@
                         @foreach($brands as $brand)
                             <tr>
                                 <td>{{$brand->brand_id}}</td>
-                                <td style="text-align:center">{{$brand->brand_moll}}</td>
                                 <td style="text-align:center">{{$brand->brand_name}}</td>
                                 <td style="text-align:center">{{$brand->brand_name_en}}</td>
                                 <td style="text-align:center">

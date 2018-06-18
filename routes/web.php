@@ -68,6 +68,18 @@ Route::post('admin/plan/addpost','PlanController@addpost');
 Route::get('admin/plan/list','PlanController@list');
 Route::get('admin/plan/edit/{id}','PlanController@edit');
 Route::post('admin/plan/editpost','PlanController@editpost');
+
+Route::get('admin/notifymerchant/add','MerchantNotifyController@add');
+Route::post('admin/notifymerchant/addpost','MerchantNotifyController@addpost');
+Route::get('admin/notifymerchant/list','MerchantNotifyController@list');
+Route::get('admin/notifymerchant/edit/{id}','MerchantNotifyController@edit');
+Route::post('admin/notifymerchant/editpost','MerchantNotifyController@editpost');
+
+Route::get('admin/notifycustomer/add','CustomerNotifyController@add');
+Route::post('admin/notifycustomer/addpost','CustomerNotifyController@addpost');
+Route::get('admin/notifycustomer/list','CustomerNotifyController@list');
+Route::get('admin/notifycustomer/edit/{id}','CustomerNotifyController@edit');
+Route::post('admin/notifycustomer/editpost','CustomerNotifyController@editpost');
 //merchants
 Route::get('merchant_login', 'MerchantloginController@merchant_login');
 Route::post('merchant_signin', 'MerchantloginController@merchant_signin');
