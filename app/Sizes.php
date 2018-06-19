@@ -52,4 +52,8 @@ class Sizes extends Model
     {
         return DB::table('master_sizecategory')->where('sizecategory_id', '=', $id)->update($entry);
     }
+
+    public static function get_sizebycategory($id){
+        return DB::table('master_size')->where('master_size.size_category', $id)->get();
+    }
 }

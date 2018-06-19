@@ -12,7 +12,7 @@
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            {!! Form::open(array('id' => 'form_product_add','url'=>'merchant_product_addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            {!! Form::open(array('id' => 'form_product_add','url'=>'merchant/product/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                 <div class="x_panel">
                     <div class="x_title">
                         <h4>Add Product</h4>
@@ -41,20 +41,224 @@
                                     <div class="controls">
                                         <div class="input-prepend input-group">
                                             <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                            <input type="text" name="product_salerange" id="reservation" class="form-control" value="01/01/2016 - 01/25/2016" required/>
+                                            <input type="text" name="product_salerange" id="reservation" class="form-control" value="01/01/2018 - 12/25/2018" required/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">親商品<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_parent" id="product_parent">
+                                    <option value="">--Select Parent Product--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select class="form-control" name="product_brand" id="product_brand">
+                                    <option value="">--Select Brand--</option>
                                     @foreach($brands as $brand)
                                     <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                        <div class="form-group" id="category_list">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">カテゴリ<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_category1" id="product_category1">
+                                    <option value="">--Select Category--</option>
+                                    @foreach($topcategorys as $topcategory)
+                                    <option value="{{$topcategory->category_id}}">{{$topcategory->category_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_category2" id="product_category2">
+                                    <option value="">--Select Category--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_category" id="product_category">
+                                    <option value="">--Select Category--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">イベント<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_event" id="product_event">
+                                    <option value="">--Select Event--</option>
+                                    @foreach($events as $event)
+                                    <option value="{{$event->event_id}}">{{$event->event_title}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品コード<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_code" name="product_code" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_name" name="product_name" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名カナ<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_name_kana" name="product_name_kana" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">内容詳細名<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_name_detail" name="product_name_detail" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">消費税フラグ<span class="required">*</span></label>
+                            <div class="radio col-md-4 col-sm-6 col-xs-12">
+                                @if($merchant->merchant_taxflag == 0)
+                                    <label><input type="radio" value="0" name="product_taxflag" checked>税込</label>
+                                    <label><input type="radio" value="1" name="product_taxflag">税別</label>
+                                @else
+                                    <label><input type="radio" value="0" name="product_taxflag">税込</label>
+                                    <label><input type="radio" value="1" name="product_taxflag" checked>税別</label>
+                                @endif
+                            </div>
+                        </div>
+                        <div id="div_images">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
+                                <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
+                                    <input type="file" name="product_img_0" class="form-control" required>
+                                </div>
+                                <div class="radio col-md-2 col-sm-6 col-xs-12">
+                                    <button class="btn" type="button" id="btnProductImage">Add</button>
+                                </div>
+                            </div>
+                            {{ Form::hidden('proimg_ct', '1', array('id' => 'proimg_ct'))}}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品状態<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_old_status" id="product_old_status">
+                                    <option value="">--Select Product Status--</option>
+                                    @foreach($productstates as $productstate)
+                                    <option value="{{$productstate->productstate_id}}">{{ $productstate->productstate_name.' : '.$productstate->productstate_details }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_color" id="product_color">
+                                    <option value="">--Select Color--</option>
+                                    @foreach($colors as $color)
+                                    <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_size" id="product_size">
+                                    <option value="">--Select Size--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ2<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_size2" name="product_size2" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_weight" name="product_weight" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">シーズン<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_season" name="product_season" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">生産地<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_place" name="product_place" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">素材<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_material" name="product_material" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_memo" name="product_memo" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫管理<span class="required">*</span></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
+                            <div class="radio col-md-4 col-sm-6 col-xs-12">
+                                <label><input type="radio" value="1" name="product_status" checked>有効</label>
+                                <label><input type="radio" value="0" name="product_status">無効</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                            </div>
+                        </div>
+
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                <button id="btnSubmit" type="submit" class="btn btn-warning">Add Product</button>
+                                <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -119,5 +323,105 @@
 <script type="text/javascript">
     
 </script>
+<script>
+    $(function(){
+        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+    });
+    $('#product_category1').change(function(){
+        var top = $('#product_category1').val();
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getscategory')}}' + "/" + top,
+                success: function(data){
+                    $('#product_category2').find('option').remove().end().append('<option value="">--Select Category--</option>');
+                    $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.category_id;
+                        opt.innerHTML = item.category_name;
+                        document.getElementById('product_category2').appendChild(opt);
+                    }
+                }
+            });
+        } else {
+            $('#product_category2').find('option').remove().end().append('<option value="">--Select Category--</option>');
+            $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
+        }
+    });
+    $('#product_category2').change(function(){
+        var top = $('#product_category2').val();
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getscategory')}}' + "/" + top,
+                success: function(data){
+                    $('#product_category3').find('option').remove().end().append('<option value="">--Select Category--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.category_id;
+                        opt.innerHTML = item.category_name;
+                        document.getElementById('product_category').appendChild(opt);
+                    }
+                }
+            });
+        } else {
+            $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
+        }
+    });
+    $('#product_category').change(function(){
+        var category = $('#product_category').val();
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getssizes')}}' + "/" + category,
+                success: function(data){
+                    $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.size_id;
+                        opt.innerHTML = item.size_name;
+                        document.getElementById('product_size').appendChild(opt);
+                    }
+                }
+            });
+        } else {
+            $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
+        }
 
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getparentprefers')}}' + "/" + category,
+                success: function(data){
+                    $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.product_id;
+                        opt.innerHTML = item.product_name;
+                        document.getElementById('product_parent').appendChild(opt);
+                    }
+                }
+            });
+        } else {
+            $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
+        }
+    });
+    $('#btnProductImage').click(function(){
+        var imgct = Number($('#proimg_ct').val()) + 1;
+        if(imgct > 10) return;
+        $ctrl = '<div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12"></label> <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">';
+        $ctrl = $ctrl + '<input type="file"/ name="product_img_'+imgct+'" class="form-control"></div></div>';
+        $('#div_images').append($ctrl);
+        $('#proimg_ct').val(imgct);
+    });
+    $('#btnSubmit').click(function(){
+        $('#form_product_add').parsley();
+    });
+</script>
 @endsection

@@ -24,16 +24,33 @@ class CategoryController extends Controller
     }
 
     public function addpost(){
-        $entry =  array(
-            'category_parent' => Input::get('select_parent'),
-            'category_mall' => Input::get('select_mall'),
-            'category_size' => Input::get('select_sizecategory'),
-            'category_gender' => Input::get('optionGender'),
-            'category_name' => Input::get('category_name'),
-            'category_name_en' => Input::get('category_name_en'),
-            'category_create' => Input::get('create_date'),
-            'category_update' => Input::get('update_date')
-        );
+        $parent = Input::get('select_parent');
+        if($parent != ''){
+            $parent_category = Categorys::get_category($parent)->first();
+            $category_branch = $parent_category->category_branch.','.$parent;
+            $entry =  array(
+                'category_parent' => Input::get('select_parent'),
+                'category_mall' => Input::get('select_mall'),
+                'category_size' => Input::get('select_sizecategory'),
+                'category_gender' => Input::get('optionGender'),
+                'category_name' => Input::get('category_name'),
+                'category_name_en' => Input::get('category_name_en'),
+                'category_create' => Input::get('create_date'),
+                'category_update' => Input::get('update_date'),
+                'category_branch' => $category_branch
+            );
+        } else {
+            $entry =  array(
+                'category_parent' => Input::get('select_parent'),
+                'category_mall' => Input::get('select_mall'),
+                'category_size' => Input::get('select_sizecategory'),
+                'category_gender' => Input::get('optionGender'),
+                'category_name' => Input::get('category_name'),
+                'category_name_en' => Input::get('category_name_en'),
+                'category_create' => Input::get('create_date'),
+                'category_update' => Input::get('update_date')
+            );
+        }
         Categorys::insert_category($entry);
         return Redirect::to('admin/category/list');
     }
@@ -60,16 +77,33 @@ class CategoryController extends Controller
     }
 
     public function editpost(){
-        $entry =  array(
-            'category_parent' => Input::get('select_parent'),
-            'category_mall' => Input::get('select_mall'),
-            'category_size' => Input::get('select_sizecategory'),
-            'category_gender' => Input::get('optionGender'),
-            'category_name' => Input::get('category_name'),
-            'category_name_en' => Input::get('category_name_en'),
-            'category_create' => Input::get('create_date'),
-            'category_update' => Input::get('update_date')
-        );
+        $parent = Input::get('select_parent');
+        if($parent != ''){
+            $parent_category = Categorys::get_category($parent)->first();
+            $category_branch = $parent_category->category_branch.','.$parent;
+            $entry =  array(
+                'category_parent' => Input::get('select_parent'),
+                'category_mall' => Input::get('select_mall'),
+                'category_size' => Input::get('select_sizecategory'),
+                'category_gender' => Input::get('optionGender'),
+                'category_name' => Input::get('category_name'),
+                'category_name_en' => Input::get('category_name_en'),
+                'category_create' => Input::get('create_date'),
+                'category_update' => Input::get('update_date'),
+                'category_branch' => $category_branch
+            );
+        } else {
+            $entry =  array(
+                'category_parent' => Input::get('select_parent'),
+                'category_mall' => Input::get('select_mall'),
+                'category_size' => Input::get('select_sizecategory'),
+                'category_gender' => Input::get('optionGender'),
+                'category_name' => Input::get('category_name'),
+                'category_name_en' => Input::get('category_name_en'),
+                'category_create' => Input::get('create_date'),
+                'category_update' => Input::get('update_date')
+            );
+        }
         $id = Input::get('category_id');
         Categorys::edit_category($entry, $id);
         return Redirect::to('admin/category/list');
