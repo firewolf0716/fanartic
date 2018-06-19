@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 18/06/2018 12:43:27
+ Date: 19/06/2018 22:38:04
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `fan_deliverysetting`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `fan_merchant`;
 CREATE TABLE `fan_merchant`  (
-  `id` int(11) NOT NULL,
+  `merchant_id` int(11) NOT NULL AUTO_INCREMENT,
   `merchant_type` int(11) NULL DEFAULT NULL,
   `merchant_plan` int(11) NULL DEFAULT NULL,
   `merchant_taxflag` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
@@ -54,6 +54,7 @@ CREATE TABLE `fan_merchant`  (
   `merchant_permit` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `merchant_email` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `merchant_password` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `merchant_phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `merchant_postalcode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `merchant_state` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `merchant_city` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
@@ -69,15 +70,15 @@ CREATE TABLE `fan_merchant`  (
   `merchant_open` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `merchant_fixtax` double(10, 2) NULL DEFAULT NULL,
   `merchant_commission` double(10, 2) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+  PRIMARY KEY (`merchant_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for fan_product
 -- ----------------------------
 DROP TABLE IF EXISTS `fan_product`;
 CREATE TABLE `fan_product`  (
-  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL AUTO_INCREMENT,
   `product_salemethod` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `product_salerange` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `product_brand` int(11) NULL DEFAULT NULL,
@@ -106,7 +107,28 @@ CREATE TABLE `fan_product`  (
   `product_status` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `product_create` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `product_update` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`product_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for fan_product_stock
+-- ----------------------------
+DROP TABLE IF EXISTS `fan_product_stock`;
+CREATE TABLE `fan_product_stock`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NULL DEFAULT NULL,
+  `product_count` int(11) NULL DEFAULT NULL,
+  `product_purchased` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for mall_brand_match
+-- ----------------------------
+DROP TABLE IF EXISTS `mall_brand_match`;
+CREATE TABLE `mall_brand_match`  (
+  `mall_id` int(11) NOT NULL,
+  `brand_id` int(11) NULL DEFAULT NULL
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -128,7 +150,7 @@ CREATE TABLE `master_admin`  (
 DROP TABLE IF EXISTS `master_brand`;
 CREATE TABLE `master_brand`  (
   `brand_id` int(11) NOT NULL AUTO_INCREMENT,
-  `brand_moll` int(11) NULL DEFAULT NULL,
+  `brand_genre` int(11) NULL DEFAULT NULL,
   `brand_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `brand_name_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `brand_design` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
@@ -136,7 +158,7 @@ CREATE TABLE `master_brand`  (
   `brand_create` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `brand_update` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`brand_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for master_category
@@ -150,10 +172,11 @@ CREATE TABLE `master_category`  (
   `category_gender` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `category_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `category_name_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `category_branch` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `category_create` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `category_update` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`category_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for master_city
@@ -235,7 +258,7 @@ CREATE TABLE `master_mall`  (
   `mall_create` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `mall_update` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`mall_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for master_notifycustomer
@@ -281,6 +304,17 @@ CREATE TABLE `master_plan`  (
   `plan_update` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`plan_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for master_productstate
+-- ----------------------------
+DROP TABLE IF EXISTS `master_productstate`;
+CREATE TABLE `master_productstate`  (
+  `productstate_id` int(11) NOT NULL AUTO_INCREMENT,
+  `productstate_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `productstate_details` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`productstate_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for master_size
