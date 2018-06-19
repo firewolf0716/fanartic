@@ -10,7 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'AdminController@login');
+Route::get('/', function(){
+    return view('customer.wish');
+});
 Route::get('admin/login', 'AdminController@login');
 Route::get('admin/signout', 'AdminController@signout');
 Route::post('admin/signin', 'AdminController@signin');
@@ -94,16 +96,23 @@ Route::get('merchant/setting', 'MerchantController@merchant_setting');
 Route::get('merchant/getcity', 'MerchantController@getcity');
 Route::post('merchant/editsetting', 'MerchantController@merchant_editsetting');
 //merchant product
-// Route::get('merchant_product_add', 'MerchantproductController@merchant_product_add');
-// Route::get('merchant_product_manage', 'MerchantproductController@merchant_product_manage');
-// Route::get('merchant_product_sold', 'MerchantproductController@merchant_product_sold');
-// Route::get('merchant_product_csvupload', 'MerchantproductController@merchant_product_csvupload');
+Route::get('merchant/product/add', 'MerchantproductController@merchant_product_add');
+Route::get('merchant/product/getscategory/{tcategory}', 'MerchantproductController@merchant_getscategory');
+Route::get('merchant/product/getssizes/{tcategory}', 'MerchantproductController@merchant_getsizecategory');
+Route::get('merchant/product/getparentprefers/{tcategory}', 'MerchantproductController@merchant_getparentprefers');
+Route::post('merchant/product/addpost', 'MerchantproductController@merchant_product_addpost');
+Route::post('merchant/product/editpost', 'MerchantproductController@merchant_product_editpost');
+
+Route::get('merchant/product/edit/{id}', 'MerchantproductController@merchant_product_edit');
+
+Route::get('merchant/product/manage', 'MerchantproductController@merchant_product_manage');
+Route::get('merchant/product/sold', 'MerchantproductController@merchant_product_sold');
+Route::get('merchant/product/csvupload', 'MerchantproductController@merchant_product_csvupload');
 
 // Route::get('mer_product_details/{id}', 'MerchantproductController@mer_product_details');
 // Route::get('mer_edit_product/{id}', 'MerchantproductController@mer_edit_product');
-// Route::get('mer_delete_product/{id}', 'MerchantproductController@mer_delete_product');
+Route::get('merchant/product/delete/{id}', 'MerchantproductController@mer_delete_product');
 
-// Route::post('merchant_product_addpost', 'MerchantproductController@merchant_product_addpost');
 // Route::post('merchant_product_editpost', 'MerchantproductController@merchant_product_editpost');
 // //product
 // Route::get('mer_product_getmaincategory', 'ProductController@mer_product_getmaincategory');

@@ -6,570 +6,157 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Home / Add Products</h3>
+            <h3>Home / Add Product</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            {!! Form::open(array('id' => 'form_product_add','url'=>'merchant_product_addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            {!! Form::open(array('id' => 'form_product_add','url'=>'merchant/product/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                 <div class="x_panel">
                     <div class="x_title">
-                        <h4>Add Products</h4>
+                        <h4>Add Product</h4>
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <!--Product Title-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_title">Product Title<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="product_title" name="product_title" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Your Product Title">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">販売方法<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select id="product_salemethod" name="product_salemethod" class="form-control" required>
+                                    <option value="">--Select Sale Type--</option>
+                                    <option value="1">通常販売</option>
+                                    <option value="2">商品ごとの期間限定販売</option>
+                                    <option value="3">CLOSED販売</option>
+                                    <option value="4">抽選販売</option>
+                                    <option value="5">受注販売</option>
+                                    <option value="6">ASK</option>
+                                    <option value="7">オークション</option>
+                                </select>
                             </div>
                         </div>
-                        <!--Top Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="top_category">Top Category<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="top_category" name="top_category" class="form-control" onChange="get_maincategory(this.value);get_specification_details();" required>
-                                    <option value="">--Select--</option>
-                                    @foreach($productcategory as $product_mc)  
-              			            <option value="{{ $product_mc->mc_id }}"> {{ $product_mc->mc_name }}</option>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">販売期間<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <div class="input-prepend input-group">
+                                            <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                            <input type="text" name="product_salerange" id="reservation" class="form-control" value="01/01/2018 - 12/25/2018" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">親商品<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_parent" id="product_parent">
+                                    <option value="">--Select Parent Product--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_brand" id="product_brand">
+                                    <option value="">--Select Brand--</option>
+                                    @foreach($brands as $brand)
+                                    <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <!--Main Category-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="main_category">Main Category<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="main_category" name="main_category" class="form-control" required onChange="get_subcategory(this.value);get_specification_details();">
-                                    <option value="">--Select Main Category--</option>
+                        <div class="form-group" id="category_list">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">カテゴリ<span class="required">*</span></label>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_category1" id="product_category1">
+                                    <option value="">--Select Category--</option>
+                                    @foreach($topcategorys as $topcategory)
+                                    <option value="{{$topcategory->category_id}}">{{$topcategory->category_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_category2" id="product_category2">
+                                    <option value="">--Select Category--</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_category" id="product_category">
+                                    <option value="">--Select Category--</option>
                                 </select>
                             </div>
                         </div>
-                        <!--Sub Category-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sub_category">Sub Category</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="sub_category" name="sub_category" class="form-control" onChange="get_second_subcategory(this.value)">
-                                    <option value="0">--Select Sub Category--</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!--Second Sub Category-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="secondsub_category">Second Sub Category</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="secondsub_category" name="secondsub_category" class="form-control">
-                                    <option value="0">--Select Second Sub Category--</option>
-                                </select>
-                            </div>
-                        </div>
-                        <!--Product Quantity-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="product_quantity">Product Quantity<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="product_quantity" name="product_quantity" required="required" class="form-control col-md-7 col-xs-12" placeholder="Enter Quantity of Product">
-                            </div>
-                        </div>
-                        <!--Original Price-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="original_price">Original Price<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="original_price" name="original_price" required="required" class="form-control col-md-7 col-xs-12" placeholder="Numbers Only">
-                            </div>
-                        </div>
-                        <!--Discounted Price-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="discounted_price">Discounted Price<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="discounted_price" name="discounted_price" required="required" class="form-control col-md-7 col-xs-12" placeholder="Numbers Only">
-                            </div>
-                        </div>
-                        <!--Tax rate-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-                            <div class="checkbox col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="checkbox" id="tax_percentage_check" name="tax_percentage_check">( Including tax Percentage ) %</label>
-                            </div>
-                        </div>
-                        <div class="form-group" id="collapse8" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="tax_percentage_input" name="tax_percentage_input" class="form-control col-md-7 col-xs-12" value=0>
-                            </div>
-                        </div>
-                        <!--Shipping Amount-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Shipping Amount<span class="required">*</span></label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="0" id="optionsShippingFree" name="optionsShippingAmount" checked>Free</label>
-                                <label><input type="radio" value="1" id="optionsShippingAmount" name="optionsShippingAmount">Amount</label>
-                            </div>
-                        </div>
-                        <div class="form-group" id="collapse1" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="shipping_amount">Shipping Amount<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="text" id="shipping_amount" name="shipping_amount" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <!-- Description -->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Description<span class="required">*</span></label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor_description">
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                            <a data-edit="fontSize 5">
-                                                <p style="font-size:17px">Huge</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 3">
-                                                <p style="font-size:14px">Normal</p>
-                                            </a>
-                                            </li>
-                                            <li>
-                                            <a data-edit="fontSize 1">
-                                                <p style="font-size:11px">Small</p>
-                                            </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                        <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                        <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                        <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                        <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                        <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                        <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                        <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                        <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                                        <div class="dropdown-menu input-append">
-                                            <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                                            <button class="btn" type="button">Add</button>
-                                        </div>
-                                        <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                                    </div>
-
-                                    <div class="btn-group">
-                                        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                                        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-                                    </div>
-                                </div>
-                                <div id="editor_description" class="editor-wrapper" placeholder="Enter your Description"></div>
-                                {{ Form::hidden('description', '', array('id' => 'description'))}}
-                            </div>
-                        </div>
-                        <!--specification-->
-                        <!--Want to add specification-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Want to add specification<span class="required">*</span></label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="1" id="optionsSpecYes" name="optionsSpec">Yes</label>
-                                <label><input type="radio" value="0" id="optionsSpecNo" name="optionsSpec" checked>No</label>
-                            </div>
-                        </div>
-                        <div id="collapse2" style="display:none">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Specification</label>
-                                
-                                <div class="col-md-2 col-sm-6 col-xs-12">
-                                    <select id="spec_group_0" name="spec_group_0" class="form-control" onChange="spcfunction(0,this.value);">
-                                        <option value="0">--Select Specification--</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-sm-6 col-xs-12">
-                                    <select id="spec_detail_0" name="spec_detail_0" class="form-control">
-                                        <option value="0">--No--</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-sm-6 col-xs-12">
-                                    <input type="text" id="spec_text_0" name="spec_text_0" class="form-control col-md-7 col-xs-12">
-                                </div>
-                                
-                                <div class="col-md-2 col-sm-6 col-xs-12">
-                                    <button class="btn btn-primary" type="button" id="btnSpecAdd">Add More</button>
-                                </div>
-                            </div>
-                            {{ Form::hidden('spec_ct', '1', array('id' => 'spec_ct'))}}
-                        </div>
-
-                        <!--Product Size-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Add Product Size</label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="1" id="optionsProsizeYes" name="optionsProsize">Yes</label>
-                                <label><input type="radio" value="0" id="optionsProsizeNo" name="optionsProsize" checked>No</label>
-                            </div>
-                        </div>
-                        <div class="form-group" id="collapse3" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Size</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_size[]" id="product_size" multiple="multiple">
-                                @foreach ($productsize as $size) 
-                                    @if($size->si_name!='no size')
-                                        <option value="{{ $size->si_id }}">{!!$size->si_name!!}</option>
-                                    @endif
-                                @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <!--Color Field-->
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Add Color Field</label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="1" id="optionsColorYes" name="optionsColor">Yes</label>
-                                <label><input type="radio" value="0" id="optionsColorNo" name="optionsColor" checked>No</label>
-                            </div>
-                        </div>
-                        <div class="form-group" id="collapse4" style="display:none">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Color</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select class="form-control" id="selectprocolor" name="selectprocolor" onchange="getcolorname(this.value)">
-                                    <option value="0">--Select Product Color--</option>
-                                    @foreach ($productcolor as $color) 
-                                    <option style="background:{{ $color->co_code }}"  value="{{ $color->co_id}}">{!!$color->co_name!!}</option>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">イベント<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_event" id="product_event">
+                                    <option value="">--Select Event--</option>
+                                    @foreach($events as $event)
+                                    <option value="{{$event->event_id}}">{{$event->event_title}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group" id="colordiv" style="display:none;">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Show Colors</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12" id="showcolor">
-
-                            </div>
-                            {{ Form::hidden('co','0',array('id'=>'co')) }}
-                        </div>
-                        <!--Delivery-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery_input">Delivery Within<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="delivery_input" name="delivery_input" class="form-control col-md-7 col-xs-12" required="required">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品コード<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_code" name="product_code" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="delivery_input"></label>
-                            Days
                         </div>
-                        <!--Select Store-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="store">Select Store<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select id="store" name="store" class="form-control" required>
-                                    <option value="">--Select Store--</option>
-                                </select>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_name" name="product_name" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
-                        <!--Meta keywords-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="store">Meta keywords</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea id="meta_keywords" name="meta_keywords" class="form-control" placeholder="Enter Meta Keywords"></textarea>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名カナ<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_name_kana" name="product_name_kana" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
-                        <!--Meta description-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="store">Meta description</label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea id="meta_description" name="meta_description" class="form-control" placeholder="Enter Meta Description"></textarea>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">内容詳細名<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_name_detail" name="product_name_detail" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
-                        <!--Cash Back-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="discounted-price">Cash Back<span class="required">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input type="number" id="cash_back" name="cash_back" required="required" class="form-control col-md-7 col-xs-12">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
-                        <!--Apply Cancellation Policy-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Apply Cancellation Policy</label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="1" id="optionspcYes" name="optionsPolicyCancel">Yes</label>
-                                <label><input type="radio" value="0" id="optionspcNo" name="optionsPolicyCancel" checked>No</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
-                        <div id="collapse5" style="display:none">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
-                                <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                    <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor_cacelpolicy">
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                            </ul>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                <a data-edit="fontSize 5">
-                                                    <p style="font-size:17px">Huge</p>
-                                                </a>
-                                                </li>
-                                                <li>
-                                                <a data-edit="fontSize 3">
-                                                    <p style="font-size:14px">Normal</p>
-                                                </a>
-                                                </li>
-                                                <li>
-                                                <a data-edit="fontSize 1">
-                                                    <p style="font-size:11px">Small</p>
-                                                </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                            <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                            <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                            <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                            <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                            <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                            <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                            <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                            <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                            <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                                            <div class="dropdown-menu input-append">
-                                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                                                <button class="btn" type="button">Add</button>
-                                            </div>
-                                            <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                                            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-                                        </div>
-                                    </div>
-                                    <div id="editor_cacelpolicy" class="editor-wrapper"></div>
-                                    {{ Form::hidden('cacelpolicy', '', array('id' => 'cacelpolicy'))}}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cancel Days</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="number" id="cancel_days" name="cancel_days" class="form-control col-md-7 col-xs-12">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--Apply Return/Refund Policy-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Apply Return/Refund Policy</label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="1" id="optionsprtYes" name="optionsPolicyReturn">Yes</label>
-                                <label><input type="radio" value="0" id="optionsprtNo" name="optionsPolicyReturn" checked>No</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12">
                             </div>
                         </div>
-                        <div id="collapse6" style="display:none">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
-                                <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                    <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-returnpolicy">
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                            </ul>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                <a data-edit="fontSize 5">
-                                                    <p style="font-size:17px">Huge</p>
-                                                </a>
-                                                </li>
-                                                <li>
-                                                <a data-edit="fontSize 3">
-                                                    <p style="font-size:14px">Normal</p>
-                                                </a>
-                                                </li>
-                                                <li>
-                                                <a data-edit="fontSize 1">
-                                                    <p style="font-size:11px">Small</p>
-                                                </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                            <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                            <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                            <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                            <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                            <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                            <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                            <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                            <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                            <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                                            <div class="dropdown-menu input-append">
-                                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                                                <button class="btn" type="button">Add</button>
-                                            </div>
-                                            <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                                            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-                                        </div>
-                                    </div>
-                                    <div id="editor_returnpolicy" class="editor-wrapper"></div>
-                                    {{ Form::hidden('returnpolicy', '', array('id' => 'returnpolicy'))}}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Return Days</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="number" id="return_days" name="return_days" class="form-control col-md-7 col-xs-12">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--Apply Replacement Policy-->
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Apply Replacement Policy</label>
-                            <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="1" id="optionsprYes" name="optionsPolicyReplacement">Yes</label>
-                                <label><input type="radio" value="0" id="optionsprNo" name="optionsPolicyReplacement" checked>No</label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">消費税フラグ<span class="required">*</span></label>
+                            <div class="radio col-md-4 col-sm-6 col-xs-12">
+                                @if($merchant->merchant_taxflag == 0)
+                                    <label><input type="radio" value="0" name="product_taxflag" checked>税込</label>
+                                    <label><input type="radio" value="1" name="product_taxflag">税別</label>
+                                @else
+                                    <label><input type="radio" value="0" name="product_taxflag">税込</label>
+                                    <label><input type="radio" value="1" name="product_taxflag" checked>税別</label>
+                                @endif
                             </div>
                         </div>
-                        <div id="collapse7" style="display:none">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12"><span class="required">*</span></label>
-                                <div class="radio col-md-6 col-sm-6 col-xs-12">
-                                    <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor_replacepolicy">
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                            </ul>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                <a data-edit="fontSize 5">
-                                                    <p style="font-size:17px">Huge</p>
-                                                </a>
-                                                </li>
-                                                <li>
-                                                <a data-edit="fontSize 3">
-                                                    <p style="font-size:14px">Normal</p>
-                                                </a>
-                                                </li>
-                                                <li>
-                                                <a data-edit="fontSize 1">
-                                                    <p style="font-size:11px">Small</p>
-                                                </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                            <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                            <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                            <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                            <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                            <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                            <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                            <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                            <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                            <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Hyperlink"><i class="fa fa-link"></i></a>
-                                            <div class="dropdown-menu input-append">
-                                                <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
-                                                <button class="btn" type="button">Add</button>
-                                            </div>
-                                            <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="fa fa-cut"></i></a>
-                                        </div>
-
-                                        <div class="btn-group">
-                                            <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
-                                            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
-                                        </div>
-                                    </div>
-                                    <div id="editor_replacepolicy" class="editor-wrapper"></div>
-                                    {{ Form::hidden('replacepolicy', '', array('id' => 'replacepolicy'))}}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Replace Days</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input type="number" id="replace_days" name="replace_days" class="form-control col-md-7 col-xs-12">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!--Product Image-->
                         <div id="div_images">
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Image<span class="required">*</span></label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
                                 <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
-                                    <input type="file"/ name="product_img_0" class="form-control" required>
+                                    <input type="file" name="product_img_0" class="form-control" required>
                                 </div>
                                 <div class="radio col-md-2 col-sm-6 col-xs-12">
                                     <button class="btn" type="button" id="btnProductImage">Add</button>
@@ -578,11 +165,100 @@
                             {{ Form::hidden('proimg_ct', '1', array('id' => 'proimg_ct'))}}
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品状態<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_old_status" id="product_old_status">
+                                    <option value="">--Select Product Status--</option>
+                                    @foreach($productstates as $productstate)
+                                    <option value="{{$productstate->productstate_id}}">{{ $productstate->productstate_name.' : '.$productstate->productstate_details }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_color" id="product_color">
+                                    <option value="">--Select Color--</option>
+                                    @foreach($colors as $color)
+                                    <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_size" id="product_size">
+                                    <option value="">--Select Size--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ2<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_size2" name="product_size2" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="product_weight" name="product_weight" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">シーズン<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_season" name="product_season" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">生産地<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_place" name="product_place" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">素材<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_material" name="product_material" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="product_memo" name="product_memo" required="required" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫管理<span class="required">*</span></label>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
+                            <div class="radio col-md-4 col-sm-6 col-xs-12">
+                                <label><input type="radio" value="1" name="product_status" checked>有効</label>
+                                <label><input type="radio" value="0" name="product_status">無効</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                            </div>
+                        </div>
+
                         <div class="ln_solid"></div>
                         <div class="form-group">
                             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                 <button id="btnSubmit" type="submit" class="btn btn-warning">Add Product</button>
-                                <button class="btn btn-primary" type="reset">Reset</button>
+                                <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -645,240 +321,107 @@
 
     <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#btnProductImage').click(function(){
-            var imgct = Number($('#proimg_ct').val()) + 1;
-            $ctrl = '<div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12"></label> <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">';
-            $ctrl = $ctrl + '<input type="file"/ name="product_img_'+imgct+'" class="form-control"></div></div>';
-            $('#div_images').append($ctrl);
-            $('#proimg_ct').val(imgct);
-        });
-        $('#btnSpecAdd').click(function(){
-            var specct = Number($('#spec_ct').val());
-            var newspec = '<div class="form-group"><label class="control-label col-md-3 col-sm-3 col-xs-12"></label>';
-            var newspec = newspec + '<div class="col-md-2 col-sm-6 col-xs-12"><select id="spec_group_'+specct+'" name="spec_group_'+specct+'" class="form-control" onChange="spcfunction('+specct+',this.value);"><option value="0">--Select Specification--</option></select></div>';
-            var newspec = newspec + '<div class="col-md-2 col-sm-6 col-xs-12"><select id="spec_detail_'+specct+'" name="spec_detail_'+specct+'" class="form-control"><option value="0">--No--</option></select></div>';
-            var newspec = newspec + '<div class="col-md-2 col-sm-6 col-xs-12"><input type="text" id="spec_text_'+specct+'" name="spec_text_'+specct+'" class="form-control col-md-7 col-xs-12"></div></div>';
-            $('#spec_ct').val(specct + 1);
-            $('#collapse2').append(newspec);
-            $('select[name=spec_group_'+specct+']').html($('#spec_group_0').html());
-        });
-        $('#btnSubmit').click(function(){
-            $('#form_product_add').parsley();
-            $('#description').val($('#editor_description').html());
-            $('#cacelpolicy').val($('#editor_cacelpolicy').html());
-            $('#returnpolicy').val($('#editor_returnpolicy').html());
-            $('#replace').val($('#editor_replace').html());
-        });
-        $.ajax({
-            type: 'get',
-            data: 'id=' + $('#merchant_id').val(),
-            url: 'mer_product_getmerchantshop',
-            success: function(responseText){  
-                if(responseText)
-                {  
-                    $('#store').html(responseText);					   
-                }
-            }
-        });
+    
+</script>
+<script>
+    $(function(){
+        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    //change category
-    function get_maincategory(id)
-    {
-        var passcategoryid = 'id='+id;
-        $.ajax({
-            type: 'get',
-            data: passcategoryid,
-            url: 'mer_product_getmaincategory',
-            success: function(responseText){
-                if(responseText)
-                {
-                    $('#main_category').html(responseText);
-                    $('#sub_category').html('<option value="0">--Select Sub Category--</option>');	
-                    $('#secondsub_category').html('<option value="0">--Select Second Sub Category--</option>');					
-                }
-            }
-        });
-    }
-    function get_subcategory(id)
-	{
-        var passsubcategoryid = 'id='+id;
-        $.ajax({
-            type: 'get',
-            data: passsubcategoryid,
-            url: 'mer_product_getsubcategory',
-            success: function(responseText){  
-                if(responseText)
-                {
-                    $('#sub_category').html(responseText);
-                }
-            }
-        });
-	}
-
-	function get_second_subcategory(id)
-	{
-        var passsecondsubcategoryid = 'id='+id;
-        $.ajax({
-            type: 'get',
-            data: passsecondsubcategoryid,
-            url: 'mer_product_getsecondsubcategory',
-            success: function(responseText){  
-                if(responseText)
-                {    
-                   $('#secondsub_category').html(responseText);
-                }
-            }
-        });
-	}
-    function getcolorname(id){
-        var passcolorid = 'id='+id+"&co_text_box="+$('#co').val();
-        $.ajax( {
-            type: 'get',
-            data: passcolorid,
-            url: 'product_getcolor',
-            success: function(responseText){  
-                if(responseText)
-                { 	 
-                // alert(responseText)
-                    var get_result = responseText.split(',');
-                    if(get_result[3]=="success")
-                    {
-                        $('#colordiv').css('display', 'block');
-                        $('#showcolor').append('<span style="width:195px;padding:3px;border:4px solid '+get_result[2]+';margin:5px; display:inline-table">'+get_result[0]+'<input type="checkbox"  name="colorcheckbox'+get_result[1]+'"style="padding-left:30px;" checked="checked" value="1" ></span>&nbsp;&nbsp;');
-                        var co_name_js = $('#co').val(); 
-                        $('#co').val(get_result[1]+","+co_name_js);
-                        $('#selectprocolor').find('option:first').attr('selected', 'selected');
-                    }
-                    else if(get_result[3]=="failed")
-                    {
-                        
-                    }
-                    else
-                    {
-                        
-                    }
-                }
-            }
-        });
-    }
-    function get_specification_details()
-    {
-        var main_cat=$("#top_category").val();
-        var sec_main_cat=$("#main_category").val();
-        /*Top Category*/	
-        if(main_cat == "0"){
-            // $("#Product_Category").css('border', '1px solid red'); 
-            // $('#category_error_msg').html('Please Select Category');
-            // $("#Product_Category").focus();
-            return false;
-        }else{
-            // $("#Product_Category").css('border', ''); 
-            // $('#category_error_msg').html('');
-        }
-        /*Main Category*/	
-        if(sec_main_cat == "0")
-        {
-            // $("#Product_MainCategory").css('border', '1px solid red'); 
-            // $('#main_cat_error_msg').html('Please Select Main Category');
-            // $("#Product_MainCategory").focus();
-            return false;
-        }else{
-            // $("#Product_MainCategory").css('border', ''); 
-            // $('#main_cat_error_msg').html('');
-        }
-        if(sec_main_cat!="" && main_cat!=""&& sec_main_cat!="0" && main_cat!="0")
-        {
+    $('#product_category1').change(function(){
+        var top = $('#product_category1').val();
+        if(top != ""){
             $.ajax( {
                 type: 'get',
-                data: {
-                    main_cat: main_cat,
-                    sec_main_cat: sec_main_cat
-                },
-                url: 'get_spec_related_to_cat_mer',
+                url: '{{url('merchant/product/getscategory')}}' + "/" + top,
                 success: function(data){
-                    var count_id = Number($('#spec_ct').val());
-                    $('#spec_group_0').html(data);
-                    $("#spec_detail_0").html("<option value='0'>--Select--</option>");
-                    for(var i=1;i<=count_id;i++)
-                    {
-                        $("#spec_group_"+i).html(data);
-                        $("#spec_detail_"+i).html("<option value='0'>--Select--</option>");
+                    $('#product_category2').find('option').remove().end().append('<option value="">--Select Category--</option>');
+                    $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.category_id;
+                        opt.innerHTML = item.category_name;
+                        document.getElementById('product_category2').appendChild(opt);
                     }
                 }
             });
+        } else {
+            $('#product_category2').find('option').remove().end().append('<option value="">--Select Category--</option>');
+            $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
         }
-        else
-        {
-            // $("input[name='specification'][value='2']").attr('checked', true);
-            return false;
-        }
-    }
-    function spcfunction(count,spc_grop_id){
-        var pass_spc_grp_id = 'spc_group_id='+spc_grop_id;
-        $.ajax({
-            type: 'get',
-            data: pass_spc_grp_id,
-            url: 'product_get_spec',
-            success: function(responseText){  
-                if(responseText)
-                {
-                    $('#spec_detail_'+count).html(responseText);
+    });
+    $('#product_category2').change(function(){
+        var top = $('#product_category2').val();
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getscategory')}}' + "/" + top,
+                success: function(data){
+                    $('#product_category3').find('option').remove().end().append('<option value="">--Select Category--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.category_id;
+                        opt.innerHTML = item.category_name;
+                        document.getElementById('product_category').appendChild(opt);
+                    }
                 }
-            }
-        });
-    }
+            });
+        } else {
+            $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
+        }
+    });
+    $('#product_category').change(function(){
+        var category = $('#product_category').val();
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getssizes')}}' + "/" + category,
+                success: function(data){
+                    $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.size_id;
+                        opt.innerHTML = item.size_name;
+                        document.getElementById('product_size').appendChild(opt);
+                    }
+                }
+            });
+        } else {
+            $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
+        }
 
-    $(document).ready(function(){
-        $('#product_size').multiselect({
-            includeSelectAllOption: true
-    	});;
-        $('#optionsShippingAmount').change(function(){
-            $('#collapse1').slideToggle(250);
-        });
-        $('#optionsShippingFree').change(function(){
-            $('#collapse1').slideToggle(250);
-        });
-        $('#optionsSpecYes').change(function(){
-            $('#collapse2').slideToggle(250);
-        });
-        $('#optionsSpecNo').change(function(){
-            $('#collapse2').slideToggle(250);
-        });
-        $('#optionsProsizeYes').change(function(){
-            $('#collapse3').slideToggle(250);
-        });
-        $('#optionsProsizeNo').change(function(){
-            $('#collapse3').slideToggle(250);
-        });
-        $('#optionsColorYes').change(function(){
-            $('#collapse4').slideToggle(250);
-        });
-        $('#optionsColorNo').change(function(){
-            $('#collapse4').slideToggle(250);
-        });
-        $('#optionspcYes').change(function(){
-            $('#collapse5').slideToggle(500);
-        });
-        $('#optionspcNo').change(function(){
-            $('#collapse5').slideToggle(500);
-        });
-        $('#optionsprtYes').change(function(){
-            $('#collapse6').slideToggle(500);
-        });
-        $('#optionsprtNo').change(function(){
-            $('#collapse6').slideToggle(500);
-        });
-        $('#optionsprYes').change(function(){
-            $('#collapse7').slideToggle(500);
-        });
-        $('#optionsprNo').change(function(){
-            $('#collapse7').slideToggle(500);
-        });
-        $('#tax_percentage_check').change(function(){
-            $('#collapse8').slideToggle(250);
-        });
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getparentprefers')}}' + "/" + category,
+                success: function(data){
+                    $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.product_id;
+                        opt.innerHTML = item.product_name;
+                        document.getElementById('product_parent').appendChild(opt);
+                    }
+                }
+            });
+        } else {
+            $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
+        }
+    });
+    $('#btnProductImage').click(function(){
+        var imgct = Number($('#proimg_ct').val()) + 1;
+        if(imgct > 10) return;
+        $ctrl = '<div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12"></label> <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">';
+        $ctrl = $ctrl + '<input type="file"/ name="product_img_'+imgct+'" class="form-control"></div></div>';
+        $('#div_images').append($ctrl);
+        $('#proimg_ct').val(imgct);
+    });
+    $('#btnSubmit').click(function(){
+        $('#form_product_add').parsley();
     });
 </script>
-
 @endsection

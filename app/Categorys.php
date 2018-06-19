@@ -42,4 +42,12 @@ class Categorys extends Model
     {
         return DB::table('master_category')->where('category_id', '=', $id)->update($entry);
     }
+
+    public static function get_topcategorys(){
+        return DB::table('master_category')->where('category_parent', '=', null)->get();
+    }
+
+    public static function get_subcategorys($parent){
+        return DB::table('master_category')->where('category_parent', '=', $parent)->get();
+    }
 }

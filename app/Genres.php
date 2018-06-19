@@ -20,7 +20,8 @@ class Genres extends Model
     }
 
     public static function get_genres(){
-        return DB::table('master_genre')->orderBy('genre_id', 'ASC')->get();
+        return DB::table('master_genre')->orderBy('genre_id', 'ASC')
+            ->leftJoin('master_mall', 'master_genre.genre_moll', '=', 'master_mall.mall_id')->get();
     }
 
     public static function get_genre($id){
