@@ -1,21 +1,54 @@
-@extends('layouts.admindefault')
 
-@section('title', 'Dashboard|fanaRtic')
 
-@section('content')
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+
+    <!-- Bootstrap -->
+    <link href="{{ url('')}}/public/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{{ url('')}}/public/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{{ url('')}}/public/gvendor/nprogress/nprogress.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="{{ url('')}}/public/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+    <!-- bootstrap-datetimepicker -->
+    <link href="{{ url('')}}/public/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{{ url('')}}/public/css/custom.css" rel="stylesheet">
+
+    <!-- Datatables -->
+    <link href="{{ url('')}}/public/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/public/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Colorpicker -->
+    <link href="{{ url('')}}/public/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url('') }}/public/css/multi-select.css" />
+</head>
+<body class="nav-md" style="background:#ffffff">
+<div class="container body" style="background:#ffffff">
+<div class="right_col" role="main" id="div_signup" style="margin-Left:0px">
     <div class="">
-        <div class="page-title">
-            <div class="title_left" style="margin-Bottom:20px">
-                <h3>Merchant / Merchant Setting</h3>
-            </div>
-        </div>
+        
         <div class="clearfix"></div>
         <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'merchant/editsetting','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-        {{ Form::hidden('merchant_id', $merchant->merchant_id)}}
+        {!! Form::open(array('id' => 'form_add','url'=>'merchant/signuppost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Merchant Setting {{$merchant->merchant_admin}}</h4>
+                    <a href="{{url('merchant/signin')}}">Already a member ?</a>
+                    <h4>Merchant Information</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -24,21 +57,9 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <select id="merchant_type" name="merchant_type" class="form-control" required>
                                 <option value="">--Select Design Type--</option>
-                                @if($merchant->merchant_type == 1)
-                                    <option value="1" selected>ブランド</option>
-                                @else
-                                    <option value="1">ブランド</option>
-                                @endif
-                                @if($merchant->merchant_type == 2)
-                                    <option value="2" selected>セレクトショップ</option>
-                                @else
-                                    <option value="2">セレクトショップ</option>
-                                @endif
-                                @if($merchant->merchant_type == 3)
-                                    <option value="2" selected>中古業者</option>
-                                @else
-                                    <option value="2">中古業者</option>
-                                @endif
+                                <option value="1">ブランド</option>
+                                <option value="2">セレクトショップ</option>
+                                <option value="2">中古業者</option>
                             </select>
                         </div>
                     </div>
@@ -48,11 +69,7 @@
                             <select id="merchant_plan" name="merchant_plan" class="form-control" required>
                                 <option value="">--Select Pay Plan--</option>
                                 @foreach($plans as $plan)
-                                    @if($merchant->merchant_plan == $plan->plan_id)
-                                        <option value="{{$plan->plan_id}}" selected>{{$plan->plan_name}}</option>
-                                    @else
-                                        <option value="{{$plan->plan_id}}">{{$plan->plan_name}}</option>
-                                    @endif
+                                    <option value="{{$plan->plan_id}}">{{$plan->plan_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,61 +77,62 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">消費税フラグ<span class="required">*</span></label>
                         <div class="radio col-md-4 col-sm-6 col-xs-12">
-                            @if($merchant->merchant_taxflag == 0)
-                                <label><input type="radio" value="0" name="merchant_taxflag" checked>税込</label>
-                                <label><input type="radio" value="1" name="merchant_taxflag">税別</label>
-                            @else
-                                <label><input type="radio" value="0" name="merchant_taxflag">税込</label>
-                                <label><input type="radio" value="1" name="merchant_taxflag" checked>税別</label>
-                            @endif
+                            <label><input type="radio" value="0" name="merchant_taxflag" checked>税込</label>
+                            <label><input type="radio" value="1" name="merchant_taxflag">税別</label>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">会社名<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_companyname" name="merchant_companyname" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_companyname}}">
+                            <input type="text" id="merchant_companyname" name="merchant_companyname" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">店舗名<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_name" name="merchant_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_name}}">
+                            <input type="text" id="merchant_name" name="merchant_name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">代表取締役<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_rep" name="merchant_rep" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_rep}}">
+                            <input type="text" id="merchant_rep" name="merchant_rep" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">店舗運営責任者<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_admin" name="merchant_admin" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_admin}}">
+                            <input type="text" id="merchant_admin" name="merchant_admin" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">許可証<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_permit" name="merchant_permit" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_permit}}">
+                            <input type="number" id="merchant_permit" name="merchant_permit" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">メールアドレス<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="email" id="merchant_email" name="merchant_email" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_email}}">
+                            <input type="email" id="merchant_email" name="merchant_email" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">パスワード<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="password" id="merchant_password" name="merchant_password" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">電話番号<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_phone" name="merchant_phone" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_phone}}">
+                            <input type="text" id="merchant_phone" name="merchant_phone" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">郵便番号<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_postalcode" name="merchant_postalcode" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_postalcode}}">
+                            <input type="text" id="merchant_postalcode" name="merchant_postalcode" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
@@ -123,11 +141,7 @@
                             <select id="merchant_state" name="merchant_state" class="form-control" required>
                                 <option value="">--Select State--</option>
                                 @foreach($states as $state)
-                                    @if($merchant->merchant_state == $state->state_id)
-                                        <option value="{{$state->state_id}}" selected>{{$state->state_name}}</option>
-                                    @else
-                                        <option value="{{$state->state_id}}">{{$state->state_name}}</option>
-                                    @endif
+                                    <option value="{{$state->state_id}}">{{$state->state_name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -143,55 +157,55 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">以降の住所<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_address_ex" name="merchant_address_ex" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_address_ex}}">
+                            <input type="text" id="merchant_address_ex" name="merchant_address_ex" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">都道府県<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_province" name="merchant_province" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_province}}">
+                            <input type="text" id="merchant_province" name="merchant_province" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">市区町村・番地<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_county" name="merchant_county" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_county}}">
+                            <input type="text" id="merchant_county" name="merchant_county" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">マンション名<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_address_jp" name="merchant_address_jp" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_address_jp}}">
+                            <input type="text" id="merchant_address_jp" name="merchant_address_jp" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">日本販売手数料<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_commission_jp" name="merchant_commission_jp" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_jp}}">
+                            <input type="number" id="merchant_commission_jp" name="merchant_commission_jp" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">海外販売手数料<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_commission_ex" name="merchant_commission_ex" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_ex}}">
+                            <input type="number" id="merchant_commission_ex" name="merchant_commission_ex" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$merchant->merchant_create}}">
+                            <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$merchant->merchant_update}}">
+                            <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                         </div>
                     </div>
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button id="btnSubmit" type="submit" class="btn btn-warning">Save Setting</button>
+                            <button id="btnSubmit" type="submit" class="btn btn-warning">Submit</button>
                             <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
                         </div>
                     </div>
@@ -255,6 +269,8 @@
     <script>
         $(function(){
             changeState($('#merchant_state').val());
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         });
         $('#merchant_state').change(function(){
             stateid = $('#merchant_state').val();
@@ -299,10 +315,6 @@
                             var opt = document.createElement('option');
                             opt.value = item.city_id;
                             opt.innerHTML = item.city_name;
-                            var city = "{{$merchant->merchant_city}}";
-                            if(city != '' && item.city_id == city){
-                                opt.selected = true;
-                            }
                             document.getElementById('merchant_city').appendChild(opt);
                         }
                     }
@@ -310,4 +322,7 @@
             }
         }
     </script>
-@endsection
+</div>
+</div>
+</body>
+</html>

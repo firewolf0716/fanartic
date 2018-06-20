@@ -42,6 +42,18 @@ class Merchants extends Model{
         return 0;
         }
     }
+    public static function merchant_status($uname, $pwd){
+        $users = DB::table('fan_merchant_submit')->where('merchant_email', '=', $uname)->get();
+        if(count($users) > 0){
+            $merchant = $users->first();
+            if($pwd != $merchant->merchant_password){
+                return -2;
+            }
+            return $merchant->merchant_status;
+        } else {
+            return -1;
+        }
+    }
     public static function addMerchant($entry){
         $check_insert = DB::table('fan_merchant')->insert($entry);
         if ($check_insert) {
@@ -50,8 +62,28 @@ class Merchants extends Model{
             return 0;
         }
     }
+    public static function addMerchantTempo($entry){
+        $check_insert = DB::table('fan_merchant_submit')->insert($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+    public static function getMerchantTempo($id){
+        return DB::table('fan_merchant_submit')->where('merchant_id', $id)->get();
+    }
+    public static function getMerchantTempos(){
+        return DB::table('fan_merchant_submit')->orderby('merchant_id', 'ASC')->get();
+    }
+    public static function editMerchantTempo($entry, $id){
+        return DB::table('fan_merchant_submit')->where('merchant_id', '=', $id)->update($entry);
+    }
     public static function getMerchant($id){
         return DB::table('fan_merchant')->where('merchant_id', $id)->get();
+    }
+    public static function getMerchants(){
+        return DB::table('fan_merchant')->orderby('merchant_id', 'ASC')->get();
     }
     public static function editMerchant($entry, $id){
         return DB::table('fan_merchant')->where('merchant_id', '=', $id)->update($entry);

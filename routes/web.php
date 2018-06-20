@@ -84,11 +84,20 @@ Route::post('admin/notifycustomer/addpost','CustomerNotifyController@addpost');
 Route::get('admin/notifycustomer/list','CustomerNotifyController@list');
 Route::get('admin/notifycustomer/edit/{id}','CustomerNotifyController@edit');
 Route::post('admin/notifycustomer/editpost','CustomerNotifyController@editpost');
+//manage merchants in admin page
+Route::get('admin/merchants','AdminController@manage_merchants');
+Route::get('admin/merchant_approvew/{id}','AdminController@approve_merchant');
+Route::get('admin/merchant_detailw/{id}','AdminController@detail_merchant_wait');
+Route::get('admin/merchant_detaill/{id}','AdminController@detail_merchant_live');
+Route::get('admin/merchant_close/{id}','AdminController@merchant_close');
+Route::get('admin/merchant_open/{id}','AdminController@merchant_open');
+Route::get('admin/merchant_reject/{id}','AdminController@merchant_reject');
 //merchants
-Route::get('merchant', 'MerchantloginController@merchant_login');
-Route::get('merchant/login', 'MerchantloginController@merchant_login');
-Route::post('merchant/signin', 'MerchantloginController@merchant_signin');
-Route::post('merchant/signup', 'MerchantloginController@merchant_signup');
+Route::get('merchant', 'MerchantloginController@merchant_signin');
+Route::get('merchant/signin', 'MerchantloginController@merchant_signin');
+Route::post('merchant/signinpost', 'MerchantloginController@merchant_signinpost');
+Route::get('merchant/signup', 'MerchantloginController@merchant_signup');
+Route::post('merchant/signuppost', 'MerchantloginController@merchant_signuppost');
 Route::get('merchant/signout', 'MerchantloginController@merchant_signout');
 
 Route::get('merchant/dashboard', 'MerchantController@merchant_dashboard');
