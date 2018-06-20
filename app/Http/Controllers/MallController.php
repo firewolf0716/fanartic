@@ -27,13 +27,15 @@ class MallController extends Controller
             'mall_update' => Input::get('update_date')
         );
         $mallid = Malls::insert_mall($entry);
-        $brands = Input::get('mall_brands');
-        foreach($brands as $brand){
-            $mentry = array(
-                'mall_id' => $mallid,
-                'brand_id' => $brand
-            );
-            MallBrands::insert_match($mentry);
+        if(Input::has('mall_brands')){
+            $brands = Input::get('mall_brands');
+            foreach($brands as $brand){
+                $mentry = array(
+                    'mall_id' => $mallid,
+                    'brand_id' => $brand
+                );
+                MallBrands::insert_match($mentry);
+            }
         }
         return Redirect::to('admin/mall/list');
     }
@@ -66,13 +68,15 @@ class MallController extends Controller
         Malls::edit_mall($entry, $id);
 
         MallBrands::remove_brands($id);
-        $brands = Input::get('mall_brands');
-        foreach($brands as $brand){
-            $mentry = array(
-                'mall_id' => $id,
-                'brand_id' => $brand
-            );
-            MallBrands::insert_match($mentry);
+        if(Input::has('mall_brands')){
+            $brands = Input::get('mall_brands');
+            foreach($brands as $brand){
+                $mentry = array(
+                    'mall_id' => $id,
+                    'brand_id' => $brand
+                );
+                MallBrands::insert_match($mentry);
+            }
         }
         return Redirect::to('admin/mall/list');
     }
