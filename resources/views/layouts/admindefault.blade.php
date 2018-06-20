@@ -65,7 +65,7 @@
                     <div class="menu_section">
                         <h3>共通</h3>
                         <ul class="nav side-menu">
-                            <li><a href="{{ url('merchant/setting') }}"><i class="fa fa-home"></i> 店舗管理</a>
+                            <li><a href="{{ url('merchant/dashboard') }}"><i class="fa fa-home"></i> ダッシュボード</a>
                             </li>
                             <li class="navproduct"><a><i class="fa fa-table"></i> 商品管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
@@ -94,7 +94,7 @@
                             </li>
                             <li><a><i class="fa fa-edit"></i> 店舗設定 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">一般設定</a></li>
+                                    <li><a href="{{url('merchant/setting')}}">一般設定</a></li>
                                     <li><a href="#">メンバー管理</a></li>
                                     <li><a href="#">権限管理</a></li>
                                     <li><a href="#">パスワードの変更</a></li>

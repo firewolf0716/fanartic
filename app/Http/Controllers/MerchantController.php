@@ -60,7 +60,6 @@ class MerchantController extends Controller
                 'merchant_admin' => Input::get('merchant_admin'),
                 'merchant_permit' => Input::get('merchant_permit'),
                 'merchant_email' => Input::get('merchant_email'),
-                'merchant_password' => Input::get('merchant_password'),
                 'merchant_phone' => Input::get('merchant_phone'),
                 'merchant_postalcode' => Input::get('merchant_postalcode'),
                 'merchant_state' => Input::get('merchant_state'),
@@ -87,7 +86,6 @@ class MerchantController extends Controller
                 'merchant_admin' => Input::get('merchant_admin'),
                 'merchant_permit' => Input::get('merchant_permit'),
                 'merchant_email' => Input::get('merchant_email'),
-                'merchant_password' => Input::get('merchant_password'),
                 'merchant_phone' => Input::get('merchant_phone'),
                 'merchant_postalcode' => Input::get('merchant_postalcode'),
                 'merchant_state' => Input::get('merchant_state'),
@@ -103,12 +101,6 @@ class MerchantController extends Controller
             );
             Merchants::editMerchant($entry, $id);
         }
-        $merchants = Merchants::getMerchant($id);
-        $merchant = $merchants[0];
-        $plans = Plans::get_plans();
-        $states = States::get_states();
-        return view('merchant.setting')->with('merchant', $merchant)
-                                    ->with('plans', $plans)
-                                    ->with('states', $states);
+        return Redirect::to('merchant/setting');
     } 
 }

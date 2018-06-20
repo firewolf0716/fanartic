@@ -30,8 +30,23 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            
-            {!! Form::open(array('id' => 'form_signin','url'=>'merchant/signin')) !!}
+            <h3 style="color:#ff0000">
+              @if(isset($_GET['status']))
+                @if($_GET['status'] == -2)
+                  Password is incorrect
+                @endif
+                @if($_GET['status'] == -1)
+                  Merchant not found
+                @endif
+                @if($_GET['status'] == 0)
+                  Your Merchant is in pending
+                @endif
+                @if($_GET['status'] == 2)
+                  The information you submited is rejected
+                @endif
+              @endif
+            </h3>
+            {!! Form::open(array('id' => 'form_signin','url'=>'merchant/signinpost')) !!}
             {{ Form::hidden('redirect', $redirect)}}
               <h1>Login(Merchant)</h1>
               <div>
@@ -49,7 +64,7 @@
 
               <div class="separator">
                 <p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
+                  <a href="{{url('merchant/signup')}}" class="to_register"> Create Account </a>
                 </p>
 
                 <div class="clearfix"></div>
@@ -57,37 +72,6 @@
               </div>
             {{ Form::close() }}
             
-          </section>
-        </div>
-
-        <div id="register" class="animate form registration_form">
-          <section class="login_content">
-          {!! Form::open(array('id' => 'form_signup','url'=>'merchant/signup')) !!}
-              <h1>Create Account</h1>
-              <div>
-                <input type="text" class="form-control" name="username_up" placeholder="Username" required="" />
-              </div>
-              <div>
-                <input type="email" class="form-control" name="email_up" placeholder="Email" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" name="password_up" placeholder="Password" required="" />
-              </div>
-              <div>
-                <button class="btn btn-default submit">Submit</button>
-              </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <p class="change_link">Already a member ?
-                  <a href="#signin" class="to_register"> Log in </a>
-                </p>
-
-                <div class="clearfix"></div>
-                <br />
-              </div>
-              {{ Form::close() }}
           </section>
         </div>
       </div>

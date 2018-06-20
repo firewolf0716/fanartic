@@ -24,14 +24,6 @@
     <!-- Custom Theme Style -->
     <link href="{{ url('')}}/public/css/custom.css" rel="stylesheet">
 
-    <!-- Datatables -->
-    <link href="{{ url('')}}/public/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/css/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-
     <!-- Bootstrap Colorpicker -->
     <link href="{{ url('')}}/public/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('') }}/public/css/multi-select.css" />

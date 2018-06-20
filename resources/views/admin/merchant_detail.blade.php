@@ -1,4 +1,4 @@
-@extends('layouts.admindefault')
+@extends('layouts.adminlayout')
 
 @section('title', 'Dashboard|fanaRtic')
 
@@ -6,7 +6,7 @@
     <div class="">
         <div class="page-title">
             <div class="title_left" style="margin-Bottom:20px">
-                <h3>Merchant / Merchant Setting</h3>
+                <h3>Merchant / Merchant Detail</h3>
             </div>
         </div>
         <div class="clearfix"></div>
@@ -15,7 +15,7 @@
         {{ Form::hidden('merchant_id', $merchant->merchant_id)}}
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Merchant Setting {{$merchant->merchant_admin}}</h4>
+                    <h4>Merchant Detail : {{$merchant->merchant_admin}}</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -103,6 +103,12 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">メールアドレス<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <input type="email" id="merchant_email" name="merchant_email" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_email}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">パスワード<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="password" id="merchant_password" name="merchant_password" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_password}}">
                         </div>
                     </div>
                     <div class="form-group">
