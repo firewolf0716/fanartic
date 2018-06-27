@@ -1,65 +1,37 @@
+@extends('layouts.adminlayout')
 
+@section('title', 'Dashboard|fanaRtic')
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title></title>
-
-    <!-- Bootstrap -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="{{ url('')}}/public/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="{{ url('')}}/public/gvendor/nprogress/nprogress.css" rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
-    <!-- bootstrap-datetimepicker -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
-
-    <!-- Custom Theme Style -->
-    <link href="{{ url('')}}/public/css/custom.css" rel="stylesheet">
-
-    <!-- Datatables -->
-    <link href="{{ url('')}}/public/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-
-    <!-- Bootstrap Colorpicker -->
-    <link href="{{ url('')}}/public/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url('') }}/public/css/multi-select.css" />
-</head>
-<body class="nav-md" style="background:#ffffff">
-<div class="container body" style="background:#ffffff">
-<div class="right_col" role="main" id="div_signup" style="margin-Left:0px">
+@section('content')
     <div class="">
         
         <div class="clearfix"></div>
         <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'merchant/signuppost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        {!! Form::open(array('id' => 'form_add','url'=>'admin/merchants/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             <div class="x_panel">
                 <div class="x_title">
-                    <a href="{{url('merchant/signin')}}">Already a member ?</a>
                     <h4>Merchant Information</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">店舗タイプ<span class="required">*</span></label>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-6 col-xs-12" onChange="onTypeChanged()">
                             <select id="merchant_type" name="merchant_type" class="form-control" required>
                                 <option value="">--Select Design Type--</option>
                                 <option value="1">ブランド</option>
                                 <option value="2">セレクトショップ</option>
-                                <option value="2">中古業者</option>
+                                <option value="3">中古業者</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <select class="form-control" name="merchant_brands[]" id="brands" multiple="" disabled>
+                                @foreach($brands as $brand)
+                                <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -266,6 +238,8 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+
     <script>
         $(function(){
             changeState($('#merchant_state').val());
@@ -321,8 +295,20 @@
                 });
             }
         }
+        $('#brands').multiselect({
+            includeSelectAllOption: true
+        });
+        function onTypeChanged(){
+            var type = $('#merchant_type').val();
+            if(type == 1){
+                $('#brands').prop('multiple', "");
+                $('#brands').multiselect('rebuild');
+            } else if(type == 2){
+                $('#brands').prop('multiple', "multiple");
+                $('#brands').multiselect('rebuild');    
+            } else {
+                $('#brands').multiselect('disable');
+            }
+        }
     </script>
-</div>
-</div>
-</body>
-</html>
+    @endsection

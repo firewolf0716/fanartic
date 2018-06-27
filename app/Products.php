@@ -39,8 +39,10 @@ class Products extends Model{
         return DB::table('fan_product')->where('product_id', '=', $id)->update($entry);
     }
 
-    public static function get_products_manage(){
-        return DB::table('fan_product')->orderby('product_id', 'ASC')->get();
+    public static function get_products_manage($merchant){
+        return DB::table('fan_product')
+            ->where('product_merchant', '=', $merchant)
+            ->orderby('product_id', 'ASC')->get();
     }
 
     public static function delete_product($id){

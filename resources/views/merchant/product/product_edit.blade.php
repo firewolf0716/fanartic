@@ -14,6 +14,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             {!! Form::open(array('id' => 'form_product_add','url'=>'merchant/product/editpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             {{ Form::hidden('product_id', $product->product_id)}}
+            {{ Form::hidden('merchant_id', $merchant->merchant_id)}}
                 <div class="x_panel">
                     <div class="x_title">
                         <h4>Edit Product</h4>

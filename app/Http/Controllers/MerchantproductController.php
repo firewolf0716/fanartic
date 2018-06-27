@@ -15,6 +15,7 @@ use App\Sizes;
 use App\Colors;
 use App\Events;
 use App\Merchants;
+use App\MerchantBrands;
 use App\ProductStates;
 
 use DB;
@@ -33,7 +34,10 @@ class MerchantproductController extends Controller
         $merchant_id = Session::get('merchantid');
         $merchants = Merchants::getMerchant($merchant_id);
         $merchant = $merchants[0];
-        $brands = Brands::get_brands();
+        if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
+            $brands = MerchantBrands::get_brands($merchant_id);
+        } else 
+            $brands = Brands::get_brands();
         $topcategorys = Categorys::get_topcategorys();
         $events = Events::get_events();
         $colors = Colors::get_colors();
@@ -51,7 +55,10 @@ class MerchantproductController extends Controller
         $merchant_id = Session::get('merchantid');
         $merchants = Merchants::getMerchant($merchant_id);
         $merchant = $merchants[0];
-        $brands = Brands::get_brands();
+        if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
+            $brands = MerchantBrands::get_brands($merchant_id);
+        } else 
+            $brands = Brands::get_brands();
         $topcategorys = Categorys::get_topcategorys();
         $events = Events::get_events();
         $colors = Colors::get_colors();
@@ -123,7 +130,8 @@ class MerchantproductController extends Controller
             'product_memo' => Input::get('product_memo'),
             'product_status' => Input::get('product_status'),
             'product_create' => Input::get('create_date'),
-            'product_update' => Input::get('update_date')
+            'product_update' => Input::get('update_date'),
+            'product_merchant' => Input::get('merchant_id')
         );
         $productid = Products::insert_product($entry);
         return Redirect::to('merchant/product/edit/'.$productid);
@@ -183,13 +191,16 @@ class MerchantproductController extends Controller
             'product_memo' => Input::get('product_memo'),
             'product_status' => Input::get('product_status'),
             'product_create' => Input::get('create_date'),
-            'product_update' => Input::get('update_date')
+            'product_update' => Input::get('update_date'),
+            'product_merchant' => Input::get('merchant_id')
         );
         Products::edit_product($entry, $productid);
         return Redirect::to('merchant/product/edit/'.$productid);
     }
     public function merchant_product_manage(){
-        $products = Products::get_products_manage();
+        $merchant_id = Session::get('merchantid');
+        // Log::debug($merchant_id);
+        $products = Products::get_products_manage($merchant_id);
         return view('merchant.product.product_manage')->with('products', $products);
     }
     public function merchant_product_sold(){
