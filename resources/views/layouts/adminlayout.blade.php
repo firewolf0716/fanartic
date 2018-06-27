@@ -137,8 +137,20 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li><a href="{{ url('admin/merchants') }}"><i class="fa fa-table"></i> 店舗管理 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-table"></i> 店舗管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li class="sub_menu"><a href="{{url('admin/merchants/add')}}">新規登録</a></li>
+                                    <li><a href="{{url('admin/merchants/list')}}">店舗一覧</a></li>
+                                </ul>
                             </li>
+                            @if(Session::get('adminper') == '1')
+                            <li><a><i class="fa fa-table"></i> 管理者 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li class="sub_menu"><a href="{{url('admin/admins/add')}}">新規登録</a></li>
+                                    <li><a href="{{url('admin/admins/list')}}">管理者一覧</a></li>
+                                </ul>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </div>

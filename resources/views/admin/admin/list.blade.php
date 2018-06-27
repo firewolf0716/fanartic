@@ -1,58 +1,50 @@
 @extends('layouts.adminlayout')
 
-@section('title', 'Dashboard|fanaRtic')
+@section('title', 'Merchant Product Add|fanaRtic')
 
 @section('content')
-
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Merchants</h3>
+            <h3>Admin / Admins</h3>
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
-            <div class="x_title">
-                <h4>Merchants</h4>
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                <table class="table table-striped table-bordered" id="datatable">
-                    <thead>
-                        <tr>
-                            <th style="text-align:center">ID</th>
-                            <th style="text-align:center">Name</th>
-                            <th style="text-align:center">Admin</th>
-                            <th style="text-align:center">Details</th>
-                            <th style="text-align:center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($merchants_live as $ml)
-                        <tr>
-                            <td width="10%" style="text-align:center">{{$ml->merchant_id}}</td>
-                            <td width="20%" style="text-align:center">{{$ml->merchant_name}}</td>
-                            <td width="20%" style="text-align:center">{{$ml->merchant_admin}}</td>
-                            <td width="10%" style="text-align:center">
-                                <a href="{{ url('admin/merchant_detaill/'.$ml->merchant_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                            </td>
-                            <td width="10%" style="text-align:center">
-                                @if($ml->merchant_status == 1)
-                                <a href="{{ url('admin/merchant_close/'.$ml->merchant_id) }}"><span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span></a>
-                                @else
-                                <a href="{{ url('admin/merchant_open/'.$ml->merchant_id) }}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
-                                @endif
-                            </td>
-                        </tr>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4>Admins</h4>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <table id="datatable" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th style="text-align:center">名前</th>
+                                <th style="text-align:center">メールアドレス</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($admins as $admin)
+                            <tr>
+                                <td>{{$admin->admin_id}}</td>
+                                <td style="text-align:center">{{$admin->admin_name}}</td>
+                                <td style="text-align:center">{{$admin->admin_email}}</td>
+                                <td style="text-align:center">
+                                    <a href="{{ url('admin/admins/edit/'.$admin->admin_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                </td>
+                            </tr>
                         @endforeach
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
+    </div>        
 </div>
-
     <!-- jQuery -->
     <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -107,7 +99,7 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
-       <!-- Datatables -->
+    <!-- Datatables -->
     <script src="{{ url('')}}/public/gvendor/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
@@ -122,8 +114,6 @@
     <script src="{{ url('')}}/public/gvendor/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/jszip/dist/jszip.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/pdfmake/build/pdfmake.min.js"></script>
-    <script src="{{ url('')}}/public/gvendor/pdfmake/build/vfs_fonts.js"></script> 
-<script type="text/javascript">
-    
-</script>
+    <script src="{{ url('')}}/public/gvendor/pdfmake/build/vfs_fonts.js"></script>
+
 @endsection

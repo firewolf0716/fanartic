@@ -11,7 +11,7 @@
         </div>
         <div class="clearfix"></div>
         <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'merchant/editsetting','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        {!! Form::open(array('id' => 'form_add','url'=>'admin/merchants/editpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         {{ Form::hidden('merchant_id', $merchant->merchant_id)}}
             <div class="x_panel">
                 <div class="x_title">
@@ -21,7 +21,7 @@
                 <div class="x_content">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">店舗タイプ<span class="required">*</span></label>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="col-md-4 col-sm-6 col-xs-12" onChange="onTypeChanged()">
                             <select id="merchant_type" name="merchant_type" class="form-control" required>
                                 <option value="">--Select Design Type--</option>
                                 @if($merchant->merchant_type == 1)
@@ -35,10 +35,34 @@
                                     <option value="2">セレクトショップ</option>
                                 @endif
                                 @if($merchant->merchant_type == 3)
-                                    <option value="2" selected>中古業者</option>
+                                    <option value="3" selected>中古業者</option>
                                 @else
-                                    <option value="2">中古業者</option>
+                                    <option value="3">中古業者</option>
                                 @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            @if($merchant->merchant_type == 1 || $merchant->merchant_type == 2)
+                            <select class="form-control" name="merchant_brands[]" id="brands" multiple="multiple">
+                            @else
+                            <select class="form-control" name="merchant_brands[]" id="brands" multiple="multiple" disabled>
+                            @endif
+                                @foreach($brands as $brand)
+                                    <?php $selected=false?>
+                                    @foreach($selbrands as $selbrand)
+                                        @if($brand->brand_id == $selbrand->brand_id)
+                                        <option value="{{$brand->brand_id}}" selected>{{$brand->brand_name}}</option>
+                                        <?php $selected=true?>
+                                        @break                                    
+                                        @endif
+                                    @endforeach
+                                    @if($selected == false)
+                                    <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -197,7 +221,7 @@
                     <div class="ln_solid"></div>
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button id="btnSubmit" type="submit" class="btn btn-warning">Save Setting</button>
+                            <button id="btnSubmit" type="submit" class="btn btn-warning">Edit Merchant</button>
                             <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
                         </div>
                     </div>
@@ -258,6 +282,8 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+
     <script>
         $(function(){
             changeState($('#merchant_state').val());
@@ -313,6 +339,21 @@
                         }
                     }
                 });
+            }
+        }
+        $('#brands').multiselect({
+            includeSelectAllOption: true
+        });
+        function onTypeChanged(){
+            var type = $('#merchant_type').val();
+            if(type == 1){
+                $('#brands').prop('multiple', "");
+                $('#brands').multiselect('rebuild');
+            } else if(type == 2){
+                $('#brands').prop('multiple', "multiple");
+                $('#brands').multiselect('rebuild');
+            } else {
+                $('#brands').multiselect('disable');
             }
         }
     </script>

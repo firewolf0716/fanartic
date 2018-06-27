@@ -74,71 +74,71 @@ class MerchantloginController extends Controller
         //     Session::put('merchantname', $username);
         //     return Redirect::to('merchant/dashboard');
         // }
-        $state = Input::get('merchant_state');
-        $id = Input::get('merchant_id');
-        if($state > 1){
-            $entry = array(
-                'merchant_id' => Input::get('merchant_id'),
-                'merchant_type' => Input::get('merchant_type'),
-                'merchant_plan' => Input::get('merchant_plan'),
-                'merchant_taxflag' => Input::get('merchant_taxflag'),
-                'merchant_companyname' => Input::get('merchant_companyname'),
-                'merchant_name' => Input::get('merchant_name'),
-                'merchant_rep' => Input::get('merchant_rep'),
-                'merchant_admin' => Input::get('merchant_admin'),
-                'merchant_permit' => Input::get('merchant_permit'),
-                'merchant_email' => Input::get('merchant_email'),
-                'merchant_password' => Input::get('merchant_password'),
-                'merchant_phone' => Input::get('merchant_phone'),
-                'merchant_postalcode' => Input::get('merchant_postalcode'),
-                'merchant_state' => Input::get('merchant_state'),
-                'merchant_city' => Input::get('merchant_city'),
-                'merchant_address_ex' => Input::get('merchant_address_ex'),
-                'merchant_province' => '',
-                'merchant_county' => '',
-                'merchant_address_jp' => '',
-                'merchant_commission_jp' => Input::get('merchant_commission_jp'),
-                'merchant_commission_ex' => Input::get('merchant_commission_ex'),
-                'merchant_create' => Input::get('create_date'),
-                'merchant_update' => Input::get('update_date'),
-                'merchant_status' => '0',
-            );
-            Merchants::addMerchantTempo($entry);
-        } else if($state == 1){
-            $entry = array(
-                'merchant_id' => Input::get('merchant_id'),
-                'merchant_type' => Input::get('merchant_type'),
-                'merchant_plan' => Input::get('merchant_plan'),
-                'merchant_taxflag' => Input::get('merchant_taxflag'),
-                'merchant_companyname' => Input::get('merchant_companyname'),
-                'merchant_name' => Input::get('merchant_name'),
-                'merchant_rep' => Input::get('merchant_rep'),
-                'merchant_admin' => Input::get('merchant_admin'),
-                'merchant_permit' => Input::get('merchant_permit'),
-                'merchant_email' => Input::get('merchant_email'),
-                'merchant_password' => Input::get('merchant_password'),
-                'merchant_phone' => Input::get('merchant_phone'),
-                'merchant_postalcode' => Input::get('merchant_postalcode'),
-                'merchant_state' => Input::get('merchant_state'),
-                'merchant_city' => '',
-                'merchant_address_ex' => '',
-                'merchant_province' => Input::get('merchant_province'),
-                'merchant_county' => Input::get('merchant_county'),
-                'merchant_address_jp' => Input::get('merchant_address_jp'),
-                'merchant_commission_jp' => Input::get('merchant_commission_jp'),
-                'merchant_commission_ex' => Input::get('merchant_commission_ex'),
-                'merchant_create' => Input::get('create_date'),
-                'merchant_update' => Input::get('update_date'),
-                'merchant_status' => '0',
-            );
-            Merchants::addMerchantTempo($entry);
-        }
-        return Redirect::to('merchant/signin');
+        // $state = Input::get('merchant_state');
+        // $id = Input::get('merchant_id');
+        // if($state > 1){
+        //     $entry = array(
+        //         'merchant_id' => Input::get('merchant_id'),
+        //         'merchant_type' => Input::get('merchant_type'),
+        //         'merchant_plan' => Input::get('merchant_plan'),
+        //         'merchant_taxflag' => Input::get('merchant_taxflag'),
+        //         'merchant_companyname' => Input::get('merchant_companyname'),
+        //         'merchant_name' => Input::get('merchant_name'),
+        //         'merchant_rep' => Input::get('merchant_rep'),
+        //         'merchant_admin' => Input::get('merchant_admin'),
+        //         'merchant_permit' => Input::get('merchant_permit'),
+        //         'merchant_email' => Input::get('merchant_email'),
+        //         'merchant_password' => Input::get('merchant_password'),
+        //         'merchant_phone' => Input::get('merchant_phone'),
+        //         'merchant_postalcode' => Input::get('merchant_postalcode'),
+        //         'merchant_state' => Input::get('merchant_state'),
+        //         'merchant_city' => Input::get('merchant_city'),
+        //         'merchant_address_ex' => Input::get('merchant_address_ex'),
+        //         'merchant_province' => '',
+        //         'merchant_county' => '',
+        //         'merchant_address_jp' => '',
+        //         'merchant_commission_jp' => Input::get('merchant_commission_jp'),
+        //         'merchant_commission_ex' => Input::get('merchant_commission_ex'),
+        //         'merchant_create' => Input::get('create_date'),
+        //         'merchant_update' => Input::get('update_date'),
+        //         'merchant_status' => '0',
+        //     );
+        //     Merchants::addMerchantTempo($entry);
+        // } else if($state == 1){
+        //     $entry = array(
+        //         'merchant_id' => Input::get('merchant_id'),
+        //         'merchant_type' => Input::get('merchant_type'),
+        //         'merchant_plan' => Input::get('merchant_plan'),
+        //         'merchant_taxflag' => Input::get('merchant_taxflag'),
+        //         'merchant_companyname' => Input::get('merchant_companyname'),
+        //         'merchant_name' => Input::get('merchant_name'),
+        //         'merchant_rep' => Input::get('merchant_rep'),
+        //         'merchant_admin' => Input::get('merchant_admin'),
+        //         'merchant_permit' => Input::get('merchant_permit'),
+        //         'merchant_email' => Input::get('merchant_email'),
+        //         'merchant_password' => Input::get('merchant_password'),
+        //         'merchant_phone' => Input::get('merchant_phone'),
+        //         'merchant_postalcode' => Input::get('merchant_postalcode'),
+        //         'merchant_state' => Input::get('merchant_state'),
+        //         'merchant_city' => '',
+        //         'merchant_address_ex' => '',
+        //         'merchant_province' => Input::get('merchant_province'),
+        //         'merchant_county' => Input::get('merchant_county'),
+        //         'merchant_address_jp' => Input::get('merchant_address_jp'),
+        //         'merchant_commission_jp' => Input::get('merchant_commission_jp'),
+        //         'merchant_commission_ex' => Input::get('merchant_commission_ex'),
+        //         'merchant_create' => Input::get('create_date'),
+        //         'merchant_update' => Input::get('update_date'),
+        //         'merchant_status' => '0',
+        //     );
+        //     Merchants::addMerchantTempo($entry);
+        // }
+        // return Redirect::to('merchant/signin');
     }
 
     public function merchant_signup(){
-        $plans = Plans::get_plans();
-        $states = States::get_states();
-        return view('merchant.signup')->with('plans', $plans)->with('states', $states);
+        // $plans = Plans::get_plans();
+        // $states = States::get_states();
+        // return view('merchant.signup')->with('plans', $plans)->with('states', $states);
     }
 }

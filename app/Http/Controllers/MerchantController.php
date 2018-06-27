@@ -102,5 +102,5 @@ class MerchantController extends Controller
             Merchants::editMerchant($entry, $id);
         }
         return Redirect::to('merchant/setting');
-    } 
+    }
 }

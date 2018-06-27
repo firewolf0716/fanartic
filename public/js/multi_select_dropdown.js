@@ -189,7 +189,7 @@
         this.searchTimeout = null;
         this.lastToggledInput = null;
 
-        this.options.multiple = this.$select.attr('multiple') === "multiple";
+        this.options.multiple = this.$select.prop('multiple') == true;
         this.options.onChange = $.proxy(this.options.onChange, this);
         this.options.onSelectAll = $.proxy(this.options.onSelectAll, this);
         this.options.onDeselectAll = $.proxy(this.options.onDeselectAll, this);
@@ -1411,7 +1411,7 @@
             this.$ul.html('');
 
             // Important to distinguish between radios and checkboxes.
-            this.options.multiple = this.$select.attr('multiple') === "multiple";
+            this.options.multiple = this.$select.prop('multiple') == true;
 
             this.buildSelectAll();
             this.buildDropdownOptions();
