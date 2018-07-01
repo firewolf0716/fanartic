@@ -57,7 +57,7 @@ class SizeController extends Controller
 
     public function addpost(){
         $entry =  array(
-            'size_category' => Input::get('select_category'),
+            'size_category_id' => Input::get('select_category'),
             'size_name' => Input::get('size_name'),
             'size_name_en' => Input::get('size_name_en'),
             'size_create' => Input::get('create_date'),
@@ -85,7 +85,7 @@ class SizeController extends Controller
 
     public function editpost(){
         $entry =  array(
-            'size_category' => Input::get('select_category'),
+            'size_category_id' => Input::get('select_category'),
             'size_name' => Input::get('size_name'),
             'size_name_en' => Input::get('size_name_en'),
             'size_create' => Input::get('create_date'),

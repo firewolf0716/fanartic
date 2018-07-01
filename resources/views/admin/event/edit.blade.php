@@ -104,7 +104,7 @@
                             </div>
                         </div>
 
-                        <div id="editor-content" class="editor-wrapper">{{$event->event_content}}</div>
+                        <div id="editor-content" class="editor-wrapper"></div>
                         {{ Form::hidden('event_content','',array('id' => 'event_content'))}}
                     </div>
                 </div>
@@ -186,6 +186,10 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
 <script type="text/javascript">
+    $(function() {
+        // $('#editor-content').html(wp_editor('{{$event->event_content}}', strtolower('{{$event->event_content}}')));
+        $('#editor-content').html('{{$event->event_content}}');
+    });
     $('#btnReset').click(function(){
         document.getElementById("form_add").reset();
         $('#create_date').val('{{$event->event_create}}');
@@ -196,5 +200,33 @@
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'))
         $('#form_add').parsley();
     });
+
+
+
+
+
+    // (function($) {
+    //     var template = '<div class="uk-htmleditor-content">\
+    //     <div class="editor-toolbar">\
+    //     // buttons here\
+    //     </div>\
+    //     <div class="editor-code">\
+    //     \
+    //     </div>\
+    //     <div class="editor-preview">\
+    //     <div>Markdown parsed from left panel into HTML preview in this right panel</div>\
+    //     </div>\
+    //     </div>';
+
+    //     $.fn.markdownEditor = function() {
+    //     return this.each(function() {
+    //         var $ct = $(template);
+    //         $(this).replaceWith($ct);
+    //         $ct.find('.editor-code').append(this);
+    //     });
+    //     };
+    // })(jQuery);
+
+    // $('.markdown-editor-textarea').markdownEditor();
 </script>
 @endsection

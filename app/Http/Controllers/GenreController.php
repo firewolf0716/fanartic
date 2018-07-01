@@ -20,13 +20,14 @@ class GenreController extends Controller
     }
     public function addpost(){
         $entry =  array(
-            'genre_moll' => Input::get('select_mall'),
+            'mall_id' => Input::get('select_mall'),
             'genre_name' => Input::get('genre_name'),
             'genre_name_en' => Input::get('genre_name_en'),
             'genre_status' => Input::get('optionValid'),
             'genre_create' => Input::get('create_date'),
             'genre_update' => Input::get('update_date')
         );
+        
         Genres::insert_genre($entry);
         return Redirect::to('admin/genre/list');
     }
@@ -46,7 +47,7 @@ class GenreController extends Controller
     }
     public function editpost(){
         $entry =  array(
-            'genre_moll' => Input::get('select_mall'),
+            'mall_id' => Input::get('select_mall'),
             'genre_name' => Input::get('genre_name'),
             'genre_name_en' => Input::get('genre_name_en'),
             'genre_status' => Input::get('optionValid'),
@@ -55,6 +56,10 @@ class GenreController extends Controller
         );
         $id = Input::get('genre_id');
         Genres::edit_genre($entry, $id);
+        return Redirect::to('admin/genre/list');
+    }
+    public function delete($id){
+        Genres::remove($id);
         return Redirect::to('admin/genre/list');
     }
 }

@@ -29,6 +29,10 @@ class Brands extends Model
 
     public static function edit_brand($entry,$id)
     {
-        return DB::table('master_brand')->where('brand_id', '=', $id)->update($entry);
+        return DB::table('master_brand')->where('brand_id', $id)->update($entry);
+    }
+
+    public static function remove($id){
+        return DB::table('master_brand')->where('brand_id', $id)->delete();
     }
 }

@@ -32,4 +32,8 @@ class Events extends Model
     {
         return DB::table('master_event')->where('event_id', '=', $id)->update($entry);
     }
+    public static function remove_event($id)
+    {
+        return DB::table('master_event')->where('event_id', $id)->delete();
+    }
 }

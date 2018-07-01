@@ -26,7 +26,7 @@
                         <select id="select_category" name="select_category" class="form-control" required>
                             <option value="">--Select Size Category--</option>
                             @foreach($categorys as $category)
-                            @if($size->size_category == $category->sizecategory_id)
+                            @if($size->size_category_id == $category->sizecategory_id)
                                 <option value="{{$category->sizecategory_id}}" selected>{{$category->sizecategory_name}}</option>
                             @else
                                 <option value="{{$category->sizecategory_id}}">{{$category->sizecategory_name}}</option>

@@ -21,7 +21,7 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select class="form-control" name="brand_mall[]" id="malls" multiple="multiple">
                             @foreach($malls as $mall)
@@ -40,21 +40,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_genre" name="select_genre" class="form-control">
-                            <option value="">--Select Genre--</option>
-                            @foreach($genres as $genre)
-                            @if($brand->brand_genre == $genre->genre_id)
-                                <option value="{{$genre->genre_id}}" selected>{{$genre->genre_name}}</option>
-                            @else
-                                <option value="{{$genre->genre_id}}">{{$genre->genre_name}}</option>
-                            @endif
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">

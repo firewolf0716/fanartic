@@ -103,6 +103,7 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
     <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+    
 
 <script type="text/javascript">
     $(function(){

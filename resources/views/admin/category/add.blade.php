@@ -20,38 +20,16 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_parent" name="select_parent" class="form-control">
-                            <option value="">--Select Parent Category--</option>
-                            @foreach($categorys as $category)
-                            <option value="{{$category->category_id}}">{{$category->category_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モール</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_mall" name="select_mall" class="form-control">
-                            <option value="">--Select Mall--</option>
+                        <select class="form-control" name="category_mall[]" id="malls" multiple="multiple">
                             @foreach($malls as $mall)
-                            <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
+                                <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_sizecategory" name="select_sizecategory" class="form-control" required>
-                            <option value="">--Select Size Category--</option>
-                            @foreach($sizecategorys as $sizecategory)
-                            <option value="{{$sizecategory->sizecategory_id}}">{{$sizecategory->sizecategory_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
+
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">性別<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
@@ -59,6 +37,25 @@
                         <label><input type="radio" value="1" name="optionGender">Woman</label>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select id="top_category" name="top_category" class="form-control">
+                            <option value="">--トップ カテゴリ 選択--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">メイン カテゴリ</label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select id="main_category" name="main_category" class="form-control">
+                            <option value="">--メイン カテゴリ 選択--</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -71,6 +68,19 @@
                         <input type="text" id="category_name_en" name="category_name_en" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select id="select_sizecategory" name="select_sizecategory" class="form-control">
+                            <option value="">--Select Size Category--</option>
+                            @foreach($sizecategorys as $sizecategory)
+                            <option value="{{$sizecategory->sizecategory_id}}">{{$sizecategory->sizecategory_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -146,25 +156,69 @@
     <!-- Bootstrap Colorpicker -->
     <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
-<script type="text/javascript">
-    $(function(){
-        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-    });
-    $('#btnReset').click(function(){
-        document.getElementById("form_add").reset();
-        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-    });
-    $('#btnSubmit').click(function(){
-        if($('#select_parent').val() == ''){
-            $('#select_mall').attr('required', 'required');
-        } else {
-            $('#select_mall').removeAttr('required');
+    <script type="text/javascript">
+        $(function(){
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            addTopCategorys();
+        });
+        function addTopCategorys() {
+            $('#top_category').find('option').remove().end().append('<option value="">--トップ カテゴリ 選択--</option>');
+
+            $.ajax( {
+                type: 'get',
+                url: '{{url('admin/category/get-top-categorys')}}',
+                success: function(data){
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.category_id;
+                        opt.innerHTML = item.category_name;
+                        document.getElementById('top_category').appendChild(opt);
+                    }
+                }
+            });
         }
-        $('#form_add').parsley();
-    });
-</script>
+        $('#top_category').change(function(){
+            var top = $('#top_category').val();
+            $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
+            
+            if(top != ""){
+                $.ajax( {
+                    type: 'get',
+                    url: '{{url('admin/category/get-main-categorys')}}' + "/" + top,
+                    success: function(data) {
+                        for(var i = 0; i < data.length; i++){
+                            var item = data[i];
+                            var opt = document.createElement('option');
+                            opt.value = item.category_id;
+                            opt.innerHTML = item.category_name;
+                            document.getElementById('main_category').appendChild(opt);
+                        }
+                    }
+                });
+            }
+        });
+        $('#btnReset').click(function(){
+            document.getElementById("form_add").reset();
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+
+            addTopCategorys();
+        });
+        $('#btnSubmit').click(function(){
+            if($('#select_parent').val() == ''){
+                $('#select_mall').attr('required', 'required');
+            } else {
+                $('#select_mall').removeAttr('required');
+            }
+            $('#form_add').parsley();
+        });
+        $('#malls').multiselect({
+                includeSelectAllOption: true
+            });
+    </script>
 @endsection
