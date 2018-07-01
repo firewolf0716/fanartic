@@ -59,9 +59,9 @@ class Products extends Model{
         }
         $query .= ") AS fan_product
          LEFT JOIN merchant_product_status ON fan_product.product_merchant_id = merchant_product_status.product_merchant_id
-         AND fan_product.product_id = merchant_product_status.product_id AND merchant_product_status.product_status = '$product_exist_status'
+         AND fan_product.product_code = merchant_product_status.product_code AND merchant_product_status.product_status = '$product_exist_status'
          ORDER BY fan_product.product_top_category_id, fan_product.product_main_category_id, fan_product.product_category_id";
-         
+
         $products = DB::select($query);
         return $products;
 
