@@ -17,6 +17,20 @@
                     <h4>Manage Products</h4>
                     <div class="clearfix"></div>
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Status<span class="required">*</span></label>
+                    <div class=" a col-md-4 col-sm-6 col-xs-12">
+                        <select id="product_status" name="product_status" class="form-control">
+                            <option value="1">Store</option>
+                            <option value="2">Cash on Delivery</option>
+                            <option value="3">PayUmoney Shipping Delivery</option>
+                            <option value="4">Shipping Delivery</option>
+                            <option value="5">Sold Product</option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="x_content">
                 <table id="datatable" class="table table-striped table-bordered">
                       <thead>
@@ -31,12 +45,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach($products as $product)
+                        <!-- @foreach($products as $product)
                         <tr>
                             <td>{{$product->product_id}}</td>
                             <td style="text-align:center">{{$product->product_name}}</td>
                             <td style="text-align:right">{{$product->product_price_sale}}</td>
-                            <td></td>
+                            <td style="text-align:right">{{$product->product_count}}</td>
                             @if($product->product_status == 1)
                                 <td style="text-align:center">有効</td>
                             @else
@@ -54,10 +68,10 @@
                             </td>
                             <td style="text-align:center">
                                 <a style="margin:10px" href="{{ url('merchant/product/edit')}}/{{$product->product_id}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                <a style="margin:10px" href="{{ url('merchant/product/delete')}}/{{$product->product_id}}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                                <a style="margin:10px" href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$product->product_id}})" aria-hidden="true"></span></a>
                             </td>
                         </tr>
-                        @endforeach
+                        @endforeach -->
                       </tbody>
                     </table>
                 </div>
@@ -145,6 +159,112 @@
             format: 'YYYY/MM/DD'
         });
     });
+
+    function deleteConfirm(priduct_id) {
+        var answer = confirm('本当に削除しますか?');
+        if(!answer){
+            return;
+        }
+
+        window.location = "{{ url('merchant/product/delete')}}" + "/" + priduct_id;
+    }
+
+    $(function(){
+        var table = $('#datatable').DataTable({
+            destroy: true,
+            columnDefs: [
+                {
+                    "targets": 0, // your case first column
+                    "className": "text-left",
+                    "width": "4%"
+                },
+                {
+                    "targets": 1,
+                    "className": "text-left",
+                },
+                {
+                    "targets": 2,
+                    "className": "text-right",
+                },
+                {
+                    "targets": 3,
+                    "className": "text-right",
+                },
+                {
+                    "targets": 4,
+                    "className": "text-center",
+                },
+                {
+                    "targets": 5,
+                    "className": "text-center",
+                },
+                {
+                    "targets": 6,
+                    "className": "text-center",
+                }
+            ]
+        });
+
+        showProducts(1);
+    });
+
+    function showProducts(product_status) {
+        var table = $('#datatable').DataTable();
+        table.clear();
+        $.ajax( {
+            type: 'get',
+            url: '{{url('merchant/product/manage')}}' + "/" + product_status,
+            success: function(data) {
+                for(var i = 0; i < data.length; i++){
+                    var item = data[i];
+                    var status = "有効";
+
+                    if (item.product_status == 0) {
+                        status = "無効";
+                    }
+                    var product_id = item.product_id;
+
+                    var file_get  = item.product_image;
+                    var file_get_path = file_get.split("/**/");
+                    var image = '<img style="height:20px;" src="{{url("")}}./public/images/products/';
+                    image += file_get_path[0];
+                    image += '">';
+
+                    var actions = '<td style="text-align:center">';
+                    actions += '<a style="margin:10px" href="{{ url('merchant/product/edit')}}/';
+                    actions += product_id;
+                    actions += '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
+                    actions += '<a style="margin:10px" href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm(';
+                    actions += product_id;
+                    actions += ')" aria-hidden="true"></span></a></td>';
+
+                    table.row.add([item.product_id, item.product_name, item.product_price_sale, item.product_count, status, image, actions]).draw( false );
+                }
+            }
+        });
+    }
+
+    $('#product_status').change(function() {
+        showProducts($('#product_status').val());
+    });
+
+
+    function removeProduct(id) {
+        var answer = confirm('本当に削除しますか?');
+        if(!answer){
+            return;
+        }
+
+        var table = $('#datatable').DataTable();
+        for (i = 0; i < table.rows().count(); i++) {
+            if (table.cell(i, 0).data() == id) {
+                table.row(i).remove().draw(false);
+                window.location = "{{ url('merchant/product/delete') }}" + "/" + mall_id;
+                return;
+            }
+        }
+    }
+
 </script>
 
 @endsection

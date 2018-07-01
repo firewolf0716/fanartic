@@ -31,24 +31,32 @@ Route::post('admin/genre/addpost','GenreController@addpost');
 Route::get('admin/genre/list','GenreController@list');
 Route::get('admin/genre/edit/{id}','GenreController@edit');
 Route::post('admin/genre/editpost','GenreController@editpost');
+Route::get('admin/genre/delete/{id}','GenreController@delete');
 
 Route::get('admin/mall/add','MallController@add');
 Route::post('admin/mall/addpost','MallController@addpost');
 Route::get('admin/mall/list','MallController@list');
 Route::get('admin/mall/edit/{id}','MallController@edit');
 Route::post('admin/mall/editpost','MallController@editpost');
+Route::get('admin/mall/delete/{id}','MallController@delete');
 
 Route::get('admin/brand/add','BrandController@add');
 Route::post('admin/brand/addpost','BrandController@addpost');
 Route::get('admin/brand/list','BrandController@list');
 Route::get('admin/brand/edit/{id}','BrandController@edit');
 Route::post('admin/brand/editpost','BrandController@editpost');
+Route::get('admin/brand/delete/{id}','BrandController@delete');
 
 Route::get('admin/category/add','CategoryController@add');
 Route::post('admin/category/addpost','CategoryController@addpost');
 Route::get('admin/category/list','CategoryController@list');
 Route::get('admin/category/edit/{id}','CategoryController@edit');
 Route::post('admin/category/editpost','CategoryController@editpost');
+Route::get('admin/category/get-top-categorys','CategoryController@getTopCategorys');
+Route::get('admin/category/get-main-categorys/{id}','CategoryController@getMainCategorys');
+Route::get('admin/category/delete/{id}','CategoryController@delete');
+Route::get('admin/category/get-sub-categorys/{topid}/{mainid}','CategoryController@getSubCategorys');
+
 
 Route::get('admin/size/add','SizeController@add');
 Route::post('admin/size/addpost','SizeController@addpost');
@@ -72,6 +80,8 @@ Route::post('admin/event/addpost','EventController@addpost');
 Route::get('admin/event/list','EventController@list');
 Route::get('admin/event/edit/{id}','EventController@edit');
 Route::post('admin/event/editpost','EventController@editpost');
+Route::get('admin/eventy/delete/{id}','EventController@delete');
+
 
 Route::get('admin/plan/add','PlanController@add');
 Route::post('admin/plan/addpost','PlanController@addpost');
@@ -118,19 +128,26 @@ Route::post('merchant/editsetting', 'MerchantController@merchant_editsetting');
 Route::get('merchant/product/add', 'MerchantproductController@merchant_product_add');
 Route::get('merchant/product/getscategory/{tcategory}', 'MerchantproductController@merchant_getscategory');
 Route::get('merchant/product/getssizes/{tcategory}', 'MerchantproductController@merchant_getsizecategory');
-Route::get('merchant/product/getparentprefers/{tcategory}', 'MerchantproductController@merchant_getparentprefers');
+Route::get('merchant/product/getparentprefers/{category}/{brand}', 'MerchantproductController@merchant_getparentprefers');
 Route::post('merchant/product/addpost', 'MerchantproductController@merchant_product_addpost');
 Route::post('merchant/product/editpost', 'MerchantproductController@merchant_product_editpost');
-
 Route::get('merchant/product/edit/{id}', 'MerchantproductController@merchant_product_edit');
 
 Route::get('merchant/product/manage', 'MerchantproductController@merchant_product_manage');
+Route::get('merchant/product/manage/{product_status}', 'MerchantproductController@merchant_product_manage_with_status');
 Route::get('merchant/product/sold', 'MerchantproductController@merchant_product_sold');
 Route::get('merchant/product/csvupload', 'MerchantproductController@merchant_product_csvupload');
 
+
+
+Route::get('merchant/product/export_template_csv', function(){
+    return view('merchant.product.product_export_csv');
+});
+
+
 // Route::get('mer_product_details/{id}', 'MerchantproductController@mer_product_details');
 // Route::get('mer_edit_product/{id}', 'MerchantproductController@mer_edit_product');
-Route::get('merchant/product/delete/{id}', 'MerchantproductController@mer_delete_product');
+Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
 
 // Route::post('merchant_product_editpost', 'MerchantproductController@merchant_product_editpost');
 // //product

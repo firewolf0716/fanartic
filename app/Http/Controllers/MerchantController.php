@@ -22,7 +22,7 @@ class MerchantController extends Controller
         if (Session::has('merchantid')) {
             return view('merchant.dashboard');
         } else {
-            return Redirect::to('merchant/login?redirect=merchant_dashboard');
+            return Redirect::to('merchant/signin?redirect=merchant_dashboard');
         }
     }
     public function merchant_setting(){
@@ -36,7 +36,7 @@ class MerchantController extends Controller
                                         ->with('plans', $plans)
                                         ->with('states', $states);
         } else {
-            return Redirect::to('merchant/login?redirect=merchant_dashboard');
+            return Redirect::to('merchant/signin?redirect=merchant_dashboard');
         }
     }
     public function getcity(){

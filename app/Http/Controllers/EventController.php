@@ -43,6 +43,10 @@ class EventController extends Controller
             return Redirect::to('admin/event/list');
         }
     }
+    public function delete($id){
+        Events::remove_event($id);
+        return Redirect::to('admin/event/list');
+    }
     public function editpost(){
         $entry =  array(
             'event_title' => Input::get('event_title'),

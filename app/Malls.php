@@ -29,6 +29,10 @@ class Malls extends Model{
 
     public static function edit_mall($entry,$id)
     {
-        return DB::table('master_mall')->where('mall_id', '=', $id)->update($entry);
+        return DB::table('master_mall')->where('mall_id', $id)->update($entry);
+    }
+ 
+    public static function remove_mall($id) {
+        return DB::table('master_mall')->where('mall_id', $id)->delete();
     }
 }

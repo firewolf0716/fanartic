@@ -18,7 +18,7 @@ class DashboardController extends Controller
         if (Session::has('merchantid')) {
             return view('merchant.dashboard');
         } else {
-            return Redirect::to('merchant_login?redirect=merchant_dashboard');
+            return Redirect::to('signin?redirect=merchant_dashboard');
         }
     }
 }

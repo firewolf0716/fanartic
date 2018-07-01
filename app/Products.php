@@ -21,14 +21,18 @@ class Products extends Model{
         }
     }
 
-    public static function get_products_by_category($category){
-        // $category_obj = Categorys::get_category($category)->first();
+    public static function get_products_by_category($merchant_id, $category_id, $brand_id){
+        // $category_obj = Categorys::get_categorys($category)->first();
         // $category_branch = $category_obj->category_branch;
         // if($category_branch != null){
         //     $category_parents = explode(',', $category_branch);
             
         // }
-        return DB::table('fan_product')->where('product_category', $category)->get();
+        return DB::table('fan_product')->where('product_merchant_id', $merchant_id)
+                                    ->where('product_category_id', $category_id)
+                                    ->where('product_brand_id', $brand_id)
+                                    ->where('product_parent_id', null)
+                                    ->get();
     }
 
     public static function get_product($id){
@@ -39,10 +43,31 @@ class Products extends Model{
         return DB::table('fan_product')->where('product_id', '=', $id)->update($entry);
     }
 
-    public static function get_products_manage($merchant){
-        return DB::table('fan_product')
-            ->where('product_merchant', '=', $merchant)
-            ->orderby('product_id', 'ASC')->get();
+    public static function get_products_manage($merchant, $product_exist_status = 1, $top_category_id = '0', $main_category_id = '0', $sub_category_id = '0', $brand_id = '0') {
+        $query = "SELECT fan_product.product_id, fan_product.product_name, fan_product.product_price_sale, fan_product.product_image
+            , fan_product.product_status, merchant_product_status.product_count 
+             FROM (SELECT * FROM fan_product WHERE product_merchant_id = '$merchant'";
+        if ($sub_category_id != '0') {
+            $query .= " AND product_category_id = '$sub_category_id'";
+        } else if ($main_category_id != '0') {
+            $query .= " AND product_main_category_id = '$main_category_id'";
+        } else if ($top_category_id != '0') {
+            $query .= " AND product_top_category_id = '$top_category_id'";
+        }
+        if ($brand_id != '0') {
+            $query .= " AND product_brand_id = '$brand_id'";
+        }
+        $query .= ") AS fan_product
+         LEFT JOIN merchant_product_status ON fan_product.product_merchant_id = merchant_product_status.product_merchant_id
+         AND fan_product.product_id = merchant_product_status.product_id AND merchant_product_status.product_status = '$product_exist_status'
+         ORDER BY fan_product.product_top_category_id, fan_product.product_main_category_id, fan_product.product_category_id";
+         
+        $products = DB::select($query);
+        return $products;
+
+        // return DB::table('fan_product')
+        //     ->where('product_merchant_id', $merchant)
+        //     ->orderby('product_id', 'ASC')->get();
     }
 
     public static function delete_product($id){

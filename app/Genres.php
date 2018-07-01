@@ -21,7 +21,7 @@ class Genres extends Model
 
     public static function get_genres(){
         return DB::table('master_genre')->orderBy('genre_id', 'ASC')
-            ->leftJoin('master_mall', 'master_genre.genre_moll', '=', 'master_mall.mall_id')->get();
+            ->leftJoin('master_mall', 'master_genre.mall_id', 'master_mall.mall_id')->get();
     }
 
     public static function get_genre($id){
@@ -30,6 +30,10 @@ class Genres extends Model
 
     public static function edit_genre($entry,$id)
     {
-        return DB::table('master_genre')->where('genre_id', '=', $id)->update($entry);
+        return DB::table('master_genre')->where('genre_id', $id)->update($entry);
+    }
+
+    public static function remove($id) {
+        return DB::table('master_genre')->where('genre_id', $id)->delete();
     }
 }

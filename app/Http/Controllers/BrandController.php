@@ -22,7 +22,6 @@ class BrandController extends Controller
     }
     public function addpost(){
         $entry =  array(
-            'brand_genre' => Input::get('select_genre'),
             'brand_name' => Input::get('brand_name'),
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),
@@ -59,9 +58,13 @@ class BrandController extends Controller
             return Redirect::to('admin/brand/list');
         }
     }
+    public function delete($id){
+        Brands::remove($id);
+        MallBrands::remove_malls($id);
+        return Redirect::to('admin/brand/list');
+    }
     public function editpost(){
         $entry =  array(
-            'brand_genre' => Input::get('select_genre'),
             'brand_name' => Input::get('brand_name'),
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),

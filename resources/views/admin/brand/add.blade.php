@@ -29,7 +29,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select id="select_genre" name="select_genre" class="form-control">
@@ -39,7 +39,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -91,6 +91,7 @@
                         <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
                     </div>
                 </div>
+                
             </div>
         </div>
         {{ Form::close() }}
@@ -149,21 +150,21 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
     <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
-<script type="text/javascript">
-    $(function(){
-        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-    });
-    $('#btnReset').click(function(){
-        document.getElementById("form_add").reset();
-        $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-    });
-    $('#btnSubmit').click(function(){
-        $('#form_add').parsley();
-    });
-    $('#malls').multiselect({
-        includeSelectAllOption: true
-    });
-</script>
+    <script type="text/javascript">
+        $(function(){
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        });
+        $('#btnReset').click(function(){
+            document.getElementById("form_add").reset();
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        });
+        $('#btnSubmit').click(function(){
+            $('#form_add').parsley();
+        });
+        $('#malls').multiselect({
+            includeSelectAllOption: true
+        });
+    </script>
 @endsection

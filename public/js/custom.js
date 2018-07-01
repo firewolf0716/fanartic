@@ -2530,6 +2530,10 @@ if (typeof NProgress != 'undefined') {
 				}();
 
 				$('#datatable').dataTable();
+				$('#datatable1').dataTable();
+				$('#datatable2').dataTable();
+				$('#datatable3').dataTable();
+				$('#datatable4').dataTable();
 
 				$('#datatable-keytable').DataTable({
 				  keys: true

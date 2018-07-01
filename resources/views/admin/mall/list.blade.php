@@ -43,6 +43,7 @@
                                 </td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/mall/edit/'.$mall->mall_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    <a href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$mall->mall_id}})" aria-hidden="true"></span></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -123,5 +124,16 @@
     <script src="{{ url('')}}/public/gvendor/jszip/dist/jszip.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/pdfmake/build/pdfmake.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/pdfmake/build/vfs_fonts.js"></script>
+
+    <script>
+		function deleteConfirm(mall_id) {
+			var answer = confirm('本当に削除しますか?');
+            if(!answer){
+                return;
+            }
+
+			window.location = "{{ url('admin/mall/delete') }}" + "/" + mall_id;
+		}
+	</script>
 
 @endsection

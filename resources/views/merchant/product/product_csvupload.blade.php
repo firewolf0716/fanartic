@@ -39,7 +39,7 @@
                                 </ul>
                             </strong>
                         </div>
-                        <button type="button" class="btn btn-success navbar-right">Download Sample Document</button>
+                        <button type="button" class="btn btn-success navbar-right" onclick="downloadSampleCsvFile()">Download Sample Document</button>
                     </div>
                 </div>        
             </div>
@@ -127,4 +127,17 @@
     <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
+
+    <script>
+        function downloadSampleCsvFile() {
+            // alert("{{ URL::asset('public/product_csv/shoppingmall.csv') }}");
+            // var frmWindow = getIFrameWindow();
+            // var fileName = frmWindow.document.getElementById("fileName");
+            // fileName.value = encodeURI("{{ URL::asset('public/product_csv/shoppingmall.csv') }}");
+            
+            // var frm = frmWindow.document.getElementById("frmFile");
+            // frm.submit();
+            Redirect::to('merchant/product/export_template_csv');
+        }
+    </script>
 @endsection

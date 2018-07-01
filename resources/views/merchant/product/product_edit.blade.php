@@ -49,6 +49,46 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_brand" id="product_brand">
+                                    <option value="">--Select Brand--</option>
+                                    @foreach($brands as $brand)
+                                    <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
+                            <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                <select id="top_category" name="top_category" class="form-control" required>
+                                    <option value="">--トップ カテゴリ 選択--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">メイン カテゴリ</label>
+                            <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                <select id="main_category" name="main_category" class="form-control" required>
+                                    <option value="">--メイン カテゴリ 選択--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サブ カテゴリ</label>
+                            <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                <select id="sub_category" name="sub_category" class="form-control" required>
+                                    <option value="">--サブ カテゴリ 選択--</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">親商品<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
@@ -62,44 +102,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_brand" id="product_brand">
-                                    <option value="">--Select Brand--</option>
-                                    @foreach($brands as $brand)
-                                    <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group" id="category_list">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">カテゴリ<span class="required">*</span></label>
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_category1" id="product_category1">
-                                    <option value="">--Select Category--</option>
-                                    @foreach($topcategorys as $topcategory)
-                                    <option value="{{$topcategory->category_id}}">{{$topcategory->category_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_category2" id="product_category2">
-                                    <option value="">--Select Category--</option>
-                                    @foreach($scategorys as $scategory)
-                                    <option value="{{$scategory->category_id}}">{{$scategory->category_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_category" id="product_category">
-                                    <option value="">--Select Category--</option>
-                                    @foreach($rcategorys as $rcategory)
-                                    <option value="{{$rcategory->category_id}}">{{$rcategory->category_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">イベント<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
@@ -111,6 +114,7 @@
                                 </select>
                             </div>
                         </div>
+                        
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">商品コード<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
@@ -221,20 +225,27 @@
                                 </select>
                             </div>
                         </div>
+                        
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_size" id="product_size">
-                                    <option value="">--Select Size--</option>
+                                <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required>
+                                    <option value="">--Select Size Category--</option>
+                                    @foreach($sizeCategorys as $sizeCategory)
+                                    <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ2<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_size2" name="product_size2" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_size2}}">
+                                <select class="form-control" name="product_size" id="product_size" required>
+                                    <option value="">--Select Size--</option>
+                                </select>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
@@ -365,99 +376,16 @@
 <script>
     $(function(){
         $('#product_salemethod').val("{{$product->product_salemethod}}");
-        $('#product_brand').val("{{$product->product_brand}}");
+        $('#product_brand').val("{{$product->product_brand_id}}");
         $('#product_event').val("{{$product->product_event}}");
         $('#product_old_status').val("{{$product->product_old_status}}");
         $('#product_color').val("{{$product->product_color}}");
-        $('#product_category1').val("{{$tcategory}}");
-        $('#product_category2').val("{{$s_category}}");
-        $('#product_category').val("{{$product->product_category}}");
-        $('#product_parent').val("{{$product->product_parent}}");
+        $('#product_parent').val("{{$product->product_parent_id}}");
+        $('#product_sizeCategory').val("{{$product->product_size_category_id}}");
+        addTopCategorys(true);
+        addSizes(true);
     });
-    $('#product_category1').change(function(){
-        var top = $('#product_category1').val();
-        if(top != ""){
-            $.ajax( {
-                type: 'get',
-                url: '{{url('merchant/product/getscategory')}}' + "/" + top,
-                success: function(data){
-                    $('#product_category2').find('option').remove().end().append('<option value="">--Select Category--</option>');
-                    $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.category_id;
-                        opt.innerHTML = item.category_name;
-                        document.getElementById('product_category2').appendChild(opt);
-                    }
-                }
-            });
-        } else {
-            $('#product_category2').find('option').remove().end().append('<option value="">--Select Category--</option>');
-            $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
-        }
-    });
-    $('#product_category2').change(function(){
-        var top = $('#product_category2').val();
-        if(top != ""){
-            $.ajax( {
-                type: 'get',
-                url: '{{url('merchant/product/getscategory')}}' + "/" + top,
-                success: function(data){
-                    $('#product_category3').find('option').remove().end().append('<option value="">--Select Category--</option>');
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.category_id;
-                        opt.innerHTML = item.category_name;
-                        document.getElementById('product_category').appendChild(opt);
-                    }
-                }
-            });
-        } else {
-            $('#product_category').find('option').remove().end().append('<option value="">--Select Category--</option>');
-        }
-    });
-    $('#product_category').change(function(){
-        var category = $('#product_category').val();
-        if(top != ""){
-            $.ajax( {
-                type: 'get',
-                url: '{{url('merchant/product/getssizes')}}' + "/" + category,
-                success: function(data){
-                    $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.size_id;
-                        opt.innerHTML = item.size_name;
-                        document.getElementById('product_size').appendChild(opt);
-                    }
-                }
-            });
-        } else {
-            $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
-        }
-
-        if(top != ""){
-            $.ajax( {
-                type: 'get',
-                url: '{{url('merchant/product/getparentprefers')}}' + "/" + category,
-                success: function(data){
-                    $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.product_id;
-                        opt.innerHTML = item.product_name;
-                        document.getElementById('product_parent').appendChild(opt);
-                    }
-                }
-            });
-        } else {
-            $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
-        }
-    });
+    
     $('#btnProductImage').click(function(){
         var imgct = Number($('#proimg_ct').val()) + 1;
         if(imgct >= 10) return;
@@ -473,6 +401,141 @@
     function onRemoveImg(id){
         $('#existing_img_' + id).remove();
         $('#existing_btn_' + id).remove();
+    }
+    $('#product_sizeCategory').change(function(){
+        addSizes(false);
+    });
+    function addSizes(isInit) {
+        $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
+        var sizeCategory = $('#product_sizeCategory').val();
+        if(sizeCategory != "") {
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getssizes')}}' + "/" + sizeCategory,
+                success: function(data) {
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.size_id;
+                        opt.innerHTML = item.size_name;
+                        document.getElementById('product_size').appendChild(opt);
+                    }
+
+                    if (isInit) {
+                        $('#product_size').val("{{$product->product_size_id}}");
+                    }
+                }
+            });
+        }
+    }
+    function addTopCategorys(isInit) {
+        $.ajax( {
+            type: 'get',
+            url: '{{url('admin/category/get-top-categorys')}}',
+            success: function(data){
+                $('#top_category').find('option').remove().end().append('<option value="">--トップ カテゴリ 選択--</option>');
+                for(var i = 0; i < data.length; i++){
+                    var item = data[i];
+                    var opt = document.createElement('option');
+                    opt.value = item.category_id;
+                    opt.innerHTML = item.category_name;
+                    document.getElementById('top_category').appendChild(opt);
+                }
+
+                if (isInit) {
+                    $('#top_category').val("{{$categoryinfo->top_category_id}}");
+                    addMainCategorys(isInit);
+                }
+            }
+        });
+    }
+    function addMainCategorys(isInit) {
+        var top = $('#top_category').val();
+        $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
+        $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
+
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('admin/category/get-main-categorys')}}' + "/" + top,
+                success: function(data) {
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.category_id;
+                        opt.innerHTML = item.category_name;
+                        document.getElementById('main_category').appendChild(opt);
+                    }
+
+                    if (isInit) {
+                        $('#main_category').val("{{$categoryinfo->main_category_id}}");
+                        addSubCategorys(isInit);
+                    }
+                }
+            });
+        }
+    }
+    function addSubCategorys(isInit) {
+        var top = $('#top_category').val();
+        var main = $('#main_category').val();
+
+        $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
+
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + top + "/" + main,
+                success: function(data) {
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.category_id;
+                        opt.innerHTML = item.category_name;
+                        document.getElementById('sub_category').appendChild(opt);
+                    }
+                    if (isInit) {
+                        $('#sub_category').val("{{$categoryinfo->category_id}}");
+                    }
+                }
+            });
+        }
+    }
+    $('#top_category').change(function() {
+        alert ($categoryinfo);
+        addMainCategorys(false);
+    });
+    $('#main_category').change(function() {
+        addSubCategorys(false);
+    });
+    $('#sub_category').change(function() {
+        updateParentProduct();
+    });
+    $('#product_brand').change(function() {
+        updateParentProduct();
+    });
+    function updateParentProduct() {
+        $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
+
+        var category = $('#sub_category').val();
+        var brand = $('#product_brand').val();
+        if (category == "" || brand == "") {
+            return;
+        }
+        if(top != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getparentprefers')}}' + "/" + category + "/" + brand,
+                success: function(data){
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.product_id;
+                        opt.innerHTML = item.product_name;
+                        document.getElementById('product_parent').appendChild(opt);
+                    }
+                }
+            });
+        }
     }
 </script>
 @endsection

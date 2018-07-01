@@ -41,6 +41,7 @@
                                 <td style="text-align:center">{{substr($event->event_content, 0, 20)}}</td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/event/edit/'.$event->event_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    <a href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$event->event_id}})" aria-hidden="true"></span></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -122,4 +123,14 @@
     <script src="{{ url('')}}/public/gvendor/pdfmake/build/pdfmake.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/pdfmake/build/vfs_fonts.js"></script>
 
+    <script>
+		function deleteConfirm(event_id) {
+			var answer = confirm('本当に削除しますか?');
+            if(!answer){
+                return;
+            }
+
+			window.location = "{{ url('admin/eventy/delete') }}" + "/" + event_id;
+		}
+	</script>
 @endsection

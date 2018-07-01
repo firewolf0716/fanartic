@@ -22,10 +22,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="text-align:center">名前</th>
-                                <th style="text-align:center">英名</th>
-                                <th style="text-align:center">親カテゴリ</th>
-                                <th style="text-align:center">モール</th>
+                                <th style="text-align:center">トップ カテゴリ</th>
+                                <th style="text-align:center">メイン カテゴリ</th>
+                                <th style="text-align:center">サブ カテゴリ</th>
                                 <th style="text-align:center">サイズカテゴリ</th>
                                 <th style="text-align:center">性別</th>
                                 <th></th>
@@ -35,15 +34,28 @@
                         @foreach($categorys as $key => $category)
                             <tr>
                                 <td>{{$category->category_id}}</td>
-                                <td style="text-align:center">{{$category->category_name}}</td>
-                                <td style="text-align:center">{{$category->category_name_en}}</td>
-                                <td style="text-align:center"><?php 
-                                    $key = $categorys->keyBy('category_id');
-                                    $obj = $key->get($category->category_parent);
-                                    if($obj != null)
-                                        echo $obj->category_name;
-                                ?></td>
-                                <td style="text-align:center">{{$category->mall_name}}</td>
+                                <?php $top_category_name = "" ?>
+                                <?php $main_category_name = "" ?>
+                                <?php $sub_category_name = "" ?>
+                                @if ($category->top_category_name != "")
+                                    <?php $top_category_name = $category->top_category_name ?>
+                                    @if ($category->main_category_name != "")
+                                        <?php $main_category_name = $category->main_category_name ?>
+                                        <?php $sub_category_name = $category->category_name ?>
+                                    @else
+                                        <?php $main_category_name = $category->category_name ?>
+                                    @endif
+                                @else
+                                    @if ($category->main_category_name != "")
+                                        <?php $top_category_name = $category->main_category_name ?>
+                                        <?php $sub_category_name = $category->category_name ?>
+                                    @else
+                                        <?php $top_category_name = $category->category_name ?>
+                                    @endif
+                                @endif
+                                <td style="text-align:center">{{$top_category_name}}</td>
+                                <td style="text-align:center">{{$main_category_name}}</td>
+                                <td style="text-align:center">{{$sub_category_name}}</td>
                                 <td style="text-align:center">{{$category->sizecategory_name}}</td>
                                 <td style="text-align:center">
                                     @if($category->category_gender == 0)
@@ -54,6 +66,7 @@
                                 </td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/category/edit/'.$category->category_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    <a href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$category->category_id}})" aria-hidden="true"></span></a>
                                 </td>
                             </tr>
                         @endforeach
@@ -134,5 +147,16 @@
     <script src="{{ url('')}}/public/gvendor/jszip/dist/jszip.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/pdfmake/build/pdfmake.min.js"></script>
     <script src="{{ url('')}}/public/gvendor/pdfmake/build/vfs_fonts.js"></script>
+
+    <script>
+		function deleteConfirm(category_id) {
+			var answer = confirm('このカテゴリが削除されると下位カテゴリーも削除されます。 本当に削除しますか?');
+            if(!answer){
+                return;
+            }
+
+			window.location = "{{ url('admin/category/delete') }}" + "/" + category_id;
+		}
+	</script>
 
 @endsection

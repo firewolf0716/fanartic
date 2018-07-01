@@ -29,27 +29,31 @@ class MerchantproductController extends Controller
     }
     public function merchant_product_add(){
         if (!Session::has('merchantid')) {
-            return Redirect::to('merchant/login?redirect=merchant/product/add');
+            return Redirect::to('merchant/signin?redirect=merchant/product/add');
         }
         $merchant_id = Session::get('merchantid');
         $merchants = Merchants::getMerchant($merchant_id);
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);
-        } else 
+        } else {
             $brands = Brands::get_brands();
-        $topcategorys = Categorys::get_topcategorys();
+        }
+        $sizeCategorys = Sizes::get_sizecategorys();
         $events = Events::get_events();
         $colors = Colors::get_colors();
         $productstates = ProductStates::get_productstates();
+
         return view('merchant.product.product_add')->with('merchant_id', $merchant_id)
             ->with('brands', $brands)
-            ->with('topcategorys', $topcategorys)
+            ->with('sizeCategorys', $sizeCategorys)
             ->with('events', $events)
             ->with('colors', $colors)
             ->with('productstates', $productstates)
+            ->with('merchant_id', $merchant_id)
             ->with('merchant', $merchant);
     }
+
     public function merchant_product_edit($id){
         $product = Products::get_product($id)->first();
         $merchant_id = Session::get('merchantid');
@@ -57,34 +61,25 @@ class MerchantproductController extends Controller
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);
-        } else 
+        } else {
             $brands = Brands::get_brands();
-        $topcategorys = Categorys::get_topcategorys();
+        }
         $events = Events::get_events();
         $colors = Colors::get_colors();
         $productstates = ProductStates::get_productstates();
-
-        $categorybranch = Categorys::get_category($product->product_category)->first()->category_branch;
-        $parents = explode(',', $categorybranch);
-        $tcategory = (string)$parents[0];
-        $scategorys = $this->merchant_getscategory($tcategory);
-        $scategory = (string)$parents[1];
-        $rcategorys = $this->merchant_getscategory($parents[1]);
-
-        $product_parents = $this->merchant_getparentprefers($product->product_category);
+        $sizeCategorys = Sizes::get_sizecategorys();
+        $categoryinfo = Categorys::get_categoryinfo($product->product_category_id);
+        $product_parents = $this->merchant_getparentprefers($product->product_category_id, $product->product_brand_id);
 
         return view('merchant.product.product_edit')->with('merchant_id', $merchant_id)
             ->with('brands', $brands)
-            ->with('topcategorys', $topcategorys)
             ->with('events', $events)
             ->with('colors', $colors)
             ->with('productstates', $productstates)
             ->with('merchant', $merchant)
-            ->with('tcategory', $tcategory)
-            ->with('s_category', $scategory)
-            ->with('scategorys', $scategorys)
-            ->with('rcategorys', $rcategorys)
             ->with('product_parents', $product_parents)
+            ->with('sizeCategorys', $sizeCategorys)
+            ->with('categoryinfo', $categoryinfo[0])
             ->with('product', $product);
     }
     public function merchant_product_addpost(){
@@ -95,6 +90,9 @@ class MerchantproductController extends Controller
         $imgct = Input::get('proimg_ct');
         for ($i = 0; $i < $imgct; $i++) {
             $file_more = Input::file('product_img_' . $i);
+            if ($file_more == null || $file_more == "") {
+                continue;
+            } 
             $file_more_name = $file_more->getClientOriginalName();
             $move_more_img = explode('.', $file_more_name);
             $filename_new = $move_more_img[0] . str_random(8) . "." . strtolower($file_more->getClientOriginalExtension());
@@ -103,12 +101,14 @@ class MerchantproductController extends Controller
             $filename_new_get .= $filename_new . "/**/";
         }
 
+        $merchant_id = Session::get('merchantid');
         $entry =  array(
             'product_salemethod' => Input::get('product_salemethod'),
             'product_salerange' => Input::get('product_salerange'),
-            'product_brand' => Input::get('product_brand'),
-            'product_category' => Input::get('product_category'),
-            'product_parent' => Input::get('product_parent'),
+            'product_brand_id' => Input::get('product_brand'),
+            'product_category_id' => Input::get('sub_category'),
+            'product_top_category_id' => Input::get('top_category'),
+            'product_main_category_id' => Input::get('main_category'),
             'product_event' => Input::get('product_event'),
             'product_code' => Input::get('product_code'),
             'product_name' => Input::get('product_name'),
@@ -121,8 +121,8 @@ class MerchantproductController extends Controller
             'product_image' => $filename_new_get,
             'product_old_status' => Input::get('product_old_status'),
             'product_color' => Input::get('product_color'),
-            'product_size' => Input::get('product_size'),
-            'product_size2' => Input::get('product_size2'),
+            'product_size_category_id' => Input::get('product_sizeCategory'),
+            'product_size_id' => Input::get('product_size'),
             'product_weight' => Input::get('product_weight'),
             'product_season' => Input::get('product_season'),
             'product_place' => Input::get('product_place'),
@@ -131,10 +131,11 @@ class MerchantproductController extends Controller
             'product_status' => Input::get('product_status'),
             'product_create' => Input::get('create_date'),
             'product_update' => Input::get('update_date'),
-            'product_merchant' => Input::get('merchant_id')
+            'product_parent_id' => Input::get('product_parent'),
+            'product_merchant_id' => $merchant_id
         );
         $productid = Products::insert_product($entry);
-        return Redirect::to('merchant/product/edit/'.$productid);
+        return Redirect::to('merchant/product/manage')->with('product_status', 1);
     }
     public function merchant_product_editpost(){
 
@@ -164,12 +165,14 @@ class MerchantproductController extends Controller
             $filename_new_get .= $filename_new . "/**/";
         }
         $productid = Input::get('product_id');
+        $merchant_id = Session::get('merchantid');
         $entry =  array(
             'product_salemethod' => Input::get('product_salemethod'),
             'product_salerange' => Input::get('product_salerange'),
-            'product_brand' => Input::get('product_brand'),
-            'product_category' => Input::get('product_category'),
-            'product_parent' => Input::get('product_parent'),
+            'product_brand_id' => Input::get('product_brand'),
+            'product_category_id' => Input::get('sub_category'),
+            'product_top_category_id' => Input::get('top_category'),
+            'product_main_category_id' => Input::get('main_category'),
             'product_event' => Input::get('product_event'),
             'product_code' => Input::get('product_code'),
             'product_name' => Input::get('product_name'),
@@ -182,8 +185,8 @@ class MerchantproductController extends Controller
             'product_image' => $filename_new_get,
             'product_old_status' => Input::get('product_old_status'),
             'product_color' => Input::get('product_color'),
-            'product_size' => Input::get('product_size'),
-            'product_size2' => Input::get('product_size2'),
+            'product_size_category_id' => Input::get('product_sizeCategory'),
+            'product_size_id' => Input::get('product_size'),
             'product_weight' => Input::get('product_weight'),
             'product_season' => Input::get('product_season'),
             'product_place' => Input::get('product_place'),
@@ -192,16 +195,24 @@ class MerchantproductController extends Controller
             'product_status' => Input::get('product_status'),
             'product_create' => Input::get('create_date'),
             'product_update' => Input::get('update_date'),
-            'product_merchant' => Input::get('merchant_id')
+            'product_merchant_id' => $merchant_id
         );
         Products::edit_product($entry, $productid);
-        return Redirect::to('merchant/product/edit/'.$productid);
+        return Redirect::to('merchant/product/manage')->with('product_status', 1);
     }
-    public function merchant_product_manage(){
+    public function merchant_product_manage() {
         $merchant_id = Session::get('merchantid');
+        echo("asdsa");
         // Log::debug($merchant_id);
-        $products = Products::get_products_manage($merchant_id);
+        $products = Products::get_products_manage($merchant_id, 1);
         return view('merchant.product.product_manage')->with('products', $products);
+    }
+    public function merchant_product_manage_with_status($product_status) {
+        $merchant_id = Session::get('merchantid');
+        
+        // Log::debug($merchant_id);
+        $products = Products::get_products_manage($merchant_id, $product_status);
+        return $products;
     }
     public function merchant_product_sold(){
         
@@ -212,25 +223,30 @@ class MerchantproductController extends Controller
     public function merchant_product_csvupload(){
         return view('merchant.product.product_csvupload');
     }
-    public function mer_delete_product($id){
+    public function mer_delete_product($id, $product_status){
         Products::delete_product($id);
-        return Redirect::to('merchant/product/manage');
+        return Redirect::to('merchant/product/manage')->with('product_status', $product_status);
     }
     public function merchant_getscategory($tcategory){
         $scategorys = Categorys::get_subcategorys($tcategory);
         return $scategorys;
     }
+    
     public function merchant_getsizecategory($categoryid){
-        $categorys = Categorys::get_category($categoryid);
-        if(isset($categorys)){
-            $category = $categorys[0];
-            $sizeid = $category->category_size;
-            $sizes = Sizes::get_sizebycategory($sizeid);
-            return $sizes;
-        }
+        // $categorys = Categorys::get_categorys($categoryid);
+        // if(isset($categorys)){
+        //     $category = $categorys[0];
+        //     $sizeid = $category->category_size;
+        //     $sizes = Sizes::get_sizebycategory($sizeid);
+        //     return $sizes;
+        // }
+        
+        $sizes = Sizes::get_sizebycategory($categoryid);
+        return $sizes;
     }
-    public function merchant_getparentprefers($categoryid){
-        $parents = Products::get_products_by_category($categoryid);
+    public function merchant_getparentprefers($categoryid, $brandid) {
+        $merchant_id = Session::get('merchantid');
+        $parents = Products::get_products_by_category($merchant_id, $categoryid, $brandid);
         return $parents;
     }
 }

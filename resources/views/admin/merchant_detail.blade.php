@@ -312,12 +312,26 @@
                 $('#merchant_province').prop('disabled', false);
                 $('#merchant_county').prop('disabled', false);
                 $('#merchant_address_jp').prop('disabled', false);
+
+                $('#merchant_city').prop('required', false);
+                $('#merchant_address_ex').prop('required', false);
+                $('#merchant_province').prop('required', true);
+                $('#merchant_county').prop('required', true);
+                $('#merchant_address_jp').prop('required', true);
             } else {
                 $('#merchant_city').prop('disabled', false);
                 $('#merchant_address_ex').prop('disabled', false);
                 $('#merchant_province').prop('disabled', true);
                 $('#merchant_county').prop('disabled', true);
                 $('#merchant_address_jp').prop('disabled', true);
+
+                $('#merchant_city').prop('required', true);
+                $('#merchant_address_ex').prop('required', true);
+                $('#merchant_province').prop('required', false);
+                $('#merchant_county').prop('required', false);
+                $('#merchant_address_jp').prop('required', false);
+                
+                $('#merchant_city').find('option').remove().end().append('<option value="">--Select City--</option>');
                 $.ajax( {
                     type: 'get',
                     data: {
@@ -325,7 +339,6 @@
                     },
                     url: '{{url('merchant/getcity')}}',
                     success: function(data){
-                        $('#merchant_city').find('option').remove().end().append('<option value="">--Select City--</option>');
                         for(var i = 0; i < data.length; i++){
                             var item = data[i];
                             var opt = document.createElement('option');

@@ -26,7 +26,7 @@
                         <select id="select_mall" name="select_mall" class="form-control" required>
                             <option value="">--Select Mall--</option>
                             @foreach($malls as $mall)
-                            @if($genre->genre_moll == $mall->mall_id)
+                            @if($genre->mall_id == $mall->mall_id)
                                 <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
                             @else
                                 <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
