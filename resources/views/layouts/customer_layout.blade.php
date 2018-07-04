@@ -26,11 +26,12 @@
                 <div class="header__nav-primary__list">
                   <ul class="header__nav-primary__list__menu">
                     <li><a href="#">NEW</a></li>
-                    <li><a href="#">BAG</a></li>
+                    <li><a href="#">BRAND</a></li>
                     @foreach($womencategories as $womencategory)
                     <li><a href="{{url('customer/product/list/2').'/'.$womencategory->category_id}}">{{$womencategory->category_name}}</a></li>
                     @endforeach
-                    <li><a href="#">SNEAKER</a></li>
+                    <li><a href="#">EDITORIAL</a></li>
+                    <li><a href="#">SALE</a></li>
                   </ul>
                 </div>
               </li>
