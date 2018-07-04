@@ -165,7 +165,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
                                 <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
-                                    <input type="file" name="product_img_0" class="form-control" required>
+                                    <input type="file" name="product_img_1" class="form-control" required>
                                 </div>
                                 <div class="radio col-md-2 col-sm-6 col-xs-12">
                                     <button class="btn" type="button" id="btnProductImage">Add</button>

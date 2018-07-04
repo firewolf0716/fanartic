@@ -60,7 +60,7 @@ class AdminController extends Controller
     public function manage_merchants(){
         $merchants_live = Merchants::getMerchants();
         $merchants_wait = Merchants::getMerchantTempos();
-        return view("admin.merchants")->with('merchants_live', $merchants_live)->with('merchants_wait', $merchants_wait);
+        return view("admin.merchant.merchants")->with('merchants_live', $merchants_live)->with('merchants_wait', $merchants_wait);
     }
 
     // public function approve_merchant($id){
@@ -119,7 +119,7 @@ class AdminController extends Controller
         $states = States::get_states();
         $brands = Brands::get_brands();
         $selbrands = MerchantBrands::get_brands($merchant->merchant_id);
-        return view('admin.merchant_detail')->with('merchant', $merchant)
+        return view('admin.merchant.merchant_detail')->with('merchant', $merchant)
                                     ->with('plans', $plans)
                                     ->with('states', $states)
                                     ->with('brands', $brands)
@@ -130,7 +130,7 @@ class AdminController extends Controller
         $plans = Plans::get_plans();
         $states = States::get_states();
         $brands = Brands::get_brands();
-        return view('admin.merchant_add')->with('plans', $plans)->with('states', $states)->with('brands', $brands);
+        return view('admin.merchant.merchant_add')->with('plans', $plans)->with('states', $states)->with('brands', $brands);
     }
 
     public function merchant_addpost(){
@@ -158,8 +158,11 @@ class AdminController extends Controller
                 'merchant_address_jp' => '',
                 'merchant_commission_jp' => Input::get('merchant_commission_jp'),
                 'merchant_commission_ex' => Input::get('merchant_commission_ex'),
+                'merchant_open_state' => Input::get('merchant_open_state'),
                 'merchant_create' => Input::get('create_date'),
                 'merchant_update' => Input::get('update_date'),
+                'merchant_fixcost' => Input::get('merchant_fixcost'),
+                'merchant_opencost' => Input::get('merchant_opencost'),
             );
         } else if($state == 1){
             $entry = array(
@@ -186,6 +189,9 @@ class AdminController extends Controller
                 'merchant_commission_ex' => Input::get('merchant_commission_ex'),
                 'merchant_create' => Input::get('create_date'),
                 'merchant_update' => Input::get('update_date'),
+                'merchant_open_state' => Input::get('merchant_open_state'),
+                'merchant_fixcost' => Input::get('merchant_fixcost'),
+                'merchant_opencost' => Input::get('merchant_opencost'),
             );
         }
         $newid = Merchants::addMerchant($entry);
@@ -201,7 +207,10 @@ class AdminController extends Controller
         }
         return Redirect::to('admin/merchants/list');
     }
-
+    public function get_plan($planid) {
+        $plan = Plans::get_plan($planid);
+        return $plan;
+    }
     public function merchant_editpost(){
         $state = Input::get('merchant_state');
         if($state > 1){
@@ -229,6 +238,9 @@ class AdminController extends Controller
                 'merchant_commission_ex' => Input::get('merchant_commission_ex'),
                 'merchant_create' => Input::get('create_date'),
                 'merchant_update' => Input::get('update_date'),
+                'merchant_open_state' => Input::get('merchant_open_state'),
+                'merchant_fixcost' => Input::get('merchant_fixcost'),
+                'merchant_opencost' => Input::get('merchant_opencost'),
             );
         } else if($state == 1){
             $entry = array(
@@ -255,6 +267,9 @@ class AdminController extends Controller
                 'merchant_commission_ex' => Input::get('merchant_commission_ex'),
                 'merchant_create' => Input::get('create_date'),
                 'merchant_update' => Input::get('update_date'),
+                'merchant_open_state' => Input::get('merchant_open_state'),
+                'merchant_fixcost' => Input::get('merchant_fixcost'),
+                'merchant_opencost' => Input::get('merchant_opencost'),
             );
         }
         $id = Input::get('merchant_id');

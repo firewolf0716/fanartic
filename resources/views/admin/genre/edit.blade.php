@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Add Genre</h3>
+            <h3>ジャンルを編集</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,7 +16,7 @@
         {{ Form::hidden('genre_id', $genre->genre_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Add Genre</h4>
+                <h4>ジャンルを編集</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -24,7 +24,7 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select id="select_mall" name="select_mall" class="form-control" required>
-                            <option value="">--Select Mall--</option>
+                            <option value="">--モールを選択--</option>
                             @foreach($malls as $mall)
                             @if($genre->mall_id == $mall->mall_id)
                                 <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
@@ -38,13 +38,13 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="genre_name" name="genre_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$genre->genre_name}}">
+                        <input type="text" id="genre_name" name="genre_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$genre->genre_name}}" placeholder="ジャンル名を日本語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="genre_name_en" name="genre_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$genre->genre_name_en}}">
+                        <input type="text" id="genre_name_en" name="genre_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$genre->genre_name_en}}" placeholder="ジャンル名を英語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
@@ -75,8 +75,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Edit Genre</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">ジャンルを編集</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>

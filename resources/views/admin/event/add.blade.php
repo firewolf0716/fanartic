@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Add Event</h3>
+            <h3>イベントを追加</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -15,7 +15,7 @@
         {!! Form::open(array('id' => 'form_add','url'=>'admin/event/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Add Event</h4>
+                <h4>イベントを追加</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -52,79 +52,26 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">コンテンツ<span class="required">*</span></label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-content">
-                            <div class="btn-group">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                </ul>
-                            </div>
-
-                            <div class="btn-group">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                    <a data-edit="fontSize 5">
-                                        <p style="font-size:17px">Huge</p>
-                                    </a>
-                                    </li>
-                                    <li>
-                                    <a data-edit="fontSize 3">
-                                        <p style="font-size:14px">Normal</p>
-                                    </a>
-                                    </li>
-                                    <li>
-                                    <a data-edit="fontSize 1">
-                                        <p style="font-size:11px">Small</p>
-                                    </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                            </div>
-                        </div>
-
-                        <div id="editor-content" class="editor-wrapper"></div>
-                        {{ Form::hidden('event_content','',array('id' => 'event_content'))}}
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <textarea class="form-control" id="event_content" name="event_content" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Add Event</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">イベントを追加</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>
@@ -195,7 +142,6 @@
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
     $('#btnSubmit').click(function(){
-        $('#event_content').val($('#editor-content').html());
         $('#form_add').parsley();
     });
 </script>

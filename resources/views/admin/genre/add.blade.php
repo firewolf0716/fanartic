@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Add Genre</h3>
+            <h3>ジャンルを追加</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -15,7 +15,7 @@
         {!! Form::open(array('id' => 'form_add','url'=>'admin/genre/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Add Genre</h4>
+                <h4>ジャンルを追加</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -23,7 +23,7 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select id="select_mall" name="select_mall" class="form-control" required>
-                            <option value="">--Select Mall--</option>
+                            <option value="">--モールを選択--</option>
                             @foreach($malls as $mall)
                             <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
                             @endforeach
@@ -33,13 +33,13 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="genre_name" name="genre_name" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="genre_name" name="genre_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="ジャンル名を日本語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="genre_name_en" name="genre_name_en" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="genre_name_en" name="genre_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="ジャンル名を英語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
@@ -50,23 +50,21 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Add Brand</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">ジャンルを追加</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>

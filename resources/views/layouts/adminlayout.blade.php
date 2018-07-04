@@ -119,13 +119,13 @@
                                     <li><a>お知らせ(店舗)<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/notifymerchant/add')}}">新規登録</a></li>
-                                            <li><a href="#">お知らせ(店舗)一覧</a></li>
+                                            <li><a href="{{url('admin/notifymerchant/list')}}">お知らせ(店舗)一覧</a></li>
                                         </ul>
                                     </li>
                                     <li><a>お知らせ(顧客)<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/notifycustomer/add')}}">新規登録</a></li>
-                                            <li><a href="#">お知らせ(顧客)一覧</a></li>
+                                            <li><a href="{{url('admin/notifycustomer/list')}}">お知らせ(顧客)一覧</a></li>
                                         </ul>
                                     </li>
                                     <li><a>出店プラン<span class="fa fa-chevron-down"></span></a>

@@ -165,8 +165,7 @@
         if(!answer){
             return;
         }
-
-        window.location = "{{ url('merchant/product/delete')}}" + "/" + priduct_id;
+        removeProduct(priduct_id)
     }
 
     $(function(){
@@ -238,7 +237,12 @@
                     actions += product_id;
                     actions += ')" aria-hidden="true"></span></a></td>';
 
-                    table.row.add([item.product_id, item.product_name, item.product_price_sale, item.product_count, status, image, actions]).draw( false );
+                    var product_count = item.product_count;
+                    if (product_count == '' || product_count == null) {
+                        product_count = 0;
+                    }
+
+                    table.row.add([item.product_id, item.product_name, item.product_price_sale, product_count, status, image, actions]).draw( false );
                 }
             }
         });
@@ -250,16 +254,11 @@
 
 
     function removeProduct(id) {
-        var answer = confirm('本当に削除しますか?');
-        if(!answer){
-            return;
-        }
-
-        var table = $('#datatable').DataTable();
+        var table = $('#datatable').DataTable(); 
         for (i = 0; i < table.rows().count(); i++) {
             if (table.cell(i, 0).data() == id) {
                 table.row(i).remove().draw(false);
-                window.location = "{{ url('merchant/product/delete') }}" + "/" + mall_id;
+                window.location = "{{ url('merchant/product/delete')}}" + "/" + id + "/" + $('#product_status').val();
                 return;
             }
         }

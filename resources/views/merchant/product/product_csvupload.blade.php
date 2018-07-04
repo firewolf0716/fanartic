@@ -3,6 +3,32 @@
 @section('title', 'Merchant Product Add|fanaRtic')
 
 @section('content')
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+ 
+    <script>
+$(document).ready(function(){
+    
+    $("button").click(function(){
+        alert ("Asdsa");
+        // $.post("{{url('')}}/merchant/product/product_import_csv",
+        // {
+        //   name: "Donald Duck",
+        //   city: "Duckburg"
+        // },
+        // function(data,status){
+        //     alert("Data: " + data + "\nStatus: " + status);
+        // });
+    });
+});
+</script>
+
+</head>
+
+
+
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
@@ -64,7 +90,7 @@
                             <div class="input-group">
                                 <input type="file" class="col-sm-4 form-control"/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success">CSV Upload</button>
+                                    <button type="button" class="btn btn-success" onclick="loadDataFromCSV()" name="import_button">CSV Upload</button>
                                 </span>
                             </div>
                         </div>
@@ -137,7 +163,56 @@
             
             // var frm = frmWindow.document.getElementById("frmFile");
             // frm.submit();
-            Redirect::to('merchant/product/export_template_csv');
+            alert ("11");
+            //Redirect::to('merchant/product/export_template_csv');
+        }
+
+        function loadDataFromCSV() {
+            $url = "{{url('')}}/merchant/product/product_import_csv";
+            $postString = {"a":"b"};
+            
+            // $request = new HTTPRequest($url, HTTP_METH_POST);
+            // $request->setRawPostData($postString);
+            // $request->send();
+            // $response = $request->getResponseBody();
+
+            $.ajax({
+  method: "GET",
+  url: "{{url('')}}/merchant/product/product_import_csv",
+  data: { name: "John", location: "Boston" }
+})
+  .done(function( msg ) {
+    alert( "Data Saved: " + msg );
+  });
+           
+
+            // $opts = array('http' :
+            //     array(
+            //         'method'  : 'POST',
+            //         'header'  : 'Content-type: application/x-www-form-urlencoded',
+            //         'content' : $postString
+            //     )
+            // );
+            // $context = stream_context_create($opts);
+            // $result = file_get_contents(url, false, $context);
+
+            // $.ajax( {
+            //     type: "POST",
+            //     url: "{{url('')}}/merchant/product/product_import_csv",
+            //     // url: url,
+            //     // data: JSON.stringify({ASDAS: "asdasd"}),
+            //     data: $postString,
+            //     contentType: "application/json; charset=utf-8",
+            //     dataType: "json",
+            //     success: function(data) {
+            //         alert("data");
+            //     },
+            //     failure: function(errMsg) {
+            //         alert(errMsg);
+            //     }
+            // });
+
+            // window.location = "{{url('')}}/resources/views/merchant/product/product_import_csv.php";
         }
     </script>
 @endsection

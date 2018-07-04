@@ -6,7 +6,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Brands</h3>
+            <h3>ブランドを管理する</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -14,7 +14,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Manage Brands</h4>
+                    <h4>ブランドを管理する</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -25,6 +25,7 @@
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">デザイン種類</th>
+                                <th style="text-align:center">写真</th>
                                 <th style="text-align:center">ステータス</th>
                                 <th></th>
                             </tr>
@@ -52,6 +53,9 @@
                                     @elseif($brand->brand_status == 3)
                                         退会
                                     @endif
+                                </td>
+                                <td style="text-align:center">
+                                    <img style="height:20px;" src="{{url("")}}./public/images/brands/{{$brand->brand_image}}">
                                 </td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/brand/edit/'.$brand->brand_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>

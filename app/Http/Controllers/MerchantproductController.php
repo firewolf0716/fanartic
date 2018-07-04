@@ -88,14 +88,15 @@ class MerchantproductController extends Controller
         $datenow = date('Y/m/d');
         $filename_new_get = '';
         $imgct = Input::get('proimg_ct');
-        for ($i = 0; $i < $imgct; $i++) {
+        
+        for ($i = 1; $i <= $imgct; $i++) {
             $file_more = Input::file('product_img_' . $i);
             if ($file_more == null || $file_more == "") {
                 continue;
             } 
             $file_more_name = $file_more->getClientOriginalName();
             $move_more_img = explode('.', $file_more_name);
-            $filename_new = $move_more_img[0] . str_random(8) . "." . strtolower($file_more->getClientOriginalExtension());
+            $filename_new = $move_more_img[0] . time() . "." . strtolower($file_more->getClientOriginalExtension());
             $newdestinationPath = './public/images/products/';
             $uploadSuccess_new = Input::file('product_img_' . $i)->move($newdestinationPath, $filename_new);
             $filename_new_get .= $filename_new . "/**/";
@@ -152,7 +153,7 @@ class MerchantproductController extends Controller
         }
 
         $imgct = Input::get('proimg_ct');
-        for ($i = 0; $i < $imgct; $i++) {
+        for ($i = 1; $i <= $imgct; $i++) {
             if(!Input::has('product_img_'.$i)){
                 continue;
             }
@@ -202,7 +203,6 @@ class MerchantproductController extends Controller
     }
     public function merchant_product_manage() {
         $merchant_id = Session::get('merchantid');
-        echo("asdsa");
         // Log::debug($merchant_id);
         $products = Products::get_products_manage($merchant_id, 1);
         return view('merchant.product.product_manage')->with('products', $products);
@@ -224,6 +224,16 @@ class MerchantproductController extends Controller
         return view('merchant.product.product_csvupload');
     }
     public function mer_delete_product($id, $product_status){
+        $product = Products::get_product($id)->first();
+        $imgFileNames = explode("/**/", $product->product_image, -1); 
+        $imgRootPath = "./public/images/products/";
+        for ($i = 0; $i < count($imgFileNames); $i++) {
+            $imgPath = $imgRootPath.$imgFileNames[$i];
+            if (file_exists($imgPath)) {
+                unlink($imgPath);
+            }
+        }
+
         Products::delete_product($id);
         return Redirect::to('merchant/product/manage')->with('product_status', $product_status);
     }
@@ -248,5 +258,12 @@ class MerchantproductController extends Controller
         $merchant_id = Session::get('merchantid');
         $parents = Products::get_products_by_category($merchant_id, $categoryid, $brandid);
         return $parents;
+    }
+
+    public function product_import_csv(){
+
+// return Input::all();
+        // echo(Input::all());
+        // return (Input::all());
     }
 }

@@ -172,7 +172,8 @@
                         <div id="div_images">
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
-                                <div class="col-md-3 col-sm-6 col-xs-12">
+
+                                <div class="col-md-4 col-sm-6 col-xs-12">
                                 @php 
                                     $file_get  = $product->product_image; 
                                     $file_get_path =  explode("/**/",$file_get,-1); 
@@ -182,11 +183,12 @@
                                     @if($file_get_path[$j] !='')
                                         @php $pro_img = $file_get_path[$j]; @endphp
                                         @php $prod_path = url('').'/public/images/products/'.$pro_img; @endphp
-                                        
+                                        <div style="float:left; max-width:219px; margin-right: 10px;">
                                             <img style="height:70px; width:70px;" src="{{$prod_path}}" id="{{'existing_img_'.$j}}">
+                                            <br>
                                             <button class="btn-small" type="button" id="{{'existing_btn_'.$j}}" onClick="onRemoveImg('{{$j}}')">Remove</button>
-                                            {{ Form::hidden('existing_img_'.$j, $pro_img)}}
-                                        
+                                        </div>
+                                        {{ Form::hidden('existing_img_'.$j, $pro_img)}}
                                     @endif
                                 @endfor
                                 </div>
@@ -194,7 +196,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12"></span></label>
                                 <div class="col-md-3 col-sm-6 col-xs-12" id="div-product-image">
-                                    <input type="file" name="product_img_0" class="form-control">
+                                    <input type="file" name="product_img_1" class="form-control">
                                 </div>
                                 <div class="col-md-2 col-sm-6 col-xs-12">
                                     <button class="btn" type="button" id="btnProductImage">Add</button>

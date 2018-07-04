@@ -1,100 +1,51 @@
 @extends('layouts.adminlayout')
 
-@section('title', 'Dashboard|fanaRtic')
+@section('title', 'FanaRtic Add Notify Merchant')
 
 @section('content')
 
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Add Notify(Merchant)</h3>
+            <h3>通知を追加（商人)</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'admin/genre/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        {!! Form::open(array('id' => 'form_add','url'=>'admin/notifymerchant/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Add Notify(Merchant)</h4>
+                <h4>通知を追加（商人)</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">店舗<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">顧客<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_merchant" name="select_merchant" class="form-control" required>
-                            <option value="">--Select Merchant--</option>
-                            
+                        <select class="form-control" name="notify_merchants[]" id="merchants" multiple="multiple" required>
+                        @foreach($merchants as $merchant)
+                            <option value="{{$merchant->merchant_id}}">{{$merchant->merchant_name}}</option>
+                        @endforeach
                         </select>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="genre_name" name="genre_name" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="notify_name" name="notify_name" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="genre_name_en" name="genre_name_en" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="notify_name_en" name="notify_name_en" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-content">
-                            <div class="btn-group">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                </ul>
-                            </div>
-
-                            <div class="btn-group">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                    <a data-edit="fontSize 5">
-                                        <p style="font-size:17px">Huge</p>
-                                    </a>
-                                    </li>
-                                    <li>
-                                    <a data-edit="fontSize 3">
-                                        <p style="font-size:14px">Normal</p>
-                                    </a>
-                                    </li>
-                                    <li>
-                                    <a data-edit="fontSize 1">
-                                        <p style="font-size:11px">Small</p>
-                                    </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                            </div>
-                        </div>
-
-                        <div id="editor-content" class="editor-wrapper"></div>
-                        {{ Form::hidden('notify_memo','',array('id' => 'notify_memo'))}}
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <textarea class="form-control" id="notify_memo" name="notify_memo" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -105,23 +56,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Add Brand</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">通知を追加</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>
@@ -180,6 +125,7 @@
     <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
+    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
 
 <script type="text/javascript">
     $(function(){
@@ -192,8 +138,10 @@
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
     $('#btnSubmit').click(function(){
-        $('#notify_memo').val($('#editor-content').html());
         $('#form_add').parsley();
+    });
+    $('#merchants').multiselect({
+        includeSelectAllOption: true
     });
 </script>
 @endsection

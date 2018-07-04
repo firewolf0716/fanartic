@@ -26,7 +26,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>管理 / モール 追加</h3>
+            <h3>モール 追加</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -55,7 +55,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name" name="mall_name" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="mall_name" name="mall_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="モール名を日本語で入力してください">
                     </div>
                 </div>
                 <!-- <div class="form-group">
@@ -71,7 +71,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="モール名を英語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
@@ -82,15 +82,9 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
@@ -101,7 +95,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="text-align:center">トップ カテゴリ</th>
+                                <th style="text-align:center">性別(トップ カテゴリ)</th>
                                 <th style="text-align:center">メイン カテゴリ</th>
                                 <th style="text-align:center">サブ カテゴリ</th>
                                 <th style="text-align:center"></th>
@@ -124,7 +118,7 @@
                     </table>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">性別(トップ カテゴリ)</label>
                         <div class=" a col-md-4 col-sm-6 col-xs-12">
                             <select id="top_category" name="top_category" class="form-control">
                                 <option value="">--トップ カテゴリ 選択--</option>
@@ -301,10 +295,15 @@
         if ($('#top_category').val() == '') {
             return;
         }
+        if ($('#sub_category').val() == '') {
+            return;
+        }
         var $categoryid = $('#top_category').val();
         var $topCategoryName = jQuery("#top_category option:selected").text();
         var $mainCategoryName = '';
         var $subCategoryName = '';
+
+
         if ($('#main_category').val() != '') {
             $categoryid = $('#main_category').val();
             $mainCategoryName = jQuery("#main_category option:selected").text();
@@ -413,6 +412,7 @@
         document.getElementById("form_add").reset();
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#datatable').DataTable().clear().draw(false);
     });
     $('#btnSubmit').click(function(){
         $('#form_add').parsley();

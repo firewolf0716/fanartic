@@ -12,15 +12,16 @@ use App\Plans;
 class PlanController extends Controller
 {
     //
-    public function add(){
-        return view('admin.plan.add');
+    public function add() {
+        $fee_types = Plans::get_plan_types();
+        return view('admin.plan.add')->with('fee_types', $fee_types);
     }
     public function addpost(){
         $entry =  array(
             'plan_name' => Input::get('plan_name'),
             'plan_opencost' => Input::get('plan_opencost'),
             'plan_fixcost' => Input::get('plan_fixcost'),
-            'plan_tax' => Input::get('plan_tax'),
+            'fee_type_id' => Input::get('fee_type'),
             'plan_create' => Input::get('create_date'),
             'plan_update' => Input::get('update_date')
         );
@@ -35,19 +36,22 @@ class PlanController extends Controller
 
     public function edit($id){
         $search = Plans::get_plan($id);
+        $fee_types = Plans::get_plan_types();
         if(isset($search)){
             $plan = $search[0];
-            return view('admin.plan.edit')->with('plan', $plan);
+            return view('admin.plan.edit')->with('plan', $plan)
+                                        ->with('fee_types', $fee_types);
         } else{
             return Redirect::to('admin/plan/list');
         }
     }
+
     public function editpost(){
         $entry =  array(
             'plan_name' => Input::get('plan_name'),
             'plan_opencost' => Input::get('plan_opencost'),
             'plan_fixcost' => Input::get('plan_fixcost'),
-            'plan_tax' => Input::get('plan_tax'),
+            'fee_type_id' => Input::get('fee_type'),
             'plan_create' => Input::get('create_date'),
             'plan_update' => Input::get('update_date')
         );

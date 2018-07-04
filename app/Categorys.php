@@ -22,15 +22,24 @@ class Categorys extends Model
         }
     }
 
-    public static function get_categorys($id) {
+    public static function get_categorys($topid, $mainid, $id) {
         $query = "SELECT master_category.category_id, master_category.top_category_id, master_category.main_category_id
-        , master_category.category_gender, master_category.category_name, master_category.category_name_en, master_category.category_size_id
+        , master_category.category_name, master_category.category_name_en, master_category.category_size_id
         , master_category.category_create, master_category.category_update, master_sizecategory.sizecategory_name
         , top_category_table.category_name AS top_category_name, top_category_table.category_name_en AS top_category_name_en
         , main_category_table.category_name AS main_category_name, main_category_table.category_name AS main_category_name FROM";
-        if ($id != 0) {
+         if ($id != 0) {
             $query .= "(SELECT * FROM master_category WHERE category_id = '$id') AS";
+        } else if ($mainid != 0) {
+            $query .= "(SELECT * FROM master_category WHERE main_category_id = '$mainid'
+             AND (category_id != '' AND category_id IS NOT NULL AND category_id != '0')) AS";
+        } else if ($topid != 0) {
+            $query .= "(SELECT * FROM master_category WHERE top_category_id = '$topid'
+             AND (main_category_id = '' OR main_category_id IS NULL OR main_category_id = '0')) AS";
+        } else {
+            $query .= "(SELECT * FROM master_category WHERE top_category_id = '' OR top_category_id IS NULL OR top_category_id = '0') AS";
         }
+        
         $query .= " master_category LEFT JOIN master_sizecategory ON master_sizecategory.sizecategory_id = master_category.category_size_id
          LEFT JOIN master_category AS top_category_table ON master_category.top_category_id = top_category_table.category_id
          LEFT JOIN master_category AS main_category_table ON master_category.main_category_id = main_category_table.category_id
@@ -57,7 +66,7 @@ class Categorys extends Model
     }
 
     public static function edit_category($entry, $id) {
-        return DB::table('master_category')->where('category_id', '=', $id)->update($entry);
+        return DB::table('master_category')->where('category_id', $id)->update($entry);
     }
 
     public static function getTopCategorys() {
