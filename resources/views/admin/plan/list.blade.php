@@ -36,7 +36,7 @@
                                 <td style="text-align:center">{{$plan->plan_name}}</td>
                                 <td style="text-align:center">{{$plan->plan_opencost}}</td>
                                 <td style="text-align:center">{{$plan->plan_fixcost}}</td>
-                                <td style="text-align:center">{{$plan->plan_tax}}</td>
+                                <td style="text-align:center">{{$plan->fee_type_name}}</td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/plan/edit/'.$plan->plan_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 </td>

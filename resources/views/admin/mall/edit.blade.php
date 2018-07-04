@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Edit Mall</h3>
+            <h3>モール 編集</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,7 +16,7 @@
         {{ Form::hidden('id', $mall->mall_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Edit Mall</h4>
+                <h4>モール 編集</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -48,14 +48,14 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name" name="mall_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$mall->mall_name}}">
+                        <input type="text" id="mall_name" name="mall_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$mall->mall_name}}" placeholder="モール名を日本語で入力してください">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$mall->mall_name_en}}">
+                        <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$mall->mall_name_en}}" placeholder="モール名を英語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
@@ -90,7 +90,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="text-align:center">トップ カテゴリ</th>
+                                <th style="text-align:center">性別(トップ カテゴリ)</th>
                                 <th style="text-align:center">メイン カテゴリ</th>
                                 <th style="text-align:center">サブ カテゴリ</th>
                                 <th style="text-align:center"></th>
@@ -134,7 +134,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">メイン カテゴリ</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">性別(メイン カテゴリ)</label>
                         <div class=" a col-md-4 col-sm-6 col-xs-12">
                             <select id="main_category" name="main_category" class="form-control">
                                 <option value="">--メイン カテゴリ 選択--</option>

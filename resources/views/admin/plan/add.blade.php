@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Add Open Plan</h3>
+            <h3>オープンプランを追加</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -15,7 +15,7 @@
         {!! Form::open(array('id' => 'form_add','url'=>'admin/plan/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Add Open Plan</h4>
+                <h4>オープンプランを追加</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -40,27 +40,26 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">手数料<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="number" id="plan_tax" name="plan_tax" required="required" class="form-control col-md-7 col-xs-12">
+                        <select id="fee_type" name="fee_type" class="form-control" required>
+                            @foreach($fee_types as $fee_type)
+                                <option value="{{$fee_type->fee_type_id}}">{{$fee_type->fee_type_name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Add Plan</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">オープンプランを追加</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>

@@ -44,6 +44,7 @@ class MerchantController extends Controller
         $citys = Citys::getCitys($stateid);
         return $citys;
     }
+    
     public function merchant_editsetting(){
         Log::debug(Input::all());
         $state = Input::get('merchant_state');
@@ -72,6 +73,7 @@ class MerchantController extends Controller
                 'merchant_commission_ex' => Input::get('merchant_commission_ex'),
                 'merchant_create' => Input::get('create_date'),
                 'merchant_update' => Input::get('update_date'),
+                'merchant_open_state' => Input::get('merchant_open_state'),
             );
             Merchants::editMerchant($entry, $id);
         } else if($state == 1){
@@ -98,6 +100,7 @@ class MerchantController extends Controller
                 'merchant_commission_ex' => Input::get('merchant_commission_ex'),
                 'merchant_create' => Input::get('create_date'),
                 'merchant_update' => Input::get('update_date'),
+                'merchant_open_state' => Input::get('merchant_open_state'),
             );
             Merchants::editMerchant($entry, $id);
         }

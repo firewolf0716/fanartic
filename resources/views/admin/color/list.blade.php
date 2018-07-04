@@ -6,7 +6,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Colors</h3>
+            <h3>色を管理する</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -14,7 +14,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Manage Colors</h4>
+                    <h4>色を管理する</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -24,7 +24,7 @@
                                 <th>ID</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
-                                <th style="text-align:center">Color</th>
+                                <th style="text-align:center">色</th>
                                 <th></th>
                             </tr>
                         </thead>

@@ -6,7 +6,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Product Categorys</h3>
+                <h3>{{$toptitle}}</h3>            
         </div>
     </div>
     <div class="clearfix"></div>
@@ -14,7 +14,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Manage Product Categorys</h4>
+                    <h4>{{$title}}</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -22,50 +22,57 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="text-align:center">トップ カテゴリ</th>
-                                <th style="text-align:center">メイン カテゴリ</th>
-                                <th style="text-align:center">サブ カテゴリ</th>
-                                <th style="text-align:center">サイズカテゴリ</th>
-                                <th style="text-align:center">性別</th>
-                                <th></th>
+                                <th style="text-align:center">名前</th>
+                                <th style="text-align:center">英名</th>
+                                @if ($categorylevel == 3)
+                                    <th style="text-align:center">サイズカテゴリ</th>
+                                @endif
+                                <th style="text-align:center">編集</th>
+                                @if ($categorylevel != 3)
+                                    <th style="text-align:center">追加</th>
+                                    <th style="text-align:center">詳細</th>
+                                @endif
+                                <th style="text-align:center">削除</th>
                             </tr>
                         </thead>
                         <tbody>
                         @foreach($categorys as $key => $category)
                             <tr>
                                 <td>{{$category->category_id}}</td>
-                                <?php $top_category_name = "" ?>
-                                <?php $main_category_name = "" ?>
-                                <?php $sub_category_name = "" ?>
-                                @if ($category->top_category_name != "")
-                                    <?php $top_category_name = $category->top_category_name ?>
-                                    @if ($category->main_category_name != "")
-                                        <?php $main_category_name = $category->main_category_name ?>
-                                        <?php $sub_category_name = $category->category_name ?>
-                                    @else
-                                        <?php $main_category_name = $category->category_name ?>
-                                    @endif
-                                @else
-                                    @if ($category->main_category_name != "")
-                                        <?php $top_category_name = $category->main_category_name ?>
-                                        <?php $sub_category_name = $category->category_name ?>
-                                    @else
-                                        <?php $top_category_name = $category->category_name ?>
-                                    @endif
+                                <td style="text-align:center">{{$category->category_name}}</td>
+                                <td style="text-align:center">{{$category->category_name_en}}</td>
+                                @if ($categorylevel == 3)
+                                    <td style="text-align:center">{{$category->sizecategory_name}}</td>                                
                                 @endif
-                                <td style="text-align:center">{{$top_category_name}}</td>
-                                <td style="text-align:center">{{$main_category_name}}</td>
-                                <td style="text-align:center">{{$sub_category_name}}</td>
-                                <td style="text-align:center">{{$category->sizecategory_name}}</td>
+                                @if ($categorylevel == 1)
+                                    <td style="text-align:center">
+                                        <a href="{{ url('admin/category/edit/'.$category->category_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    </td>
+                                @elseif ($categorylevel == 2)
+                                    <td style="text-align:center">
+                                        <a href="{{ url('admin/category/edit/'.$topcategoryid.'/'.$category->category_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    </td>
+                                @else
+                                    <td style="text-align:center">
+                                        <a href="{{ url('admin/category/edit/'.$topcategoryid.'/'.$maincategoryid.'/'.$category->category_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                    </td>
+                                @endif
+                                @if ($categorylevel == 1)
+                                    <td style="text-align:center">
+                                        <a href="{{ url('admin/category/add/'.$category->category_id) }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                                    </td>
+                                    <td style="text-align:center">
+                                        <a href="{{ url('admin/category/list/'.$category->category_id) }}"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a>
+                                    </td>
+                                @elseif ($categorylevel == 2)
+                                    <td style="text-align:center">
+                                        <a href="{{ url('admin/category/add/'.$topcategoryid.'/'.$category->category_id) }}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                                    </td>
+                                    <td style="text-align:center">
+                                        <a href="{{ url('admin/category/list/'.$topcategoryid.'/'.$category->category_id) }}"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></a>
+                                    </td>
+                                @endif
                                 <td style="text-align:center">
-                                    @if($category->category_gender == 0)
-                                    Man
-                                    @elseif($category->category_gender == 1)
-                                    Woman
-                                    @endif
-                                </td>
-                                <td style="text-align:center">
-                                    <a href="{{ url('admin/category/edit/'.$category->category_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                     <a href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$category->category_id}})" aria-hidden="true"></span></a>
                                 </td>
                             </tr>

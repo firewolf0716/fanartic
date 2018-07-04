@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Add Product Category</h3>
+            <h3>{{$toptitle}}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -15,90 +15,77 @@
         {!! Form::open(array('id' => 'form_add','url'=>'admin/category/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Add Product Category</h4>
+                <h4>{{$title}}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select class="form-control" name="category_mall[]" id="malls" multiple="multiple">
+                @if ($categorylevel != 1)
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <select class="form-control" name="category_mall[]" id="malls" multiple="multiple">
                             @foreach($malls as $mall)
-                                <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
+                                <?php $selected = false; ?>
+                                @foreach($linkedMalls as $linkedMall)
+                                    @if($mall->mall_id == $linkedMall->mall_id)
+                                        <?php $selected = true; ?>
+                                        @break
+                                    @endif
+                                @endforeach
+                                
+                                @if($selected == true)
+                                    <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
+                                @else
+                                    <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
+                                @endif
                             @endforeach
-                        </select>
+                            </select>
+                        </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">性別<span class="required">*</span></label>
-                    <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="0" name="optionGender" checked>Man</label>
-                        <label><input type="radio" value="1" name="optionGender">Woman</label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="top_category" name="top_category" class="form-control">
-                            <option value="">--トップ カテゴリ 選択--</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">メイン カテゴリ</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="main_category" name="main_category" class="form-control">
-                            <option value="">--メイン カテゴリ 選択--</option>
-                        </select>
-                    </div>
-                </div>
+                @endif
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="category_name" name="category_name" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="category_name" name="category_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="カテゴリ名を日本語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="category_name_en" name="category_name_en" required="required" class="form-control col-md-7 col-xs-12">
+                        <input type="text" id="category_name_en" name="category_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="カテゴリ名を英語で入力してください">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_sizecategory" name="select_sizecategory" class="form-control">
-                            <option value="">--Select Size Category--</option>
-                            @foreach($sizecategorys as $sizecategory)
-                            <option value="{{$sizecategory->sizecategory_id}}">{{$sizecategory->sizecategory_name}}</option>
-                            @endforeach
-                        </select>
+                @if ($categorylevel == 3)
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <select id="select_sizecategory" name="select_sizecategory" class="form-control" required>
+                                <option value="">--サイズのカテゴリを選択--</option>
+                                @foreach($sizecategorys as $sizecategory)
+                                <option value="{{$sizecategory->sizecategory_id}}">{{$sizecategory->sizecategory_name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
+                @endif
 
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                <div  class="form-group">
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="topcategoryid" name="topcategoryid" class="form-control col-md-7 col-xs-12" value="{{$topcategoryid}}" readonly>
+                        <input type="hidden" id="maincategoryid" name="maincategoryid" class="form-control col-md-7 col-xs-12" value="{{$maincategoryid}}" readonly>
                     </div>
                 </div>
 
                 <div class="ln_solid"></div>
+
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Add Product Category</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">商品カテゴリを追加</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>
@@ -136,8 +123,6 @@
     <script src="{{ URL::asset('public/gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
-
-
     <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
@@ -160,55 +145,30 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
     <script type="text/javascript">
-        $(function(){
+        $(function() {
             $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
             $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-            addTopCategorys();
         });
-        function addTopCategorys() {
-            $('#top_category').find('option').remove().end().append('<option value="">--トップ カテゴリ 選択--</option>');
 
-            $.ajax( {
-                type: 'get',
-                url: '{{url('admin/category/get-top-categorys')}}',
-                success: function(data){
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.category_id;
-                        opt.innerHTML = item.category_name;
-                        document.getElementById('top_category').appendChild(opt);
-                    }
-                }
-            });
-        }
-        $('#top_category').change(function(){
-            var top = $('#top_category').val();
-            $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
-            
-            if(top != ""){
-                $.ajax( {
-                    type: 'get',
-                    url: '{{url('admin/category/get-main-categorys')}}' + "/" + top,
-                    success: function(data) {
-                        for(var i = 0; i < data.length; i++){
-                            var item = data[i];
-                            var opt = document.createElement('option');
-                            opt.value = item.category_id;
-                            opt.innerHTML = item.category_name;
-                            document.getElementById('main_category').appendChild(opt);
-                        }
-                    }
-                });
-            }
-        });
-        $('#btnReset').click(function(){
-            document.getElementById("form_add").reset();
-            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        // function addMainCategorys(gender) {
+        //     $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
+        //     if(top != ""){
+        //         $.ajax( {
+        //             type: 'get',
+        //             url: '{{url('admin/category/get-main-categorys')}}' + "/" + gender,
+        //             success: function(data) {
+        //                 for(var i = 0; i < data.length; i++){
+        //                     var item = data[i];
+        //                     var opt = document.createElement('option');
+        //                     opt.value = item.category_id;
+        //                     opt.innerHTML = item.category_name;
+        //                     document.getElementById('main_category').appendChild(opt);
+        //                 }
+        //             }
+        //         });
+        //     }
+        // }
 
-            addTopCategorys();
-        });
         $('#btnSubmit').click(function(){
             if($('#select_parent').val() == ''){
                 $('#select_mall').attr('required', 'required');
@@ -217,8 +177,15 @@
             }
             $('#form_add').parsley();
         });
+
+        $('#btnReset').click(function(){
+            document.getElementById("form_add").reset();
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        });
+
         $('#malls').multiselect({
-                includeSelectAllOption: true
-            });
+            includeSelectAllOption: true
+        });
     </script>
 @endsection

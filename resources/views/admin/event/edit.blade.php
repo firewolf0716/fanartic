@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Edit Event</h3>
+            <h3>イベントを編集</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,7 +16,7 @@
         {{ Form::hidden('event_id',$event->event_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Edit Event</h4>
+                <h4>イベントを編集</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -53,59 +53,8 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">コンテンツ<span class="required">*</span></label>
-                    <div class="col-md-6 col-sm-6 col-xs-12">
-                        <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-content">
-                            <div class="btn-group">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                </ul>
-                            </div>
-
-                            <div class="btn-group">
-                            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                    <a data-edit="fontSize 5">
-                                        <p style="font-size:17px">Huge</p>
-                                    </a>
-                                    </li>
-                                    <li>
-                                    <a data-edit="fontSize 3">
-                                        <p style="font-size:14px">Normal</p>
-                                    </a>
-                                    </li>
-                                    <li>
-                                    <a data-edit="fontSize 1">
-                                        <p style="font-size:11px">Small</p>
-                                    </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
-                                <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
-                                <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="fa fa-strikethrough"></i></a>
-                                <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="fa fa-list-ul"></i></a>
-                                <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="fa fa-list-ol"></i></a>
-                                <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="fa fa-dedent"></i></a>
-                                <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="fa fa-indent"></i></a>
-                            </div>
-
-                            <div class="btn-group">
-                                <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
-                                <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
-                                <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
-                                <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
-                            </div>
-                        </div>
-
-                        <div id="editor-content" class="editor-wrapper"></div>
-                        {{ Form::hidden('event_content','',array('id' => 'event_content'))}}
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <textarea class="form-control" id="event_content" name="event_content" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;">{{$event->event_content}}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -124,8 +73,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Edit Event</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">イベントを編集</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>
@@ -187,8 +136,6 @@
 
 <script type="text/javascript">
     $(function() {
-        // $('#editor-content').html(wp_editor('{{$event->event_content}}', strtolower('{{$event->event_content}}')));
-        $('#editor-content').html('{{$event->event_content}}');
     });
     $('#btnReset').click(function(){
         document.getElementById("form_add").reset();
@@ -196,7 +143,6 @@
         $('#update_date').val('{{$event->event_update}}');
     });
     $('#btnSubmit').click(function(){
-        $('#event_content').val($('#editor-content').html());
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'))
         $('#form_add').parsley();
     });

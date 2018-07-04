@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Edit Size</h3>
+            <h3>サイズを編集</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,15 +16,15 @@
         {{ Form::hidden('size_id', $size->size_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Edit Size</h4>
+                <h4>サイズを編集</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリID<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select id="select_category" name="select_category" class="form-control" required>
-                            <option value="">--Select Size Category--</option>
+                            <option value="">--サイズのカテゴリを選択--</option>
                             @foreach($categorys as $category)
                             @if($size->size_category_id == $category->sizecategory_id)
                                 <option value="{{$category->sizecategory_id}}" selected>{{$category->sizecategory_name}}</option>
@@ -38,13 +38,13 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="size_name" name="size_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$size->size_name}}">
+                        <input type="text" id="size_name" name="size_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$size->size_name}}" placeholder="サイズの名前を日本語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="size_name_en" name="size_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$size->size_name_en}}">
+                        <input type="text" id="size_name_en" name="size_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$size->size_name_en}}" placeholder="サイズの名前を英語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
@@ -63,8 +63,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Edit Size Category</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">サイズを編集</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>

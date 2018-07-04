@@ -6,7 +6,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Size Categorys</h3>
+            <h3>サイズのカテゴリを管理する</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -14,7 +14,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Manage Size Categorys</h4>
+                    <h4>サイズのカテゴリを管理する</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -23,6 +23,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th style="text-align:center">名前</th>
+                                <th style="text-align:center">英名</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -31,6 +32,7 @@
                             <tr>
                                 <td>{{$sizecategory->sizecategory_id}}</td>
                                 <td style="text-align:center">{{$sizecategory->sizecategory_name}}</td>
+                                <td style="text-align:center">{{$sizecategory->sizecategory_name_en}}</td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/size/editcategory/'.$sizecategory->sizecategory_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 </td>

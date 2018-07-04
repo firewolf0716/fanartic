@@ -14,20 +14,30 @@ use App\MallBrands;
 
 class BrandController extends Controller
 {
-    //
     public function add(){
         $malls = Malls::get_malls();
         $genres = Genres::get_genres();
         return view('admin.brand.add')->with('malls', $malls)->with('genres', $genres);
     }
-    public function addpost(){
-        $entry =  array(
+    public function addpost() {
+        $brand_image_file = Input::file('brand_image');
+        if ($brand_image_file == null || $brand_image_file == "") {
+            return Redirect::to('admin/brand/list');
+        }
+
+        $filename_new = "brand_" . time() . "." . strtolower($brand_image_file->getClientOriginalExtension());
+        $newdestinationPath = './public/images/brands/';
+        $uploadSuccess_new = Input::file('brand_image')->move($newdestinationPath, $filename_new);
+
+        $entry =  array (
             'brand_name' => Input::get('brand_name'),
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),
             'brand_status' => Input::get('optionStatus'),
             'brand_create' => Input::get('create_date'),
-            'brand_update' => Input::get('update_date')
+            'brand_update' => Input::get('update_date'),
+            'brand_image' => $filename_new,
+            'brand_description' => Input::get('brand_description')
         );
         $id = Brands::insert_brand($entry);
         if(Input::has('brand_mall')){
@@ -58,19 +68,38 @@ class BrandController extends Controller
             return Redirect::to('admin/brand/list');
         }
     }
-    public function delete($id){
+    public function delete($id) {
+        $search = Brands::get_brand($id);
+        if(isset($search)){
+            $brand = $search[0];
+            $imgPath = "./public/images/brands/".$brand->brand_image;
+            if (file_exists($imgPath)) {
+                unlink($imgPath);
+            }
+        }
+
         Brands::remove($id);
         MallBrands::remove_malls($id);
         return Redirect::to('admin/brand/list');
     }
-    public function editpost(){
+    public function editpost() {
+        $brand_image_file = Input::file('brand_image_file');
+        if ($brand_image_file == null || $brand_image_file == "") {
+            
+        } else {
+            $filename = Input::get('brand_image');
+            $newdestinationPath = './public/images/brands/';
+            $uploadSuccess_new = $brand_image_file->move($newdestinationPath, $filename);
+        }
+        
         $entry =  array(
             'brand_name' => Input::get('brand_name'),
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),
             'brand_status' => Input::get('optionStatus'),
             'brand_create' => Input::get('create_date'),
-            'brand_update' => Input::get('update_date')
+            'brand_update' => Input::get('update_date'),
+            'brand_description' => Input::get('brand_description')
         );
         $id = Input::get('brand_id');
         Brands::edit_brand($entry, $id);

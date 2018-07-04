@@ -73,4 +73,33 @@ class Products extends Model{
     public static function delete_product($id){
         return DB::table('fan_product')->where('product_id', $id)->delete();
     }
+
+    public static function get_product_filter($categorylevel, $category_id, $size, $color, $rangemin, $rangemax){
+        if($categorylevel == 1)
+            $sql = DB::table('fan_product')->where('product_top_category_id', $category_id);
+        else if($categorylevel == 2)
+            $sql = DB::table('fan_product')->where('product_main_category_id', $category_id);
+        else if($categorylevel == 3)
+            $sql = DB::table('fan_product')->where('product_category_id', $category_id);
+        if(isset($size) && $size != ''){
+            $sql = $sql->where('product_size_id', $size);
+        }
+        if(isset($color) && $color != ''){
+            $sql = $sql->where('product_color', $color);
+        }
+        if(isset($rangemin) && $rangemin != ''){
+            $sql = $sql->where('product_price_sale', '>=' ,$rangemin);
+        }
+        if(isset($rangemax) && $rangemax != ''){
+            $sql = $sql->where('product_price_sale', '<=' ,$rangemax);
+        }
+        return $sql->get();
+    }
+
+    public static function get_product_detail($id){
+        return DB::table('fan_product')->where('product_id', $id)
+            ->leftJoin('master_brand', 'fan_product.product_brand_id', '=', 'master_brand.brand_id')
+            ->leftJoin('master_color', 'fan_product.product_color', '=', 'master_color.color_id')
+            ->get();
+    }
 }

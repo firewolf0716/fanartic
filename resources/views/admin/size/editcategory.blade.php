@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Edit Size Category</h3>
+            <h3>サイズのカテゴリを編集</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,14 +16,20 @@
         {{ Form::hidden('sizecategory_id', $sizecategory->sizecategory_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>Edit Size Category</h4>
+                <h4>サイズのカテゴリを編集</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="sizecategory_name" name="sizecategory_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$sizecategory->sizecategory_name}}">
+                        <input type="text" id="sizecategory_name" name="sizecategory_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$sizecategory->sizecategory_name}}" placeholder="サイズのカテゴリ名を日本語で入力してください">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="sizecategory_name_en" name="sizecategory_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$sizecategory->sizecategory_name_en}}" placeholder="サイズのカテゴリ名を英語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
@@ -42,8 +48,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Edit Size Category</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">サイズのカテゴリを編集</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>

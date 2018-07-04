@@ -6,7 +6,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Size Categorys</h3>
+            <h3>サイズを管理する</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -14,7 +14,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Manage Size Categorys</h4>
+                    <h4>サイズを管理する</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">

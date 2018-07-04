@@ -17,6 +17,7 @@ class SizeController extends Controller
     }
     public function addcategorypost(){
         $entry =  array(
+            'sizecategory_name_en' => Input::get('sizecategory_name_en'),
             'sizecategory_name' => Input::get('sizecategory_name'),
             'sizecategory_create' => Input::get('create_date'),
             'sizecategory_update' => Input::get('update_date')
@@ -41,6 +42,7 @@ class SizeController extends Controller
     }
     public function editcategorypost(){
         $entry =  array(
+            'sizecategory_name_en' => Input::get('sizecategory_name_en'),
             'sizecategory_name' => Input::get('sizecategory_name'),
             'sizecategory_create' => Input::get('create_date'),
             'sizecategory_update' => Input::get('update_date')
