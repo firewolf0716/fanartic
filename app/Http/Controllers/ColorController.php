@@ -11,11 +11,19 @@ use App\Colors;
 
 class ColorController extends Controller
 {
-    //
-    public function add(){
+    public function add() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         return view('admin.color.add');
     }
-    public function addpost(){
+
+    public function addpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'color_name' => Input::get('color_name'),
             'color_name_en' => Input::get('color_name_en'),
@@ -26,11 +34,21 @@ class ColorController extends Controller
         Colors::insert_color($entry);
         return Redirect::to('admin/color/list');
     }
-    public function list(){
+
+    public function list() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $colors = Colors::get_colors();
         return view('admin.color.list')->with('colors', $colors);
     }
-    public function edit($id){
+
+    public function edit($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Colors::get_color($id);
         if(isset($search)){
             $color = $search[0];
@@ -39,7 +57,12 @@ class ColorController extends Controller
             return Redirect::to('admin/color/list');
         }
     }
-    public function editpost(){
+    
+    public function editpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'color_name' => Input::get('color_name'),
             'color_name_en' => Input::get('color_name_en'),

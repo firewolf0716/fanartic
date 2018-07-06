@@ -13,14 +13,19 @@ use Session;
 class CustomerNotifyController extends Controller
 {
     public function add() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $customers = Merchants::getMerchants();
         return view('admin.notifyc.add')->with('customers', $customers);
     }
 
     public function addpost() {
-        if (!Session::has('adminid')) {
+        if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login?redirect=admin/notifycustomer/add');
         }
+
         $adminid = Session::get('adminid');
         $strNotifyCustomers = '';
         if(Input::has('notify_customers')) {
@@ -49,27 +54,30 @@ class CustomerNotifyController extends Controller
     }
 
     public function list() {
-        if (!Session::has('adminid')) {
-            return Redirect::to('admin/login?redirect=admin/notifycustomer/list');
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
         }
+
         $adminid = Session::get('adminid');
         $notifys = CustomerNotifys::getNotifysByAdmin($adminid);
         return view('admin.notifyc.list')->with('notifys', $notifys);
     }
 
     public function delete($id) {
-        if (!Session::has('adminid')) {
+        if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login?redirect=admin/notifycustomer/list');
         }
+
         $adminid = Session::get('adminid');
         $notifys = CustomerNotifys::remove($adminid, $id);
         return Redirect::to('admin/notifycustomer/list');
     }
 
     public function edit($id) {
-        if (!Session::has('adminid')) {
+        if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login?redirect=admin/notifycustomer/list');
         }
+
         $adminid = Session::get('adminid');
         $customers = Merchants::getMerchants();
         $notifys = CustomerNotifys::getNotifysByAdminAndID($adminid, $id);
@@ -82,9 +90,10 @@ class CustomerNotifyController extends Controller
                                         ->with('linkedCustomers', $linkedCustomers);
     }
     public function editpost() {
-        if (!Session::has('adminid')) {
+        if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login?redirect=admin/notifycustomer/list');
         }
+
         $adminid = Session::get('adminid');
         $strNotifyCustomers = '';
         if(Input::has('notify_customers')) {
@@ -111,5 +120,4 @@ class CustomerNotifyController extends Controller
         $id = CustomerNotifys::edit(Input::get('notify_id'), $entry);
         return Redirect::to('admin/notifycustomer/list');
     }
-
 }

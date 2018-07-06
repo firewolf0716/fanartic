@@ -27,7 +27,7 @@ class MerchantproductController extends Controller
     public function __construct(){
         // parent::__construct();
     }
-    public function merchant_product_add(){
+    public function merchant_product_add() {
         if (!Session::has('merchantid')) {
             return Redirect::to('merchant/signin?redirect=merchant/product/add');
         }

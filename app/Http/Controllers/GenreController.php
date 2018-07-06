@@ -10,15 +10,22 @@ use Illuminate\Support\Facades\Redirect;
 use App\Malls;
 use App\Genres;
 
-
 class GenreController extends Controller
 {
-    //
-    public function add(){
+    public function add() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $malls = Malls::get_malls();
         return view('admin.genre.add')->with('malls', $malls);
     }
-    public function addpost(){
+
+    public function addpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'mall_id' => Input::get('select_mall'),
             'genre_name' => Input::get('genre_name'),
@@ -27,15 +34,24 @@ class GenreController extends Controller
             'genre_create' => Input::get('create_date'),
             'genre_update' => Input::get('update_date')
         );
-        
         Genres::insert_genre($entry);
         return Redirect::to('admin/genre/list');
     }
-    public function list(){
+
+    public function list() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $genres = Genres::get_genres();
         return view('admin.genre.list')->with('genres', $genres);
     }
-    public function edit($id){
+
+    public function edit($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Genres::get_genre($id);
         $malls = Malls::get_malls();
         if(isset($search)){
@@ -45,7 +61,12 @@ class GenreController extends Controller
             return Redirect::to('admin/genre/list');
         }
     }
-    public function editpost(){
+
+    public function editpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'mall_id' => Input::get('select_mall'),
             'genre_name' => Input::get('genre_name'),
@@ -58,7 +79,12 @@ class GenreController extends Controller
         Genres::edit_genre($entry, $id);
         return Redirect::to('admin/genre/list');
     }
-    public function delete($id){
+
+    public function delete($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         Genres::remove($id);
         return Redirect::to('admin/genre/list');
     }

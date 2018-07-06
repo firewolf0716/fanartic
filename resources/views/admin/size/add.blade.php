@@ -52,7 +52,6 @@
                         <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
-
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -95,8 +94,6 @@
     <script src="{{ URL::asset('public/gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
-
-
     <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
@@ -118,16 +115,18 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
 <script type="text/javascript">
-    $(function(){
+    $(function() {
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnReset').click(function(){
+
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnSubmit').click(function(){
+
+    $('#btnSubmit').click(function() {
         $('#form_add').parsley();
     });
 </script>

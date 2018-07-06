@@ -20,7 +20,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                @if ($categorylevel != 1)
+                <!-- @if ($categorylevel != 1)
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
@@ -43,7 +43,7 @@
                             </select>
                         </div>
                     </div>
-                @endif
+                @endif -->
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
@@ -56,7 +56,7 @@
                         <input type="text" id="category_name_en" name="category_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$category->category_name_en}}" placeholder="カテゴリ名を英語で入力してください">
                     </div>
                 </div>
-                @if ($categorylevel == 3)
+                @if ($categorylevel == 2)
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">

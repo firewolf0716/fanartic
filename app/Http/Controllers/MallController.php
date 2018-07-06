@@ -15,12 +15,19 @@ use App\Categorys;
 
 class MallController extends Controller
 {
-    //
-    public function add(){
+    public function add() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $brands = Brands::get_brands();
         return view('admin.mall.add')->with('brands', $brands);
     }
-    public function addpost(){
+    public function addpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'mall_name' => Input::get('mall_name'),
             'mall_name_en' => Input::get('mall_name_en'),
@@ -29,15 +36,18 @@ class MallController extends Controller
             'mall_update' => Input::get('update_date')
         );
         $mallid = Malls::insert_mall($entry);
-        
-        if(Input::has('brand_mall')){
-            $brands = Input::get('brand_mall');
-            foreach($brands as $brand){
-                $mentry = array(
-                    'mall_id' => $mallid,
-                    'brand_id' => $brand
-                );
-                MallBrands::insert_match($mentry);
+
+        if(Input::has('mall_brands')){
+            $brandString = Input::get('mall_brands');
+            $brands = explode(',', $brandString);
+            foreach($brands as $brand) {
+                if ($brand != '') {
+                    $mentry = array(
+                        'mall_id' => $mallid,
+                        'brand_id' => $brand
+                    );
+                    MallBrands::insert_match($mentry);
+                }
             }
         }
 
@@ -57,25 +67,51 @@ class MallController extends Controller
         return Redirect::to('admin/mall/list');
     }
 
-    public function list(){
+    public function list() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $malls = Malls::get_malls();
         return view('admin.mall.list')->with('malls', $malls);
     }
 
-    public function edit($id){
+    public function edit($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Malls::get_mall($id);
         if(isset($search)){
             $mall = $search[0];
             $brands = Brands::get_brands();
-            $selbrands = MallBrands::get_brands($mall->mall_id);
+            $selBrands = MallBrands::get_brands($mall->mall_id);
+            $selBrandsString = '';
+            for ($i = 0; $i < count($selBrands); $i++) {
+                if ($i != 0) {
+                    $selBrandsString .= ",";
+                }
+                $selBrandsString .= $selBrands[$i]->brand_id;
+            }
+
+            $mall_brands = explode(',', $selBrandsString);
+            
             $selcategorys = Categorys::get_categorys_for_mall($mall->mall_id);
-            return view('admin.mall.edit')->with('mall', $mall)->with('brands', $brands)->with('selbrands', $selbrands)->with('selcategorys', $selcategorys);
+            return view('admin.mall.edit')->with('mall', $mall)
+                                        ->with('brands', $brands)
+                                        ->with('selBrands', $selBrandsString)
+                                        ->with('mall_brands', $mall_brands)
+                                        ->with('selcategorys', $selcategorys);
         } else{
             return Redirect::to('admin/mall/list');
         }
     }
 
-    public function editpost(){
+    public function editpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'mall_name' => Input::get('mall_name'),
             'mall_name_en' => Input::get('mall_name_en'),
@@ -88,13 +124,16 @@ class MallController extends Controller
 
         MallBrands::remove_brands($mallid);
         if(Input::has('mall_brands')){
-            $brands = Input::get('mall_brands');
-            foreach($brands as $brand){
-                $mentry = array(
-                    'mall_id' => $mallid,
-                    'brand_id' => $brand
-                );
-                MallBrands::insert_match($mentry);
+            $brandString = Input::get('mall_brands');
+            $brands = explode(',', $brandString);
+            foreach($brands as $brand) {
+                if ($brand != '') {
+                    $mentry = array(
+                        'mall_id' => $mallid,
+                        'brand_id' => $brand
+                    );
+                    MallBrands::insert_match($mentry);
+                }
             }
         }
 
@@ -114,7 +153,11 @@ class MallController extends Controller
         return Redirect::to('admin/mall/list');
     }
 
-    public function delete($id){
+    public function delete($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         Malls::remove_mall($id);
         MallBrands::remove_brands($id);
         MallCategorys::remove_categorys($id);

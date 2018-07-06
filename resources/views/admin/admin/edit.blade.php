@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Edit Admin</h3>
+            <h3>管理者を編集</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -42,8 +42,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">Edit Admin</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">管理者を編集</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>
@@ -81,8 +81,6 @@
     <script src="{{ URL::asset('public/gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
-
-
     <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
@@ -106,12 +104,11 @@
     <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
 
 <script type="text/javascript">
-    $(function(){
-    });
-    $('#btnReset').click(function(){
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
     });
-    $('#btnSubmit').click(function(){
+    
+    $('#btnSubmit').click(function() {
         $('#form_add').parsley();
     });
 </script>

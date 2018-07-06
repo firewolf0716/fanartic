@@ -22,6 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">タイトル</th>
                                 <th style="text-align:center">初期費用</th>
                                 <th style="text-align:center">固定費用</th>
@@ -30,9 +31,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <?php $index = 0; ?>
                         @foreach($plans as $plan)
+                        <?php $index += 1; ?>
                             <tr>
-                                <td>{{$plan->plan_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$plan->plan_id}}</td>
                                 <td style="text-align:center">{{$plan->plan_name}}</td>
                                 <td style="text-align:center">{{$plan->plan_opencost}}</td>
                                 <td style="text-align:center">{{$plan->plan_fixcost}}</td>
@@ -49,6 +53,7 @@
         </div>
     </div>        
 </div>
+
     <!-- jQuery -->
     <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->

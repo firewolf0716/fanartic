@@ -22,6 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">ステータス</th>
@@ -29,9 +30,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <?php $index = 0; ?>
                         @foreach($malls as $mall)
+                        <?php $index += 1; ?>
                             <tr>
-                                <td>{{$mall->mall_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$mall->mall_id}}</td>
                                 <td style="text-align:center">{{$mall->mall_name}}</td>
                                 <td style="text-align:center">{{$mall->mall_name_en}}</td>
                                 <td style="text-align:center">

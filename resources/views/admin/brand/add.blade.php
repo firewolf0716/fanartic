@@ -19,23 +19,12 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select class="form-control" name="brand_mall[]" id="malls" multiple="multiple">
                             @foreach($malls as $mall)
                             <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <!-- <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="select_genre" name="select_genre" class="form-control">
-                            <option value="">--Select Genre--</option>
-                            @foreach($genres as $genre)
-                            <option value="{{$genre->genre_id}}">{{$genre->genre_name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -166,18 +155,21 @@
 
     <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
     <script type="text/javascript">
-        $(function(){
+        $(function() {
             $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
             $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         });
-        $('#btnReset').click(function(){
+
+        $('#btnReset').click(function() {
             document.getElementById("form_add").reset();
             $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
             $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         });
-        $('#btnSubmit').click(function(){
+
+        $('#btnSubmit').click(function() {
             $('#form_add').parsley();
         });
+        
         $('#malls').multiselect({
             includeSelectAllOption: true
         });

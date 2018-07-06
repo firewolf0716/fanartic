@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MerchantNotifys extends Model
 {
-    public static function insert($entry){
+    public static function insert($entry) {
         $check_insert = DB::table('master_notifymerchant')->insert($entry);
         if ($check_insert) {
             return DB::getPdo()->lastInsertId();

@@ -6,7 +6,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Admins</h3>
+            <h3>管理者を管理</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -14,7 +14,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Admins</h4>
+                    <h4>管理者を管理</h4>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -22,15 +22,19 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">メールアドレス</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
+                        <?php $index = 0; ?>
                         @foreach($admins as $admin)
+                            <?php $index += 1; ?>
                             <tr>
-                                <td>{{$admin->admin_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$admin->admin_id}}</td>
                                 <td style="text-align:center">{{$admin->admin_name}}</td>
                                 <td style="text-align:center">{{$admin->admin_email}}</td>
                                 <td style="text-align:center">
@@ -45,6 +49,7 @@
         </div>
     </div>        
 </div>
+
     <!-- jQuery -->
     <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -77,8 +82,6 @@
     <script src="{{ URL::asset('public/gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
     
     <!-- Custom Theme Scripts -->
-
-
     <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>

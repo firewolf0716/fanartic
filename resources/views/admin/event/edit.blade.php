@@ -135,21 +135,16 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
 <script type="text/javascript">
-    $(function() {
-    });
-    $('#btnReset').click(function(){
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val('{{$event->event_create}}');
         $('#update_date').val('{{$event->event_update}}');
     });
-    $('#btnSubmit').click(function(){
+
+    $('#btnSubmit').click(function() {
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'))
         $('#form_add').parsley();
     });
-
-
-
-
 
     // (function($) {
     //     var template = '<div class="uk-htmleditor-content">\

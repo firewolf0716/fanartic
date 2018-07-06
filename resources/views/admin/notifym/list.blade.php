@@ -22,6 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">メモ</th>
@@ -30,9 +31,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <?php $index = 0; ?>
                         @foreach($notifys as $notify)
+                        <?php $index += 1; ?>
                             <tr>
-                                <td>{{$notify->notify_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$notify->notify_id}}</td>
                                 <td style="text-align:center">{{$notify->notify_name}}</td>
                                 <td style="text-align:center">{{$notify->notify_name_en}}</td>
                                 <td style="text-align:center">{{$notify->notify_memo}}</td>

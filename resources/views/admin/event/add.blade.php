@@ -132,16 +132,18 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
 <script type="text/javascript">
-    $(function(){
+    $(function() {
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnReset').click(function(){
+
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnSubmit').click(function(){
+
+    $('#btnSubmit').click(function() {
         $('#form_add').parsley();
     });
 </script>

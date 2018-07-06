@@ -115,4 +115,8 @@ class CustomerController extends Controller
             ->with('mencategories', $mencategories)
             ->with('womencategories', $womencategories);
     }
+
+    public function signup(){
+        return view('customer.user.signup');
+    }
 }

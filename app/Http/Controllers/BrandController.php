@@ -14,12 +14,21 @@ use App\MallBrands;
 
 class BrandController extends Controller
 {
-    public function add(){
+    public function add() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $malls = Malls::get_malls();
         $genres = Genres::get_genres();
         return view('admin.brand.add')->with('malls', $malls)->with('genres', $genres);
     }
+
     public function addpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $brand_image_file = Input::file('brand_image');
         if ($brand_image_file == null || $brand_image_file == "") {
             return Redirect::to('admin/brand/list');
@@ -40,23 +49,34 @@ class BrandController extends Controller
             'brand_description' => Input::get('brand_description')
         );
         $id = Brands::insert_brand($entry);
-        if(Input::has('brand_mall')){
-            $malls = Input::get('brand_mall');
-            foreach($malls as $mall){
-                $mentry = array(
-                    'mall_id' => $mall,
-                    'brand_id' => $id
-                );
-                MallBrands::insert_match($mentry);
-            }
-        }
+        
+        // if(Input::has('brand_mall')){
+        //     $malls = Input::get('brand_mall');
+        //     foreach($malls as $mall){
+        //         $mentry = array(
+        //             'mall_id' => $mall,
+        //             'brand_id' => $id
+        //         );
+        //         MallBrands::insert_match($mentry);
+        //     }
+        // }
         return Redirect::to('admin/brand/list');
     }
-    public function list(){
+
+    public function list() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $brands = Brands::get_brands();
         return view('admin.brand.list')->with('brands', $brands);
     }
-    public function edit($id){
+
+    public function edit($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Brands::get_brand($id);
         $malls = Malls::get_malls();
         $genres = Genres::get_genres();
@@ -68,7 +88,12 @@ class BrandController extends Controller
             return Redirect::to('admin/brand/list');
         }
     }
+
     public function delete($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Brands::get_brand($id);
         if(isset($search)){
             $brand = $search[0];
@@ -82,7 +107,12 @@ class BrandController extends Controller
         MallBrands::remove_malls($id);
         return Redirect::to('admin/brand/list');
     }
+
     public function editpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $brand_image_file = Input::file('brand_image_file');
         if ($brand_image_file == null || $brand_image_file == "") {
             
@@ -103,17 +133,18 @@ class BrandController extends Controller
         );
         $id = Input::get('brand_id');
         Brands::edit_brand($entry, $id);
-        MallBrands::remove_malls($id);
-        if(Input::has('brand_mall')){
-            $malls = Input::get('brand_mall');
-            foreach($malls as $mall){
-                $mentry = array(
-                    'mall_id' => $mall,
-                    'brand_id' => $id
-                );
-                MallBrands::insert_match($mentry);
-            }
-        }
+
+        // MallBrands::remove_malls($id);
+        // if(Input::has('brand_mall')){
+        //     $malls = Input::get('brand_mall');
+        //     foreach($malls as $mall){
+        //         $mentry = array(
+        //             'mall_id' => $mall,
+        //             'brand_id' => $id
+        //         );
+        //         MallBrands::insert_match($mentry);
+        //     }
+        // }
         return Redirect::to('admin/brand/list');
     }
 }

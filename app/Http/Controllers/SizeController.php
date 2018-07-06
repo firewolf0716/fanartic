@@ -11,11 +11,19 @@ use App\Sizes;
 
 class SizeController extends Controller
 {
-    //
-    public function addcategory(){
+    public function addcategory() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         return view('admin.size.addcategory');
     }
-    public function addcategorypost(){
+
+    public function addcategorypost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'sizecategory_name_en' => Input::get('sizecategory_name_en'),
             'sizecategory_name' => Input::get('sizecategory_name'),
@@ -26,12 +34,20 @@ class SizeController extends Controller
         return Redirect::to('admin/size/listcategory');   
     }
 
-    public function listcategory(){
+    public function listcategory() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $sizecategorys = Sizes::get_sizecategorys();
         return view('admin.size.listcategory')->with('sizecategorys', $sizecategorys);
     }
 
-    public function editcategory($id){
+    public function editcategory($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Sizes::get_sizecategory($id);
         if(isset($search)){
             $sizecategory = $search[0];
@@ -40,7 +56,11 @@ class SizeController extends Controller
             return Redirect::to('admin/size/listcategory');
         }
     }
-    public function editcategorypost(){
+    public function editcategorypost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'sizecategory_name_en' => Input::get('sizecategory_name_en'),
             'sizecategory_name' => Input::get('sizecategory_name'),
@@ -52,12 +72,20 @@ class SizeController extends Controller
         return Redirect::to('admin/size/listcategory');
     }
 
-    public function add(){
+    public function add() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $categorys = Sizes::get_sizecategorys();
         return view('admin.size.add')->with('categorys', $categorys);
     }
 
-    public function addpost(){
+    public function addpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'size_category_id' => Input::get('select_category'),
             'size_name' => Input::get('size_name'),
@@ -69,23 +97,35 @@ class SizeController extends Controller
         return Redirect::to('admin/size/list'); 
     }
 
-    public function list(){
+    public function list() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $sizes = Sizes::get_sizes();
         return view('admin.size.list')->with('sizes', $sizes);
     }
 
-    public function edit($id){
+    public function edit($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Sizes::get_size($id);
         $categorys = Sizes::get_sizecategorys();
         if(isset($search)){
             $size = $search[0];
             return view('admin.size.edit')->with('size', $size)->with('categorys', $categorys);
-        } else{
+        } else {
             return Redirect::to('admin/size/list');
         }
     }
 
-    public function editpost(){
+    public function editpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'size_category_id' => Input::get('select_category'),
             'size_name' => Input::get('size_name'),

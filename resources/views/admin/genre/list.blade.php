@@ -22,6 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">モール</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
@@ -30,9 +31,13 @@
                             </tr>
                         </thead>
                         <tbody>
+
+                        <?php $index = 0; ?>
                         @foreach($genres as $genre)
+                            <?php $index += 1; ?>
                             <tr>
-                                <td>{{$genre->genre_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$genre->genre_id}}</td>
                                 <td style="text-align:center">{{$genre->mall_name}}</td>
                                 <td style="text-align:center">{{$genre->genre_name}}</td>
                                 <td style="text-align:center">{{$genre->genre_name_en}}</td>
@@ -133,7 +138,6 @@
             if(!answer){
                 return;
             }
-
 			window.location = "{{ url('admin/genre/delete') }}" + "/" + genre_id;
 		}
 	</script>

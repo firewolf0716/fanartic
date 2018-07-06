@@ -4,6 +4,27 @@
 
 @section('content')
 
+<head>
+    <!-- iCheck -->
+    <link href="{{ url('')}}/public/gvendor/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <style>
+        @supports (zoom:2) {
+            /* input[type="radio"],  input[type=checkbox]{ */
+            input[type=checkbox]{
+                zoom: 2;
+            }
+        }
+        @supports not (zoom:2) {
+            /* input[type="radio"],  input[type=checkbox] { */
+            input[type=checkbox] {
+                transform: scale(2);
+                margin: 15px;
+            }
+        }
+</style>
+</head>
+
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
@@ -23,26 +44,7 @@
                 <input type="hidden" id="mall_category" name="mall_category">
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select class="form-control" name="mall_brands[]" id="brands" multiple="multiple">
-                            @foreach($brands as $brand)
-                                <?php $selected = false; ?>
-                                @foreach($selbrands as $selbrand)
-                                    @if($brand->brand_id == $selbrand->brand_id)
-                                        <?php $selected = true; ?>
-                                        @break
-                                    @endif
-                                @endforeach
-                                
-                                @if($selected == true)
-                                    <option value="{{$brand->brand_id}}" selected>{{$brand->brand_name}}</option>
-                                @else
-                                    <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
+                    <input type="hidden" id="mall_brands" name="mall_brands" value="{{$selBrands}}">
                 </div>
 
                 <div class="form-group">
@@ -70,6 +72,50 @@
                         @endif
                     </div>
                 </div>
+
+                <label class="x_title">ブランド</label>                
+                <div class="y_content">
+                    <table id="datatable1" class="table table-striped table-bordered dt-responsive nowrap">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <td hidden>identify</td>
+                                <th style="text-align:center">名前</th>
+                                <th style="text-align:center">英名</th>
+                                <th style="text-align:center">ステータス</th>
+                                <th style="text-align:center">接続</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablebody">
+                        <?php $index = 0; ?>
+                        @foreach($brands as $brand)
+                            <?php $index += 1; ?>
+                            <tr>
+                                <td>{{$index}}</td>
+                                <th hidden>{{$brand->brand_id}}</th>
+                                <th style="text-align:center">{{$brand->brand_name}}</th>
+                                <th style="text-align:center">{{$brand->brand_name_en}}</th>
+                                <td style="text-align:center"><img style="height:20px;" src="{{url("")}}./public/images/brands/{{$brand->brand_image}}"></td>
+                                <?php $isChecked = false; ?>
+                                @foreach($mall_brands as $mall_brand)
+                                    @if ($mall_brand == $brand->brand_id)
+                                        <?php $isChecked = true; ?>
+                                        @break
+                                    @endif
+                                @endforeach
+                                
+                                @if($isChecked == true)
+                                    <th style="text-align:center"><input type="checkbox" id="check-{{$brand->brand_id}}" onclick="checkboxEdit({{$brand->brand_id}})" checked></th>
+                                @else
+                                    <th style="text-align:center"><input type="checkbox" id="check-{{$brand->brand_id}}" onclick="checkboxEdit({{$brand->brand_id}})"></th>
+                                @endif
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -90,7 +136,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="text-align:center">性別(トップ カテゴリ)</th>
+                                <th style="text-align:center">トップ カテゴリ</th>
                                 <th style="text-align:center">メイン カテゴリ</th>
                                 <th style="text-align:center">サブ カテゴリ</th>
                                 <th style="text-align:center"></th>
@@ -99,7 +145,7 @@
                         <tbody id="tablebody1">
                             @foreach ($selcategorys as $selcategory)
                                 <tr>
-                                    <th>{{$selcategory->category_id}}</th>
+                                    <td>{{$selcategory->category_id}}</th>
                                     @if ($selcategory->top_category_name == "")
                                         @if ($selcategory->main_category_name == "")
                                             <?php $selcategory->top_category_name = $selcategory->category_name; ?>
@@ -298,31 +344,54 @@
     }
     function addCategory() {
         
-        if ($('#top_category').val() == '') {
+        if ($('#top_category').val() == '' && $('#main_category').val()) {
             return;
         }
-        var $categoryid = $('#top_category').val();
+        
         var $topCategoryName = jQuery("#top_category option:selected").text();
-        var $mainCategoryName = '';
+        var $mainCategoryName = jQuery("#main_category option:selected").text();
         var $subCategoryName = '';
-        if ($('#main_category').val() != '') {
-            $categoryid = $('#main_category').val();
-            $mainCategoryName = jQuery("#main_category option:selected").text();
-        } 
         if ($('#sub_category').val() != '') {
-            $categoryid = $('#sub_category').val();
             $subCategoryName = jQuery("#sub_category option:selected").text();
         }
 
-       var table = $('#datatable').DataTable();
+        var table = $('#datatable').DataTable();
 
-        for (i = 0; i < table.rows().count(); i++) {
-            if (table.cell(i, 0).data() == $categoryid) {
-                return;
+        if ($('#sub_category').val() == '') {
+            var topID = $('#top_category').val();
+            var mainID = $('#main_category').val();
+
+            $.ajax( {
+                type: 'get',
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + topID + "/" + mainID,
+                success: function(data) {
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var isExist = false;
+
+                        for (var j = 0; j < table.rows().count(); j++) {
+                            if (table.cell(j, 0).data() == item.category_id) {
+                                isExist = true;
+                               break;
+                            }
+                        }
+                        
+                        if (isExist == false) {
+                            table.row.add([item.category_id, $topCategoryName, $mainCategoryName, item.category_name, '<a><span class="glyphicon glyphicon-trash" onclick="removeCategory(' + item.category_id + ')" aria-hidden="true"></span></a>']).draw( false );
+                        }
+                    }
+                }
+            });
+        } else {
+            var $categoryid = $('#sub_category').val();            
+            for (i = 0; i < table.rows().count(); i++) {
+                if (table.cell(i, 0).data() == $categoryid) {
+                    return;
+                }
             }
-        }
 
-        table.row.add([$categoryid, $topCategoryName, $mainCategoryName, $subCategoryName, '<a><span class="glyphicon glyphicon-trash" onclick="removeCategory(' + $categoryid + ')" aria-hidden="true"></span></a>']).draw( false );
+            table.row.add([$categoryid, $topCategoryName, $mainCategoryName, $subCategoryName, '<a><span class="glyphicon glyphicon-trash" onclick="removeCategory(' + $categoryid + ')" aria-hidden="true"></span></a>']).draw( false );
+        }
     }
     function updateMallCategorys() {
         var table = $('#datatable').DataTable();
@@ -377,12 +446,29 @@
             });
         }
     });
+
     $('#btnSubmit').click(function(){
         $('#form_add').parsley();
     });
+
     $('#brands').multiselect({
         includeSelectAllOption: true
     });
+
+    function checkboxEdit(id) {
+        var table = $('#datatable1').DataTable();
+        
+        var brands = $('#mall_brands').val().split(",");
+
+        if (document.getElementById("check-" + id).checked) {
+            brands.push(id);
+        } else {
+            brands.pop(id);
+        }
+        
+        $('#mall_brands').val(brands.toString());
+    }
+
     function removeCategory(id) {
         var table = $('#datatable').DataTable();
         for (i = 0; i < table.rows().count(); i++) {

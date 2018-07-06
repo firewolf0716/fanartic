@@ -22,6 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th width="0%" hidden>identify</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">デザイン種類</th>
@@ -31,9 +32,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                        
+                        <?php $index = 0; ?>
                         @foreach($brands as $brand)
+                            <?php $index += 1; ?>
                             <tr>
-                                <td>{{$brand->brand_id}}</td>
+                                <td>{{$index}}</td>
+                                <td width="0%" hidden>{{$brand->brand_id}}</td>
                                 <td style="text-align:center">{{$brand->brand_name}}</td>
                                 <td style="text-align:center">{{$brand->brand_name_en}}</td>
                                 <td style="text-align:center">
@@ -70,6 +75,7 @@
         </div>
     </div>        
 </div>
+
     <!-- jQuery -->
     <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
