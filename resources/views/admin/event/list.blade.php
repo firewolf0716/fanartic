@@ -22,6 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">タイトル</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">条件</th>
@@ -31,9 +32,13 @@
                             </tr>
                         </thead>
                         <tbody>
+
+                        <?php $index = 0; ?>
                         @foreach($events as $event)
+                            <?php $index += 1; ?>
                             <tr>
-                                <td>{{$event->event_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$event->event_id}}</td>
                                 <td style="text-align:center">{{$event->event_title}}</td>
                                 <td style="text-align:center">{{$event->event_title_en}}</td>
                                 <td style="text-align:center">{{$event->event_condition}}</td>
@@ -52,6 +57,7 @@
         </div>
     </div>        
 </div>
+
     <!-- jQuery -->
     <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->

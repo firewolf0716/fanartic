@@ -44,7 +44,6 @@
                         <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$sizecategory->sizecategory_update}}">
                     </div>
                 </div>
-
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -87,8 +86,6 @@
     <script src="{{ URL::asset('public/gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
-
-
     <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
@@ -110,12 +107,13 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
 <script type="text/javascript">
-    $('#btnReset').click(function(){
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val('{{$sizecategory->sizecategory_create}}');
         $('#update_date').val('{{$sizecategory->sizecategory_create}}');
     });
-    $('#btnSubmit').click(function(){
+
+    $('#btnSubmit').click(function() {
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
     });

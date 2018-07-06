@@ -22,6 +22,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">色</th>
@@ -29,9 +30,13 @@
                             </tr>
                         </thead>
                         <tbody>
+
+                        <?php $index = 0; ?>
                         @foreach($colors as $color)
+                            <?php $index += 1; ?>
                             <tr>
-                                <td>{{$color->color_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$color->color_id}}</td>
                                 <td style="text-align:center">{{$color->color_name}}</td>
                                 <td style="text-align:center">{{$color->color_name_en}}</td>
                                 <td style="text-align:center;" bgcolor='{{$color->color_value}}'></td>

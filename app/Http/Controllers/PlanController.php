@@ -11,12 +11,19 @@ use App\Plans;
 
 class PlanController extends Controller
 {
-    //
     public function add() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $fee_types = Plans::get_plan_types();
         return view('admin.plan.add')->with('fee_types', $fee_types);
     }
-    public function addpost(){
+    public function addpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $entry =  array(
             'plan_name' => Input::get('plan_name'),
             'plan_opencost' => Input::get('plan_opencost'),
@@ -29,12 +36,20 @@ class PlanController extends Controller
         return Redirect::to('admin/plan/list');
     }
 
-    public function list(){
+    public function list() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $plans = Plans::get_plans();
         return view('admin.plan.list')->with('plans', $plans);
     }
 
-    public function edit($id){
+    public function edit($id) {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+
         $search = Plans::get_plan($id);
         $fee_types = Plans::get_plan_types();
         if(isset($search)){
@@ -46,7 +61,11 @@ class PlanController extends Controller
         }
     }
 
-    public function editpost(){
+    public function editpost() {
+        if ($this->check_admin_session() == false) {
+            return Redirect::to('admin/login');
+        }
+        
         $entry =  array(
             'plan_name' => Input::get('plan_name'),
             'plan_opencost' => Input::get('plan_opencost'),

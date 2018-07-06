@@ -21,7 +21,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select class="form-control" name="brand_mall[]" id="malls" multiple="multiple">
@@ -40,7 +40,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
@@ -187,8 +187,9 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
     <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+    
 <script type="text/javascript">
-    $('#btnReset').click(function(){
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val('{{$brand->brand_create}}');
         $('#update_date').val('{{$brand->brand_update}}');
@@ -197,13 +198,16 @@
         $cstr += '<button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">Remove</button>';
         $('#div-product-image').html($cstr);
     });
-    $('#btnSubmit').click(function(){
+    
+    $('#btnSubmit').click(function() {
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
     });
+
     $('#malls').multiselect({
         includeSelectAllOption: true
     });
+
     function onRemoveImg() {
         $('#div-product-image').html('<input type="file" name="brand_image_file" class="form-control" required>');
     }

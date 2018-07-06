@@ -22,15 +22,19 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th hidden>identify</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody>
+                        <?php $index = 0; ?>
                         @foreach($sizecategorys as $sizecategory)
+                        <?php $index += 1; ?>
                             <tr>
-                                <td>{{$sizecategory->sizecategory_id}}</td>
+                                <td>{{$index}}</td>
+                                <td hidden>{{$sizecategory->sizecategory_id}}</td>
                                 <td style="text-align:center">{{$sizecategory->sizecategory_name}}</td>
                                 <td style="text-align:center">{{$sizecategory->sizecategory_name_en}}</td>
                                 <td style="text-align:center">
@@ -45,6 +49,7 @@
         </div>
     </div>        
 </div>
+
     <!-- jQuery -->
     <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -77,8 +82,6 @@
     <script src="{{ URL::asset('public/gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
     
     <!-- Custom Theme Scripts -->
-
-
     <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>

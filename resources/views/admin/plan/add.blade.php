@@ -47,7 +47,6 @@
                         </select>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
@@ -120,16 +119,18 @@
     <script src="{{ URL::asset('public/js/custom.js') }}"></script>
 
 <script type="text/javascript">
-    $(function(){
+    $(function() {
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnReset').click(function(){
+
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnSubmit').click(function(){
+
+    $('#btnSubmit').click(function() {
         $('#form_add').parsley();
     });
 </script>

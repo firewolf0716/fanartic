@@ -151,18 +151,21 @@
     <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
 
 <script type="text/javascript">
-    $(function(){
+    $(function() {
         $('#create_date').val('{{$notify->notify_create}}');
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnReset').click(function(){
+
+    $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     });
-    $('#btnSubmit').click(function(){
+    
+    $('#btnSubmit').click(function() {
         $('#form_add').parsley();
     });
+
     $('#merchants').multiselect({
         includeSelectAllOption: true
     });

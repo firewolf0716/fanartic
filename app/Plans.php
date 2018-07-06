@@ -8,11 +8,10 @@ use DB;
 
 class Plans extends Model
 {
-    //
     protected $guarded = array('plan_id');
     protected $table = 'master_plan';
 
-    public static function insert_plan($entry){
+    public static function insert_plan($entry) {
         $check_insert = DB::table('master_plan')->insert($entry);
         if ($check_insert) {
             return DB::getPdo()->lastInsertId();
