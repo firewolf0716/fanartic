@@ -10,16 +10,16 @@
     <title>Fanartic</title>
 
     <!-- Bootstrap -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ url('')}}/public/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="{{ url('')}}/public/gvendor/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/nprogress/nprogress.css" rel="stylesheet">
     <!-- Animate.css -->
-    <link href="{{ url('')}}/public/gvendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/animate.css/animate.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{ url('')}}/public/css/custom.css" rel="stylesheet">
+    <link href="{{ url('')}}/css/custom.css" rel="stylesheet">
   </head>
 
   <body class="login">

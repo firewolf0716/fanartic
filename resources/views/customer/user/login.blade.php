@@ -36,7 +36,7 @@
                   Password is incorrect
                 @endif
                 @if($_GET['status'] == -1)
-                  Merchant not found
+                  User is not registered
                 @endif
                 @if($_GET['status'] == 0)
                   Your Merchant is in pending

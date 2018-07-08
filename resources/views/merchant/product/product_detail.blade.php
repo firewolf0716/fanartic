@@ -273,35 +273,35 @@
 					    @for($j=0 ; $j< $img_count; $j++)
 						    @if($file_get_path[$j] !='')
 							    @php $pro_img = $file_get_path[$j]; @endphp 
-							    @php $prod_path = url('').'/public/assets/default_image/No_image_product.png'; @endphp
-							    @php $img_data = 'public/assets/products/'.$pro_img; @endphp
+							    @php $prod_path = url('').'/assets/default_image/No_image_product.png'; @endphp
+							    @php $img_data = 'assets/products/'.$pro_img; @endphp
 							    @if(file_exists($img_data))
-								    @php $prod_path = url('').'/public/assets/products/'.$pro_img; @endphp
+								    @php $prod_path = url('').'/assets/products/'.$pro_img; @endphp
                                 @else  
 									@if(isset($DynamicNoImage['productImg']))
-                                        @php $dyanamicNoImg_path= "/public/assets/noimage/".$DynamicNoImage['productImg']; @endphp
+                                        @php $dyanamicNoImg_path= "/assets/noimage/".$DynamicNoImage['productImg']; @endphp
                                         @if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
-                                            @php $prod_path = url('').'/public/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
+                                            @php $prod_path = url('').'/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
                                         @endif                          
                                     @endif
                                 @endif
 						    @else
-							    @php $prod_path = url('').'/../public/assets/default_image/No_image_product.png'; @endphp
+							    @php $prod_path = url('').'/../assets/default_image/No_image_product.png'; @endphp
 								@if(isset($DynamicNoImage['productImg']))                  
-                                    @php $dyanamicNoImg_path= "/../public/assets/noimage/".$DynamicNoImage['productImg']; @endphp
+                                    @php $dyanamicNoImg_path= "/../assets/noimage/".$DynamicNoImage['productImg']; @endphp
                                     @if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
-                                        @php $prod_path = url('').'/../public/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
+                                        @php $prod_path = url('').'/../assets/noimage/'.$DynamicNoImage['productImg']; @endphp
                                     @endif
                                 @endif                                         
                             @endif
 						    <img style="height:70px; width:50px;" src="{{$prod_path}}">
 					    @endfor
 				        @else
-                            @php $prod_path = url('').'/../public/assets/default_image/No_image_product.png'; @endphp
+                            @php $prod_path = url('').'/../assets/default_image/No_image_product.png'; @endphp
                                 @if(isset($DynamicNoImage['productImg']))
-                                    @php $dyanamicNoImg_path= "/../public/assets/noimage/".$DynamicNoImage['productImg']; @endphp
+                                    @php $dyanamicNoImg_path= "/../assets/noimage/".$DynamicNoImage['productImg']; @endphp
                                     @if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
-                                        @php $prod_path = url('').'/../public/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
+                                        @php $prod_path = url('').'/../assets/noimage/'.$DynamicNoImage['productImg']; @endphp
                                     @endif
                                 @endif          
                             <img style="height:70px; width:50px;" src="{{$prod_path}}">
@@ -317,58 +317,58 @@
     <div class="clearfix"></div>
 </div>
     <!-- jQuery -->
-    <script src="{{ url('')}}/public/gvendor/jquery/dist/jquery.min.js"></script>
+    <script src="{{ url('')}}/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="{{ URL::asset('public/gvendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <!-- FastClick -->
-    <script src="{{ URL::asset('public/gvendor/fastclick/lib/fastclick.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/fastclick/lib/fastclick.js') }}"></script>
     <!-- NProgress -->
-    <script src="{{ URL::asset('public/gvendor/nprogress/nprogress.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/nprogress/nprogress.js') }}"></script>
     <!-- Chart.js -->
-    <script src="{{ URL::asset('public/gvendor/Chart.js/dist/Chart.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/Chart.js/dist/Chart.min.js') }}"></script>
     <!-- jQuery Sparklines -->
-    <script src="{{ URL::asset('public/gvendor/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
     <!-- Flot -->
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.pie.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.time.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.stack.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/Flot/jquery.flot.resize.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/Flot/jquery.flot.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/Flot/jquery.flot.pie.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/Flot/jquery.flot.time.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/Flot/jquery.flot.stack.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/Flot/jquery.flot.resize.js') }}"></script>
     <!-- Flot plugins -->
-    <script src="{{ URL::asset('public/gvendor/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/flot.curvedlines/curvedLines.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/flot.orderbars/js/jquery.flot.orderBars.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/flot-spline/js/jquery.flot.spline.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/flot.curvedlines/curvedLines.js') }}"></script>
     <!-- DateJS -->
-    <script src="{{ URL::asset('public/gvendor/DateJS/build/date.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/DateJS/build/date.js') }}"></script>
     <!-- bootstrap-daterangepicker -->
-    <script src="{{ URL::asset('public/gvendor/moment/min/moment.min.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/moment/min/moment.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- bootstrap-datetimepicker -->    
-    <script src="{{ URL::asset('public/gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
     
     <!-- Custom Theme Scripts -->
 
 
-    <script src="{{ URL::asset('public/gvendor/validator/validator.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
-    <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
     <!-- starrr -->
-    <script src="{{ URL::asset('public/gvendor/starrr/dist/starrr.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/starrr/dist/starrr.js') }}"></script>
     <!-- Select2 -->
-    <script src="{{ URL::asset('public/gvendor/select2/dist/js/select2.full.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/select2/dist/js/select2.full.min.js') }}"></script>
     <!-- jQuery Tags Input -->
-    <script src="{{ URL::asset('public/gvendor/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
     <!-- bootstrap-wysiwyg -->
-    <script src="{{ URL::asset('public/gvendor/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/jquery.hotkeys/jquery.hotkeys.js') }}"></script>
-    <script src="{{ URL::asset('public/gvendor/google-code-prettify/src/prettify.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/jquery.hotkeys/jquery.hotkeys.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/google-code-prettify/src/prettify.js') }}"></script>
     <!-- Dropzone.js -->
-    <script src="{{ URL::asset('public/gvendor/dropzone/dist/min/dropzone.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/dropzone/dist/min/dropzone.min.js') }}"></script>
     <!-- Bootstrap Colorpicker -->
-    <script src="{{ URL::asset('public/gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
+    <script src="{{ URL::asset('gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
-    <script src="{{ URL::asset('public/js/custom.js') }}"></script>
+    <script src="{{ URL::asset('js/custom.js') }}"></script>
     <script>
     </script>
 @endsection

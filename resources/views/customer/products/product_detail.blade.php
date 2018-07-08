@@ -18,7 +18,7 @@
             @for($i = 0; $i < $img_count; $i++)
                 @php
                 $pro_img = $file_get_path[$i];
-                $prod_path = url('').'/public/images/products/'.$pro_img;
+                $prod_path = url('').'/images/products/'.$pro_img;
                 @endphp
                 <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1404px; height:1334"></figure>                
             @endfor

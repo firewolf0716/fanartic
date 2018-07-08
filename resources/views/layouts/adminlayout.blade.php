@@ -10,30 +10,30 @@
     <title></title>
 
     <!-- Bootstrap -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ url('')}}/public/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="{{ url('')}}/public/gvendor/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/nprogress/nprogress.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
     <!-- bootstrap-datetimepicker -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{ url('')}}/public/css/custom.css" rel="stylesheet">
+    <link href="{{url('')}}/css/custom.css" rel="stylesheet">
 
     <!-- Datatables -->
-    <link href="{{ url('')}}/public/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/public/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     
     <!-- Bootstrap Colorpicker -->
-    <link href="{{ url('')}}/public/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url('') }}/public/css/multi-select.css" />
+    <link href="{{url('')}}/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url('') }}/css/multi-select.css" />
 </head>
 
 <body class="nav-md">
@@ -49,7 +49,7 @@
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
                     <div class="profile_pic">
-                        <img src="{{ URL::asset('public/images/img.jpg') }}" alt="..." class="img-circle profile_img">
+                        <img src="{{ URL::asset('images/img.jpg') }}" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
                         <span>ようこそ!</span>
@@ -185,7 +185,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ URL::asset('public/images/img.jpg') }}" alt="">{{Session::get('adminname')}}
+                                <img src="{{ URL::asset('images/img.jpg') }}" alt="">{{Session::get('adminname')}}
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -209,7 +209,7 @@
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 <li>
                                     <a>
-                                        <span class="image"><img src="{{ URL::asset('public/images/img.jpg') }}" alt="Profile Image" /></span>
+                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
                                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -221,7 +221,7 @@
                                 </li>
                                 <li>
                                     <a>
-                                        <span class="image"><img src="{{ URL::asset('public/images/img.jpg') }}" alt="Profile Image" /></span>
+                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
                                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -233,7 +233,7 @@
                                 </li>
                                 <li>
                                     <a>
-                                        <span class="image"><img src="{{ URL::asset('public/images/img.jpg') }}" alt="Profile Image" /></span>
+                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
                                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
@@ -245,7 +245,7 @@
                                 </li>
                                 <li>
                                     <a>
-                                        <span class="image"><img src="{{ URL::asset('public/images/img.jpg') }}" alt="Profile Image" /></span>
+                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
                                         <span>
                           <span>John Smith</span>
                           <span class="time">3 mins ago</span>
