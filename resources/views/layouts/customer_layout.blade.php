@@ -9,6 +9,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <link href="{{url('')}}/css/hiraku.min.css" rel="stylesheet">
+    <link href="{{url('')}}/css/modaal.min.css" rel="stylesheet">
     <link href="{{url('')}}/css/style.css" rel="stylesheet">
     <script src="{{url('')}}/js/vendor/jquery-2.1.4.min.js"></script>
   </head>
@@ -203,6 +204,7 @@
       </div>
       <!--/.footer-->
       <script src="{{url('')}}/js/vendor/hiraku.min.js"></script>
+      <script src="{{url('')}}/js/vendor/modaal.min.js"></script>
       <script src="{{url('')}}/js/plugins.js"></script>
       <script src="{{url('')}}/js/script.js"></script>
     </div>

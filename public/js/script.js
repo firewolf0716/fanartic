@@ -505,6 +505,9 @@ $(function () {
     productDetailSlider();
     checkOpen();
     sticky();
+    $('.modal').modaal();
+    $('.modal-sm').modaal({width: 600});
+    $('.modal-fullscreen').modaal({fullscreen: true});
 
 
     /* scroll
