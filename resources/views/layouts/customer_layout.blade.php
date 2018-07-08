@@ -65,6 +65,24 @@
           <div class="header__search" data-header-search><span class="header__search__close" data-header-search__close></span>
             <div class="header__search__input-wrapper">
               <form action="post"><input type="text" class="header__search__input" placeholder="商品名・ブランド名・フリーワードで検索"> <button class="header__search__submit"><i></i></button></form>
+                <div class="header__search__dropdown" data-dropdown="" style="display: none;">
+                  <div class="ttl">ブランド</div>
+                  <ul>
+                    <li><a href="">PRADA</a></li>
+                    <li><a href="">Vutton</a></li>
+                    <li><a href="">Barenciaga</a></li>
+                    <li><a href="">Gucci</a></li>
+                    <li><a href="">Visvim</a></li>
+                  </ul>
+                  <div class="ttl">検索履歴</div>
+                  <ul>
+                    <li><a href="">PRADA</a></li>
+                    <li><a href="">Vutton</a></li>
+                    <li><a href="">Barenciaga</a></li>
+                    <li><a href="">Gucci</a></li>
+                    <li><a href="">Visvim</a></li>
+                  </ul>
+                </div>
             </div>
             <!--/.header__search__input-wrapper-->
           </div>
