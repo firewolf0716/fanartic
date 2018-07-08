@@ -11,6 +11,7 @@
     <link href="{{url('')}}/css/hiraku.min.css" rel="stylesheet">
     <link href="{{url('')}}/css/style.css" rel="stylesheet">
     <script src="{{url('')}}/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="{{url('')}}/gvendor/parsleyjs/dist/parsley.min.js"></script>
   </head>
 
   <body>
@@ -57,7 +58,7 @@
             </ul>
           </div>
           <ul class="header__nav-secondary">
-            <li><a href="#"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+            <li><a href="{{url('customer/user')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
             <li><a href="#"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
             <li><a href="#"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
           </ul>

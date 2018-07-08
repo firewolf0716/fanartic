@@ -273,35 +273,35 @@
 					    @for($j=0 ; $j< $img_count; $j++)
 						    @if($file_get_path[$j] !='')
 							    @php $pro_img = $file_get_path[$j]; @endphp 
-							    @php $prod_path = url('').'/public/assets/default_image/No_image_product.png'; @endphp
-							    @php $img_data = 'public/assets/products/'.$pro_img; @endphp
+							    @php $prod_path = url('').'/assets/default_image/No_image_product.png'; @endphp
+							    @php $img_data = 'assets/products/'.$pro_img; @endphp
 							    @if(file_exists($img_data))
-								    @php $prod_path = url('').'/public/assets/products/'.$pro_img; @endphp
+								    @php $prod_path = url('').'/assets/products/'.$pro_img; @endphp
                                 @else  
 									@if(isset($DynamicNoImage['productImg']))
-                                        @php $dyanamicNoImg_path= "/public/assets/noimage/".$DynamicNoImage['productImg']; @endphp
+                                        @php $dyanamicNoImg_path= "/assets/noimage/".$DynamicNoImage['productImg']; @endphp
                                         @if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
-                                            @php $prod_path = url('').'/public/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
+                                            @php $prod_path = url('').'/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
                                         @endif                          
                                     @endif
                                 @endif
 						    @else
-							    @php $prod_path = url('').'/../public/assets/default_image/No_image_product.png'; @endphp
+							    @php $prod_path = url('').'/../assets/default_image/No_image_product.png'; @endphp
 								@if(isset($DynamicNoImage['productImg']))                  
-                                    @php $dyanamicNoImg_path= "/../public/assets/noimage/".$DynamicNoImage['productImg']; @endphp
+                                    @php $dyanamicNoImg_path= "/../assets/noimage/".$DynamicNoImage['productImg']; @endphp
                                     @if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
-                                        @php $prod_path = url('').'/../public/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
+                                        @php $prod_path = url('').'/../assets/noimage/'.$DynamicNoImage['productImg']; @endphp
                                     @endif
                                 @endif                                         
                             @endif
 						    <img style="height:70px; width:50px;" src="{{$prod_path}}">
 					    @endfor
 				        @else
-                            @php $prod_path = url('').'/../public/assets/default_image/No_image_product.png'; @endphp
+                            @php $prod_path = url('').'/../assets/default_image/No_image_product.png'; @endphp
                                 @if(isset($DynamicNoImage['productImg']))
-                                    @php $dyanamicNoImg_path= "/../public/assets/noimage/".$DynamicNoImage['productImg']; @endphp
+                                    @php $dyanamicNoImg_path= "/../assets/noimage/".$DynamicNoImage['productImg']; @endphp
                                     @if($DynamicNoImage['productImg'] !='' && file_exists($dyanamicNoImg_path))
-                                        @php $prod_path = url('').'/../public/assets/noimage/'.$DynamicNoImage['productImg']; @endphp
+                                        @php $prod_path = url('').'/../assets/noimage/'.$DynamicNoImage['productImg']; @endphp
                                     @endif
                                 @endif          
                             <img style="height:70px; width:50px;" src="{{$prod_path}}">

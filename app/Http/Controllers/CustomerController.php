@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
@@ -11,6 +13,7 @@ use App\Categorys;
 use App\Sizes;
 use App\Colors;
 use App\Products;
+use App\Customers;
 
 class CustomerController extends Controller
 {
@@ -122,9 +125,41 @@ class CustomerController extends Controller
 
     public function user(){
         if (Session::has('customerid')) {
-            return Redirect::to('customer/profile');
+            return Redirect::to('customer/user/profile');
         } else {
-            
+            return Redirect::to('customer/user/signin');
         }
+    }
+
+    public function signin(){
+        if(isset($_GET['redirect'])){
+            return view('customer.user.login')->with('redirect', $_GET['redirect']);
+        }
+        return view('customer.user.login')->with('redirect', 'customer/profile');
+    }
+
+    public function signuppost(){
+        Log::debug(Input::all());
+
+        $entry = array(
+            'customer_name_first' => Input::get('first_name'),
+            'customer_name_second' => Input::get('second_name'),
+            'customer_name_kana_first' => Input::get('first_name_kana'),
+            'customer_name_kana_second' => Input::get('second_name_kana'),
+            'customer_gender' => Input::get('sex'),
+            'customer_birthday' => Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day'),
+            'customer_postalcode' => Input::get('zipcode'),
+            'customer_province' => Input::get('province'),
+            'customer_county' => Input::get('county'),
+            'customer_address_jp' => Input::get('address'),
+            'customer_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
+            'customer_email' => Input::get('email'),
+            'customer_password' => Input::get('password'),
+            'customer_status' => '0'
+        );
+
+        Customers::insert_customer($entry);
+
+        return Redirect::to('/');
     }
 }

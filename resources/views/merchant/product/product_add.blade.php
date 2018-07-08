@@ -333,7 +333,7 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
-    <script src="{{ url('') }}/public/js/multi_select_dropdown.js"></script>
+    <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
 <script type="text/javascript">
     
 </script>
