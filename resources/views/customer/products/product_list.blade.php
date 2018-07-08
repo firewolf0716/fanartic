@@ -15,14 +15,20 @@
     <div class="product-list__column">
         <div class="product-list__column__content">
             <div class="l-column l-column--control is-nb">
-                <div class="l-column--control__col u-sp"><span class="c-select c-select--sort u-sp__full"
-                                                               data-productfilter__button=""><span
-                                class="c-select__box u-sp__full"><span class="c-select__box__inner">絞り込む</span></span>
-        </span>
+                <div class="l-column--control__col u-sp">
+                    <span class="c-select c-select--sort u-sp__full" data-productfilter__button="">
+                        <span class="c-select__box u-sp__full">
+                            <span class="c-select__box__inner">絞り込む</span>
+                        </span>
+                    </span>
                 </div>
-                <div class="l-column--control__col"><label class="c-select c-select--sort u-sp__full"><span
-                                class="c-select__box u-sp__full"><select name="" id=""><option
-                                        value="">並び替え</option></select></span></label></div>
+                <div class="l-column--control__col">
+                    <label class="c-select c-select--sort u-sp__full">
+                        <span class="c-select__box u-sp__full">
+                            <select name="" id=""><option value="">並び替え</option></select>
+                        </span>
+                    </label>
+                </div>
             </div>
             <!--/.l-column l-column--control-->
             <div class="c-items c-items--04">
@@ -79,7 +85,7 @@
             <!--/.c-items c-items--04-->
         </div>
         <!--/.product-list__column__content-->
-        <div class="product-list__column__nav" data-productfilter__content="">
+        <div class="product-list__column__nav" data-productfilter__content="" data-js-sticky="">
             {!! Form::open(array('id' => 'form_product_list','url'=>'customer/product/product_list_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             {{ Form::hidden('tcategory_id', $topcategory->category_id)}}
             @if(isset($mcategory))

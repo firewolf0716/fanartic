@@ -421,6 +421,76 @@ $(function () {
         });
     };
 
+    /* checkOpen
+-----------------------------------------------------------------
+ */
+    checkOpen = function() {
+        var classOpen, slideSpeend, target, targetData, targetList, targetListContent, targetListRadio;
+        target = 'checkopen';
+        targetData = '[data-' + target + ']';
+        targetList = 'checkopen__list';
+        targetListRadio = 'checkopen__list__radio';
+        targetListContent = 'checkopen__list__content';
+        classOpen = "is-open";
+        slideSpeend = 100;
+        $(targetData).each(function() {
+            var el, elContent, elList, key;
+            el = $(this);
+            key = $(this).data(target);
+            elList = $('[data-' + targetList + ' = ' + key + ']', el);
+            elContent = $('[data-' + targetListContent + ' = ' + key + ']', el);
+            elList.each(function() {
+                var content, list, radio;
+                list = $(this);
+                radio = $('[data-' + targetListRadio + ' = ' + key + ']', list);
+                content = $('[data-' + targetListContent + ' = ' + key + ']', list);
+                if (content.length) {
+                    content = content;
+                } else {
+                    content = false;
+                }
+                if (radio.children('input').prop('checked') === true) {
+                    if (content) {
+                        list.addClass(classOpen);
+                    }
+                } else {
+                    if (content) {
+                        content.hide();
+                    }
+                }
+                radio.on('click', function() {
+                    if ($(this).children('input').prop('checked') === true) {
+                        if (content) {
+                            content.slideDown(slideSpeend);
+                            list.addClass(classOpen);
+                        } else {
+                            elContent.slideUp(slideSpeend);
+                            elList.removeClass(classOpen);
+                        }
+                    } else {
+                        if (content) {
+                            content.slideUp(slideSpeend);
+                            list.removeClass(classOpen);
+                        }
+                    }
+                });
+            });
+        });
+    };
+
+    /* sticky
+    -----------------------------------------------------------------
+     */
+    sticky = function() {
+        if ($('[data-js-sticky]').length) {
+            windowWidth = parseInt($(window).width());
+            $('[data-js-sticky]').stickySidebar({
+                topSpacing: $(".header").outerHeight(),
+                bottomSpacing: $(".footer").outerHeight()
+            });
+        }
+    };
+
     /* init
     -----------------------------------------------------------------
      */
@@ -432,7 +502,10 @@ $(function () {
     accordionProductList();
     productFilterModal();
     productDetailModal();
-    return productDetailSlider();
+    productDetailSlider();
+    checkOpen();
+    sticky();
+
 
     /* scroll
     -----------------------------------------------------------------
