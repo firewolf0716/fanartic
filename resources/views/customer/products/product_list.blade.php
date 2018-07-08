@@ -39,10 +39,10 @@
                                 @php
                                     $file_get  = $product->product_image;
                                     $file_get_path =  explode("/**/",$file_get,-1);
-                                    $prod_path = url('').'/images/products/'.$file_get_path[0];
+                                    $prod_path = url('').'/public/images/products/'.$file_get_path[0];
                                     $prod_path02 = NULL;
                                     if (!empty($file_get_path[1])) {
-                                        $prod_path02 = url('').'/images/products/'.$file_get_path[1];
+                                        $prod_path02 = url('').'/public/images/products/'.$file_get_path[1];
                                     }
                                 @endphp
                                 <figure class="c-item__figure">
@@ -212,7 +212,7 @@
                                 <a href="#" class="product-list__nav__price__button" onClick="onPriceChange()">OK</a>
                             </div>
                             <!--/.product-list__nav__price__buttons-->
-                            <script src="{{url('')}}/js/vendor/mm-jsr.js"></script>
+                            <script src="{{url('')}}/public/js/vendor/mm-jsr.js"></script>
                             <script>
                                 minTarget = '[data-productListPrice__min]'
                                 maxTarget = '[data-productListPrice__max]'
