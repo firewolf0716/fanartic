@@ -135,7 +135,7 @@ class CustomerController extends Controller
         if(isset($_GET['redirect'])){
             return view('customer.user.login')->with('redirect', $_GET['redirect']);
         }
-        return view('customer.user.login')->with('redirect', 'customer/profile');
+        return view('customer.user.login')->with('redirect', 'customer/user/profile');
     }
 
     public function signuppost(){
@@ -161,5 +161,58 @@ class CustomerController extends Controller
         Customers::insert_customer($entry);
 
         return Redirect::to('/');
+    }
+
+    public function signinpost(){
+        $username = Input::get('username');
+        $password = Input::get('password');
+        $redirect = Input::get('redirect');
+
+        $logincheck = Customers::check_login($username, $password);
+        if($logincheck == 1){
+            if(isset($redirect)){
+                return Redirect::to($redirect);
+            }
+            return Redirect::to('/');
+        } else {
+            $status = Customers::customer_status($username, $password);
+            return Redirect::to('customer/user/signin?status='.$status);
+        }
+    }
+
+    public function profile(){
+        $customerid = Session::get('customerid');
+        $customer = Customers::get_customer($customerid)->first();
+        $birth = $customer->customer_birthday;
+        $births = explode('/', $birth);
+
+        $phone = $customer->customer_phone;
+        $tel = explode('-', $phone);
+        return view('customer.user.profile')->with('customer', $customer)
+                ->with('birth', $births)
+                ->with('phone', $tel);
+    }
+
+    public function profilepost(){
+        $customerid = Session::get('customerid');
+        $customer = Customers::get_customer($customerid)->first();
+        $entry = array(
+            'customer_name_first' => Input::get('first_name'),
+            'customer_name_second' => Input::get('second_name'),
+            'customer_name_kana_first' => Input::get('first_name_kana'),
+            'customer_name_kana_second' => Input::get('second_name_kana'),
+            'customer_gender' => Input::get('sex'),
+            'customer_birthday' => Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day'),
+            'customer_postalcode' => Input::get('zipcode'),
+            'customer_province' => Input::get('province'),
+            'customer_county' => Input::get('county'),
+            'customer_address_jp' => Input::get('address'),
+            'customer_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
+            'customer_email' => Input::get('email'),
+            'customer_password' => Input::get('password'),
+            'customer_status' => $customer->customer_status
+        );
+        Customers::edit_customer($entry, $customerid);
+        return Redirect::to('customer/user/profile');
     }
 }

@@ -8,10 +8,10 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="{{url('')}}/css/hiraku.min.css" rel="stylesheet">
-    <link href="{{url('')}}/css/style.css" rel="stylesheet">
-    <script src="{{url('')}}/js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="{{url('')}}/gvendor/parsleyjs/dist/parsley.min.js"></script>
+    <link href="{{url('')}}/public/css/hiraku.min.css" rel="stylesheet">
+    <link href="{{url('')}}/public/css/style.css" rel="stylesheet">
+    <script src="{{url('')}}/public/js/vendor/jquery-2.1.4.min.js"></script>
+    <script src="{{ URL::asset('public/gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
   </head>
 
   <body>
@@ -35,7 +35,6 @@
                     <li><a href="#">APPAREL</a></li>
                     <li><a href="#">SHOES</a></li>
                     <li><a href="#">SNEAKER</a></li>
-                    <span class="slide-line"></span>
                   </ul>
                 </div>
               </li>
@@ -51,14 +50,13 @@
                     <li><a href="#">ACCESSORY</a></li>
                     <li><a href="#">EDITORIAL</a></li>
                     <li><a href="#">SALE</a></li>
-                    <span class="slide-line"></span>
                   </ul>
                 </div>
               </li>
             </ul>
           </div>
           <ul class="header__nav-secondary">
-            <li><a href="{{url('customer/user')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+            <li><a href="#"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
             <li><a href="#"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
             <li><a href="#"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
           </ul>
@@ -81,9 +79,9 @@
         <div class="footer__banner">
           <div class="l-wrapper">
             <ul class="footer__banner__list">
-              <li><a href="#"><img src="{{url('')}}/images/footer__banner-01@2x.png" alt="" width="254"></a></li>
-              <li><a href="#"><img src="{{url('')}}/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
-              <li><a href="#"><img src="{{url('')}}/images/footer__banner-03@2x.png" alt="" width="254"></a></li>
+              <li><a href="#"><img src="{{url('')}}/public/images/footer__banner-01@2x.png" alt="" width="254"></a></li>
+              <li><a href="#"><img src="{{url('')}}/public/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
+              <li><a href="#"><img src="{{url('')}}/public/images/footer__banner-03@2x.png" alt="" width="254"></a></li>
             </ul>
           </div>
           <!--/.l-wrapper-->
@@ -203,9 +201,9 @@
         <!--/.footer__copyrights-->
       </div>
       <!--/.footer-->
-      <script src="{{url('')}}/js/vendor/hiraku.min.js"></script>
-      <script src="{{url('')}}/js/plugins.js"></script>
-      <script src="{{url('')}}/js/script.js"></script>
+      <script src="{{url('')}}/public/js/vendor/hiraku.min.js"></script>
+      <script src="{{url('')}}/public/js/plugins.js"></script>
+      <script src="{{url('')}}/public/js/script.js"></script>
     </div>
   </body>
 

@@ -17,11 +17,6 @@ Route::middleware(['basicAuth'])->group(function () {
 		return Redirect::to('customer/product/list/1');
 	});
 
-    // UI widget page
-    Route::get('widget', function(){
-        return View('widget/index');
-    });
-
     Route::get('admin/login', 'AdminController@login');
 	Route::get('admin/signout', 'AdminController@signout');
 	Route::post('admin/signin', 'AdminController@signin');
@@ -192,4 +187,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('customer/user', 'CustomerController@user');
 	Route::get('customer/user/signin', 'CustomerController@signin');
 	Route::post('customer/user/signinpost', 'CustomerController@signinpost');
+
+	Route::get('customer/user/profile', 'CustomerController@profile');
+	Route::post('customer/user/profilepost', 'CustomerController@profilepost');
 });
