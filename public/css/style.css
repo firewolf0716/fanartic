@@ -135,6 +135,8 @@ textarea {
   font-family: sans-serif;
   font-size: 100%;
   line-height: 1.15;
+  transition-property: all;
+  transition: 0.1s linear;
 }
 
 button,
@@ -298,6 +300,8 @@ a {
   text-decoration: none;
   word-break: break-all;
   color: #000;
+  transition-property: all;
+  transition: 0.1s linear;
 }
 
 a:hover {
@@ -356,6 +360,8 @@ input[type="button"] {
   border-radius: 0;
   -webkit-appearance: button;
   appearance: button;
+  transition-property: all;
+  transition: 0.1s linear;
 }
 
 input[type="submit"]::-webkit-search-decoration,
@@ -1618,16 +1624,34 @@ Component
     font-size: 11px;
   }
 }
-
-.c-item__figure a {
-  -webkit-transition: all linear 0.08s;
-  transition: all linear 0.08s;
+.c-item__figure {
+  position: relative;
 }
-
-.c-item__figure a:hover {
-  opacity: 0.8;
+.c-item__figure > a.image-block {
+  position: relative;
+  display: block;
+  -webkit-transition: all linear 0.1s;
+  transition: all linear 0.1s;
 }
-
+.c-item__figure > a img {
+    border: 1px solid #ddd;
+}
+.c-item__figure > a > span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: all linear 0.3s;
+  transition: all linear 0.3s;
+}
+.c-item__figure > a > span:hover {
+    opacity: 0;
+}
+.c-item__figure a.fav-block {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px;
+}
 .c-item__name {
   font-family: Gotham;
   font-weight: bold;
@@ -1635,7 +1659,7 @@ Component
 
 @media (min-width: 769px) {
   .c-item__name {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
   }
 }
 
@@ -1825,6 +1849,11 @@ Component
   -webkit-box-flex: 1;
   -ms-flex: 1;
   flex: 1;
+}
+
+.c-item--01 .c-item__column__data a{
+  display: block;
+  text-decoration: none;
 }
 
 @media (min-width: 769px) {
@@ -2572,6 +2601,7 @@ header
 
 @media (min-width: 769px) {
   .header__nav-primary__list__menu {
+    position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2592,6 +2622,14 @@ header
 @media (min-width: 769px) {
   .header__nav-primary__list__menu li:not(:last-child) {
     margin-right: 2em;
+  }
+  .header__nav-primary__list__menu .slide-line {
+    position: absolute;
+    bottom: 0;
+    height: 4px;
+    background-color:#8d785a;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
   }
 }
 
@@ -2691,7 +2729,7 @@ header
   width: 27px;
   height: 23px;
   background-image: url("../images/sprite@2x.png");
-  background-position: -176px -33px;
+  background-position: -80px -124px;
 }
 
 .header__nav-secondary__icon--wish {
@@ -3626,6 +3664,10 @@ themes
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+
+}
+.product-detail__figure__slider__arrow:hover {
+  border: 1px solid #f0f0f0;
 }
 
 @media (min-width: 769px) {
@@ -4101,12 +4143,12 @@ themes
   }
 }
 
-.product-detail__text__index > * a:hover,
 .product-detail__text__index > * a.is-current {
-  margin-bottom: -1px;
-  border-bottom: 1px solid #8d785a;
+  margin-bottom: -2px;
+  border-bottom: 2px solid #8d785a;
 }
 
+.product-detail__text__index > * a:hover,
 .product-detail__text__index > * a.is-current {
   font-weight: bold;
 }

@@ -34,6 +34,7 @@
                     <li><a href="#">APPAREL</a></li>
                     <li><a href="#">SHOES</a></li>
                     <li><a href="#">SNEAKER</a></li>
+                    <span class="slide-line"></span>
                   </ul>
                 </div>
               </li>
@@ -49,6 +50,7 @@
                     <li><a href="#">ACCESSORY</a></li>
                     <li><a href="#">EDITORIAL</a></li>
                     <li><a href="#">SALE</a></li>
+                    <span class="slide-line"></span>
                   </ul>
                 </div>
               </li>
