@@ -183,4 +183,5 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('customer/product/detail/{productid}', 'CustomerController@product_detail');
 	//customer profile
 	Route::get('customer/user/signup', 'CustomerController@signup');
+	Route::get('customer/user', 'CustomerController@user');
 });

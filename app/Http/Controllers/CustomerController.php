@@ -119,4 +119,12 @@ class CustomerController extends Controller
     public function signup(){
         return view('customer.user.signup');
     }
+
+    public function user(){
+        if (Session::has('customerid')) {
+            return Redirect::to('customer/profile');
+        } else {
+            
+        }
+    }
 }
