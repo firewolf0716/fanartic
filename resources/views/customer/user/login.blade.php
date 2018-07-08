@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Fanartic</title>
+    <title>Gentelella Alela! | </title>
 
     <!-- Bootstrap -->
     <link href="{{ url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -30,10 +30,25 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            
-            {!! Form::open(array('id' => 'form_signin','url'=>'admin/signin')) !!}
+            <h3 style="color:#ff0000">
+              @if(isset($_GET['status']))
+                @if($_GET['status'] == -2)
+                  Password is incorrect
+                @endif
+                @if($_GET['status'] == -1)
+                  Merchant not found
+                @endif
+                @if($_GET['status'] == 0)
+                  Your Merchant is in pending
+                @endif
+                @if($_GET['status'] == 2)
+                  The information you submited is rejected
+                @endif
+              @endif
+            </h3>
+            {!! Form::open(array('id' => 'form_signin','url'=>'customer/user/signinpost')) !!}
             {{ Form::hidden('redirect', $redirect)}}
-              <h1>Login(Admin)</h1>
+              <h1>Login(Customer)</h1>
               <div>
                 <input type="text" name="username" class="form-control" placeholder="Username" required="" />
               </div>
@@ -47,7 +62,11 @@
 
               <div class="clearfix"></div>
 
-              
+              <div class="separator">
+                <p class="change_link">New to site?
+                  <a href="{{url('customer/user/signup')}}" class="to_register"> Create Account </a>
+                </p>
+              </div>
             {{ Form::close() }}
             
           </section>
