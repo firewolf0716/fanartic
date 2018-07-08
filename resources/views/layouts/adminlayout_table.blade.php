@@ -10,22 +10,22 @@
     <title></title>
 
     <!-- Bootstrap -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ url('')}}/public/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="{{ url('')}}/public/gvendor/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/nprogress/nprogress.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
     <!-- bootstrap-datetimepicker -->
-    <link href="{{ url('')}}/public/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{ url('')}}/public/css/custom.css" rel="stylesheet">
+    <link href="{{url('')}}/css/custom.css" rel="stylesheet">
 
     <!-- Bootstrap Colorpicker -->
-    <link href="{{ url('')}}/public/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="{{url('')}}/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('') }}/public/css/multi-select.css" />
 </head>
 

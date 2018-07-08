@@ -31,7 +31,7 @@
                 $file_get_path =  explode("/**/",$file_get,-1); 
                 $img_count = count($file_get_path);
                 $pro_img = $file_get_path[0];
-                $prod_path = url('').'/public/images/products/'.$pro_img;
+                $prod_path = url('').'/images/products/'.$pro_img;
             @endphp
             <figure class="c-item__figure"><a href="{{url('customer/product/detail').'/'.$product->product_id}}"><img style="height:300px; width:440px;" src="{{$prod_path}}" alt=""></a></figure>
             </div>
@@ -117,12 +117,12 @@
                         <li>
                             <a href="#" class="product-list__nav__button product-list__nav__button--color product-list__nav__button--color--orange u-pc" onClick="onColorChange({{$color->color_id}})" style="background-color:{{$color->color_value}}">
                                 {{$color->color_name}}
-                            </a> 
+                            </a>
                             <label class="product-list__nav__button product-list__nav__button--color product-list__nav__button--color--yellow u-sp" onClick="onColorChange({{$color->color_id}})">
-                                <input type="radio" name="color" value="{{$color->color_id}}" data-productfiltermodal__radio='{"label":"イエロー","key":"yellow"}'> 
+                                <input type="radio" name="color" value="{{$color->color_id}}" data-productfiltermodal__radio='{"label":"イエロー","key":"yellow"}'>
                                 <span>イエロー</span>
                             </label>
-                        </li>    
+                        </li>
                     @endforeach
                     <li><a href="#" class="product-list__nav__button product-list__nav__button--size" onClick="onColorChange('')">すべて</a></li>
                 </ul>
