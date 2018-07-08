@@ -774,10 +774,15 @@ Layout
         margin: 0 auto;
         padding: 20px 0;
     }
+    .l-content-sm {
+        width: 800px;
+        margin: 0 auto;
+        padding: 20px 0;
+    }
 }
 
 @media (max-width: 768px) {
-    .l-content {
+    .l-content, .l-content-sm {
         padding: 0 10px;
         padding-top: 65px;
     }
