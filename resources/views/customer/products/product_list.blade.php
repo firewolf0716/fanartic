@@ -34,16 +34,24 @@
                                     $file_get  = $product->product_image;
                                     $file_get_path =  explode("/**/",$file_get,-1);
                                     $prod_path = url('').'/images/products/'.$file_get_path[0];
+                                    $prod_path02 = NULL;
                                     if (!empty($file_get_path[1])) {
                                         $prod_path02 = url('').'/images/products/'.$file_get_path[1];
                                     }
                                 @endphp
                                 <figure class="c-item__figure">
-                                    <a href="{{url('customer/product/detail').'/'.$product->product_id}}" class="image-block">
-                                        <img style="height:300px; width:440px;" src="{{$prod_path02}}" alt="">
-                                        <span>
-                                           <img style="height:300px; width:440px;" src="{{$prod_path}}" alt="">
-                                        </span>
+                                    <a href="{{url('customer/product/detail').'/'.$product->product_id}}"
+                                       class="image-block">
+                                        @if (empty($file_get_path[0]))
+                                            <img src="http://placehold.jp/340x440.png" alt="No Image">
+                                        @elseif (empty($file_get_path[1]))
+                                            <img style="height:300px; width:440px;" src="{{$prod_path}}" alt="">
+                                        @else
+                                            <img style="height:300px; width:440px;" src="{{$prod_path02}}" alt="">
+                                            <span>
+                                                <img style="height:300px; width:440px;" src="{{$prod_path}}" alt="">
+                                            </span>
+                                        @endif
                                     </a>
                                     <a href="#" class="fav-block"><i class="c-icon
                                     header__nav-secondary__icon--favorite"></i></a>
