@@ -7,6 +7,38 @@
     </ul>
     <!--/.c-breadcrumbs-->
 
+    <hr>
+
+    <div class="l-content">
+        <h1 class="c-pagetitle">モーダル</h1>
+
+        <a href="#modal" class="modal">通常</a>
+        <div id="modal" style="display:none;">
+            <h1>これはサンプルです。</h1>
+            <p>これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。</p>
+        </div>
+
+        &emsp;
+
+        <a href="#modal-sm" class="modal-sm">スモール</a>
+        <div id="modal-sm" style="display:none;">
+            <h1>これはサンプルです。</h1>
+            <p>これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。</p>
+        </div>
+
+        &emsp;
+
+        <a href="#modal-fullscreen" class="modal-fullscreen">フルスクリーン</a>
+        <div id="modal-fullscreen" style="display: none">
+            <h1>これはサンプルです。</h1>
+            <p>これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。これはサンプルです。</p>
+        </div>
+
+    </div>
+
+
+    <hr>
+
     <div class="l-content-sm">
         <h1 class="c-pagetitle">新規登録</h1>
         <div class="login">

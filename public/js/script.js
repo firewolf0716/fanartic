@@ -12,7 +12,8 @@ $(function () {
     /* Global
     -----------------------------------------------------------------
      */
-    var accordion, accordionProductList, bodyFix, bodyFixReset, breakPoint, header, priceComma, productDetailModal,
+    var accordion, accordionProductList, bodyFix, bodyFixReset, breakPoint, dropdownHeaderSearch, header, priceComma,
+        productDetailModal,
         productDetailSlider, productFilterModal, scrollPosi, smoothScroll, tab, tellink, windowWidth;
     breakPoint = 769;
     windowWidth = parseInt($(window).width());
@@ -100,7 +101,7 @@ $(function () {
         var hd, openClass, speed;
         hd = '[data-accordion]';
         openClass = 'is-open';
-        speed = 100;
+        speed = 300;
         return $(hd).each(function () {
             return $(this).on('click', function () {
                 if (parseInt($(window).width()) < breakPoint) {
@@ -123,7 +124,7 @@ $(function () {
         var hd, openClass, speed;
         hd = '[data-accordionProductList]';
         openClass = 'is-open';
-        speed = 100;
+        speed = 300;
         return $(hd).each(function () {
             if (parseInt($(window).width()) > breakPoint) {
                 if (!$(this).hasClass(openClass)) {
@@ -141,6 +142,20 @@ $(function () {
                     }
                 }
             });
+        });
+    };
+
+    /* dropdownHeaderSearch
+    -----------------------------------------------------------------
+     */
+    dropdownHeaderSearch = function () {
+        var searchInput, dropdownArea;
+        searchInput = '.header__search__input';
+        dropdownArea = '.header__search__dropdown';
+        return $(searchInput).focus(function () {
+            $(dropdownArea).show();
+        }).blur(function () {
+            $(dropdownArea).hide();
         });
     };
 
@@ -424,7 +439,7 @@ $(function () {
     /* checkOpen
 -----------------------------------------------------------------
  */
-    checkOpen = function() {
+    checkOpen = function () {
         var classOpen, slideSpeend, target, targetData, targetList, targetListContent, targetListRadio;
         target = 'checkopen';
         targetData = '[data-' + target + ']';
@@ -433,13 +448,13 @@ $(function () {
         targetListContent = 'checkopen__list__content';
         classOpen = "is-open";
         slideSpeend = 100;
-        $(targetData).each(function() {
+        $(targetData).each(function () {
             var el, elContent, elList, key;
             el = $(this);
             key = $(this).data(target);
             elList = $('[data-' + targetList + ' = ' + key + ']', el);
             elContent = $('[data-' + targetListContent + ' = ' + key + ']', el);
-            elList.each(function() {
+            elList.each(function () {
                 var content, list, radio;
                 list = $(this);
                 radio = $('[data-' + targetListRadio + ' = ' + key + ']', list);
@@ -458,7 +473,7 @@ $(function () {
                         content.hide();
                     }
                 }
-                radio.on('click', function() {
+                radio.on('click', function () {
                     if ($(this).children('input').prop('checked') === true) {
                         if (content) {
                             content.slideDown(slideSpeend);
@@ -481,7 +496,7 @@ $(function () {
     /* sticky
     -----------------------------------------------------------------
      */
-    sticky = function() {
+    sticky = function () {
         if ($('[data-js-sticky]').length) {
             windowWidth = parseInt($(window).width());
             $('[data-js-sticky]').stickySidebar({
@@ -499,12 +514,16 @@ $(function () {
     tellink();
     header();
     accordion();
+    dropdownHeaderSearch();
     accordionProductList();
     productFilterModal();
     productDetailModal();
     productDetailSlider();
     checkOpen();
     sticky();
+    $('.modal').modaal();
+    $('.modal-sm').modaal({width: 600});
+    $('.modal-fullscreen').modaal({fullscreen: true});
 
 
     /* scroll
