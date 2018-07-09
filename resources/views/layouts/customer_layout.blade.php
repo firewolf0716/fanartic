@@ -13,7 +13,7 @@
     <link href="{{url('')}}/css/style.css" rel="stylesheet">
     <script src="{{url('')}}/js/vendor/jquery-2.1.4.min.js"></script>
     <script src="{{url('')}}/gvendor/parsleyjs/dist/parsley.min.js"></script>
-  </head>
+</head>
 
 <body>
 <div class="l-body">
@@ -48,9 +48,9 @@
                                 <li><a href="#">NEW</a></li>
                                 <li>
                                     <a href="#">BRAND</a>
-{{--                                    <ul class="header__nav-primary__list__dropdown" data-dropdown-area="" style="display: none;">
-                                        <li><a href="">PRADA</a></li>
-                                    </ul>--}}
+                                    {{--                                    <ul class="header__nav-primary__list__dropdown" data-dropdown-area="" style="display: none;">
+                                                                            <li><a href="">PRADA</a></li>
+                                                                        </ul>--}}
                                 </li>
                                 <li><a href="#">APPAREL</a></li>
                                 <li><a href="#">SHOES</a></li>
@@ -66,50 +66,21 @@
                 </ul>
             </div>
             <ul class="header__nav-secondary">
-                <li><a href="#"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                <li><a href="{{url('customer/user')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 <li><a href="#"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
                 <li><a href="#"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
             </ul>
-<<<<<<< HEAD
-          </div>
-          <ul class="header__nav-secondary">
-            <li><a href="{{url('customer/user')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
-            <li><a href="#"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-            <li><a href="#"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
-          </ul>
-          <div class="header__search" data-header-search><span class="header__search__close" data-header-search__close></span>
-            <div class="header__search__input-wrapper">
-              <form action="post"><input type="text" class="header__search__input" placeholder="商品名・ブランド名・フリーワードで検索"> <button class="header__search__submit"><i></i></button></form>
-                <div class="header__search__dropdown" data-dropdown="" style="display: none;">
-                  <div class="ttl">ブランド</div>
-                  <ul>
-                    <li><a href="">PRADA</a></li>
-                    <li><a href="">Vutton</a></li>
-                    <li><a href="">Barenciaga</a></li>
-                    <li><a href="">Gucci</a></li>
-                    <li><a href="">Visvim</a></li>
-                  </ul>
-                  <div class="ttl">検索履歴</div>
-                  <ul>
-                    <li><a href="">PRADA</a></li>
-                    <li><a href="">Vutton</a></li>
-                    <li><a href="">Barenciaga</a></li>
-                    <li><a href="">Gucci</a></li>
-                    <li><a href="">Visvim</a></li>
-                  </ul>
-=======
             <div class="header__search" data-header-search><span class="header__search__close"
                                                                  data-header-search__close></span>
                 <div class="header__search__input-wrapper">
-                    <form action="post">
-                        <input type="text" class="header__search__input"
-                               data-dropdown-trigger="" placeholder="商品名・ブランド名・フリーワードで検索">
+                    <form action="post"><input type="text" class="header__search__input"
+                                               placeholder="商品名・ブランド名・フリーワードで検索">
                         <button class="header__search__submit"><i></i></button>
                     </form>
-                    <div class="header__search__dropdown" data-dropdown-area="" style="display: none;">
+                    <div class="header__search__dropdown" data-dropdown="" style="display: none;">
                         <div class="ttl">ブランド</div>
                         <ul>
-                            <li><a href="prada.com">PRADA</a></li>
+                            <li><a href="">PRADA</a></li>
                             <li><a href="">Vutton</a></li>
                             <li><a href="">Barenciaga</a></li>
                             <li><a href="">Gucci</a></li>
@@ -124,11 +95,10 @@
                             <li><a href="">Visvim</a></li>
                         </ul>
                     </div>
->>>>>>> feature/ui-widget
+                    <!--/.header__search__input-wrapper-->
                 </div>
-                <!--/.header__search__input-wrapper-->
+                <!--/.header__search-->
             </div>
-            <!--/.header__search-->
         </div>
         <!--/.header__inner-->
     </header>
