@@ -12,7 +12,8 @@ $(function () {
     /* Global
     -----------------------------------------------------------------
      */
-    var accordion, accordionProductList, bodyFix, bodyFixReset, breakPoint, dropdownHeaderSearch, header, priceComma,
+    var accordion, accordionProductList, bodyFix, bodyFixReset, breakPoint, dropdownHeaderSearch, dropdownHeaderHover,
+        header, priceComma,
         productDetailModal,
         productDetailSlider, productFilterModal, scrollPosi, smoothScroll, tab, tellink, windowWidth;
     breakPoint = 769;
@@ -145,18 +146,36 @@ $(function () {
         });
     };
 
-    /* dropdownHeaderSearch
+    /* dropdownHeaderHover
     -----------------------------------------------------------------
      */
-    dropdownHeaderSearch = function () {
+    dropdownHeaderHover = function () {
         var searchInput, dropdownArea;
         searchInput = '.header__search__input';
         dropdownArea = '.header__search__dropdown';
-        return $(searchInput).focus(function () {
+        return $(searchInput).bind("focus", function () {
             $(dropdownArea).show();
         }).blur(function () {
             $(dropdownArea).hide();
         });
+    };
+
+    /* dropdownHeaderSearch
+-----------------------------------------------------------------
+ */
+    dropdownHeaderSearch = function () {
+        /*        var searchInput, dropdownArea;
+                searchInput = '.header__search__input';
+                dropdownArea = '.header__search__dropdown';
+                return $(searchInput).focus(function () {
+                    $(dropdownArea).show();
+                }).blur(function () {
+                    $(dropdownArea).hover(function () {
+                        $(dropdownArea).show();
+                    }, function () {
+                        $(dropdownArea).hide();
+                    });
+                });*/
     };
 
     /* tab
@@ -514,6 +533,7 @@ $(function () {
     tellink();
     header();
     accordion();
+    dropdownHeaderHover();
     dropdownHeaderSearch();
     accordionProductList();
     productFilterModal();
