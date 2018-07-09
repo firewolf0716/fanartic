@@ -2590,7 +2590,7 @@ header
 
 @media (min-width: 769px) {
     .header {
-        height: 70px;
+        height: 115px;
     }
 }
 
@@ -2776,11 +2776,21 @@ header
         -ms-flex-pack: start;
         justify-content: flex-start;
     }
+    .header__nav-primary__list__dropdown {
+        position: absolute;
+        top:45px;
+        background: #f9f9f9;
+        width: 100%;
+        padding: 0 40px;
+    }
 }
 
 @media (max-width: 768px) {
     .header__nav-primary__list__menu {
         text-align: left;
+    }
+    .header__nav-primary__list__dropdown {
+        display: none;
     }
 }
 
@@ -2799,6 +2809,7 @@ header
 }
 
 .header__nav-primary__list__menu a {
+    display: block;
     position: relative;
     color: #c8c8c8;
     line-height: 45px;
@@ -3012,7 +3023,6 @@ header
 .header__search__dropdown {
     position: absolute;
     width: 423px;
-    margin-top: 5px;
     background: #fff;
     color: #000;
     padding: 15px;
