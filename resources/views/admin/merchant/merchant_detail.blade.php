@@ -97,18 +97,31 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">固定費</label>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_fixcost" name="merchant_fixcost" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_fixcost}}">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">手数料</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">初期費用<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <input type="number" id="merchant_opencost" name="merchant_opencost" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_opencost}}">
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">固定費用<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="number" id="merchant_fixcost" name="merchant_fixcost" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_fixcost}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">日本販売手数料<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="number" id="merchant_commission_jp" name="merchant_commission_jp" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_jp}}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">海外販売手数料<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="number" id="merchant_commission_ex" name="merchant_commission_ex" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_ex}}">
+                        </div>
+                    </div>
+
+
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">消費税フラグ<span class="required">*</span></label>
@@ -223,18 +236,7 @@
                             <input type="text" id="merchant_address_jp" name="merchant_address_jp" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_address_jp}}">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">日本販売手数料<span class="required">*</span></label>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_commission_jp" name="merchant_commission_jp" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_jp}}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">海外販売手数料<span class="required">*</span></label>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_commission_ex" name="merchant_commission_ex" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_ex}}">
-                        </div>
-                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
@@ -339,8 +341,10 @@
                 type: 'get',
                 url: '{{url('admin/merchant/getplan')}}/' + openPlan,
                 success: function(data){
-                    $('#merchant_fixcost').val(data[0].plan_fixcost);
                     $('#merchant_opencost').val(data[0].plan_opencost);
+                    $('#merchant_fixcost').val(data[0].plan_fixcost);
+                    $('#merchant_commission_jp').val(data[0].plan_domestic_fee);
+                    $('#merchant_commission_ex').val(data[0].plan_international_fee);
                 }
             });
         }

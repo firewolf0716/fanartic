@@ -27,7 +27,7 @@ class EventController extends Controller
             'event_title' => Input::get('event_title'),
             'event_title_en' => Input::get('event_title_en'),
             'event_condition' => Input::get('event_condition'),
-            'event_duration' => Input::get('reservation'),
+            'event_duration' => Input::get('reservation-time'),
             'event_content' => Input::get('event_content'),
             'event_create' => Input::get('create_date'),
             'event_update' => Input::get('update_date')
@@ -76,7 +76,7 @@ class EventController extends Controller
             'event_title' => Input::get('event_title'),
             'event_title_en' => Input::get('event_title_en'),
             'event_condition' => Input::get('event_condition'),
-            'event_duration' => Input::get('reservation'),
+            'event_duration' => Input::get('reservation-time'),
             'event_content' => Input::get('event_content'),
             'event_create' => Input::get('create_date'),
             'event_update' => Input::get('update_date')

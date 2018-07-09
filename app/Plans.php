@@ -21,9 +21,7 @@ class Plans extends Model
     }
 
     public static function get_plans() {
-        return DB::table('master_plan')->orderBy('plan_id', 'ASC')
-                                    ->leftJoin('fee_type', 'fee_type.fee_type_id', '=', 'master_plan.fee_type_id')
-                                    ->get();
+        return DB::table('master_plan')->orderBy('plan_id', 'ASC')->get();
     }
 
     public static function get_plan($id) {
@@ -32,9 +30,5 @@ class Plans extends Model
 
     public static function edit_plan($entry,$id) {
         return DB::table('master_plan')->where('plan_id', '=', $id)->update($entry);
-    }
-
-    public static function get_plan_types() {
-        return DB::table('fee_type')->orderBy('fee_type_id', 'ASC')->get();
     }
 }

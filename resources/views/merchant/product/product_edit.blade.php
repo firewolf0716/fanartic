@@ -454,7 +454,7 @@
     function addMainCategorys(isInit) {
         var top = $('#top_category').val();
         $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
-        $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
+        $('#main_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
 
         if(top != ""){
             $.ajax( {
@@ -502,8 +502,8 @@
             });
         }
     }
+
     $('#top_category').change(function() {
-        alert ($categoryinfo);
         addMainCategorys(false);
     });
     $('#main_category').change(function() {

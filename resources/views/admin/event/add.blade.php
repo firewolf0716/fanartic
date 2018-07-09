@@ -44,7 +44,7 @@
                             <div class="controls">
                                 <div class="input-prepend input-group">
                                     <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                    <input type="text" name="reservation" id="reservation" class="form-control" value="01/01/2016 - 01/25/2016" required/>
+                                    <input type="text" name="reservation-time" id="reservation-time" class="form-control" required/>
                                 </div>
                             </div>
                         </div>

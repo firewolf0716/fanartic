@@ -26,7 +26,8 @@
                                 <th style="text-align:center">タイトル</th>
                                 <th style="text-align:center">初期費用</th>
                                 <th style="text-align:center">固定費用</th>
-                                <th style="text-align:center">手数料</th>
+                                <th style="text-align:center">日本販売手数料</th>
+                                <th style="text-align:center">海外販売手数料</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -40,7 +41,8 @@
                                 <td style="text-align:center">{{$plan->plan_name}}</td>
                                 <td style="text-align:center">{{$plan->plan_opencost}}</td>
                                 <td style="text-align:center">{{$plan->plan_fixcost}}</td>
-                                <td style="text-align:center">{{$plan->fee_type_name}}</td>
+                                <td style="text-align:center">{{$plan->plan_domestic_fee}}</td>
+                                <td style="text-align:center">{{$plan->plan_international_fee}}</td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/plan/edit/'.$plan->plan_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                                 </td>
