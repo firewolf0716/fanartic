@@ -283,7 +283,7 @@
 </div>
 {{ Form::hidden('merchant_id', $merchant_id, array('id' => 'merchant_id'))}}
     <!-- jQuery -->
-    <script src="{{url('')}}/gvendor/jquery/dist/jquery.min.js"></script>
+    <script src="{{ url('')}}/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
     <script src="{{ URL::asset('gvendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <!-- FastClick -->

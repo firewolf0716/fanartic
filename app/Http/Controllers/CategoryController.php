@@ -95,13 +95,11 @@ class CategoryController extends Controller
         //     }
         // }
         if ($topcategoryid == 0) {
-            return Redirect::to('admin/category/list');
+            return Redirect::to('admin/category/add');
         } else if ($maincategoryid == 0) {
-            // return Redirect::to('admin/category/list/'.$topcategoryid);
-            return Redirect::to('admin/category/list');
+            return Redirect::to('admin/category/add/'.$topcategoryid);
         } else {
-            // return Redirect::to('admin/category/list/'.$topcategoryid.'/'.$maincategoryid);
-            return Redirect::to('admin/category/list/'.$topcategoryid);
+            return Redirect::to('admin/category/add/'.$topcategoryid.'/'.$maincategoryid);
         }
     }
 

@@ -215,7 +215,10 @@ class MerchantproductController extends Controller
         return $products;
     }
     public function merchant_product_sold(){
-        
+        $merchant_id = Session::get('merchantid');
+        // Log::debug($merchant_id);
+        $products = Products::get_products_manage($merchant_id, 5);
+        return view('merchant.product.product_sold')->with('products', $products);
     }
     public function mer_product_details($id){
 

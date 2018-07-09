@@ -30,19 +30,17 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="#">BAG</a></li>
-                                <li><a href="#">ACCESSORY</a></li>
+                                <li><a href="#">BRAND</a></li>
+                                @foreach($womencategories as $womencategory)
+                                <li><a href="#">{{$womencategory->category_name}}</a></li>                                
+                                @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
-                                <li><a href="#">BRAND</a></li>
-                                <li><a href="#">APPAREL</a></li>
-                                <li><a href="#">SHOES</a></li>
-                                <li><a href="#">SNEAKER</a></li>
                                 <span class="slide-line"></span>
                             </ul>
                         </div>
                     </li>
-                    <li><span class="header__nav-primary__button is-current" data-header-primary__button id="top_men">MEN</span>
+                    <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">MEN</span>
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
@@ -52,11 +50,9 @@
                                                                             <li><a href="">PRADA</a></li>
                                                                         </ul>--}}
                                 </li>
-                                <li><a href="#">APPAREL</a></li>
-                                <li><a href="#">SHOES</a></li>
-                                <li><a href="#">SNEAKER</a></li>
-                                <li><a href="#">BAG</a></li>
-                                <li><a href="#">ACCESSORY</a></li>
+                                @foreach($mencategories as $mencategory)
+                                <li><a href="#">{{$mencategory->category_name}}</a></li>                                
+                                @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
                                 <span class="slide-line"></span>

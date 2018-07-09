@@ -95,7 +95,9 @@
                     <div class="product-list__nav__item">
                         <ul class="product-list__nav__category u-pc">
                             @foreach($maincategorys as $maincategory)
-                                <li class="is-hassub">{{$maincategory->category_name}}
+                                <li class="is-hassub">
+                                    <a href="{{url('customer/product/list').'/'.$topcategory->category_id.'/'.$maincategory->category_id}}">
+                                                    {{$maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
                                         @foreach($subcategorys[$maincategory->category_id] as $subcategory)
                                             <li>

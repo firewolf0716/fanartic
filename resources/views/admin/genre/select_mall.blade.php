@@ -1,8 +1,13 @@
-@extends('layouts.admindefault')
+@extends('layouts.adminlayout')
 
-@section('title', 'Merchant Product Add|fanaRtic')
+@section('title', 'Dashboard|fanaRtic')
 
 @section('content')
+
+
+
+
+
 
 
 
@@ -10,34 +15,64 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Home / Products Bulk Upload</h3>
+            <h3>ジャンルを追加</h3>
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="col-md-6">
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h4>Upload</h4>
-                        <div class="clearfix"></div>
-                    </div>
-                    <div class="x_content" style="padding-Top:40px">
-                        <label class="control-label">Please Select CSV File</label>
-                        <div class="form-group" style="margin-Bottom:30px">
-                            <div class="input-group">
-                                <input type="file" class="col-sm-4 form-control"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success" onclick="loadDataFromCSV()" name="import_button">CSV Upload</button>
-                                </span>
-                            </div>
-                        </div>
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        {!! Form::open(array('id' => 'form_add','url'=>'admin/genre/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        <div class="x_panel">
+            <div class="x_title">
+                <h4>ジャンルを追加</h4>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+
+            
+            <button class="btn btn-promary" data-toggle="modal" data-target="#masuk">Login</button>
+
+<div class="modal fade" id="ma" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<h4 class="modal-title">Login</h4>
+</div>
+<div class="modal-body">
+
+
+            
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <select id="select_mall" name="select_mall" class="form-control" required>
+                            <option value="">--モールを選択--</option>
+                            @foreach($malls as $mall)
+                            <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
+                
+
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-primary m-t-10" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
+
+
             </div>
         </div>
-    </div>   
+        {{ Form::close() }}
+    </div>
 </div>
+
     <!-- jQuery -->
     <script src="{{ url('')}}/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -66,9 +101,6 @@
     <script src="{{ URL::asset('gvendor/moment/min/moment.min.js') }}"></script>
     <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
-    <!-- bootstrap-datetimepicker -->    
-    <script src="{{ URL::asset('gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
-    
     <!-- Custom Theme Scripts -->
 
 
@@ -92,7 +124,7 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
-    <script>
-        
-    </script>
+<script type="text/javascript">
+
+</script>
 @endsection
