@@ -45,7 +45,7 @@ class Products extends Model{
 
     public static function get_products_manage($merchant, $product_exist_status = 1, $top_category_id = '0', $main_category_id = '0', $sub_category_id = '0', $brand_id = '0') {
         $query = "SELECT fan_product.product_id, fan_product.product_name, fan_product.product_price_sale, fan_product.product_image
-            , fan_product.product_status, merchant_product_status.product_count 
+            , fan_product.product_status, fan_product_stock_management.product_count_$product_exist_status as product_count
              FROM (SELECT * FROM fan_product WHERE product_merchant_id = '$merchant'";
         if ($sub_category_id != '0') {
             $query .= " AND product_category_id = '$sub_category_id'";
@@ -58,8 +58,7 @@ class Products extends Model{
             $query .= " AND product_brand_id = '$brand_id'";
         }
         $query .= ") AS fan_product
-         LEFT JOIN merchant_product_status ON fan_product.product_merchant_id = merchant_product_status.product_merchant_id
-         AND fan_product.product_code = merchant_product_status.product_code AND merchant_product_status.product_status = '$product_exist_status'
+         LEFT JOIN fan_product_stock_management ON fan_product.product_merchant_id = fan_product_stock_management.product_merchant_id
          ORDER BY fan_product.product_top_category_id, fan_product.product_main_category_id, fan_product.product_category_id";
 
         $products = DB::select($query);
@@ -82,10 +81,12 @@ class Products extends Model{
         else if($categorylevel == 3)
             $sql = DB::table('fan_product')->where('product_category_id', $category_id);
         if(isset($size) && $size != ''){
-            $sql = $sql->where('product_size_id', $size);
+            $sizes = explode(',', $size);
+            $sql = $sql->whereIn('product_size_id', $sizes);
         }
         if(isset($color) && $color != ''){
-            $sql = $sql->where('product_color', $color);
+            $colors = explode(',', $color);
+            $sql = $sql->whereIn('product_color', $colors);
         }
         if(isset($rangemin) && $rangemin != ''){
             $sql = $sql->where('product_price_sale', '>=' ,$rangemin);

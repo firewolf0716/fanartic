@@ -1,0 +1,69 @@
+<?php
+
+namespace App;
+
+use DB;
+
+use Illuminate\Database\Eloquent\Model;
+
+
+class Cart extends Model
+{
+    //
+    public static function addCart($customer, $proid, $color, $size, $count){
+        $entry = array(
+            'cart_customerid' => $customer,
+            'cart_productid' => $proid,
+            'cart_skucolorid' => $color,
+            'cart_skusizeid' => $size,
+            'cart_amount' => $count,
+        );
+        $previousRec = DB::table('customer_cart')->where('cart_customerid', $customer)
+            ->where('cart_productid', $proid)
+            ->where('cart_skucolorid', $color)
+            ->where('cart_skusizeid', $size)
+            ->get();
+        if(count($previousRec) > 0){
+            $id = $previousRec->first()->cart_id;
+            return DB::table('customer_cart')->where('cart_id', $id)->update($entry);
+        } else {
+            DB::table('customer_cart')->insert($entry);
+        }
+    }
+
+    public static function getItems($customer){
+        return DB::table('customer_cart')
+            ->where('cart_customerid', $customer)
+            ->leftJoin('fan_product', 'fan_product.product_id', 'customer_cart.cart_productid')
+            ->leftJoin('master_color', 'master_color.color_id', 'customer_cart.cart_skucolorid')
+            ->leftJoin('master_size', 'master_size.size_id', 'customer_cart.cart_skusizeid')
+            ->leftJoin('master_brand', 'fan_product.product_brand_id', 'master_brand.brand_id')
+            ->get();
+    }
+
+    public static function getSum($customer){
+        return DB::table('customer_cart')
+            ->where('cart_customerid', $customer)
+            ->leftJoin('fan_product', 'fan_product.product_id', 'customer_cart.cart_productid')
+            ->leftJoin('master_color', 'master_color.color_id', 'customer_cart.cart_skucolorid')
+            ->leftJoin('master_size', 'master_size.size_id', 'customer_cart.cart_skusizeid')
+            ->leftJoin('master_brand', 'fan_product.product_brand_id', 'master_brand.brand_id')
+            ->select(DB::raw('sum(customer_cart.cart_amount * fan_product.product_price_sale) AS total_sales'))
+            ->first()->total_sales;
+    }
+
+    public static function getCount($customer){
+        return DB::table('customer_cart')
+            ->where('cart_customerid', $customer)
+            ->leftJoin('fan_product', 'fan_product.product_id', 'customer_cart.cart_productid')
+            ->leftJoin('master_color', 'master_color.color_id', 'customer_cart.cart_skucolorid')
+            ->leftJoin('master_size', 'master_size.size_id', 'customer_cart.cart_skusizeid')
+            ->leftJoin('master_brand', 'fan_product.product_brand_id', 'master_brand.brand_id')
+            ->select(DB::raw('sum(customer_cart.cart_amount) AS total_sales'))
+            ->first()->total_sales;
+    }
+
+    public static function removeitem($id){
+        DB::table('customer_cart')->where('cart_id', $id)->delete();
+    }
+}
