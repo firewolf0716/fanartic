@@ -17,6 +17,11 @@ Route::middleware(['basicAuth'])->group(function () {
 		return Redirect::to('customer/product/list/1');
 	});
 
+    // widget
+    Route::get('widget', function(){
+        return View('widget.index');
+    });
+
     Route::get('admin/login', 'AdminController@login');
 	Route::get('admin/signout', 'AdminController@signout');
 	Route::post('admin/signin', 'AdminController@signin');
