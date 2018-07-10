@@ -3,7 +3,7 @@
 @section('content')
     <ul class="c-breadcrumbs">
         <li><a href="/">HOME</a></li>
-        <li>{{$topcategory->category_name}}</li>
+        <li>{{$tcategory->category_name}}</li>
         @if(isset($mcategory))
             <li>{{$mcategory->category_name}}</li>
         @endif
@@ -81,7 +81,7 @@
         <!--/.product-list__column__content-->
         <div class="product-list__column__nav" data-productfilter__content="">
             {!! Form::open(array('id' => 'form_product_list','url'=>'customer/product/product_list_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-            {{ Form::hidden('tcategory_id', $topcategory->category_id)}}
+            {{ Form::hidden('tcategory_id', $tcategory->category_id)}}
             @if(isset($mcategory))
                 {{ Form::hidden('mcategory_id', $mcategory->category_id)}}
             @endif
@@ -96,12 +96,12 @@
                         <ul class="product-list__nav__category u-pc">
                             @foreach($maincategorys as $maincategory)
                                 <li class="is-hassub">
-                                    <a href="{{url('customer/product/list').'/'.$topcategory->category_id.'/'.$maincategory->category_id}}">
+                                    <a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id}}">
                                                     {{$maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
                                         @foreach($subcategorys[$maincategory->category_id] as $subcategory)
                                             <li>
-                                                <a href="{{url('customer/product/list').'/'.$topcategory->category_id.'/'.$maincategory->category_id.'/'.$subcategory->category_id}}">
+                                                <a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id.'/'.$subcategory->category_id}}">
                                                     {{$subcategory->category_name}}</a>
                                             </li>
                                         @endforeach
@@ -121,18 +121,19 @@
                         <ul class="product-list__nav__column u-pc">
                             @if($sizes != null)
                                 @foreach($sizes as $size)
-                                    <li><a href="#" class="product-list__nav__button product-list__nav__button--size"
-                                           onClick="onSizeChange({{$size->size_id}})">{{$size->size_name}}</a></li>
+                                    <li><a class="product-list__nav__button product-list__nav__button--size sizebutton"
+                                           onClick="onSizeChange(this, {{$size->size_id}})"
+                                           value="{{$size->size_id}}">{{$size->size_name}}</a></li>
                                 @endforeach
-                                <li><a href="#" class="product-list__nav__button product-list__nav__button--size"
+                                <li><a class="product-list__nav__button product-list__nav__button--size"
                                        onClick="onSizeChange('')">すべて</a></li>
                             @endif
                         </ul>
                     </div>
                     <!--/.product-list__nav__item-->
-                    @if(isset($_GET['sizeid']))
-                        {{ Form::hidden('size_id', $_GET['sizeid'] ,array('id' => 'size_val'))}}
-                    @endif
+                    
+                        {{ Form::hidden('size_id', '' ,array('id' => 'size_val'))}}
+                    
                 </li>
                 <li data-productfiltermodal="">
                     @if(isset($_GET['colorid']) && $_GET['colorid'] != '')
@@ -145,26 +146,26 @@
                         <ul class="product-list__nav__column">
                             @foreach($colors as $color)
                                 <li>
-                                    <a href="#"
-                                       class="product-list__nav__button product-list__nav__button--color product-list__nav__button--color--orange u-pc"
-                                       onClick="onColorChange({{$color->color_id}})"
-                                       style="background-color:{{$color->color_value}}">
+                                    <a
+                                       class="product-list__nav__button_color colorbutton"
+                                       onClick="onColorChange(this, {{$color->color_id}})"
+                                       style="background-color:{{$color->color_value}};"
+                                       value='{{$color->color_id}}'>
                                         {{$color->color_name}}
                                     </a>
-                                    <label class="product-list__nav__button product-list__nav__button--color product-list__nav__button--color--yellow u-sp"
-                                           onClick="onColorChange({{$color->color_id}})">
+                                    <label class="product-list__nav__button product-list__nav__button--color product-list__nav__button--color--yellow u-sp">
                                         <input type="radio" name="color" value="{{$color->color_id}}"
                                                data-productfiltermodal__radio='{"label":"イエロー","key":"yellow"}'>
                                         <span>イエロー</span>
                                     </label>
                                 </li>
                             @endforeach
-                            <li><a href="#" class="product-list__nav__button product-list__nav__button--size"
+                            <li><a class="product-list__nav__button product-list__nav__button--size"
                                    onClick="onColorChange('')">すべて</a></li>
                         </ul>
-                    @if(isset($_GET['colorid']))
-                        {{ Form::hidden('color_id', $_GET['colorid'] ,array('id' => 'color_val'))}}
-                    @endif
+                    
+                        {{ Form::hidden('color_id', '' ,array('id' => 'color_val'))}}
+                    
                     <!--/.l-column l-column--half-->
                     </div>
                     <!--/.product-list__nav__item-->
@@ -174,39 +175,25 @@
                                     type="hidden" value="カラーを選択" data-productfiltermodal__value__key=""></span>
                     </div>
                 </li>
-                @php
-                    $rangemin = '';
-                    if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){
-                        $rangemin = $_GET['rangemin'];
-                    }
-                    $rangemax = '';
-                    if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){
-                        $rangemax = $_GET['rangemax'];
-                    }
-                @endphp
+                {{ Form::hidden('range_min', '' ,array('id' => 'rangemin_val'))}}
+                {{ Form::hidden('range_max', '' ,array('id' => 'rangemax_val'))}}
                 <li data-productfiltermodal="">
                     <h3 class="product-list__nav__hd" data-accordionproductlist="">価格</h3>
                     <div class="product-list__nav__item" data-productfiltermodal__content="" data-productlistprice="">
                         <h2 class="product-list__column__nav__hd u-sp">価格を選択</h2>
                         <div class="product-list__nav__price">
-                            @if($rangemin == '')
-                                <input type="range" name="rangemin" min="0" max="1000000" value="0"
-                                       data-productlistprice__min="">
-                            @else
-                                <input type="range" name="rangemin" min="0" max="1000000" value="{{$rangemin}}"
-                                       data-productlistprice__min="">
-                            @endif
-                            @if($rangemax == '')
-                                <input type="range" name="rangemax" min="0" max="1000000" value="1000000"
-                                       data-productlistprice__max="">
-                            @else
-                                <input type="range" name="rangemax" min="0" max="1000000" value="{{$rangemax}}"
-                                       data-productlistprice__max="">
-                            @endif
-                            <div class="product-list__nav__price__buttons u-pc"><a href="#"
-                                                                                   class="product-list__nav__price__button">削除</a>
-                                <a href="#" class="product-list__nav__price__button" onClick="onPriceChange()">OK</a>
-                            </div>
+                            @php
+                                $rangemin = 0; $rangemax = 1000000;
+                                if(isset($_GET['rangemin']))
+                                    $rangemin = $_GET['rangemin'];
+                                if(isset($_GET['rangemax']))
+                                    $rangemax = $_GET['rangemax'];
+                            @endphp
+                            <input type="range" name="rangemin" id="rangemin" min="0" max="1000000" value="{{$rangemin}}"
+                                    data-productlistprice__min="">
+                        
+                            <input type="range" name="rangemax" id="rangemax" min="0" max="1000000" value="{{$rangemax}}"
+                                    data-productlistprice__max="">
                             <!--/.product-list__nav__price__buttons-->
                             <script src="{{url('')}}/js/vendor/mm-jsr.js"></script>
                             <script>
@@ -216,7 +203,7 @@
                                     sliders: 2,
                                     min: $(minTarget).attr('min'),
                                     max: $(maxTarget).attr('max'),
-                                    values: [$(minTarget).val(), $(maxTarget).val()],
+                                    values: ['{{$rangemin / 10}}', '{{$rangemax}}'],
                                     limit: {
                                         show: false
                                     },
@@ -248,6 +235,12 @@
                     <div class="c-select c-select--filter c-select--modal u-sp u-sp__full"
                          data-productfiltermodal__open=""><span class="c-select__box u-sp__full"><span
                                     class="c-select__box__inner" data-productfilterprice__label="">価格を選択</span></span>
+                    </div>
+                </li>
+                <li>
+                    <div class="product-list__nav__price__buttons u-pc">
+                        <a class="product-list__nav__price__button" onClick="onClear()">削除</a>
+                        <a class="product-list__nav__price__button" onClick="onFilter()">OK</a>
                     </div>
                 </li>
             </ul>
@@ -399,30 +392,140 @@
         $('#top_men').click(function () {
             window.location = "{{url('customer/product/list/1')}}"
         });
+
+
+        var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
+
+        //Function to convert rgb color to hex format
+        function rgb2hex(rgb) {
+            rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+            return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+        }
+
+        function hex(x) {
+            return isNaN(x) ? "00" : hexDigits[(x - x % 16) / 16] + hexDigits[x % 16];
+        }
+
         $(function () {
-            var topcategory = "{{$topcategory->category_id}}";
-            if (topcategory == '1') {
-                $('#top_women').removeClass('is-current');
-                $('#top_men').addClass('is-current');
-            }
-            else if (topcategory == '2') {
-                $('#top_men').removeClass('is-current');
-                $('#top_women').addClass('is-current');
-            }
+            var colors = Array();
+            @if(isset($_GET['colorid']))
+                colors = '{{$_GET['colorid']}}'.split(',');
+            @endif
+            $('.colorbutton').each(function(i, obj){
+                var backcolor = rgb2hex($(obj).css('background-color'));
+                // alert(backcolor);
+                var color = invertColor(backcolor, true);
+                $(obj).css('color', color);
+                var colorid = $(obj).attr('value');
+                for(var i = 0; i < colors.length; i++){
+                    if(colors[i] == colorid){
+                        $(obj).removeClass('product-list__nav__button_color');
+                        $(obj).addClass('product-list__nav__button_color-selected');
+                    }
+                }
+            });
+            var sizes = Array();
+            @if(isset($_GET['sizeid']))
+                var sizestr = '{{$_GET['sizeid']}}';
+                sizes = sizestr.split(',');
+            @endif
+            $('.sizebutton').each(function(i, obj){
+                var sizeid = $(obj).attr('value');
+                for(var i = 0; i < sizes.length; i++){
+                    if(sizes[i] == sizeid){
+                        $(obj).removeClass('product-list__nav__button');
+                        $(obj).addClass('product-list__nav__button-selected');
+                    }
+                }
+            });
         });
 
-        function onSizeChange(sizeid) {
-            $('#size_val').val(sizeid);
-            $('#form_product_list').submit();
+        function onSizeChange(obj, sizeid) {
+            if($(obj).hasClass('product-list__nav__button')){
+                $(obj).removeClass('product-list__nav__button');
+                $(obj).addClass('product-list__nav__button-selected');
+            } else {
+                $(obj).addClass('product-list__nav__button');
+                $(obj).removeClass('product-list__nav__button-selected');
+            }
         }
 
-        function onColorChange(colorid) {
-            $('#color_val').val(colorid);
-            $('#form_product_list').submit();
+        function onColorChange(obj, colorid) {
+            if($(obj).hasClass('product-list__nav__button_color')){
+                $(obj).removeClass('product-list__nav__button_color');
+                $(obj).addClass('product-list__nav__button_color-selected');
+            } else {
+                $(obj).addClass('product-list__nav__button_color');
+                $(obj).removeClass('product-list__nav__button_color-selected');
+            }
         }
 
-        function onPriceChange() {
+        function onFilter() {
+            var colors = '';
+            $('.colorbutton').each(function(i, obj){
+                if($(obj).hasClass('product-list__nav__button_color-selected')){
+                    colors = colors + $(obj).attr('value') + ',';
+                }
+            });
+            // alert(colors);
+            $('#color_val').val(colors);
+            var sizes = '';
+            $('.sizebutton').each(function(i, obj){
+                if($(obj).hasClass('product-list__nav__button-selected')){
+                    sizes = sizes + $(obj).attr('value') + ',';
+                }
+            });
+            // alert(sizes);
+            $('#size_val').val(sizes);
+            $('#rangemin_val').val($('#rangemin').attr('value'));
+            $('#rangemax_val').val($('#rangemax').attr('value'));
+            // alert($('#rangemin').attr('value'));
             $('#form_product_list').submit();
+        }
+        function onClear(){
+            $('.colorbutton').each(function(i, obj){
+                $(obj).addClass('product-list__nav__button_color');
+                $(obj).removeClass('product-list__nav__button_color-selected');
+            });
+            $('.sizebutton').each(function(i, obj){
+                $(obj).addClass('product-list__nav__button');
+                $(obj).removeClass('product-list__nav__button-selected');
+            });
+            productListPriceRange.refresh(config = {
+                values: [0, 1000000]
+            });
+        }
+        function padZero(str, len) {
+            len = len || 2;
+            var zeros = new Array(len).join('0');
+            return (zeros + str).slice(-len);
+        }
+        function invertColor(hex, bw) {
+            if (hex.indexOf('#') === 0) {
+                hex = hex.slice(1);
+            }
+            // convert 3-digit hex to 6-digits.
+            if (hex.length === 3) {
+                hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+            }
+            if (hex.length !== 6) {
+                throw new Error('Invalid HEX color.');
+            }
+            var r = parseInt(hex.slice(0, 2), 16),
+                g = parseInt(hex.slice(2, 4), 16),
+                b = parseInt(hex.slice(4, 6), 16);
+            if (bw) {
+                // http://stackoverflow.com/a/3943023/112731
+                return (r * 0.299 + g * 0.587 + b * 0.114) > 186
+                    ? '#000000'
+                    : '#FFFFFF';
+            }
+            // invert color components
+            r = (255 - r).toString(16);
+            g = (255 - g).toString(16);
+            b = (255 - b).toString(16);
+            // pad each with zeros and return
+            return "#" + padZero(r) + padZero(g) + padZero(b);
         }
     </script>
 @endsection

@@ -35,7 +35,7 @@ class BrandController extends Controller
         }
 
         $filename_new = "brand_" . time() . "." . strtolower($brand_image_file->getClientOriginalExtension());
-        $newdestinationPath = './public/images/brands/';
+        $newdestinationPath = './images/brands/';
         $uploadSuccess_new = Input::file('brand_image')->move($newdestinationPath, $filename_new);
 
         $entry =  array (
@@ -97,7 +97,7 @@ class BrandController extends Controller
         $search = Brands::get_brand($id);
         if(isset($search)){
             $brand = $search[0];
-            $imgPath = "./public/images/brands/".$brand->brand_image;
+            $imgPath = "./images/brands/".$brand->brand_image;
             if (file_exists($imgPath)) {
                 unlink($imgPath);
             }
@@ -118,7 +118,7 @@ class BrandController extends Controller
             
         } else {
             $filename = Input::get('brand_image');
-            $newdestinationPath = './public/images/brands/';
+            $newdestinationPath = './images/brands/';
             $uploadSuccess_new = $brand_image_file->move($newdestinationPath, $filename);
         }
         

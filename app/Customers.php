@@ -68,4 +68,18 @@ class Customers extends Model
     public static function remove($id){
         return DB::table('customers')->where('customer_id', $id)->delete();
     }
+
+    public static function addRecent($id, $proid){
+        $entry = array(
+            'customer_id' => $id,
+            'product_id' => $proid,
+        );
+        DB::table('customer_recent_product')->insert($entry);
+    }
+
+    public static function getRecent($id){
+        return DB::table('customer_recent_product')
+            ->where('customer_id', $id)
+            ->get();
+    }
 }

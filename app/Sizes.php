@@ -28,6 +28,11 @@ class Sizes extends Model
                                        ->get();
     }
 
+    public static function get_sizes_with_category($id) {
+        return DB::table('master_size')->where('size_category_id', $id)
+                                       ->get();
+    }
+
     public static function edit_size($entry,$id) {
         return DB::table('master_size')->where('size_id', '=', $id)->update($entry);
     }

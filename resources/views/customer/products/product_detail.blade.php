@@ -41,48 +41,46 @@
             <div class="u-sp"><span class="c-item__addcart product-detail__data__cart__item__list__addcart__button" data-productdetail__button=""><i class="c-icon"></i>カートへ入れる</span></div>
             <div class="product-detail__data__cart" data-productdetail__content="">
             <h3 class="product-detail__data__cart__hd u-sp">カートに入れる</h3>
+            @foreach($skucolor as $color)
             <div class="product-detail__data__cart__item">
-                <div class="product-detail__data__cart__item__figure"><img src="http://placehold.jp/120x154.png?text=1" alt="">ネイビー</div>
+                <div class="product-detail__data__cart__item__figure"><img src="http://placehold.jp/120x154.png?text=2" alt="">{{$color->color_name}}</div>
                 <ul class="product-detail__data__cart__item__list">
-                <li>
-                    <div class="product-detail__data__cart__item__list__size">S<span class="u-pc">&nbsp;/&nbsp;</span><br class="u-sp">在庫あり</div>
-                    <div class="product-detail__data__cart__item__list__addcart"><button class="c-item__addcart product-detail__data__cart__item__list__addcart__button"><i class="c-icon u-pc"></i>カートへ入れる</button></div>
-                    <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
-                </li>
-                <li>
-                    <div class="product-detail__data__cart__item__list__size">M<span class="u-pc">&nbsp;/&nbsp;</span><br class="u-sp">在庫あり</div>
-                    <div class="product-detail__data__cart__item__list__addcart"><button class="c-item__addcart product-detail__data__cart__item__list__addcart__button"><i class="c-icon u-pc"></i>カートへ入れる</button></div>
-                    <div class="product-detail__data__cart__item__list__wish"><i class="c-icon is-wished"></i><span>お気に入りアイテム</span></div>
-                </li>
-                <li>
-                    <div class="product-detail__data__cart__item__list__size">XXL<span class="u-pc">&nbsp;/&nbsp;</span><br class="u-sp">在庫なし</div>
-                    <div class="product-detail__data__cart__item__list__addcart">完売しました</div>
-                    <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
-                </li>
+                @foreach($skusize as $size)
+                    <li>
+                        @if($skuinfo[$color->sku_type_id][$size->sku_type_id] > 0)
+                        <div class="product-detail__data__cart__item__list__size">
+                            {{$size->size_name}}
+                            <span class="u-pc">&nbsp;/&nbsp;</span>
+                            <br class="u-sp">在庫あり
+                        </div>
+                        <div class="product-detail__data__cart__item__list__size">
+                            <input id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_type_id][$size->sku_type_id]}}'/>
+                        </div>
+                        <div class="product-detail__data__cart__item__list__addcart">
+                            <button id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button" 
+                                onClick="onCart('{{$color->sku_type_id.'_'.$size->sku_type_id}}', '{{$skuinfo[$color->sku_type_id][$size->sku_type_id]}}')">
+                                <i class="c-icon u-pc"></i>カートへ入れる
+                            </button>
+                        </div>
+                        <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
+                        @else
+                        <div class="product-detail__data__cart__item__list__size">
+                            {{$size->size_name}}
+                            <span class="u-pc">&nbsp;/&nbsp;</span>
+                            <br class="u-sp">在庫なし
+                        </div>
+                        <div class="product-detail__data__cart__item__list__size">
+                            
+                        </div>
+                        <div class="product-detail__data__cart__item__list__addcart">完売しました</div>
+                        <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
+                        @endif
+                    </li>
+                @endforeach
                 </ul>
             </div>
             <!--/.product-detail__data__cart__item-->
-            <div class="product-detail__data__cart__item">
-                <div class="product-detail__data__cart__item__figure"><img src="http://placehold.jp/120x154.png?text=2" alt="">ネイビー</div>
-                <ul class="product-detail__data__cart__item__list">
-                <li>
-                    <div class="product-detail__data__cart__item__list__size">S<span class="u-pc">&nbsp;/&nbsp;</span><br class="u-sp">在庫あり</div>
-                    <div class="product-detail__data__cart__item__list__addcart"><button class="c-item__addcart product-detail__data__cart__item__list__addcart__button"><i class="c-icon u-pc"></i>カートへ入れる</button></div>
-                    <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
-                </li>
-                <li>
-                    <div class="product-detail__data__cart__item__list__size">M<span class="u-pc">&nbsp;/&nbsp;</span><br class="u-sp">在庫あり</div>
-                    <div class="product-detail__data__cart__item__list__addcart"><button class="c-item__addcart product-detail__data__cart__item__list__addcart__button"><i class="c-icon u-pc"></i>カートへ入れる</button></div>
-                    <div class="product-detail__data__cart__item__list__wish"><i class="c-icon is-wished"></i><span>お気に入りアイテム</span></div>
-                </li>
-                <li>
-                    <div class="product-detail__data__cart__item__list__size">XXL<span class="u-pc">&nbsp;/&nbsp;</span><br class="u-sp">在庫なし</div>
-                    <div class="product-detail__data__cart__item__list__addcart">完売しました</div>
-                    <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
-                </li>
-                </ul>
-            </div>
-            <!--/.product-detail__data__cart__item-->
+            @endforeach
             </div>
             <!--/.product-detail__data__cart-->
         </div>
@@ -165,6 +163,7 @@
         </div>
         <!--/.product-detail__text-->
     </div>
+    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     <!--/.product-detail-->
     <div class="l-column--sub">
         <h2 class="c-hd">最近チェックしたアイテム</h2>
@@ -282,4 +281,33 @@
         </div>
         <!--/.c-items c-items--03-->
     </div>
+    <script>
+        function onCart(id, max){
+            var colorid = id.split('_')[0];
+            var sizeid = id.split('_')[1];
+            var count = $('#' + id + '_count').val();
+            if(count <= 0){
+                alert('Please enter the amount of product');
+                return;
+            }
+            if(count > max){
+                alert('More than the maximum amount');
+                return;
+            }
+            $.ajax( {
+                type: 'post',
+                data: {
+                    product : '{{$product->product_id}}',
+                    color   : colorid,
+                    size    : sizeid,
+                    count   : count,
+                    _token  : $('#token').val()
+                },
+                url: "{{url('customer/addtocart')}}",
+                success: function(data){
+                    alert(data);
+                }
+            });
+        }
+    </script>
 @endsection
