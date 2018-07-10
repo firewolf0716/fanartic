@@ -188,7 +188,14 @@ class CustomerController extends Controller
         if(isset($_GET['redirect'])){
             return view('customer.user.login')->with('redirect', $_GET['redirect']);
         }
-        return view('customer.user.login')->with('redirect', 'customer/user/profile');
+        return view('customer.user.login')->with('redirect', '/');
+    }
+
+    public function signout(){
+        Session::forget('site');
+        Session::forget('customerid');
+        Session::forget('customermail');
+        return Redirect::to(url(''));
     }
 
     public function signuppost(){
@@ -286,6 +293,9 @@ class CustomerController extends Controller
     }
 
     public function cart(){
+        if(!Session::has('customerid')){
+            return Redirect::to(url(''));
+        }
         $customerid = Session::get('customerid');
         $topcategorys = Categorys::getTopCategorys();
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);

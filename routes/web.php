@@ -190,6 +190,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('customer/user', 'CustomerController@user');
 	Route::get('customer/user/signin', 'CustomerController@signin');
 	Route::post('customer/user/signinpost', 'CustomerController@signinpost');
+	Route::get('customer/user/signout', 'CustomerController@signout');
 
 	Route::get('customer/user/profile', 'CustomerController@profile');
 	Route::post('customer/user/profilepost', 'CustomerController@profilepost');
