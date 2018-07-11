@@ -30,19 +30,22 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="#">BAG</a></li>
-                                <li><a href="#">ACCESSORY</a></li>
+                                <li><a href="#">BRAND</a></li>
+                                @foreach($womencategories as $key => $womencategory)
+                                @if($key < 5)
+                                <li><a href="{{url('customer/product/list').'/2/'.$womencategory->category_id}}">
+                                    {{$womencategory->category_name}}
+                                    </a>
+                                </li>
+                                @endif
+                                @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
-                                <li><a href="#">BRAND</a></li>
-                                <li><a href="#">APPAREL</a></li>
-                                <li><a href="#">SHOES</a></li>
-                                <li><a href="#">SNEAKER</a></li>
                                 <span class="slide-line"></span>
                             </ul>
                         </div>
                     </li>
-                    <li><span class="header__nav-primary__button is-current" data-header-primary__button id="top_men">MEN</span>
+                    <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">MEN</span>
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
@@ -52,11 +55,13 @@
                                                                             <li><a href="">PRADA</a></li>
                                                                         </ul>--}}
                                 </li>
-                                <li><a href="#">APPAREL</a></li>
-                                <li><a href="#">SHOES</a></li>
-                                <li><a href="#">SNEAKER</a></li>
-                                <li><a href="#">BAG</a></li>
-                                <li><a href="#">ACCESSORY</a></li>
+                                @foreach($mencategories as $key => $mencategory)
+                                @if($key < 5)
+                                <li><a href="{{url('customer/product/list').'/1/'.$mencategory->category_id}}">
+                                    {{$mencategory->category_name}}
+                                </a></li>
+                                @endif
+                                @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
                                 <span class="slide-line"></span>
@@ -67,8 +72,8 @@
             </div>
             <ul class="header__nav-secondary">
                 <li><a href="{{url('customer/user')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
-                <li><a href="#"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="#"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/customer/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
+                <li><a href="{{url('')}}/customer/user/cart"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
             </ul>
             <div class="header__search" data-header-search><span class="header__search__close"
                                                                  data-header-search__close></span>
@@ -112,7 +117,7 @@
             <div class="l-wrapper">
                 <ul class="footer__banner__list">
                     <li><a href="#"><img src="{{url('')}}/images/footer__banner-01@2x.png" alt="" width="254"></a></li>
-                    <li><a href="#"><img src="{{url('')}}/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
+                    <li><a href="{{url('')}}/customer/user/signup"><img src="{{url('')}}/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
                     <li><a href="#"><img src="{{url('')}}/images/footer__banner-03@2x.png" alt="" width="254"></a></li>
                 </ul>
             </div>
@@ -124,46 +129,9 @@
                 <h2 class="footer__nav__hd" data-accordion="">BRAND</h2>
                 <div class="footer__nav__list-wrap">
                     <ul class="footer__nav__list footer__nav__list--col04">
-                        <li><a href="#">berg</a></li>
-                        <li><a href="#">Icosae</a></li>
-                        <li><a href="#">Ih Nom Uh Nit</a></li>
-                        <li><a href="#">Iiuvo</a></li>
-                        <li><a href="#">Ileana Makri</a></li>
-                        <li><a href="#">Ill.I</a></li>
-                        <li><a href="#">Illesteva</a></li>
-                        <li><a href="#">Incarnation</a></li>
-                        <li><a href="#">ian Belts</a></li>
-                        <li><a href="#">Ivo Scunzani</a></li>
-                        <li><a href="#">Incotex</a></li>
-                        <li><a href="#">Individual Sentimen</a></li>
-                        <li><a href="#">Inês Torcato</a></li>
-                        <li><a href="#">Ink</a></li>
-                        <li><a href="#">Instrmnt</a></li>
-                        <li><a href="#">Intoxicated</a></li>
-                        <li><a href="#">Invicta</a></li>
-                        <li><a href="#">Iris Von Arnim</a></li>
-                        <li><a href="#">Irresistor</a></li>
-                        <li><a href="#">Isaac Reina</a></li>
-                        <li><a href="#">berg</a></li>
-                        <li><a href="#">Icosae</a></li>
-                        <li><a href="#">Ih Nom Uh Nit</a></li>
-                        <li><a href="#">Iiuvo</a></li>
-                        <li><a href="#">Ileana Makri</a></li>
-                        <li><a href="#">Ill.I</a></li>
-                        <li><a href="#">Illesteva</a></li>
-                        <li><a href="#">Incarnation</a></li>
-                        <li><a href="#">ian Belts</a></li>
-                        <li><a href="#">Ivo Scunzani</a></li>
-                        <li><a href="#">berg</a></li>
-                        <li><a href="#">Icosae</a></li>
-                        <li><a href="#">Ih Nom Uh Nit</a></li>
-                        <li><a href="#">Iiuvo</a></li>
-                        <li><a href="#">Ileana Makri</a></li>
-                        <li><a href="#">Ill.I</a></li>
-                        <li><a href="#">Illesteva</a></li>
-                        <li><a href="#">Incarnation</a></li>
-                        <li><a href="#">ian Belts</a></li>
-                        <li><a href="#">Ivo Scunzani</a></li>
+                        @foreach($brands as $brand)
+                            <li><a href="#">{{$brand->brand_name}}</a></li>
+                        @endforeach
                     </ul>
                 </div>
                 <div class="footer__nav__column">
@@ -171,22 +139,9 @@
                         <h2 class="footer__nav__hd" data-accordion="">CATEGORY</h2>
                         <div class="footer__nav__list-wrap">
                             <ul class="footer__nav__list footer__nav__list--col02">
-                                <li><a href="#">Hoodies & Sweatshirts</a></li>
-                                <li><a href="#">Jackets & Coats</a></li>
-                                <li><a href="#">Jeans</a></li>
-                                <li><a href="#">Jumpers & Cardigans</a></li>
-                                <li><a href="#">Loungewear</a></li>
-                                <li><a href="#">Multipacks</a></li>
-                                <li><a href="#">Polo shirts</a></li>
-                                <li><a href="#">Socks</a></li>
-                                <li><a href="#">Suits</a></li>
-                                <li><a href="#">Swimwear</a></li>
-                                <li><a href="#">T-Shirts & Vests</a></li>
-                                <li><a href="#">Tracksuits</a></li>
-                                <li><a href="#">Trousers & Chinos</a></li>
-                                <li><a href="#">Underwear</a></li>
-                                <li><a href="#">Shirts</a></li>
-                                <li><a href="#">Shorts</a></li>
+                                @foreach($maincategorys as $maincategory)
+                                    <li><a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$mencategory->category_id}}">{{$maincategory->category_name}}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -237,6 +192,19 @@
     <script src="{{url('')}}/js/vendor/modaal.min.js"></script>
     <script src="{{url('')}}/js/plugins.js"></script>
     <script src="{{url('')}}/js/script.js"></script>
+    <script>
+        $(function(){
+            var topcategory = "{{$tcategory->category_id}}";
+            if (topcategory == '1') {
+                $('#top_women').removeClass('is-current');
+                $('#top_men').addClass('is-current');
+            }
+            else if (topcategory == '2') {
+                $('#top_men').removeClass('is-current');
+                $('#top_women').addClass('is-current');
+            }
+        });
+    </script>
 </div>
 </body>
 

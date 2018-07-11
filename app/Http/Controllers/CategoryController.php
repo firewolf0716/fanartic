@@ -95,13 +95,11 @@ class CategoryController extends Controller
         //     }
         // }
         if ($topcategoryid == 0) {
-            return Redirect::to('admin/category/list');
+            return Redirect::to('admin/category/add');
         } else if ($maincategoryid == 0) {
-            // return Redirect::to('admin/category/list/'.$topcategoryid);
-            return Redirect::to('admin/category/list');
+            return Redirect::to('admin/category/add/'.$topcategoryid);
         } else {
-            // return Redirect::to('admin/category/list/'.$topcategoryid.'/'.$maincategoryid);
-            return Redirect::to('admin/category/list/'.$topcategoryid);
+            return Redirect::to('admin/category/add/'.$topcategoryid.'/'.$maincategoryid);
         }
     }
 
@@ -151,28 +149,16 @@ class CategoryController extends Controller
     }
 
     public function getTopCategorys() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $topCategorys = Categorys::getTopCategorys();
         return $topCategorys;
     }
 
     public function getMainCategorys($topCategoryId) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $mainCategorys = Categorys::getMainCategorys($topCategoryId);
         return $mainCategorys;
     }
     
     public function getSubCategorys($topCategoryId, $mainCategoryId) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $mainCategorys = Categorys::getSubCategorys($topCategoryId, $mainCategoryId);
         return $mainCategorys;
     }

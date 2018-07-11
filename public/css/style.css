@@ -4887,6 +4887,55 @@ themes
         color: #fff !important;
         background: #000;
     }
+
+    .product-list__nav__button-selected {
+        display: block;
+        padding: 14px;
+        cursor: pointer;
+        -webkit-transition: all linear 0.02s;
+        transition: all linear 0.02s;
+        text-align: center;
+        text-align: center;
+        text-decoration: none !important;
+        border: solid 1px #d9d9d9;
+        color: #fff !important;
+        background: #333;
+        border-radius: 50px;
+        font-size: 16px;
+        line-height: 1;
+    }
+
+    .product-list__nav__button_color {
+        display: block;
+        padding: 14px;
+        cursor: pointer;
+        -webkit-transition: all linear 0.02s;
+        transition: all linear 0.02s;
+        text-align: center;
+        text-align: center;
+        text-decoration: none !important;
+        border: solid 2px #eee;
+        border-radius: 50px;
+        font-size: 16px;
+        line-height: 1;
+    }
+    .product-list__nav__button_color:hover{
+        border: solid 2px #888;
+    }
+    .product-list__nav__button_color-selected {
+        display: block;
+        padding: 14px;
+        cursor: pointer;
+        -webkit-transition: all linear 0.02s;
+        transition: all linear 0.02s;
+        text-align: center;
+        text-align: center;
+        text-decoration: none !important;
+        border: solid 2px #222;
+        border-radius: 50px;
+        font-size: 16px;
+        line-height: 1;
+    }
 }
 
 .product-list__nav__button--color {

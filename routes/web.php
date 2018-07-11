@@ -30,6 +30,10 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('admin/admins/edit/{id}','AdminController@editadmin');
 	Route::post('admin/admins/editpost','AdminController@editadminpost');
 
+	// Import
+	Route::get('admin/import/csv','ImportController@importFromCsv');
+	Route::post('admin/import/update_csv','ImportController@updateFromCsv');
+
 	// Genre
 	Route::get('admin/genre/add','GenreController@add');
 	Route::post('admin/genre/addpost','GenreController@addpost');
@@ -152,7 +156,6 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/getcity', 'MerchantController@getcity');
 	Route::post('merchant/editsetting', 'MerchantController@merchant_editsetting');
 
-
 	//merchant product
 	Route::get('merchant/product/add', 'MerchantproductController@merchant_product_add');
 	Route::get('merchant/product/getscategory/{tcategory}', 'MerchantproductController@merchant_getscategory');
@@ -187,7 +190,15 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('customer/user', 'CustomerController@user');
 	Route::get('customer/user/signin', 'CustomerController@signin');
 	Route::post('customer/user/signinpost', 'CustomerController@signinpost');
+	Route::get('customer/user/signout', 'CustomerController@signout');
 
 	Route::get('customer/user/profile', 'CustomerController@profile');
 	Route::post('customer/user/profilepost', 'CustomerController@profilepost');
+
+	Route::get('customer/user/favourite', 'CustomerController@favourite');
+	Route::get('customer/user/cart', 'CustomerController@cart');
+	Route::get('customer/user/address', 'CustomerController@address');
+	
+	Route::post('customer/addtocart', 'CustomerController@addtocart');
+	Route::post('customer/cart_remove_item', 'CustomerController@cart_remove_item');
 });

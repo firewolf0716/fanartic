@@ -38,13 +38,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">手数料<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">日本販売手数料<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select id="fee_type" name="fee_type" class="form-control" required>
-                            @foreach($fee_types as $fee_type)
-                                <option value="{{$fee_type->fee_type_id}}">{{$fee_type->fee_type_name}}</option>
-                            @endforeach
-                        </select>
+                        <input type="number" id="plan_domestic_fee" name="plan_domestic_fee" required="required" class="form-control col-md-7 col-xs-12">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">海外販売手数料<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="number" id="plan_international_fee" name="plan_international_fee" required="required" class="form-control col-md-7 col-xs-12">
                     </div>
                 </div>
                 <div class="form-group">

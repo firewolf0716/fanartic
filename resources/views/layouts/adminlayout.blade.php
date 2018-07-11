@@ -10,29 +10,29 @@
     <title></title>
 
     <!-- Bootstrap -->
-    <link href="{{url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{url('')}}/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
-    <link href="{{url('')}}/gvendor/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/nprogress/nprogress.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-    <link href="{{url('')}}/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
     <!-- bootstrap-datetimepicker -->
-    <link href="{{url('')}}/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{url('')}}/css/custom.css" rel="stylesheet">
+    <link href="{{ url('')}}/css/custom.css" rel="stylesheet">
 
     <!-- Datatables -->
-    <link href="{{url('')}}/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="{{url('')}}/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="{{url('')}}/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="{{url('')}}/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="{{url('')}}/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     
     <!-- Bootstrap Colorpicker -->
-    <link href="{{url('')}}/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('') }}/css/multi-select.css" />
 </head>
 

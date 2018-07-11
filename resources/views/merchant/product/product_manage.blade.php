@@ -44,35 +44,6 @@
                           <th>Actions</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <!-- @foreach($products as $product)
-                        <tr>
-                            <td>{{$product->product_id}}</td>
-                            <td style="text-align:center">{{$product->product_name}}</td>
-                            <td style="text-align:right">{{$product->product_price_sale}}</td>
-                            <td style="text-align:right">{{$product->product_count}}</td>
-                            @if($product->product_status == 1)
-                                <td style="text-align:center">有効</td>
-                            @else
-                                <td style="text-align:center">無効</td>
-                            @endif
-                            <td>
-                                @php 
-                                    $file_get  = $product->product_image; 
-                                    $file_get_path =  explode("/**/",$file_get,-1); 
-                                    $img_count = count($file_get_path);
-                                    $pro_img = $file_get_path[0];
-                                    $prod_path = url('').'/images/products/'.$pro_img;
-                                @endphp
-                                <img style="height:20px;" src="{{ $prod_path }}">
-                            </td>
-                            <td style="text-align:center">
-                                <a style="margin:10px" href="{{ url('merchant/product/edit')}}/{{$product->product_id}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                <a style="margin:10px" href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$product->product_id}})" aria-hidden="true"></span></a>
-                            </td>
-                        </tr>
-                        @endforeach -->
-                      </tbody>
                     </table>
                 </div>
             </div>

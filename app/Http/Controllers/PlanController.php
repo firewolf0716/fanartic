@@ -15,9 +15,7 @@ class PlanController extends Controller
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
-
-        $fee_types = Plans::get_plan_types();
-        return view('admin.plan.add')->with('fee_types', $fee_types);
+        return view('admin.plan.add');
     }
     public function addpost() {
         if ($this->check_admin_session() == false) {
@@ -28,7 +26,8 @@ class PlanController extends Controller
             'plan_name' => Input::get('plan_name'),
             'plan_opencost' => Input::get('plan_opencost'),
             'plan_fixcost' => Input::get('plan_fixcost'),
-            'fee_type_id' => Input::get('fee_type'),
+            'plan_domestic_fee' => Input::get('plan_domestic_fee'),
+            'plan_international_fee' => Input::get('plan_international_fee'),
             'plan_create' => Input::get('create_date'),
             'plan_update' => Input::get('update_date')
         );
@@ -51,11 +50,9 @@ class PlanController extends Controller
         }
 
         $search = Plans::get_plan($id);
-        $fee_types = Plans::get_plan_types();
         if(isset($search)){
             $plan = $search[0];
-            return view('admin.plan.edit')->with('plan', $plan)
-                                        ->with('fee_types', $fee_types);
+            return view('admin.plan.edit')->with('plan', $plan);
         } else{
             return Redirect::to('admin/plan/list');
         }
@@ -70,7 +67,8 @@ class PlanController extends Controller
             'plan_name' => Input::get('plan_name'),
             'plan_opencost' => Input::get('plan_opencost'),
             'plan_fixcost' => Input::get('plan_fixcost'),
-            'fee_type_id' => Input::get('fee_type'),
+            'plan_domestic_fee' => Input::get('plan_domestic_fee'),
+            'plan_international_fee' => Input::get('plan_international_fee'),
             'plan_create' => Input::get('create_date'),
             'plan_update' => Input::get('update_date')
         );

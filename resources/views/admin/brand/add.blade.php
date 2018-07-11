@@ -19,26 +19,17 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <!-- <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select class="form-control" name="brand_mall[]" id="malls" multiple="multiple">
-                            @foreach($malls as $mall)
-                            <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
                 </div> -->
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="brand_name" name="brand_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="モール名を日本語で入力してください">
+                        <input type="text" id="brand_name" name="brand_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="ブランド名を日本語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="brand_name_en" name="brand_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="モール名を英語で入力してください">
+                        <input type="text" id="brand_name_en" name="brand_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="ブランド名を英語で入力してください">
                     </div>
                 </div>
                 <div class="form-group">

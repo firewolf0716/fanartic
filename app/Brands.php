@@ -20,9 +20,8 @@ class Brands extends Model
         }
     }
     public static function get_brands(){
-        return DB::table('master_brand')->orderBy('brand_id', 'ASC')->get();
+        return DB::table('master_brand')->orderBy('tempostar_sort_by', 'DESC')->orderBy('brand_id', 'ASC')->get();
     }
-
     public static function get_brand($id){
         return DB::table('master_brand')->where('brand_id', $id)->get();
     }

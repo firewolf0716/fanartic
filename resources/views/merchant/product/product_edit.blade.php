@@ -219,10 +219,21 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_color" id="product_color">
-                                    <option value="">--Select Color--</option>
+                                <!-- <select class="form-control" name="product_color" id="product_color"> -->
+                                <select class="form-control" name="product_color[]" id="product_color" multiple="multiple" required>
                                     @foreach($colors as $color)
-                                    <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option>
+                                        <?php $selected = false; ?>
+                                        @foreach($selectedColors as $selectedColor)
+                                            @if($color->color_id == $selectedColor)
+                                                <?php $selected = true; ?>
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if($selected == true)
+                                            <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}" selected>{{$color->color_name}}</option>
+                                        @else
+                                            <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                             </div>
@@ -236,14 +247,6 @@
                                     @foreach($sizeCategorys as $sizeCategory)
                                     <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
                                     @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_size" id="product_size" required>
-                                    <option value="">--Select Size--</option>
                                 </select>
                             </div>
                         </div>
@@ -372,7 +375,8 @@
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
-<script type="text/javascript">
+    <script type="text/javascript">
+    <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
     
 </script>
 <script>
@@ -404,32 +408,7 @@
         $('#existing_img_' + id).remove();
         $('#existing_btn_' + id).remove();
     }
-    $('#product_sizeCategory').change(function(){
-        addSizes(false);
-    });
-    function addSizes(isInit) {
-        $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
-        var sizeCategory = $('#product_sizeCategory').val();
-        if(sizeCategory != "") {
-            $.ajax( {
-                type: 'get',
-                url: '{{url('merchant/product/getssizes')}}' + "/" + sizeCategory,
-                success: function(data) {
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.size_id;
-                        opt.innerHTML = item.size_name;
-                        document.getElementById('product_size').appendChild(opt);
-                    }
 
-                    if (isInit) {
-                        $('#product_size').val("{{$product->product_size_id}}");
-                    }
-                }
-            });
-        }
-    }
     function addTopCategorys(isInit) {
         $.ajax( {
             type: 'get',
@@ -454,7 +433,7 @@
     function addMainCategorys(isInit) {
         var top = $('#top_category').val();
         $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
-        $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
+        $('#main_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
 
         if(top != ""){
             $.ajax( {
@@ -502,8 +481,8 @@
             });
         }
     }
+
     $('#top_category').change(function() {
-        alert ($categoryinfo);
         addMainCategorys(false);
     });
     $('#main_category').change(function() {
@@ -539,5 +518,8 @@
             });
         }
     }
+    $('#product_color').multiselect({
+        includeSelectAllOption: true
+    });
 </script>
 @endsection
