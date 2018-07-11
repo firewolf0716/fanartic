@@ -149,28 +149,16 @@ class CategoryController extends Controller
     }
 
     public function getTopCategorys() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $topCategorys = Categorys::getTopCategorys();
         return $topCategorys;
     }
 
     public function getMainCategorys($topCategoryId) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $mainCategorys = Categorys::getMainCategorys($topCategoryId);
         return $mainCategorys;
     }
     
     public function getSubCategorys($topCategoryId, $mainCategoryId) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $mainCategorys = Categorys::getSubCategorys($topCategoryId, $mainCategoryId);
         return $mainCategorys;
     }
