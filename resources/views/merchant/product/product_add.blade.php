@@ -3,6 +3,7 @@
 @section('title', 'Merchant Product Add|fanaRtic')
 
 @section('content')
+
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
@@ -18,256 +19,371 @@
                         <h4>Add Product</h4>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">販売方法<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select id="product_salemethod" name="product_salemethod" class="form-control" required>
-                                    <option value="">--Select Sale Type--</option>
-                                    <option value="1">通常販売</option>
-                                    <option value="2">商品ごとの期間限定販売</option>
-                                    <option value="3">CLOSED販売</option>
-                                    <option value="4">抽選販売</option>
-                                    <option value="5">受注販売</option>
-                                    <option value="6">ASK</option>
-                                    <option value="7">オークション</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">販売期間<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <div class="input-prepend input-group">
-                                            <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                            <input type="text" name="product_salerange" id="reservation" class="form-control" value="01/01/2018 - 12/25/2018" required/>
+
+                    <!-- <div id="wizard" class="form_wizard wizard_horizontal">
+                        <ul class="wizard_steps">
+                            <li><a href="#step-1">
+                                <span class="step_no">1</span>
+                                <span class="step_descr">
+                                    Step 1<br />
+                                    <small>Step 1 description</small>
+                                </span>
+                            </a></li>
+                            <li><a href="#step-2">
+                                <span class="step_no">2</span>
+                                <span class="step_descr">
+                                    Step 2<br />
+                                    <small>Step 2 description</small>
+                                </span>
+                            </a></li>
+                        </ul>
+                        <div id="step-1"> -->
+                            <div id="x_content">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">販売方法<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select id="product_salemethod" name="product_salemethod" class="form-control" required>
+                                            <option value="">--Select Sale Type--</option>
+                                            <option value="1">通常販売</option>
+                                            <option value="2">商品ごとの期間限定販売</option>
+                                            <option value="3">CLOSED販売</option>
+                                            <option value="4">抽選販売</option>
+                                            <option value="5">受注販売</option>
+                                            <option value="6">ASK</option>
+                                            <option value="7">オークション</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">販売期間<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="control-group">
+                                            <div class="controls">
+                                                <div class="input-prepend input-group">
+                                                    <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                                    <input type="text" name="product_salerange" id="reservation" class="form-control" value="01/01/2018 - 12/25/2018" required/>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_brand" id="product_brand">
-                                    <option value="">--Select Brand--</option>
-                                    @foreach($brands as $brand)
-                                    <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
-                            <div class=" a col-md-4 col-sm-6 col-xs-12">
-                                <select id="top_category" name="top_category" class="form-control" required>
-                                    <option value="">--トップ カテゴリ 選択--</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">メイン カテゴリ</label>
-                            <div class=" a col-md-4 col-sm-6 col-xs-12">
-                                <select id="main_category" name="main_category" class="form-control" required>
-                                    <option value="">--メイン カテゴリ 選択--</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サブ カテゴリ</label>
-                            <div class=" a col-md-4 col-sm-6 col-xs-12">
-                                <select id="sub_category" name="sub_category" class="form-control" required>
-                                    <option value="">--サブ カテゴリ 選択--</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">親商品<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_parent" id="product_parent">
-                                    <option value="">--Select Parent Product--</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">イベント<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_event" id="product_event">
-                                    <option value="">--Select Event--</option>
-                                    @foreach($events as $event)
-                                    <option value="{{$event->event_id}}">{{$event->event_title}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品コード<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_code" name="product_code" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_name" name="product_name" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名カナ<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_name_kana" name="product_name_kana" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">内容詳細名<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_name_detail" name="product_name_detail" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Reference 参考価格<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">消費税フラグ<span class="required">*</span></label>
-                            <div class="radio col-md-4 col-sm-6 col-xs-12">
-                                @if($merchant->merchant_taxflag == 0)
-                                    <label><input type="radio" value="0" name="product_taxflag" checked>税込</label>
-                                    <label><input type="radio" value="1" name="product_taxflag">税別</label>
-                                @else
-                                    <label><input type="radio" value="0" name="product_taxflag">税込</label>
-                                    <label><input type="radio" value="1" name="product_taxflag" checked>税別</label>
-                                @endif
-                            </div>
-                        </div>
-                        <div id="div_images">
-                            <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
-                                <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
-                                    <input type="file" name="product_img_1" class="form-control" required>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select class="form-control" name="product_brand" id="product_brand">
+                                            <option value="">--Select Brand--</option>
+                                            @foreach($brands as $brand)
+                                            <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="radio col-md-2 col-sm-6 col-xs-12">
-                                    <button class="btn" type="button" id="btnProductImage">Add</button>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
+                                    <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                        <select id="top_category" name="top_category" class="form-control" required>
+                                            <option value="">--トップ カテゴリ 選択--</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            {{ Form::hidden('proimg_ct', '1', array('id' => 'proimg_ct'))}}
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">メイン カテゴリ</label>
+                                    <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                        <select id="main_category" name="main_category" class="form-control" required>
+                                            <option value="">--メイン カテゴリ 選択--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サブ カテゴリ</label>
+                                    <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                        <select id="sub_category" name="sub_category" class="form-control" required>
+                                            <option value="">--サブ カテゴリ 選択--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">親商品<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select class="form-control" name="product_parent" id="product_parent">
+                                            <option value="">--Select Parent Product--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">イベント<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select class="form-control" name="product_event" id="product_event">
+                                            <option value="">--Select Event--</option>
+                                            @foreach($events as $event)
+                                            <option value="{{$event->event_id}}">{{$event->event_title}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">商品コード<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="number" id="product_code" name="product_code" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_name" name="product_name" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名カナ<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_name_kana" name="product_name_kana" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">内容詳細名<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_name_detail" name="product_name_detail" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">送料の有無<span class="required">*</span></label>
+                                    <div class="radio1 col-md-4 col-sm-6 col-xs-12">
+                                        <label><input type="radio" value="0" name="postage_type" id="postage_type" checked>有料</label>
+                                        <label><input type="radio" value="1" name="postage_type" id="postage_type">無料</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">送料<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <input type="number" id="postage" name="postage" class="form-control col-md-7 col-xs-12" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">納期 ID<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <input type="number" id="delivery_id" name="delivery_id" class="form-control col-md-7 col-xs-12" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">配送 ID<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <input type="number" id="shipping_id" name="shipping_id" class="form-control col-md-7 col-xs-12" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫管理<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select class="form-control" name="stock_type" id="stock_type">
+                                            <option value="1">項目別在庫</option>
+                                            <option value="2">通常在庫</option>
+                                            <option value="3">無限</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">最大注文数<span class="required"></span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="number" id="max_order_count" name="max_order_count" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reference 参考価格<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">消費税フラグ<span class="required">*</span></label>
+                                    <div class="radio2 col-md-4 col-sm-6 col-xs-12">
+                                        @if($merchant->merchant_taxflag == 0)
+                                            <label><input type="radio" value="0" name="product_taxflag" checked>税込</label>
+                                            <label><input type="radio" value="1" name="product_taxflag">税別</label>
+                                        @else
+                                            <label><input type="radio" value="0" name="product_taxflag">税込</label>
+                                            <label><input type="radio" value="1" name="product_taxflag" checked>税別</label>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div id="div_images">
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
+                                        <div class="col-md-3 col-sm-6 col-xs-12" id="div-product-image">
+                                            <input type="file" name="product_img_1" class="form-control" required>
+                                        </div>
+                                        <div class="col-md-2 col-sm-6 col-xs-12">
+                                            <button class="btn" type="button" id="btnProductImage">Add</button>
+                                        </div>
+                                    </div>
+                                    {{ Form::hidden('proimg_ct', '1', array('id' => 'proimg_ct'))}}
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">商品状態<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select class="form-control" name="product_old_status" id="product_old_status" required>
+                                            <option value="">--Select Product Status--</option>
+                                            @foreach($productstates as $productstate)
+                                            <option value="{{$productstate->productstate_id}}">{{ $productstate->productstate_name.' : '.$productstate->productstate_details }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <!-- <select class="form-control" name="product_color" id="product_color" required> -->
+                                        <select class="form-control" name="product_color[]" id="product_color" multiple="multiple" required>
+                                            @foreach($colors as $color)
+                                            <!-- <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option> -->
+                                            <option value="{{$color->color_id}}">{{$color->color_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required>
+                                            <option value="">--Select Size Category--</option>
+                                            @foreach($sizeCategorys as $sizeCategory)
+                                            <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="number" id="product_weight" name="product_weight" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">シーズン<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_season" name="product_season" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">生産地<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_place" name="product_place" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">素材<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_material" name="product_material" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="text" id="product_memo" name="product_memo" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
+                                    <div class="radio col-md-4 col-sm-6 col-xs-12">
+                                        <label><input type="radio" value="1" name="product_status" checked>有効   </label>
+                                        <label><input type="radio" value="0" name="product_status">無効</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label> -->
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <!-- <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label> -->
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button id="btnSubmit" type="submit" class="btn btn-warning">Add Product</button>
+                                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="ln_solid"></div>
+                                <div class="form-group">
+                                    <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                                        <button id="btnNextStep" type="btnNextStep" class="btn btn-warning">Next Step</button>
+                                        <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
+                                    </div>
+                                </div> -->
+                            <!-- </div> -->
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品状態<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_old_status" id="product_old_status" required>
-                                    <option value="">--Select Product Status--</option>
-                                    @foreach($productstates as $productstate)
-                                    <option value="{{$productstate->productstate_id}}">{{ $productstate->productstate_name.' : '.$productstate->productstate_details }}</option>
-                                    @endforeach
-                                </select>
+                        <!-- <div id="step-2">
+                            <label class="x_title">画像選択</label>                
+                            <div class="y_content">
+                                <table id="datatable1" class="table table-striped table-bordered dt-responsive nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td style="text-align:center">色</td>
+                                            <th style="text-align:center">イメージ 1</th>
+                                            <th style="text-align:center">イメージ 2</th>
+                                            <th style="text-align:center">イメージ 3</th>
+                                            <th style="text-align:center">イメージ 4</th>
+                                            <th style="text-align:center">イメージ 5</th>
+                                            <th style="text-align:center">イメージ 6</th>
+                                            <th style="text-align:center">イメージ 7</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablebody">
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <!-- <select class="form-control" name="product_color" id="product_color" required> -->
-                                <select class="form-control" name="product_color[]" id="product_color" multiple="multiple" required>
-                                    @foreach($colors as $color)
-                                    <!-- <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option> -->
-                                    <option value="{{$color->color_id}}">{{$color->color_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required>
-                                    <option value="">--Select Size Category--</option>
-                                    @foreach($sizeCategorys as $sizeCategory)
-                                    <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_weight" name="product_weight" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">シーズン<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_season" name="product_season" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">生産地<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_place" name="product_place" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">素材<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_material" name="product_material" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_memo" name="product_memo" required="required" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫管理<span class="required">*</span></label>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
-                            <div class="radio col-md-4 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="1" name="product_status" checked>有効</label>
-                                <label><input type="radio" value="0" name="product_status">無効</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
-                            </div>
-                        </div>
+                            <label class="x_title">SKU</label>                
+                            <div class="y_content">
+                                <table id="datatable2" class="table table-striped table-bordered dt-responsive nowrap">
+                                    <thead>
+                                        <tr>
+                                            <td style="text-align:center">ID</td>
+                                            <td style="text-align:center">色</td>
+                                            <th style="text-align:center">規模</th>
+                                            <th style="text-align:center">在庫数</th>
+                                            <th style="text-align:center">販売価格</th>
+                                            <th style="text-align:center">参考価格</th>
+                                            <th style="text-align:center">セール価格</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tablebody">
+                                    </tbody>
+                                </table>
+                            </div> -->
 
-                        <div class="ln_solid"></div>
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                <button id="btnSubmit" type="submit" class="btn btn-warning">Add Product</button>
-                                <button id="btnReset" type="button" class="btn btn-primary">Reset</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -326,9 +442,11 @@
     <script src="{{ URL::asset('gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
-
+    <script src="{{ URL::asset('gvendor/jQuery-Smart-Wizard/js/jquery.smartWizard.js') }}"></script>
+    
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
     <script type="text/javascript">
+    
     
 </script>
 <script>
@@ -337,6 +455,7 @@
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
 
         addTopCategorys();
+        $('stock_type').val(2);
     });
     
     $('#btnProductImage').click(function(){
@@ -397,7 +516,7 @@
         if(top != ""){
             $.ajax( {
                 type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + top + "/" + main,
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + main,
                 success: function(data) {
                     for(var i = 0; i < data.length; i++){
                         var item = data[i];
@@ -442,6 +561,30 @@
     }
     $('#product_color').multiselect({
         includeSelectAllOption: true
+    });
+
+    $('input[type=radio][name=postage_type]').change(function() {
+        if (this.value == "0") {
+            $('#postage').prop('required', true);
+        } else {
+            $('#postage').prop('required', false);
+        }
+    });
+    $('#stock_type').change(function(){
+        $isEnable = false;
+        if ($('#stock_type').val() == 1) {
+            $isEnable = true;
+        } else {
+            $isEnable = false;
+        }
+
+        $('#product_price_sale').prop('disabled', !$isEnable);
+        $('#product_price_ref').prop('disabled', !$isEnable);
+        $('#product_price_law').prop('disabled', !$isEnable);
+
+        $('#product_price_sale').prop('required', $isEnable);
+        $('#product_price_ref').prop('required', $isEnable);
+        $('#product_price_law').prop('required', $isEnable);
     });
 </script>
 @endsection

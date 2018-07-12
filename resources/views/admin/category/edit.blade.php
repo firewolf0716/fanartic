@@ -14,6 +14,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         {!! Form::open(array('id' => 'form_add','url'=>'admin/category/editpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         {{ Form::hidden('category_id', $category->category_id)}}
+        {{ Form::hidden('categorylevel', $categorylevel)}}
         <div class="x_panel">
             <div class="x_title">
                 <h4>{{$title}}</h4>
@@ -161,35 +162,7 @@
     $(function(){
         $('#create_date').val('{{$category->category_create}}');
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-
-        addMainCategorys("{{$category->top_category_id}}", true);
-        if ('{{$category->main_category_name}}' == null || '{{$category->main_category_name}}' == "") {
-            $('#main_category').prop('disabled', true);
-        }
     });
-
-    function addMainCategorys(gender, isInit) {
-        $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
-        if(top != ""){
-            $.ajax( {
-                type: 'get',
-                url: '{{url('admin/category/get-main-categorys')}}' + "/" + gender,
-                success: function(data) {
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.category_id;
-                        opt.innerHTML = item.category_name;
-                        document.getElementById('main_category').appendChild(opt);
-                    }
-
-                    if (isInit == true && ('{{$category->main_category_name}}' != null || '{{$category->main_category_name}}' == "")) {
-                        $('#main_category').val('{{$category->main_category_id}}');
-                    }
-                }
-            });
-        }
-    }
 
     $('#btnReset').click(function(){
         document.getElementById("form_add").reset();

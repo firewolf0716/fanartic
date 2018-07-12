@@ -139,6 +139,53 @@
                                 <input type="text" id="product_name_detail" name="product_name_detail" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_name_detail}}">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">送料の有無<span class="required">*</span></label>
+                            <div class="radio1 col-md-4 col-sm-6 col-xs-12">
+                                <label><input type="radio" value="0" name="postage_type" id="postage_type" checked>有料</label>
+                                <label><input type="radio" value="1" name="postage_type" id="postage_type">無料</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">送料<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="number" id="postage" name="postage" class="form-control col-md-7 col-xs-12" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">納期 ID<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="number" id="delivery_id" name="delivery_id" class="form-control col-md-7 col-xs-12" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">配送 ID<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="number" id="shipping_id" name="shipping_id" class="form-control col-md-7 col-xs-12" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫管理<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="stock_type" id="stock_type">
+                                    <option value="1">項目別在庫</option>
+                                    <option value="2" selected>通常在庫</option>
+                                    <option value="3">無限</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">最大注文数<span class="required"></span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <input type="number" id="max_order_count" name="max_order_count" class="form-control col-md-7 col-xs-12">
+                            </div>
+                        </div>
+
+
+
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
@@ -424,7 +471,7 @@
                 }
 
                 if (isInit) {
-                    $('#top_category').val("{{$categoryinfo->top_category_id}}");
+                    $('#top_category').val("{{$top_category_id}}");
                     addMainCategorys(isInit);
                 }
             }
@@ -449,7 +496,7 @@
                     }
 
                     if (isInit) {
-                        $('#main_category').val("{{$categoryinfo->main_category_id}}");
+                        $('#main_category').val("{{$main_category_id}}");
                         addSubCategorys(isInit);
                     }
                 }
@@ -465,7 +512,7 @@
         if(top != ""){
             $.ajax( {
                 type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + top + "/" + main,
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + main,
                 success: function(data) {
                     for(var i = 0; i < data.length; i++){
                         var item = data[i];
@@ -520,6 +567,30 @@
     }
     $('#product_color').multiselect({
         includeSelectAllOption: true
+    });
+
+    $('input[type=radio][name=postage_type]').change(function() {
+        if (this.value == "0") {
+            $('#postage').prop('required', true);
+        } else {
+            $('#postage').prop('required', false);
+        }
+    });
+    $('#stock_type').change(function(){
+        $isEnable = false;
+        if ($('#stock_type').val() == 1) {
+            $isEnable = true;
+        } else {
+            $isEnable = false;
+        }
+
+        $('#product_price_sale').prop('disabled', !$isEnable);
+        $('#product_price_ref').prop('disabled', !$isEnable);
+        $('#product_price_law').prop('disabled', !$isEnable);
+
+        $('#product_price_sale').prop('required', $isEnable);
+        $('#product_price_ref').prop('required', $isEnable);
+        $('#product_price_law').prop('required', $isEnable);
     });
 </script>
 @endsection

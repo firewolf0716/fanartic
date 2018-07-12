@@ -34,4 +34,12 @@ class ProductStock extends Model
             ->where('product_sku_size_id', $sku_size)
             ->get();
     }
+    public static function get_price_range($product_id){
+        $min = DB::table('fan_product_stock_management')->where('product_id', $product_id)->min('product_price_sale');
+        $max = DB::table('fan_product_stock_management')->where('product_id', $product_id)->max('product_price_sale');
+        $result = array();
+        $result['min'] = $min;
+        $result['max'] = $max;
+        return $result;
+    }
 }

@@ -26,6 +26,31 @@ class CustomerController extends Controller
         
     }
 
+    public function layout_init($view, $gender){
+        $topcategorys = Categorys::getTopCategorys();
+        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
+        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
+        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
+        $tcategory = $topcategorys[0];
+        if($gender == 2){
+            $tcategory = $topcategorys[1];
+            $maincategorys = Categorys::getMainCategorys($topcategorys[1]->category_id);
+        }
+
+        $brands = Brands::get_brands();
+
+        $customerid = null;
+        if (Session::has('customerid')) {
+            $customerid = Session::get('customerid');
+        }
+        return $view->with('mencategories', $mencategories)
+                ->with('womencategories', $womencategories)
+                ->with('brands', $brands)
+                ->with('tcategory', $tcategory)
+                ->with('maincategorys', $maincategorys)
+                ->with('customerid', $customerid);
+    }
+
     public function product_list($topid = null, $mainid = null, $categoryid = null){
         $topcategorys = Categorys::getTopCategorys();
         $topcategory = null;
@@ -33,28 +58,28 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            $topcategory = Categorys::get_categoryinfo($topid)->first();
+            $topcategory = Categorys::get_category($topid);
         }
         $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
         foreach($maincategorys as $maincategory){
-            $result = Categorys::getSubCategorys($topcategory->category_id, $maincategory->category_id);
+            $result = Categorys::getSubCategorys($maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get_colors();
         $sizes = null;
         if($mainid != null){
-            $category = Categorys::get_categoryinfo($mainid)->first();
+            $category = Categorys::get_category($mainid);
             $sizecategory_id = $category->category_size_id;
             $sizes = Sizes::get_sizebycategory($sizecategory_id);
         }
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_categoryinfo($mainid)->first();
+            $mcategory = Categorys::get_category($mainid);
         }
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_categoryinfo($categoryid)->first();
+            $scategory = Categorys::get_category($categoryid);
         }
 
         $products = null;
@@ -75,6 +100,12 @@ class CustomerController extends Controller
         if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
         $products = Products::get_product_filter($categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
+        $prices = array();
+        foreach($products as $product){
+            $price = ProductStock::get_price_range($product->product_id);
+            $prices[$product->product_id] = $price;
+        }
+
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
 
@@ -90,7 +121,8 @@ class CustomerController extends Controller
             ->with('products', $products)
             ->with('mencategories', $mencategories)
             ->with('womencategories', $womencategories)
-            ->with('brands', $brands);
+            ->with('brands', $brands)
+            ->with('prices', $prices);
     }
 
     public function product_list_post(){
@@ -118,46 +150,48 @@ class CustomerController extends Controller
         return Redirect::to($url);
     }
 
-    public function product_detail($productid){
-        $topcategorys = Categorys::getTopCategorys();
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $brands = Brands::get_brands();
 
+
+    public function product_detail($productid){
         $product = Products::get_product_detail($productid)->first();
-        $tcategory = Categorys::get_categoryinfo($product->product_top_category_id)->first();
-        $mcategory = Categorys::get_categoryinfo($product->product_main_category_id)->first();
-        $scategory = Categorys::get_categoryinfo($product->product_category_id)->first();
+        $tcategoryid = Categorys::getTopCategoryID($product->product_category_id);
+
+        $mcategoryid = Categorys::getMainCategoryID($product->product_category_id);
+        $mcategory = Categorys::get_category($mcategoryid);
+
+        $scategory = Categorys::get_category($product->product_category_id);
 
         $colors = Colors::get_colors();
-        $sizes = Sizes::get_sizebycategory($product->product_main_category_id);
+        $sizes = Sizes::get_sizebycategory($mcategoryid);
 
         $skucolor = ProductSKU::get_for_product($productid, 1);
         $skusize = ProductSKU::get_for_product($productid, 2);
+
+        // dd($productid);
 
         $skuinfo = array();
 
         foreach($skucolor as $skucolor_id){
             $info = array();
             foreach($skusize as $skusize_id){
-                $skuvalue = ProductStock::get_for_product($productid, $skucolor_id->sku_type_id, $skusize_id->sku_type_id)->first()->product_count_1;
-                $info[$skusize_id->sku_type_id] = $skuvalue;
+                $skuvalue = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count_1;
+                $skuprice = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_price_sale;
+                $info[$skusize_id->sku_type_id]['count'] = $skuvalue;
+                $info[$skusize_id->sku_type_id]['price'] = $skuprice;
             }
             $skuinfo[$skucolor_id->sku_type_id] = $info;
         }
+        $price = ProductStock::get_price_range($product->product_id);
+        // dd(Categorys::getSubCategoryIDs(5));
 
-        return view('customer.products.product_detail')->with('product', $product)
-            ->with('tcategory', $tcategory)
+        return $this->layout_init(view('customer.products.product_detail'), $tcategoryid)
+            ->with('product', $product)
             ->with('mcategory', $mcategory)
             ->with('scategory', $scategory)
-            ->with('mencategories', $mencategories)
-            ->with('womencategories', $womencategories)
-            ->with('brands', $brands)
-            ->with('maincategorys', $maincategorys)
             ->with('skuinfo', $skuinfo)
             ->with('skucolor', $skucolor)
-            ->with('skusize', $skusize);
+            ->with('skusize', $skusize)
+            ->with('price', $price);
     }
 
     public function signup(){
@@ -241,13 +275,6 @@ class CustomerController extends Controller
     }
 
     public function profile(){
-        $topcategorys = Categorys::getTopCategorys();
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get_brands();
-        $tcategory = $topcategorys[0];
-        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
-
         $customerid = Session::get('customerid');
         $customer = Customers::get_customer($customerid)->first();
         $birth = $customer->customer_birthday;
@@ -255,14 +282,12 @@ class CustomerController extends Controller
 
         $phone = $customer->customer_phone;
         $tel = explode('-', $phone);
-        return view('customer.user.profile')->with('customer', $customer)
-                ->with('birth', $births)
-                ->with('phone', $tel)
-                ->with('mencategories', $mencategories)
-                ->with('womencategories', $womencategories)
-                ->with('brands', $brands)
-                ->with('maincategorys', $maincategorys)
-                ->with('tcategory', $tcategory);
+
+        $view = view('customer.user.profile');
+
+        return $this->layout_init($view, 1)->with('customer', $customer)
+            ->with('birth', $births)
+            ->with('phone', $tel);
     }
 
     public function profilepost(){
@@ -308,12 +333,7 @@ class CustomerController extends Controller
         $sum = Cart::getSum($customerid);
         $count = Cart::getCount($customerid);
 
-        return view('customer.user.cart')
-            ->with('mencategories', $mencategories)
-            ->with('womencategories', $womencategories)
-            ->with('brands', $brands)
-            ->with('maincategorys', $maincategorys)
-            ->with('tcategory', $tcategory)
+        return $this->layout_init(view('customer.user.cart'), 1)
             ->with('cartitems', $cartitems)
             ->with('sum', $sum)
             ->with('count', $count);
@@ -321,12 +341,16 @@ class CustomerController extends Controller
 
     public function addtocart(){
         $customerid = Session::get('customerid');
+        if(!isset($customerid)){
+            return 'Please log in first';
+        }
         $prodid = Input::get('product');
         $color = Input::get('color');
         $size = Input::get('size');
         $count = Input::get('count');
+        $price = Input::get('price');
         try{
-            Cart::addCart($customerid, $prodid, $color, $size, $count);
+            Cart::addCart($customerid, $prodid, $color, $size, $count, $price);
             return 'Add product to Cart Successed';
         }catch(\Exception $ex){
             return 'Add product to Cart Failed';

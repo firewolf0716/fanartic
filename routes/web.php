@@ -78,7 +78,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('admin/category/editpost','CategoryController@editpost');
 	Route::get('admin/category/get-top-categorys','CategoryController@getTopCategorys');
 	Route::get('admin/category/get-main-categorys/{gender}','CategoryController@getMainCategorys');
-	Route::get('admin/category/get-sub-categorys/{gender}/{mainid}','CategoryController@getSubCategorys');
+	Route::get('admin/category/get-sub-categorys/{mainid}','CategoryController@getSubCategorys');
 
 	// Size Category
 	Route::get('admin/size/addcategory','SizeController@addcategory');
@@ -146,8 +146,6 @@ Route::middleware(['basicAuth'])->group(function () {
 	// Route::get('admin/merchant_detailw/{id}','AdminController@detail_merchant_wait');
 	// Route::get('admin/merchant_reject/{id}','AdminController@merchant_reject');
 
-
-
 	//merchants
 	Route::get('merchant', 'MerchantloginController@merchant_signin');
 	Route::get('merchant/signin', 'MerchantloginController@merchant_signin');
@@ -169,6 +167,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('merchant/product/addpost', 'MerchantproductController@merchant_product_addpost');
 	Route::post('merchant/product/editpost', 'MerchantproductController@merchant_product_editpost');
 	Route::get('merchant/product/edit/{id}', 'MerchantproductController@merchant_product_edit');
+	Route::get('merchant/product/edit_sku/{id}', 'MerchantproductController@merchant_product_edit_sku');
 
 	Route::get('merchant/product/manage', 'MerchantproductController@merchant_product_manage');
 	Route::get('merchant/product/manage/{product_status}', 'MerchantproductController@merchant_product_manage_with_status');
