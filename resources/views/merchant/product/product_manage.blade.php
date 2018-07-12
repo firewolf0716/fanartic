@@ -213,6 +213,8 @@
                         product_count = 0;
                     }
 
+             
+
                     table.row.add([i + 1, item.product_name, item.product_price_sale, product_count, status, image, actions]).draw( false );
                 }
             }

@@ -13,37 +13,13 @@
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         {!! Form::open(array('id' => 'form_add','url'=>'admin/category/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        {{ Form::hidden('categorylevel', $categorylevel)}}
         <div class="x_panel">
             <div class="x_title">
                 <h4>{{$title}}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <!-- @if ($categorylevel != 1)
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">モール<span class="required">*</span></label>
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <select class="form-control" name="category_mall[]" id="malls" multiple="multiple">
-                            @foreach($malls as $mall)
-                                <?php $selected = false; ?>
-                                @foreach($linkedMalls as $linkedMall)
-                                    @if($mall->mall_id == $linkedMall->mall_id)
-                                        <?php $selected = true; ?>
-                                        @break
-                                    @endif
-                                @endforeach
-                                
-                                @if($selected == true)
-                                    <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
-                                @else
-                                    <option value="{{$mall->mall_id}}">{{$mall->mall_name}}</option>
-                                @endif
-                            @endforeach
-                            </select>
-                        </div>
-                    </div>
-                @endif -->
-
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -149,25 +125,6 @@
             $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
             $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         });
-
-        // function addMainCategorys(gender) {
-        //     $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
-        //     if(top != ""){
-        //         $.ajax( {
-        //             type: 'get',
-        //             url: '{{url('admin/category/get-main-categorys')}}' + "/" + gender,
-        //             success: function(data) {
-        //                 for(var i = 0; i < data.length; i++){
-        //                     var item = data[i];
-        //                     var opt = document.createElement('option');
-        //                     opt.value = item.category_id;
-        //                     opt.innerHTML = item.category_name;
-        //                     document.getElementById('main_category').appendChild(opt);
-        //                 }
-        //             }
-        //         });
-        //     }
-        // }
 
         $('#btnSubmit').click(function() {
             if($('#select_parent').val() == '') {

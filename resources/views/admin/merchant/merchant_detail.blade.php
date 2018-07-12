@@ -67,6 +67,15 @@
                         </div>
                     </div>
 
+
+
+
+
+
+
+
+
+
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">商人オープン状態<span class="required">*</span></label>
                         <div class="radio col-md-4 col-sm-6 col-xs-12">
@@ -314,6 +323,25 @@
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
+
+    <!-- Datatables -->
+    <script src="{{ url('')}}/gvendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="{{ url('')}}/gvendor/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="{{ url('')}}/gvendor/jszip/dist/jszip.min.js"></script>
+    <script src="{{ url('')}}/gvendor/pdfmake/build/pdfmake.min.js"></script>
+    <script src="{{ url('')}}/gvendor/pdfmake/build/vfs_fonts.js"></script>
+    <!-- iCheck -->
+    <script src="{{ url('')}}/gvendor/iCheck/icheck.min.js"></script>
 
     <script>
         $(function(){

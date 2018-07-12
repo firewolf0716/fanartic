@@ -70,9 +70,12 @@ class MerchantproductController extends Controller
         $colors = Colors::get_colors();
         $productstates = ProductStates::get_productstates();
         $sizeCategorys = Sizes::get_sizecategorys();
-        $categoryinfo = Categorys::get_categoryinfo($product->product_category_id);
+        $categoryinfo = Categorys::get_category($product->product_category_id);
         $product_parents = $this->merchant_getparentprefers($product->product_category_id, $product->product_brand_id);
         $selectedColors = explode("/**/", $product->product_color);
+
+        $main_category_id = Categorys::getMainCategoryID($id);
+        $top_category_id = Categorys::getTopCategoryID($id)->category_id;
 
         return view('merchant.product.product_edit')->with('merchant_id', $merchant_id)
             ->with('brands', $brands)
@@ -82,29 +85,14 @@ class MerchantproductController extends Controller
             ->with('merchant', $merchant)
             ->with('product_parents', $product_parents)
             ->with('sizeCategorys', $sizeCategorys)
-            ->with('categoryinfo', $categoryinfo[0])
+            ->with('categoryinfo', $categoryinfo)
             ->with('product', $product)
-            ->with('selectedColors', $selectedColors);
+            ->with('selectedColors', $selectedColors)
+            ->with('top_category_id', $top_category_id)
+            ->with('main_category_id', $main_category_id);
     }
     public function merchant_product_addpost(){
         Log::debug(Input::all());
-
-        $datenow = date('Y/m/d');
-        $filename_new_get = '';
-        $imgct = Input::get('proimg_ct');
-        
-        for ($i = 1; $i <= $imgct; $i++) {
-            $file_more = Input::file('product_img_' . $i);
-            if ($file_more == null || $file_more == "") {
-                continue;
-            } 
-            $file_more_name = $file_more->getClientOriginalName();
-            $move_more_img = explode('.', $file_more_name);
-            $filename_new = $move_more_img[0] . time() . "." . strtolower($file_more->getClientOriginalExtension());
-            $newdestinationPath = './images/products/';
-            $uploadSuccess_new = Input::file('product_img_' . $i)->move($newdestinationPath, $filename_new);
-            $filename_new_get .= $filename_new . "/**/";
-        }
 
         $strProductColors = '';
         if(Input::has('product_color')) {
@@ -127,8 +115,6 @@ class MerchantproductController extends Controller
             'product_salerange' => Input::get('product_salerange'),
             'product_brand_id' => Input::get('product_brand'),
             'product_category_id' => Input::get('sub_category'),
-            'product_top_category_id' => Input::get('top_category'),
-            'product_main_category_id' => Input::get('main_category'),
             'product_event' => Input::get('product_event'),
             'product_code' => Input::get('product_code'),
             'product_name' => Input::get('product_name'),
@@ -138,7 +124,7 @@ class MerchantproductController extends Controller
             'product_price_ref' => Input::get('product_price_ref'),
             'product_price_law' => Input::get('product_price_law'),
             'product_taxflag' => Input::get('product_taxflag'),
-            'product_image' => $filename_new_get,
+            // 'product_image' => $filename_new_get,
             'product_old_status' => Input::get('product_old_status'),
             'product_color' => $strProductColors,
             'product_size_category_id' => Input::get('product_sizeCategory'),
@@ -151,7 +137,13 @@ class MerchantproductController extends Controller
             'product_create' => Input::get('create_date'),
             'product_update' => Input::get('update_date'),
             'product_parent_id' => Input::get('product_parent'),
-            'product_merchant_id' => $merchant_id
+            'product_merchant_id' => $merchant_id,
+            'stock_type' => Input::get('stock_type'),
+            'max_order_count' => Input::get('max_order_count'),
+            'postage_type' => Input::get('postage_type'),
+            'postage' => Input::get('postage'),
+            'delivery_id' => Input::get('delivery_id'),
+            'shipping_id' => Input::get('shipping_id')
         );
         $productid = Products::insert_product($entry);
 
@@ -190,6 +182,7 @@ class MerchantproductController extends Controller
         $product_sku_colors = ProductSKU::get_product_sku($productid, 1, $merchant_id);
         $product_sku_sizes = ProductSKU::get_product_sku($productid, 2, $merchant_id);
 
+        // stock
         foreach($product_sku_colors as $product_sku_color) {
             foreach($product_sku_sizes as $product_sku_size) {
                 $stock_info = array (
@@ -210,6 +203,50 @@ class MerchantproductController extends Controller
                     'product_stock_update' => Input::get('update_date'),
                 );
                 ProductStock::insert_product_stock($stock_info);
+            }
+        }
+
+        // master image
+        $datenow = date('Y/m/d');
+        $filename_new_get = '';
+        $imgct = Input::get('proimg_ct');
+        
+        $masterImageCount = 0;
+        for ($i = 1; $i <= $imgct; $i++) {
+            $file_more = Input::file('product_img_' . $i);
+            if ($file_more == null || $file_more == "") {
+                continue;
+            }
+            $masterImageCount += 1;
+            $file_more_name = $file_more->getClientOriginalName();
+            $move_more_img = explode('.', $file_more_name);
+            $filename_new = "master_image_" . $merchant_id . "_" . $productid . "_" . time() . '_' . $masterImageCount . "." . strtolower($file_more->getClientOriginalExtension());
+            $newdestinationPath = './images/products/';
+            $uploadSuccess_new = Input::file('product_img_' . $i)->move($newdestinationPath, $filename_new);
+            // $filename_new_get .= $filename_new . "/**/";
+
+            $entry =  array(
+                'product_id' => $productid,
+                'master_image_name' => $filename_new,
+                'merchant_id' => $merchant_id,
+                'master_image_create' => Input::get('create_date'),
+                'master_image_update' => Input::get('update_date')
+            );
+            $master_image_id = Products::insert_master_image($entry);
+            if(Input::has('product_color')) {
+                $product_colors = Input::get('product_color');
+                foreach($product_colors as $product_color_id) {
+                    $entry =  array(
+                        'product_id' => $productid,
+                        'master_image_id' => $master_image_id,
+                        'merchant_id' => $merchant_id,
+                        'color_id' => $product_color_id,
+                        'image_name' => '',
+                        'image_create' => Input::get('create_date'),
+                        'image_update' => Input::get('update_date')
+                    );
+                    Products::insert_image($entry);
+                }
             }
         }
 
@@ -262,8 +299,6 @@ class MerchantproductController extends Controller
             'product_salerange' => Input::get('product_salerange'),
             'product_brand_id' => Input::get('product_brand'),
             'product_category_id' => Input::get('sub_category'),
-            'product_top_category_id' => Input::get('top_category'),
-            'product_main_category_id' => Input::get('main_category'),
             'product_event' => Input::get('product_event'),
             'product_code' => Input::get('product_code'),
             'product_name' => Input::get('product_name'),
@@ -273,7 +308,7 @@ class MerchantproductController extends Controller
             'product_price_ref' => Input::get('product_price_ref'),
             'product_price_law' => Input::get('product_price_law'),
             'product_taxflag' => Input::get('product_taxflag'),
-            'product_image' => $filename_new_get,
+            // 'product_image' => $filename_new_get,
             'product_old_status' => Input::get('product_old_status'),
             'product_color' => $strProductColors,
             'product_size_category_id' => Input::get('product_sizeCategory'),
@@ -285,7 +320,13 @@ class MerchantproductController extends Controller
             'product_status' => Input::get('product_status'),
             'product_create' => Input::get('create_date'),
             'product_update' => Input::get('update_date'),
-            'product_merchant_id' => $merchant_id
+            'product_merchant_id' => $merchant_id,
+            'stock_type' => Input::get('stock_type'),
+            'max_order_count' => Input::get('max_order_count'),
+            'postage_type' => Input::get('postage_type'),
+            'postage' => Input::get('postage'),
+            'delivery_id' => Input::get('delivery_id'),
+            'shipping_id' => Input::get('shipping_id')
         );
         Products::edit_product($entry, $productid);
         return Redirect::to('merchant/product/manage')->with('product_status', 1);
@@ -317,14 +358,15 @@ class MerchantproductController extends Controller
     }
     public function mer_delete_product($id, $product_status){
         $product = Products::get_product($id)->first();
-        $imgFileNames = explode("/**/", $product->product_image, -1); 
-        $imgRootPath = "./images/products/";
-        for ($i = 0; $i < count($imgFileNames); $i++) {
-            $imgPath = $imgRootPath.$imgFileNames[$i];
-            if (file_exists($imgPath)) {
-                unlink($imgPath);
-            }
-        }
+        
+        // $imgFileNames = explode("/**/", $product->product_image, -1); 
+        // $imgRootPath = "./images/products/";
+        // for ($i = 0; $i < count($imgFileNames); $i++) {
+        //     $imgPath = $imgRootPath.$imgFileNames[$i];
+        //     if (file_exists($imgPath)) {
+        //         unlink($imgPath);
+        //     }
+        // }
 
         Products::delete_product($id);
         return Redirect::to('merchant/product/manage')->with('product_status', $product_status);
@@ -357,5 +399,9 @@ class MerchantproductController extends Controller
 // return Input::all();
         // echo(Input::all());
         // return (Input::all());
+    }
+
+    public function merchant_product_edit_sku ($id) {
+        return view('merchant.product.product_edit_sku')->with('merchant_id', '123');
     }
 }

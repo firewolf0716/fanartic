@@ -30,7 +30,7 @@
                                 <li>カラー：{{$item->color_name}}</li>
                                 <li>サイズ：{{$item->size_name}}</li>
                             </ul>
-                            <div class="c-item__price u-sp"><strong>&yen;{{number_format($item->product_price_sale)}}</strong></div>
+                            <div class="c-item__price u-sp"><strong>&yen;{{number_format($item->cart_price)}}</strong></div>
                         </div>
                         <!--/.c-item__column__data-->
                     </div>
@@ -38,7 +38,7 @@
                 </div>
                 <!--/.c-item-->
             </div>
-            <div class="l-column--cart__price u-pc">&yen;{{number_format($item->product_price_sale)}}</div>
+            <div class="l-column--cart__price u-pc">&yen;{{number_format($item->cart_price)}}</div>
             <div class="l-column--cart__quantity">
                 <input type="number" style="width:70px; margin-left:20px" class="c-form__input" value='{{$item->cart_amount}}' min='0' max='100'/>
             </div>
@@ -70,122 +70,6 @@
     <!--/.cart__column-->
 </div>
 <!--/.cart-->
-<div class="l-column--sub">
-    <h2 class="c-hd">最近チェックしたアイテム</h2>
-    <div class="c-items c-items--03">
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    <div class="c-item c-item--03">
-        <div class="c-item__column">
-        <div class="c-item__column__figure">
-            <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-        </div>
-        <!--/.c-item__column__figure-->
-        </div>
-        <!--/.c-item__column-->
-    </div>
-    <!--/.c-item-->
-    </div>
-    <!--/.c-items c-items--03-->
-</div>
 <script>
     function onRemove(id){
         if(confirm("Are you sure to delete this item?")){
