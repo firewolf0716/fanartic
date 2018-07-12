@@ -199,6 +199,9 @@
                     var image = '<img style="height:20px;" src="{{url("")}}./images/products/';
                     image += file_get_path[0];
                     image += '">';
+                    image += '<img style="height:20px;" src="{{url("")}}./images/products/';
+                    image += file_get_path[1];
+                    image += '">';
 
                     var actions = '<td style="text-align:center">';
                     actions += '<a style="margin:10px" href="{{ url('merchant/product/edit')}}/';
