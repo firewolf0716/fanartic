@@ -319,7 +319,8 @@ class CustomerController extends Controller
 
     public function cart(){
         if(!Session::has('customerid')){
-            return Redirect::to(url(''));
+            $redirect = $_GET['redirect'];
+            return Redirect::to($redirect);
         }
         $customerid = Session::get('customerid');
         $topcategorys = Categorys::getTopCategorys();

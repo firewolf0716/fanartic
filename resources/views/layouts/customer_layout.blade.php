@@ -78,7 +78,7 @@
                 <a href="{{url('customer/user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @endif
                 <li><a href="{{url('')}}/customer/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/customer/user/cart"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/customer/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
             </ul>
 
             <div class="header__search" data-header-search><span class="header__search__close"
