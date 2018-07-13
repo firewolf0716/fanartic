@@ -255,7 +255,7 @@
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
                                         <!-- <select class="form-control" name="product_color" id="product_color" required> -->
-                                        <select class="form-control" name="product_color[]" id="product_color" multiple="multiple" required>
+                                        <select class="form-control" name="product_color[]" id="product_color" required>
                                             @foreach($colors as $color)
                                             <!-- <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option> -->
                                             <option value="{{$color->color_id}}">{{$color->color_name}}</option>
@@ -275,6 +275,17 @@
                                         </select>
                                     </div>
                                 </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <select class="form-control" name="product_size" id="product_size">
+                                            <option value="">--Select Size--</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -309,7 +320,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                                        <label><input type="radio" value="1" name="product_status" checked>有効   </label>
+                                        <label><input type="radio" value="1" name="product_status" checked>有効</label>
                                         <label><input type="radio" value="0" name="product_status">無効</label>
                                     </div>
                                 </div>
@@ -457,7 +468,25 @@
         addTopCategorys();
         $('stock_type').val(2);
     });
-    
+    $('#product_sizeCategory').change(function(){
+        $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
+        var sizeCategory = $('#product_sizeCategory').val();
+        if(sizeCategory != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getssizes')}}' + "/" + sizeCategory,
+                success: function(data) {
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.size_id;
+                        opt.innerHTML = item.size_name;
+                        document.getElementById('product_size').appendChild(opt);
+                    }
+                }
+            });
+        }
+    });
     $('#btnProductImage').click(function(){
         var imgct = Number($('#proimg_ct').val()) + 1;
         if(imgct > 10) return;
@@ -574,17 +603,26 @@
         $isEnable = false;
         if ($('#stock_type').val() == 1) {
             $isEnable = true;
+
+            $('#product_color').prop('multiple', "");
+            // $('#product_color').multiselect('disable');
+            $('#product_color').multiselect('rebuild');
         } else {
             $isEnable = false;
+
+            $('#product_color').prop('multiple', "multiple");
+            $('#product_color').multiselect('rebuild');
         }
 
         $('#product_price_sale').prop('disabled', !$isEnable);
         $('#product_price_ref').prop('disabled', !$isEnable);
         $('#product_price_law').prop('disabled', !$isEnable);
+        $('#product_size').prop('disabled', !$isEnable);
 
         $('#product_price_sale').prop('required', $isEnable);
         $('#product_price_ref').prop('required', $isEnable);
         $('#product_price_law').prop('required', $isEnable);
+        $('#product_size').propprop('required', $isEnable);
     });
 </script>
 @endsection

@@ -51,7 +51,7 @@ class ColorController extends Controller
 
         $search = Colors::get_color($id);
         if(isset($search)){
-            $color = $search[0];
+            $color = $search;
             return view('admin.color.edit')->with('color', $color);
         } else{
             return Redirect::to('admin/color/list');
