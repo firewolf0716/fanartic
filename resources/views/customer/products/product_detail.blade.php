@@ -38,7 +38,11 @@
             <h3 class="product-detail__data__cart__hd u-sp">カートに入れる</h3>
             @foreach($skucolor as $color)
             <div class="product-detail__data__cart__item">
-                <div class="product-detail__data__cart__item__figure"><img src="http://placehold.jp/120x154.png?text=2" alt="">{{$color->color_name}}</div>
+                @php
+                    $color_image = $skuimages[$imagerec[0]->master_image_id][$color->sku_type_id];
+                    $prod_path = url('').'/images/products/'.$color_image->image_name;
+                @endphp
+                <div class="product-detail__data__cart__item__figure"><img src="{{$prod_path}}" alt="">{{$color->color_name}}</div>
                 <ul class="product-detail__data__cart__item__list">
                 @foreach($skusize as $size)
                     <li>

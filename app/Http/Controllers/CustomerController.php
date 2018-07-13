@@ -190,6 +190,16 @@ class CustomerController extends Controller
         // dd(Categorys::getSubCategoryIDs(5));
         $imagerec = Products::get_master_images($product->product_id);
 
+        $skuimages = array();
+        foreach($imagerec as $image){
+            $each = array();
+            foreach($skucolor as $skucolor_id){
+                $each[$skucolor_id->sku_type_id] = Products::get_image($skucolor_id->sku_type_id, $image->master_image_id);
+            }
+            $skuimages[$image->master_image_id] = $each;
+        }
+        // dd($skuimages);
+
         return $this->layout_init(view('customer.products.product_detail'), $tcategoryid)
             ->with('product', $product)
             ->with('mcategory', $mcategory)
@@ -198,7 +208,8 @@ class CustomerController extends Controller
             ->with('skucolor', $skucolor)
             ->with('skusize', $skusize)
             ->with('price', $price)
-            ->with('imagerec', $imagerec);
+            ->with('imagerec', $imagerec)
+            ->with('skuimages', $skuimages);
     }
 
     public function signup(){
