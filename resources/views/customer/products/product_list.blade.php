@@ -31,20 +31,29 @@
                         <div class="c-item__column">
                             <div class="c-item__column__figure">
                                 @php
-                                    $file_get  = $product->product_image;
-                                    $file_get_path =  explode("/**/",$file_get,-1);
-                                    $prod_path = url('').'/images/products/'.$file_get_path[0];
+                                    $imageset = $images[$product->product_id];
+                                    
+                                    $file_get_path_0 = $imageset[0]->master_image_name;                                    
+                                    $prod_path = url('').'/images/products/'.$file_get_path_0;
+                                    
                                     $prod_path02 = NULL;
-                                    if (!empty($file_get_path[1])) {
-                                        $prod_path02 = url('').'/images/products/'.$file_get_path[1];
+                                    $file_get_path_1 = '';
+                                    try{
+                                        $file_get_path_1 = $imageset[1]->master_image_name;                                    
+                                        if (isset($file_get_path_1)) {
+                                            $prod_path02 = url('').'/images/products/'.$file_get_path_1;
+                                        }
+                                    } catch(\Exception $ex){
+                                        
                                     }
+                                    
                                 @endphp
                                 <figure class="c-item__figure">
                                     <a href="{{url('customer/product/detail').'/'.$product->product_id}}"
                                        class="image-block">
-                                        @if (empty($file_get_path[0]))
+                                        @if (empty($file_get_path_0))
                                             <img src="http://placehold.jp/340x440.png" alt="No Image">
-                                        @elseif (empty($file_get_path[1]))
+                                        @elseif (empty($file_get_path_1))
                                             <img style="height:300px; width:440px;" src="{{$prod_path}}" alt="">
                                         @else
                                             <img style="height:300px; width:440px;" src="{{$prod_path02}}" alt="">

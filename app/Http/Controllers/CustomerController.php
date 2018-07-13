@@ -100,10 +100,14 @@ class CustomerController extends Controller
         if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
         $products = Products::get_product_filter($categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
-        $prices = array();
+        $prices = array(); $images = array();
         foreach($products as $product){
             $price = ProductStock::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
+
+            $imagerec = Products::get_master_images($product->product_id);
+            // dd($imagerec);
+            $images[$product->product_id] = $imagerec;
         }
 
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
@@ -122,7 +126,8 @@ class CustomerController extends Controller
             ->with('mencategories', $mencategories)
             ->with('womencategories', $womencategories)
             ->with('brands', $brands)
-            ->with('prices', $prices);
+            ->with('prices', $prices)
+            ->with('images', $images);
     }
 
     public function product_list_post(){
@@ -183,6 +188,7 @@ class CustomerController extends Controller
         }
         $price = ProductStock::get_price_range($product->product_id);
         // dd(Categorys::getSubCategoryIDs(5));
+        $imagerec = Products::get_master_images($product->product_id);
 
         return $this->layout_init(view('customer.products.product_detail'), $tcategoryid)
             ->with('product', $product)
@@ -191,7 +197,8 @@ class CustomerController extends Controller
             ->with('skuinfo', $skuinfo)
             ->with('skucolor', $skucolor)
             ->with('skusize', $skusize)
-            ->with('price', $price);
+            ->with('price', $price)
+            ->with('imagerec', $imagerec);
     }
 
     public function signup(){
