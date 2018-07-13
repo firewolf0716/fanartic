@@ -10,18 +10,13 @@
         <div class="product-detail__column">
         <div class="product-detail__figure">
             <div class="product-detail__figure__slider" data-productdetailslider="">
-            @php 
-                $file_get  = $product->product_image; 
-                $file_get_path =  explode("/**/",$file_get,-1); 
-                $img_count = count($file_get_path);
-            @endphp
-            @for($i = 0; $i < $img_count; $i++)
+            @foreach($imagerec as $image)
                 @php
-                $pro_img = $file_get_path[$i];
-                $prod_path = url('').'/images/products/'.$pro_img;
+                    $pro_img = $image->master_image_name;
+                    $prod_path = url('').'/images/products/'.$pro_img;
                 @endphp
-                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1404px; height:1334"></figure>                
-            @endfor
+                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1404px; height:1334"></figure>
+            @endforeach
             </div>
             <!--/.product-detail__figure__slider-->
         </div>
