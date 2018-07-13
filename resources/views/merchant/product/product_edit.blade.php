@@ -189,19 +189,19 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_price_sale}}">
+                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_id}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_price_ref}}">
+                                <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_id}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_price_law}}">
+                                <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_id}}">
                             </div>
                         </div>
                         <div class="form-group">

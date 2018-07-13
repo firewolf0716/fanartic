@@ -173,7 +173,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/manage/{product_status}', 'MerchantproductController@merchant_product_manage_with_status');
 	Route::get('merchant/product/sold', 'MerchantproductController@merchant_product_sold');
 	Route::get('merchant/product/csvupload', 'MerchantproductController@merchant_product_csvupload');
-
+	Route::post('merchant/product/set_sku', 'MerchantproductController@merchant_product_set_sku');
 	Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
 
 	// Route::post('merchant/product/product_import_csv', function(){

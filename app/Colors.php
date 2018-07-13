@@ -25,7 +25,7 @@ class Colors extends Model
     }
 
     public static function get_color($id) {
-        return DB::table('master_color')->where('color_id', $id)->get();
+        return DB::table('master_color')->where('color_id', $id)->get()->first();
     }
 
     public static function edit_color($entry,$id) {
