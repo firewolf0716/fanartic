@@ -86,10 +86,9 @@ class Products extends Model{
     public static function delete_product($id){
         return DB::table('fan_product')->where('product_id', $id)->delete();
     }
-    public static function delete_product_image($product_id, $merchant_id, $master_image_id, $color_id) {
-        return DB::table('fan_product')->where('product_id', $product_id)
+    public static function delete_product_image($product_id, $merchant_id, $color_id) {
+        return DB::table('fan_product_image')->where('product_id', $product_id)
                                     ->where('merchant_id', $merchant_id)
-                                    ->where('master_image_id', $master_image_id)
                                     ->where('color_id', $color_id)
                                     ->delete();
     }

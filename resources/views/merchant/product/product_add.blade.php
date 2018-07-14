@@ -265,6 +265,20 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー 1<span class="required">*</span></label>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <!-- <select class="form-control" name="product_color" id="product_color" required> -->
+                                        <select class="form-control" name="product_color_1" id="product_color_1">
+                                            <option value="">--Select Color--</option>
+                                            @foreach($colors as $color)
+                                            <!-- <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option> -->
+                                            <option value="{{$color->color_id}}">{{$color->color_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
                                         <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required>

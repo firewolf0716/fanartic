@@ -40,7 +40,7 @@
                                             <td style="text-align:center">{{$image['color_name']}}</td>
                                             @foreach ($image['images'] as $color_image)
                                             <td style="text-align:center">
-                                                @if ($color_image->image_name != '')
+                                                @if ($color_image->image_name != '' && $color_image->image_name != NULL)
                                                     <img style="height:20px;" src="{{url("")}}./images/products/{{$color_image->image_name}}">
                                                     <input type="file" name="product_image_{{$color_image->image_id}}" class="form-control">
                                                 @else

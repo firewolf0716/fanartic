@@ -97,7 +97,8 @@ class MerchantproductController extends Controller
             ->with('main_category_id', $main_category_id)
             ->with('master_images', $master_images)
             ->with('product_size_id', $product_size_id)
-            ->with('product_stock_info', $product_stock_info);
+            ->with('product_stock_info', $product_stock_info)
+            ->with('proimg_ct', count($master_images));
     }
     public function merchant_product_addpost(){
         $strProductColors = '';
@@ -145,7 +146,8 @@ class MerchantproductController extends Controller
             'postage_type' => Input::get('postage_type'),
             'postage' => Input::get('postage'),
             'delivery_id' => Input::get('delivery_id'),
-            'shipping_id' => Input::get('shipping_id')
+            'shipping_id' => Input::get('shipping_id'),
+            'product_color_1' => Input::get('product_color_1')
         );
         $productid = Products::insert_product($entry);
 
@@ -244,7 +246,7 @@ class MerchantproductController extends Controller
             $masterImageCount += 1;
             $file_more_name = $file_more->getClientOriginalName();
             $move_more_img = explode('.', $file_more_name);
-            $filename_new = "master_image_" . $merchant_id . "_" . $productid . "_" . $masterImageCount . "." . strtolower($file_more->getClientOriginalExtension());
+            $filename_new = "master_image_" . $merchant_id . "_" . $productid . "_" . time() . "_" . $masterImageCount . "." . strtolower($file_more->getClientOriginalExtension());
             $newdestinationPath = './images/products/';
             $uploadSuccess_new = $file_more->move($newdestinationPath, $filename_new);
             // $filename_new_get .= $filename_new . "/**/";
@@ -293,8 +295,9 @@ class MerchantproductController extends Controller
         $current_product_info = Products::get_product($productid);
         $current_product_colors = explode('/**/', $current_product_info->product_color);
         $current_product_master_images = Products::get_master_images($productid);
-        $current_product_sizes = Products::get_product_sizes($productid);
+        $current_product_sizes = collect(Products::get_product_sizes($productid))->toArray();
         $strProductColors = '';
+        $product_colors = array();
         if(Input::has('product_color')) {
             $product_colors = Input::get('product_color');
             foreach($product_colors as $product_color_id) {
@@ -334,11 +337,11 @@ class MerchantproductController extends Controller
             'postage_type' => Input::get('postage_type'),
             'postage' => Input::get('postage'),
             'delivery_id' => Input::get('delivery_id'),
-            'shipping_id' => Input::get('shipping_id')
+            'shipping_id' => Input::get('shipping_id'),
+            'product_color_1' => Input::get('product_color_1')
         );
         Products::edit_product($entry, $productid);
 
-        $product_colors = Input::get('product_color');
         $added_colors = array_diff($product_colors, $current_product_colors);
         $removed_colors = array_diff($current_product_colors, $product_colors);
 
@@ -346,30 +349,43 @@ class MerchantproductController extends Controller
         $current_master_images = Products::get_master_images($productid);
         foreach ($current_master_images as $master_image) {
             $file_update = Input::file('product_image_' . $master_image->master_image_id);
-            if ($file_update == null || $file_update == "") {
+            $uploadSuccess_new = '';
+            
+            
+            // foreach($removed_colors as $product_color_id) {
+            //     Products::delete_product_image($productid, $merchant_id, $product_color_id);
+            // }
+
+            $image_name = '';
+            if (Input::get('stock_type') == 1) {
+                $image_name = $filename_new;
+            }
+        
+            foreach($added_colors as $product_color_id) {
+                $entry =  array(
+                    'product_id' => $productid,
+                    'master_image_id' => $master_image->master_image_id,
+                    'merchant_id' => $merchant_id,
+                    'color_id' => $product_color_id,
+                    'image_name' => $image_name,
+                    'image_create' => Input::get('create_date'),
+                    'image_update' => Input::get('update_date')
+                );
+                Products::insert_image($entry);
+            }
+
+            if ($file_update == null && $file_update == "") {
                 continue;
             }
             $newdestinationPath = './images/products/';
             $uploadSuccess_new = $file_update->move($newdestinationPath, $master_image->master_image_name);
-
-            foreach($added_colors as $product_color_id) {
-                $entry =  array(
-                    'product_id' => $productid,
-                    'master_image_name' => $filename_new,
-                    'merchant_id' => $merchant_id,
-                    'master_image_create' => Input::get('create_date'),
-                    'master_image_update' => Input::get('update_date')
-                );
-                $master_image_id = Products::insert_master_image($entry);
-            }
-            foreach($removed_colors as $product_color_id) {
-                $master_image_id = Products::delete_product_image($productid, $merchant_id, $master_image->master_image_id, $product_color_id);
-            }
         }
+
         // Master Image Add
-        $masterImageCount = count($current_master_images);
         $filename_new_get = '';
+        $masterImageCount = 0;
         $imgct = Input::get('proimg_ct');
+        $product_colors = Input::get('product_color');
         for ($i = 1; $i <= $imgct; $i++) {
             $file_more = Input::file('product_img_' . $i);
             if ($file_more == null || $file_more == "") {
@@ -378,7 +394,7 @@ class MerchantproductController extends Controller
             $masterImageCount += 1;
             $file_more_name = $file_more->getClientOriginalName();
             $move_more_img = explode('.', $file_more_name);
-            $filename_new = "master_image_" . $merchant_id . "_" . $productid . "_" . $masterImageCount . "." . strtolower($file_more->getClientOriginalExtension());
+            $filename_new = "master_image_" . $merchant_id . "_" . $productid . "_" . time() . $masterImageCount . "." . strtolower($file_more->getClientOriginalExtension());
             $newdestinationPath = './images/products/';
             $uploadSuccess_new = $file_more->move($newdestinationPath, $filename_new);
 
@@ -393,6 +409,7 @@ class MerchantproductController extends Controller
 
             // product images
             $image_name = '';
+            
             if (Input::get('stock_type') == 1) {
                 $image_name = $filename_new;
             }
@@ -411,8 +428,12 @@ class MerchantproductController extends Controller
             }
         }
 
-        
-            
+        $all_product_images = Products::get_images($productid);
+        foreach ($all_product_images as $product_image) {
+            if (in_array($product_image->color_id, $product_colors) == false) {
+                Products::delete_product_image($productid, $merchant_id, $product_image->color_id);
+            }
+        }
 
         // SKU Color 
         foreach($added_colors as $product_color_id) {
@@ -428,44 +449,109 @@ class MerchantproductController extends Controller
             ProductSKU::insert_sku($sku_info);
         }
         foreach($removed_colors as $product_color_id) {
-            ProductSKU::remove_color_SKU($product_id, $product_color_id);
+            ProductSKU::remove_SKU($productid, 1, $product_color_id);
+        }
+        $all_sku_color_items = ProductSKU::get_for_product($productid, 1);
+        foreach ($all_sku_color_items as $sku_color) {
+            if (in_array($sku_color->sku_type_id, $product_colors) == false) {
+                ProductSKU::remove_SKU($productid, 1, $sku_color->sku_type_id);
+            }
+        }
+
+        $new_product_sizes = array();
+        if (Input::get('stock_type') == 1) {
+            array_push($new_product_sizes, Input::get('product_size'));
+        } else {
+            $product_sizes = Sizes::get_sizes_with_category(Input::get('product_sizeCategory'));
+            foreach($product_sizes as $product_size) {
+                array_push($new_product_sizes, $product_size);
+            }
+        }
+
+        $current_product_size_ids = array();
+        foreach($current_product_sizes as $current_product_size) {
+            array_push($current_product_size_ids, $current_product_size->sku_type_id);
+        }
+        $new_product_size_ids = array();
+        foreach($new_product_sizes as $new_product_size) {
+            array_push($new_product_size_ids, $new_product_size->size_id);
         } 
+        $added_sizes = array_diff($new_product_size_ids, $current_product_size_ids);
+        $removed_sizes = array_diff($current_product_size_ids, $new_product_size_ids);
+        foreach($added_sizes as $added_size) {
+            $sku_info = array (
+                'product_id' => $productid,
+                'sku_type' => '2',
+                'sku_type_id' => $added_size,
+                'sku_status' => '1',
+                'sku_create' => Input::get('create_date'),
+                'sku_update' => Input::get('update_date'),
+                'product_merchant_id' => $merchant_id
+            );
+            ProductSKU::insert_sku($sku_info);
+        }
+        foreach($removed_sizes as $removed_size) {
+            ProductSKU::remove_SKU($productid, 2, $removed_size);
+        }
 
-        
-        
-
-              
-
-
-        $datenow = date('Y/m/d');
-        $filename_new_get = '';
-
-        for($j = 0; $j < 10; $j++){
-            if(Input::has('existing_img_'.$j)){
-                $prevfilename = Input::get('existing_img_'.$j);
-                $filename_new_get .= $prevfilename . "/**/";
+        $all_sku_size_items = ProductSKU::get_for_product($productid, 2);
+        foreach ($all_sku_size_items as $sku_size) {
+            if (in_array($sku_size->sku_type_id, $new_product_size_ids) == false) {
+                ProductSKU::remove_SKU($productid, 2, $sku_color->sku_type_id);
             }
         }
 
-        $imgct = Input::get('proimg_ct');
-        for ($i = 1; $i <= $imgct; $i++) {
-            if(!Input::has('product_img_'.$i)){
-                continue;
+        $product_sku_colors = ProductSKU::get_product_sku($productid, 1, $merchant_id);
+        $product_sku_sizes = ProductSKU::get_product_sku($productid, 2, $merchant_id);
+
+        // Edit stock info
+        foreach($product_sku_colors as $product_sku_color) {
+            $storeCount = 0;
+            if (Input::get('stock_type') == 1) {
+                $storeCount = 1;
+                if (Input::get('max_order_count') != '') {
+                    $storeCount = Input::get('max_order_count');
+                }
             }
-            $file_more = Input::file('product_img_' . $i);
-            $file_more_name = $file_more->getClientOriginalName();
-            $move_more_img = explode('.', $file_more_name);
-            $filename_new = $move_more_img[0] . str_random(8) . "." . strtolower($file_more->getClientOriginalExtension());
-            $newdestinationPath = './images/products/';
-            $uploadSuccess_new = $file_more->move($newdestinationPath, $filename_new);
-            $filename_new_get .= $filename_new . "/**/";
+
+            foreach($product_sku_sizes as $product_sku_size) {
+                $product_sku = ProductStock::get_for_product($productid, $product_sku_color->sku_id, $product_sku_size->sku_id);
+                if (count($product_sku) == 0) {
+                    $stock_info = array (
+                        'product_id' => $productid,
+                        'product_count_1' => $storeCount,
+                        'product_count_2' => 0,
+                        'product_count_3' => 0,
+                        'product_count_4' => 0,
+                        'product_count_5' => 0,
+                        'product_count_6' => 0,
+                        'product_merchant_id' => $merchant_id,
+                        'product_sku_size_id' => $product_sku_size->sku_id,
+                        'product_sku_color_id' => $product_sku_color->sku_id,
+                        'product_stock_create' => Input::get('create_date'),
+                        'product_stock_update' => Input::get('update_date'),
+                        'product_price_sale' => Input::get('product_price_sale'),
+                        'product_price_ref' => Input::get('product_price_ref'),
+                        'product_price_law' => Input::get('product_price_law')
+                    );
+                    ProductStock::insert_product_stock($stock_info);
+                }
+            }
         }
 
+        $stock_all_items = ProductStock::get_product_sku_id($productid);
         
-
-
+        foreach ($stock_all_items as $stock_all_item) {
+            $temp_product_sku_color = ProductSKU::get_sku($stock_all_item->product_sku_color_id);
+            $temp_product_sku_size = ProductSKU::get_sku($stock_all_item->product_sku_size_id);
+            
+            if (count($temp_product_sku_color) == 0 || count($temp_product_sku_size) == 0) {
+                ProductStock::remove_stock($productid, $stock_all_item->product_sku_color_id, $stock_all_item->product_sku_size_id);
+            }
+        }
         
-        return Redirect::to('merchant/product/manage')->with('product_status', 1);
+        return $this->merchant_product_edit_sku($productid);
+        // return Redirect::to('merchant/product/manage')->with('product_status', 1);
     }
     public function merchant_product_manage() {
         return $this->merchant_manage(1);
@@ -557,9 +643,11 @@ class MerchantproductController extends Controller
                 $color_image = Products::get_image($selectedColor, $master_image->master_image_id);
                 array_push($color_images, $color_image);
             }
+
             $image['images'] = $color_images;
             array_push($images, $image);
         }
+        
         $production_sku_infos = Products::get_product_stock_full_info($id);
         return view('merchant.product.product_edit_sku')->with('master_images', $master_images)
                                                         ->with('merchant_id', $merchant_id)
