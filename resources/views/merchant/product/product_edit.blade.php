@@ -53,7 +53,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_brand" id="product_brand">
+                                <select class="form-control" name="product_brand" id="product_brand" required>
                                     <option value="">--Select Brand--</option>
                                     @foreach($brands as $brand)
                                     <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
@@ -143,27 +143,32 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">送料の有無<span class="required">*</span></label>
                             <div class="radio1 col-md-4 col-sm-6 col-xs-12">
+                            @if ($product->postage_type == 1)
                                 <label><input type="radio" value="0" name="postage_type" id="postage_type" checked>有料</label>
                                 <label><input type="radio" value="1" name="postage_type" id="postage_type">無料</label>
+                            @else
+                                <label><input type="radio" value="0" name="postage_type" id="postage_type">有料</label>
+                                <label><input type="radio" value="1" name="postage_type" id="postage_type" checked>無料</label>
+                            @endif
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">送料<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="postage" name="postage" class="form-control col-md-7 col-xs-12" required>
+                            <input type="number" id="postage" name="postage" class="form-control col-md-7 col-xs-12" value="{{$product->postage}}" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">納期 ID<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="delivery_id" name="delivery_id" class="form-control col-md-7 col-xs-12" required>
+                            <input type="number" id="delivery_id" name="delivery_id" class="form-control col-md-7 col-xs-12" value="{{$product->delivery_id}}" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">配送 ID<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="shipping_id" name="shipping_id" class="form-control col-md-7 col-xs-12" required>
+                            <input type="number" id="shipping_id" name="shipping_id" class="form-control col-md-7 col-xs-12" value="{{$product->shipping_id}}" required>
                             </div>
                         </div>
 
@@ -172,7 +177,7 @@
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select class="form-control" name="stock_type" id="stock_type">
                                     <option value="1">項目別在庫</option>
-                                    <option value="2" selected>通常在庫</option>
+                                    <option value="2">通常在庫</option>
                                     <option value="3">無限</option>
                                 </select>
                             </div>
@@ -180,7 +185,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">最大注文数<span class="required"></span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="max_order_count" name="max_order_count" class="form-control col-md-7 col-xs-12">
+                                <input type="number" id="max_order_count" name="max_order_count" class="form-control col-md-7 col-xs-12" value="{{$product->max_order_count}}">
                             </div>
                         </div>
 
@@ -189,19 +194,19 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_id}}">
+                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_price_sale}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_id}}">
+                                <input type="number" id="product_price_ref" name="product_price_ref" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_price_ref}}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">セール価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_id}}">
+                                <input type="text" id="product_price_law" name="product_price_law" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_price_law}}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -221,22 +226,16 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
 
                                 <div class="col-md-4 col-sm-6 col-xs-12">
-                                @php 
-                                    $file_get  = $product->product_image; 
-                                    $file_get_path =  explode("/**/",$file_get,-1); 
-                                    $img_count = count($file_get_path);
-                                @endphp
-                                @for($j=0 ; $j< $img_count; $j++)
-                                    @if($file_get_path[$j] !='')
-                                        @php $pro_img = $file_get_path[$j]; @endphp
-                                        @php $prod_path = url('').'/images/products/'.$pro_img; @endphp
-                                        <div style="float:left; max-width:219px; margin-right: 10px;">
-                                            <img style="height:70px; width:70px;" src="{{$prod_path}}" id="{{'existing_img_'.$j}}">
-                                            <br>
-                                            <button class="btn-small" type="button" id="{{'existing_btn_'.$j}}" onClick="onRemoveImg('{{$j}}')">Remove</button>
-                                        </div>
-                                        {{ Form::hidden('existing_img_'.$j, $pro_img)}}
-                                    @endif
+                                @php $img_count = count($master_images); @endphp
+                                @for ($i = 0; $i < $img_count; $i++)
+                                    @php 
+                                        $master_image = $master_images[$i];
+                                        $prod_path = url('').'/images/products/'.$master_image->master_image_name; 
+                                    @endphp
+                                    <div class="form-control col-md-3 col-sm-6 col-xs-12">
+                                        <img style="height:20px;" src="{{$prod_path}}" class="col-md-2">
+                                        <input type="file" name="product_image_{{$master_image->master_image_id}}" >
+                                    </div>
                                 @endfor
                                 </div>
                             </div>
@@ -249,7 +248,7 @@
                                     <button class="btn" type="button" id="btnProductImage">Add</button>
                                 </div>
                             </div>
-                            {{ Form::hidden('proimg_ct', $img_count, array('id' => 'proimg_ct'))}}
+                            {{ Form::hidden('proimg_ct', '1', array('id' => 'proimg_ct'))}}
                         </div>
 
                         <div class="form-group">
@@ -299,37 +298,43 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <select class="form-control" name="product_size" id="product_size">
+                                    <option value="">--Select Size--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_weight" name="product_weight" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_weight}}">
+                                <input type="number" id="product_weight" name="product_weight" class="form-control col-md-7 col-xs-12" value="{{$product->product_weight}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">シーズン<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_season" name="product_season" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_season}}">
+                                <input type="text" id="product_season" name="product_season" class="form-control col-md-7 col-xs-12" value="{{$product->product_season}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">生産地<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_place" name="product_place" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_place}}">
+                                <input type="text" id="product_place" name="product_place" class="form-control col-md-7 col-xs-12" value="{{$product->product_place}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">素材<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_material" name="product_material" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_material}}">
+                                <input type="text" id="product_material" name="product_material" class="form-control col-md-7 col-xs-12" value="{{$product->product_material}}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_memo" name="product_memo" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_memo}}">
+                                <input type="text" id="product_memo" name="product_memo" class="form-control col-md-7 col-xs-12" value="{{$product->product_memo}}">
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫管理<span class="required">*</span></label>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
@@ -435,9 +440,40 @@
         $('#product_color').val("{{$product->product_color}}");
         $('#product_parent').val("{{$product->product_parent_id}}");
         $('#product_sizeCategory').val("{{$product->product_size_category_id}}");
+        $('#stock_type').val("{{$product->stock_type}}");
+
         addTopCategorys(true);
         addSizes(true);
+        updateUI();
     });
+    $('#product_sizeCategory').change(function(){
+        addSizes(false);
+    });
+    function addSizes(isInit) {
+        $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
+        var stock_type = $('#stock_type').val();
+
+        var sizeCategory = $('#product_sizeCategory').val();
+        if(sizeCategory != "") {
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getssizes')}}' + "/" + sizeCategory,
+                success: function(data) {
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.size_id;
+                        opt.innerHTML = item.size_name;
+                        document.getElementById('product_size').appendChild(opt);
+                    }
+
+                    if (isInit && stock_type == 1) {
+                        $('#product_size').val("{{$product_size_id}}");
+                    }
+                }
+            });
+        }
+    }
     
     $('#btnProductImage').click(function(){
         var imgct = Number($('#proimg_ct').val()) + 1;
@@ -506,7 +542,7 @@
     function addSubCategorys(isInit) {
         var top = $('#top_category').val();
         var main = $('#main_category').val();
-
+        
         $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
 
         if(top != ""){
@@ -522,8 +558,10 @@
                         document.getElementById('sub_category').appendChild(opt);
                     }
                     if (isInit) {
-                        $('#sub_category').val("{{$categoryinfo->category_id}}");
+                        $('#sub_category').val("{{$product->product_category_id}}");
                     }
+
+                    
                 }
             });
         }
@@ -565,6 +603,7 @@
             });
         }
     }
+
     $('#product_color').multiselect({
         includeSelectAllOption: true
     });
@@ -576,21 +615,33 @@
             $('#postage').prop('required', false);
         }
     });
+
     $('#stock_type').change(function(){
+        updateUI();
+    });
+
+    function updateUI() {
         $isEnable = false;
         if ($('#stock_type').val() == 1) {
             $isEnable = true;
+
+            $('#product_color').prop('multiple', "");
+            // $('#product_color').multiselect('disable');
+            $('#product_color').multiselect('rebuild');
         } else {
             $isEnable = false;
+
+            $('#product_color').prop('multiple', "multiple");
+            $('#product_color').multiselect('rebuild');
         }
 
         $('#product_price_sale').prop('disabled', !$isEnable);
         $('#product_price_ref').prop('disabled', !$isEnable);
         $('#product_price_law').prop('disabled', !$isEnable);
+        $('#product_size').prop('disabled', !$isEnable);
 
         $('#product_price_sale').prop('required', $isEnable);
-        $('#product_price_ref').prop('required', $isEnable);
-        $('#product_price_law').prop('required', $isEnable);
-    });
+        $('#product_size').propprop('required', $isEnable);
+    }
 </script>
 @endsection

@@ -86,6 +86,13 @@ class Products extends Model{
     public static function delete_product($id){
         return DB::table('fan_product')->where('product_id', $id)->delete();
     }
+    public static function delete_product_image($product_id, $merchant_id, $master_image_id, $color_id) {
+        return DB::table('fan_product')->where('product_id', $product_id)
+                                    ->where('merchant_id', $merchant_id)
+                                    ->where('master_image_id', $master_image_id)
+                                    ->where('color_id', $color_id)
+                                    ->delete();
+    }
 
     public static function get_product_filter($categorylevel, $category_id, $size, $color, $rangemin, $rangemax){
         $sql = DB::table('fan_product')
@@ -153,6 +160,16 @@ class Products extends Model{
                                                 ->orderBy('master_image_id', 'ASC')
                                                 ->get();
     }
+    public static function get_product_colors($product_id) {
+        return DB::table('fan_product_sku')->where('product_id', $product_id)
+                                                ->where('sku_type', '1')
+                                                ->get();
+    }
+    public static function get_product_sizes($product_id) {
+        return DB::table('fan_product_sku')->where('product_id', $product_id)
+                                                ->where('sku_type', '2')
+                                                ->get();
+    }
     public static function insert_image($entry) {
         $check_insert = DB::table('fan_product_image')->insert($entry);
         if ($check_insert) {
@@ -191,8 +208,7 @@ class Products extends Model{
         return $stocks;
     }
     public static function get_product_stock_info($product_id) {
-        $query = "SELECT * FROM fan_product_stock_management WHERE product_id = '$product_id'";
-        $stocks = DB::select($query);
+        return DB::table('fan_product_stock_management')->where('product_id', $product_id)->get();
         return $stocks;
     }
     public static function set_stock_info($product_stock_id, $product_count, $product_count_endless, $product_price_sale, $product_price_ref, $product_price_law) {
@@ -203,5 +219,12 @@ class Products extends Model{
                     'product_price_sale' => $product_price_sale,
                     'product_price_ref' => $product_price_ref,
                     'product_price_law' => $product_price_law]);
+    }
+
+    public static function get_product_size_id($id) {
+        $product_size_id = DB::table('fan_product_sku')->where('product_id', $id)
+                                                    ->where('sku_type', 2)
+                                                    ->get()->first()->sku_type_id;
+        return $product_size_id;
     }
 }

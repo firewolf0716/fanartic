@@ -39,4 +39,9 @@ class ProductSKU extends Model
                 ->get();
         }
     }
+    public static function remove_color_SKU($product_id, $color_id) {
+        return DB::table('fan_product_sku')->where('product_id', $product_id)
+                                        ->where('sku_type', 1)
+                                        ->where('sku_type_id', $color_id)->delete();
+    }
 }
