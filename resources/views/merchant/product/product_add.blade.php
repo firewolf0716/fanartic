@@ -71,7 +71,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <select class="form-control" name="product_brand" id="product_brand">
+                                        <select class="form-control" name="product_brand" id="product_brand" required>
                                             <option value="">--Select Brand--</option>
                                             @foreach($brands as $brand)
                                             <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
@@ -130,7 +130,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">商品コード<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="number" id="product_code" name="product_code" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="number" id="product_code" name="product_code" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -148,7 +148,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">内容詳細名<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="text" id="product_name_detail" name="product_name_detail" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="text" id="product_name_detail" name="product_name_detail" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
 
@@ -184,7 +184,7 @@
                                     <div class="col-md-4 col-sm-6 col-xs-12">
                                         <select class="form-control" name="stock_type" id="stock_type">
                                             <option value="1">項目別在庫</option>
-                                            <option value="2">通常在庫</option>
+                                            <option value="2" selected>通常在庫</option>
                                             <option value="3">無限</option>
                                         </select>
                                     </div>
@@ -204,15 +204,15 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Reference 参考価格<span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="number" id="product_price_ref" name="product_price_ref" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="number" id="product_price_ref" name="product_price_ref"class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">セール価格<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="text" id="product_price_law" name="product_price_law" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="text" id="product_price_law" name="product_price_law" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -289,31 +289,31 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">商品重量<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="number" id="product_weight" name="product_weight" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="number" id="product_weight" name="product_weight"class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">シーズン<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="text" id="product_season" name="product_season" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="text" id="product_season" name="product_season" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">生産地<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="text" id="product_place" name="product_place" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="text" id="product_place" name="product_place" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">素材<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="text" id="product_material" name="product_material" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="text" id="product_material" name="product_material" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
                                     <div class="col-md-4 col-sm-6 col-xs-12">
-                                        <input type="text" id="product_memo" name="product_memo" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input type="text" id="product_memo" name="product_memo" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
 
@@ -467,6 +467,7 @@
 
         addTopCategorys();
         $('stock_type').val(2);
+        updateUI();
     });
     $('#product_sizeCategory').change(function(){
         $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
@@ -600,6 +601,9 @@
         }
     });
     $('#stock_type').change(function(){
+        updateUI();
+    });
+    function updateUI() {
         $isEnable = false;
         if ($('#stock_type').val() == 1) {
             $isEnable = true;
@@ -620,9 +624,7 @@
         $('#product_size').prop('disabled', !$isEnable);
 
         $('#product_price_sale').prop('required', $isEnable);
-        $('#product_price_ref').prop('required', $isEnable);
-        $('#product_price_law').prop('required', $isEnable);
         $('#product_size').propprop('required', $isEnable);
-    });
+    }
 </script>
 @endsection
