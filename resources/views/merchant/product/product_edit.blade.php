@@ -242,13 +242,13 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12"></span></label>
                                 <div class="col-md-3 col-sm-6 col-xs-12" id="div-product-image">
-                                    <input type="file" name="product_img_1" class="form-control">
+                                    <input type="file" name="product_img_{{$proimg_ct + 1}}" class="form-control">
                                 </div>
                                 <div class="col-md-2 col-sm-6 col-xs-12">
                                     <button class="btn" type="button" id="btnProductImage">Add</button>
                                 </div>
                             </div>
-                            {{ Form::hidden('proimg_ct', '1', array('id' => 'proimg_ct'))}}
+                            {{ Form::hidden('proimg_ct', '$proimg_ct + 1', array('id' => 'proimg_ct'))}}
                         </div>
 
                         <div class="form-group">
@@ -280,6 +280,20 @@
                                         @else
                                             <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option>
                                         @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">カラー 1<span class="required">*</span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- <select class="form-control" name="product_color" id="product_color" required> -->
+                                <select class="form-control" name="product_color_1" id="product_color_1">
+                                    <option value="">--Select Color--</option>
+                                    @foreach($colors as $color)
+                                    <!-- <option value="{{$color->color_id}}" style="background:{{ $color->color_value }}">{{$color->color_name}}</option> -->
+                                    <option value="{{$color->color_id}}">{{$color->color_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -433,18 +447,22 @@
 </script>
 <script>
     $(function(){
+        
         $('#product_salemethod').val("{{$product->product_salemethod}}");
         $('#product_brand').val("{{$product->product_brand_id}}");
         $('#product_event').val("{{$product->product_event}}");
         $('#product_old_status').val("{{$product->product_old_status}}");
-        $('#product_color').val("{{$product->product_color}}");
+        // $('#product_color').val("{{$product->product_color}}");
         $('#product_parent').val("{{$product->product_parent_id}}");
         $('#product_sizeCategory').val("{{$product->product_size_category_id}}");
         $('#stock_type').val("{{$product->stock_type}}");
+        $('#product_color_1').val("{{$product->product_color_1}}");
 
+        
+        
         addTopCategorys(true);
         addSizes(true);
-        updateUI();
+        updateUI();        
     });
     $('#product_sizeCategory').change(function(){
         addSizes(false);
@@ -470,6 +488,8 @@
                     if (isInit && stock_type == 1) {
                         $('#product_size').val("{{$product_size_id}}");
                     }
+
+                   
                 }
             });
         }
@@ -641,7 +661,7 @@
         $('#product_size').prop('disabled', !$isEnable);
 
         $('#product_price_sale').prop('required', $isEnable);
-        $('#product_size').propprop('required', $isEnable);
+        $('#product_size').prop('required', $isEnable);
     }
 </script>
 @endsection
