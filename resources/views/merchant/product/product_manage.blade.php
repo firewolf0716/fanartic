@@ -210,9 +210,11 @@
                     actions += '<a style="margin:10px" href="{{ url('merchant/product/edit')}}/';
                     actions += product_id;
                     actions += '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
-                    actions += '<a style="margin:10px" href="{{ url('merchant/product/edit_sku')}}/';
-                    actions += product_id;
-                    actions += '"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
+                    if (item.stock_type != 1) {
+                        actions += '<a style="margin:10px" href="{{ url('merchant/product/edit_sku')}}/';
+                        actions += product_id;
+                        actions += '"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
+                    }
                     actions += '<a style="margin:10px" href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm(';
                     actions += product_id;
                     actions += ')" aria-hidden="true"></span></a></td>';

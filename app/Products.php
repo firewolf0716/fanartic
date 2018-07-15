@@ -45,7 +45,7 @@ class Products extends Model{
 
     public static function get_products_manage($merchant, $product_exist_status = 1, $sub_category_id = '0', $brand_id = '0') {
         $query = "SELECT fan_product.product_id, fan_product.product_name, fan_product_stock_management.product_price_sale
-            , fan_product.product_status, fan_product_stock_management.product_count_$product_exist_status as product_count
+            , fan_product.product_status, fan_product_stock_management.product_count_$product_exist_status as product_count, fan_product.stock_type
              FROM (SELECT * FROM fan_product WHERE product_merchant_id = '$merchant'";
         if ($sub_category_id != '0') {
             $query .= " AND product_category_id = '$sub_category_id'";
