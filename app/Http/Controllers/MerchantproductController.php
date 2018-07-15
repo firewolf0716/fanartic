@@ -283,8 +283,11 @@ class MerchantproductController extends Controller
             }
         }
 
-        return $this->merchant_product_edit_sku($productid);
-        // return Redirect::to('merchant/product/manage')->with('product_status', 1);
+        if (Input::get('stock_type') == 1) {
+            return Redirect::to('merchant/product/manage')->with('product_status', 1);
+        } else {
+            return $this->merchant_product_edit_sku($productid);
+        }
     }
     public function merchant_product_editpost() {
         if (!Session::has('merchantid')) {
@@ -358,7 +361,7 @@ class MerchantproductController extends Controller
 
             $image_name = '';
             if (Input::get('stock_type') == 1) {
-                $image_name = $filename_new;
+                $image_name = $master_image->master_image_name;
             }
         
             foreach($added_colors as $product_color_id) {
@@ -464,7 +467,7 @@ class MerchantproductController extends Controller
         } else {
             $product_sizes = Sizes::get_sizes_with_category(Input::get('product_sizeCategory'));
             foreach($product_sizes as $product_size) {
-                array_push($new_product_sizes, $product_size);
+                array_push($new_product_sizes, $product_size->size_id);
             }
         }
 
@@ -473,8 +476,9 @@ class MerchantproductController extends Controller
             array_push($current_product_size_ids, $current_product_size->sku_type_id);
         }
         $new_product_size_ids = array();
+
         foreach($new_product_sizes as $new_product_size) {
-            array_push($new_product_size_ids, $new_product_size->size_id);
+            array_push($new_product_size_ids, $new_product_size);
         } 
         $added_sizes = array_diff($new_product_size_ids, $current_product_size_ids);
         $removed_sizes = array_diff($current_product_size_ids, $new_product_size_ids);
@@ -550,8 +554,11 @@ class MerchantproductController extends Controller
             }
         }
         
-        return $this->merchant_product_edit_sku($productid);
-        // return Redirect::to('merchant/product/manage')->with('product_status', 1);
+        if (Input::get('stock_type') == 1) {
+            return Redirect::to('merchant/product/manage')->with('product_status', 1);
+        } else {
+            return $this->merchant_product_edit_sku($productid);
+        }
     }
     public function merchant_product_manage() {
         return $this->merchant_manage(1);

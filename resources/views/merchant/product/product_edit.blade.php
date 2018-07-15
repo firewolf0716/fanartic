@@ -176,9 +176,9 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫管理<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select class="form-control" name="stock_type" id="stock_type">
-                                    <option value="1">項目別在庫</option>
-                                    <option value="2">通常在庫</option>
-                                    <option value="3">無限</option>
+                                    <option value="1">通常在庫</option>
+                                    <option value="2">項目別在庫</option>
+                                    <!-- <option value="3">無限</option> -->
                                 </select>
                             </div>
                         </div>
@@ -188,8 +188,6 @@
                                 <input type="number" id="max_order_count" name="max_order_count" class="form-control col-md-7 col-xs-12" value="{{$product->max_order_count}}">
                             </div>
                         </div>
-
-
 
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
