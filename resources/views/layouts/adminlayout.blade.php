@@ -134,8 +134,15 @@
                                             <li><a href="{{url('admin/plan/list')}}">出店プラン一覧</a></li>
                                         </ul>
                                     </li>
+                                    <li><a>インポートデータ<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/import/csv')}}">csv からデータをインポートする</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
+
+                            
                             <li><a><i class="fa fa-table"></i> 店舗管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li class="sub_menu"><a href="{{url('admin/merchants/add')}}">新規登録</a></li>
