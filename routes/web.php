@@ -17,7 +17,8 @@ Route::middleware(['basicAuth'])->group(function () {
 	// 	// return Redirect::to('customer/product/list/1');
 	// });
     Route::get('/', 'CustomerController@index');
-    Route::get('/{mallname}', 'CustomerController@mall');
+	Route::get('/{mallname}', 'CustomerController@mall');
+	Route::get('/brand/{brandid}', 'CustomerController@brand');
 
     // widget
     Route::get('widget', function(){
@@ -185,6 +186,9 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/product_import_csv', 'MerchantproductController@product_import_csv');
 
 	Route::get('customer/brands', 'CustomerController@brands');
+	Route::get('/brand/{brandid}/good/list/{topid}', 'CustomerController@product_list_brand');
+	Route::get('/brand/{brandid}/good/list/{topid}/{mainid}', 'CustomerController@product_list_brand');
+	Route::get('/brand/{brandid}/good/list/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_brand');
 
 	Route::get('customer/product/list', 'CustomerController@product_list');
 	Route::get('customer/product/list/{topid}', 'CustomerController@product_list');
