@@ -245,7 +245,7 @@ class MerchantproductController extends Controller
         $imgct = Input::get('proimg_ct');
         
         $masterImageCount = 0;
-        for ($i = count($master_images) + 1; $i <= $imgct; $i++) {
+        for ($i = 1; $i <= $imgct; $i++) {
             $file_more = Input::file('product_img_' . $i);
             if ($file_more == null || $file_more == "") {
                 continue;
