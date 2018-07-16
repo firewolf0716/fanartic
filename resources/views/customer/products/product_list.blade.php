@@ -110,6 +110,8 @@
                                         $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
                                         if(isset($mallname)){
                                             $url = url($mallname.'/good/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        } else if(isset($brandid)){
+                                            $url = url('/brand/'.$brandid.'/good/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
                                         }
                                     @endphp
                                     <a href="{{$url}}">{{$maincategory->category_name}}</a>
@@ -274,10 +276,26 @@
     <!--/.l-content-->
     <script>
         $('#top_women').click(function () {
-            window.location = "{{url('customer/product/list/2')}}"
+            @php
+                $url = url('customer/product/list/2');
+                if(isset($mallname)){
+                    $url = url($mallname.'/good/list/2');
+                } else if(isset($brandid)){
+                    $url = url('/brand/'.$brandid.'/good/list/2');
+                }
+            @endphp
+            window.location = "{{$url}}";
         });
         $('#top_men').click(function () {
-            window.location = "{{url('customer/product/list/1')}}"
+            @php
+                $url = url('customer/product/list/1');
+                if(isset($mallname)){
+                    $url = url($mallname.'/good/list/1');
+                } else if(isset($brandid)){
+                    $url = url('/brand/'.$brandid.'/good/list/1');
+                }
+            @endphp
+            window.location = "{{$url}}";
         });
 
 

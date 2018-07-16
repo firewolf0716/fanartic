@@ -9,7 +9,7 @@
         <div class="c-item c-item--02">
           <div class="c-item__column">
             <div class="c-item__column__figure">
-              <figure class="c-item__figure"><a href="{{url('brand/'.$brand->brand_name_en)}}"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
+              <figure class="c-item__figure"><a href="{{url('brand/'.$brand->brand_id)}}"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
             </div>
             <!--/.c-item__column__figure-->
             <div class="c-item__column__data">

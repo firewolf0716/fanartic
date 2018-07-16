@@ -52,6 +52,10 @@ class CustomerController extends Controller
                 ->with('brands', $brands);
     }
 
+    public function brand($brandid){
+        return Redirect::to('/brand/'.$brandid.'/good/list/1');
+    }
+
     public function layout_init($view, $gender){
         $topcategorys = Categorys::getTopCategorys();
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
@@ -234,6 +238,86 @@ class CustomerController extends Controller
             ->with('brands', $brands)
             ->with('prices', $prices)
             ->with('images', $images);
+    }
+
+    public function product_list_brand($brandid ,$topid = null, $mainid = null, $categoryid = null){
+        $topcategorys = Categorys::getTopCategorys();
+        $topcategory = null;
+        if($topid == null){
+            $topcategory = $topcategorys[0];
+        }
+        else {
+            $topcategory = Categorys::get_category($topid);
+        }
+        $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
+        $subcategorys = array();
+        foreach($maincategorys as $maincategory){
+            $result = Categorys::getSubCategorys($maincategory->category_id);
+            $subcategorys[$maincategory->category_id] = $result;
+        }
+        $colors = Colors::get_colors();
+        $sizes = null;
+        if($mainid != null){
+            $category = Categorys::get_category($mainid);
+            $sizecategory_id = $category->category_size_id;
+            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
+        }
+        $mcategory = null;
+        if($mainid != null){
+            $mcategory = Categorys::get_category($mainid);
+        }
+        $scategory = null;
+        if($categoryid != null){
+            $scategory = Categorys::get_category($categoryid);
+        }
+
+        $products = null;
+        $filtercategory = $topcategory->category_id;
+        $categorylevel = 1;
+        if($mcategory != null){
+            $filtercategory = $mcategory->category_id;
+            $categorylevel = 2;
+        }
+        if($scategory != null){
+            $filtercategory = $scategory->category_id;
+            $categorylevel = 3;
+        }
+        $filtersize = null; $filtercolor = null; $rangemin = null; $rangemax = null;
+        if(isset($_GET['sizeid']) && $_GET['sizeid'] != ''){ $filtersize = $_GET['sizeid']; }
+        if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
+        if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
+        if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
+        $products = Products::get_product_filter_brand($brandid, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+
+        $prices = array(); $images = array();
+        foreach($products as $product){
+            $price = ProductStock::get_price_range($product->product_id);
+            $prices[$product->product_id] = $price;
+
+            $imagerec = Products::get_master_images($product->product_id);
+            // dd($imagerec);
+            $images[$product->product_id] = $imagerec;
+        }
+
+        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
+        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
+
+        $brands = Brands::get_brands();
+
+        return view('customer.products.product_list')->with('tcategory', $topcategory)
+            ->with('maincategorys', $maincategorys)
+            ->with('mcategory', $mcategory)
+            ->with('scategory', $scategory)
+            ->with('subcategorys', $subcategorys)
+            ->with('sizes', $sizes)
+            ->with('colors', $colors)
+            ->with('products', $products)
+            ->with('mencategories', $mencategories)
+            ->with('womencategories', $womencategories)
+            ->with('brands', $brands)
+            ->with('prices', $prices)
+            ->with('images', $images)
+            ->with('brandid', $brandid);
     }
 
     public function product_list_post(){
