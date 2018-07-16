@@ -106,13 +106,17 @@
                         <ul class="product-list__nav__category u-pc">
                             @foreach($maincategorys as $maincategory)
                                 <li class="is-hassub">
-                                    <a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id}}">
-                                                    {{$maincategory->category_name}}</a>
+                                    @php
+                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        if(isset($mallname)){
+                                            $url = url($mallname.'/good/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        }
+                                    @endphp
+                                    <a href="{{$url}}">{{$maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
                                         @foreach($subcategorys[$maincategory->category_id] as $subcategory)
                                             <li>
-                                                <a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id.'/'.$subcategory->category_id}}">
-                                                    {{$subcategory->category_name}}</a>
+                                                <a href="{{$url.'/'.$subcategory->category_id}}">{{$subcategory->category_name}}</a>
                                             </li>
                                         @endforeach
                                     </ul>

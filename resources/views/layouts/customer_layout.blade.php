@@ -22,7 +22,7 @@
             <div class="header__button" data-header-button></div>
             <div class="header__button-search" data-header-search-button><i
                         class="c-icon header__button-search__icon"></i></div>
-            <div class="header__sitename"><a href="/">fanaRtic</a></div>
+            <div class="header__sitename"><a href="{{url('')}}">fanaRtic</a></div>
             <div class="header__nav-primary-wrap" data-header-primary>
                 <ul class="header__nav-primary">
                     <li><span class="header__nav-primary__button" data-header-primary__button
@@ -30,12 +30,16 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="#">BRAND</a></li>
+                                <li><a href="{{url('brands')}}">BRAND</a></li>
                                 @foreach($womencategories as $key => $womencategory)
                                 @if($key < 5)
-                                <li><a href="{{url('customer/product/list').'/2/'.$womencategory->category_id}}">
-                                    {{$womencategory->category_name}}
-                                    </a>
+                                @php
+                                    $url = url('customer/product/list').'/2/'.$womencategory->category_id;
+                                    if(isset($mallname)){
+                                        $url = url($mallname.'/good/list/2/'.$womencategory->category_id);
+                                    }
+                                @endphp
+                                <li><a href="{{$url}}">{{$womencategory->category_name}}</a>
                                 </li>
                                 @endif
                                 @endforeach
@@ -49,17 +53,16 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li>
-                                    <a href="#">BRAND</a>
-                                    {{--                                    <ul class="header__nav-primary__list__dropdown" data-dropdown-area="" style="display: none;">
-                                                                            <li><a href="">PRADA</a></li>
-                                                                        </ul>--}}
-                                </li>
+                                <li><a href="{{url('customer/brands')}}">BRAND</a></li>   
                                 @foreach($mencategories as $key => $mencategory)
                                 @if($key < 5)
-                                <li><a href="{{url('customer/product/list').'/1/'.$mencategory->category_id}}">
-                                    {{$mencategory->category_name}}
-                                </a></li>
+                                    @php
+                                        $url = url('customer/product/list').'/1/'.$mencategory->category_id;
+                                        if(isset($mallname)){
+                                            $url = url($mallname.'/good/list/1/'.$mencategory->category_id);
+                                        }
+                                    @endphp
+                                    <li><a href="{{$url}}">{{$mencategory->category_name}}</a>
                                 @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
@@ -116,6 +119,7 @@
     <!--/.header-->
     <div class="l-content">
         @yield('content')
+        @if(isset($customerid))
         <div class="l-column--sub">
             <h2 class="c-hd">最近チェックしたアイテム</h2>
             <div class="c-items c-items--03">
@@ -232,6 +236,7 @@
             </div>
             <!--/.c-items c-items--03-->
         </div>
+        @endif
     </div>
     <!--/.l-content-->
     <div class="footer">
@@ -262,7 +267,13 @@
                         <div class="footer__nav__list-wrap">
                             <ul class="footer__nav__list footer__nav__list--col02">
                                 @foreach($maincategorys as $maincategory)
-                                    <li><a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id}}">{{$maincategory->category_name}}</a></li>
+                                    @php
+                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        if(isset($mallname)){
+                                            $url = url($mallname.'/good/list/'.$tcategory->category_id.'/'.$maincategory->category_id);
+                                        }
+                                    @endphp
+                                    <li><a href="{{$url}}">{{$maincategory->category_name}}</a>
                                 @endforeach
                             </ul>
                         </div>

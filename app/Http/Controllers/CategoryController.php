@@ -332,4 +332,15 @@ class CategoryController extends Controller
             return Redirect::to('admin/category/list/'.$topcategoryid.'/'.$maincategoryid);
         }
     }
+
+    public function getSizeCategory($maincategoryid) {
+        $maincategory = Categorys::get_category($maincategoryid);
+ 
+        if ($maincategory == null || $maincategory == '') {
+            return '';
+        }
+
+        $maincategorysize = $maincategory->category_size_id;
+        return $maincategorysize;
+    }
 }

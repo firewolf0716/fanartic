@@ -67,6 +67,9 @@
                             <div class=" a col-md-4 col-sm-6 col-xs-12">
                                 <select id="top_category" name="top_category" class="form-control" required>
                                     <option value="">--トップ カテゴリ 選択--</option>
+                                    @foreach ($topCategorys as $topCategory)
+                                        <option value="{{$topCategory->category_id}}">{{$topCategory->category_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -118,32 +121,33 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">商品コード<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="number" id="product_code" name="product_code" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_code}}">
+                                <input type="text" id="product_code" name="product_code" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_code}}" maxlength="32">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_name" name="product_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_name}}">
+                                <input type="text" id="product_name" name="product_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_name}}" maxlength="128">
                             </div>
                         </div>
-                        <div class="form-group">
+                        {{ Form::hidden('product_name_kana', 'product_name_kana')}}
+                        <!-- <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">商品名カナ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_name_kana" name="product_name_kana" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_name_kana}}">
+                                <input type="hidden" id="product_name_kana" name="product_name_kana" class="form-control col-md-7 col-xs-12" value="{{$product->product_name_kana}}">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">内容詳細名<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_name_detail" name="product_name_detail" required="required" class="form-control col-md-7 col-xs-12" value="{{$product->product_name_detail}}">
+                                <textarea class="form-control" id="product_name_detail" name="product_name_detail" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;">{{$product->product_name_detail}}</textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">送料の有無<span class="required">*</span></label>
                             <div class="radio1 col-md-4 col-sm-6 col-xs-12">
-                            @if ($product->postage_type == 1)
+                            @if ($product->postage_type == 0)
                                 <label><input type="radio" value="0" name="postage_type" id="postage_type" checked>有料</label>
                                 <label><input type="radio" value="1" name="postage_type" id="postage_type">無料</label>
                             @else
@@ -159,16 +163,23 @@
                             </div>
                         </div>
                         
-                        <div class="form-group">
+                        {{ Form::hidden('delivery_id', 'delivery_id')}}
+                        <!-- <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">納期 ID<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                             <input type="number" id="delivery_id" name="delivery_id" class="form-control col-md-7 col-xs-12" value="{{$product->delivery_id}}" required>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">配送 ID<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="shipping_id" name="shipping_id" class="form-control col-md-7 col-xs-12" value="{{$product->shipping_id}}" required>
+                            <select id="shipping_id" name="shipping_id" class="form-control" required>
+                                <option value="">--Select 配送 Type--</option>
+                                <option value="1">Rakuten</option>
+                                <option value="2">EC Cube</option>
+                                <option value="3">CS-cart</option>
+                            </select>
+                        </div>
                             </div>
                         </div>
 
@@ -183,6 +194,17 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫数<span class="required"></span></label>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                            @if ($product->stock_type == 1)
+                                <input type="number" id="stock_count" name="stock_count" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_count_1}}">
+                            @else
+                                <input type="number" id="stock_count" name="stock_count" class="form-control col-md-7 col-xs-12">
+                            @endif
+                            </div>
+                        </div>
+                                
+                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">最大注文数<span class="required"></span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <input type="number" id="max_order_count" name="max_order_count" class="form-control col-md-7 col-xs-12" value="{{$product->max_order_count}}">
@@ -192,19 +214,31 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">販売価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
+                            @if ($product->stock_type == 1)
                                 <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_price_sale}}">
+                            @else
+                                <input type="number" id="product_price_sale" name="product_price_sale" required="required" class="form-control col-md-7 col-xs-12">
+                            @endif
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">参考価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
+                            @if ($product->stock_type == 1)
                                 <input type="number" id="product_price_ref" name="product_price_ref" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_price_ref}}">
+                            @else
+                                <input type="number" id="product_price_ref" name="product_price_ref" class="form-control col-md-7 col-xs-12">
+                            @endif
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">セール価格<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
+                            @if ($product->stock_type == 1)
                                 <input type="text" id="product_price_law" name="product_price_law" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_price_law}}">
+                            @else
+                                <input type="text" id="product_price_law" name="product_price_law" class="form-control col-md-7 col-xs-12">
+                            @endif
                             </div>
                         </div>
                         <div class="form-group">
@@ -240,13 +274,13 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12"></span></label>
                                 <div class="col-md-3 col-sm-6 col-xs-12" id="div-product-image">
-                                    <input type="file" name="product_img_{{$proimg_ct + 1}}" class="form-control">
+                                    <input type="file" name="product_img_{{$proimg_ct}}" class="form-control">
                                 </div>
                                 <div class="col-md-2 col-sm-6 col-xs-12">
                                     <button class="btn" type="button" id="btnProductImage">Add</button>
                                 </div>
                             </div>
-                            {{ Form::hidden('proimg_ct', '$proimg_ct + 1', array('id' => 'proimg_ct'))}}
+                            {{ Form::hidden('proimg_ct', $proimg_ct, array('id' => 'proimg_ct'))}}
                         </div>
 
                         <div class="form-group">
@@ -300,10 +334,10 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required>
+                                <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required disabled>
                                     <option value="">--Select Size Category--</option>
                                     @foreach($sizeCategorys as $sizeCategory)
-                                    <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
+                                        <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -312,8 +346,21 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_size" id="product_size">
-                                    <option value="">--Select Size--</option>
+                                <select class="form-control" name="product_size[]" id="product_size" multiple="multiple" required>
+                                    @foreach($sizes as $size)
+                                        <?php $selected = false; ?>
+                                        @foreach($selectedSizes as $selectedSize)
+                                            @if($size->size_id == $selectedSize)
+                                                <?php $selected = true; ?>
+                                                @break
+                                            @endif
+                                        @endforeach
+                                        @if($selected == true)
+                                            <option value="{{$size->size_id}}" selected>{{$size->size_name}}</option>
+                                        @else
+                                            <option value="{{$size->size_id}}">{{$size->size_name}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -345,18 +392,18 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="product_memo" name="product_memo" class="form-control col-md-7 col-xs-12" value="{{$product->product_memo}}">
+                                <textarea class="form-control" id="product_memo" name="product_memo" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;">{{$product->product_memo}}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                             <div class="radio col-md-4 col-sm-6 col-xs-12">
-                                @if($product->product_status == 1)
-                                <label><input type="radio" value="1" name="product_status" checked>有効</label>
-                                <label><input type="radio" value="0" name="product_status">無効</label>
+                                @if($product->product_status == 0)
+                                <label><input type="radio" value="0" name="product_status" checked>有効</label>
+                                <label><input type="radio" value="1" name="product_status">無効</label>
                                 @else
-                                <label><input type="radio" value="1" name="product_status">有効</label>
-                                <label><input type="radio" value="0" name="product_status" checked>無効</label>
+                                <label><input type="radio" value="0" name="product_status">有効</label>
+                                <label><input type="radio" value="1" name="product_status" checked>無効</label>
                                 @endif
                             </div>
                         </div>
@@ -445,96 +492,32 @@
 </script>
 <script>
     $(function(){
-        
         $('#product_salemethod').val("{{$product->product_salemethod}}");
         $('#product_brand').val("{{$product->product_brand_id}}");
         $('#product_event').val("{{$product->product_event}}");
         $('#product_old_status').val("{{$product->product_old_status}}");
         // $('#product_color').val("{{$product->product_color}}");
         $('#product_parent').val("{{$product->product_parent_id}}");
-        $('#product_sizeCategory').val("{{$product->product_size_category_id}}");
+        $('#product_sizeCategory').val("{{$size_category}}");
         $('#stock_type').val("{{$product->stock_type}}");
         $('#product_color_1').val("{{$product->product_color_1}}");
+        $('#shipping_id').val("{{$product->shipping_id}}");
 
-        
-        
-        addTopCategorys(true);
-        addSizes(true);
-        updateUI();        
-    });
-    $('#product_sizeCategory').change(function(){
-        addSizes(false);
-    });
-    function addSizes(isInit) {
-        $('#product_size').find('option').remove().end().append('<option value="">--Select Size--</option>');
-        var stock_type = $('#stock_type').val();
-
-        var sizeCategory = $('#product_sizeCategory').val();
-        if(sizeCategory != "") {
-            $.ajax( {
-                type: 'get',
-                url: '{{url('merchant/product/getssizes')}}' + "/" + sizeCategory,
-                success: function(data) {
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.size_id;
-                        opt.innerHTML = item.size_name;
-                        document.getElementById('product_size').appendChild(opt);
-                    }
-
-                    if (isInit && stock_type == 1) {
-                        $('#product_size').val("{{$product_size_id}}");
-                    }
-
-                   
-                }
-            });
+        $('#top_category').val("{{$top_category_id}}");      
+        if ($('#product_salemethod').val() == 2 || $('#product_salemethod').val() == 4 || $('#product_salemethod').val() == 7) {
+            $('#reservation').prop('disabled', false);
+        } else {
+            $('#reservation').prop('disabled', true);
         }
-    }
-    
-    $('#btnProductImage').click(function(){
-        var imgct = Number($('#proimg_ct').val()) + 1;
-        if(imgct >= 10) return;
-        $ctrl = '<div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12"></label> <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">';
-        $ctrl = $ctrl + '<input type="file"/ name="product_img_'+imgct+'" class="form-control"></div></div>';
-        $('#div_images').append($ctrl);
-        $('#proimg_ct').val(imgct);
+
+        addMainCategorys(true);
+       // addSizes(true);
+        updateUI();
     });
-    $('#btnSubmit').click(function(){
-        $('#form_product_add').parsley();
-    });
-
-    function onRemoveImg(id){
-        $('#existing_img_' + id).remove();
-        $('#existing_btn_' + id).remove();
-    }
-
-    function addTopCategorys(isInit) {
-        $.ajax( {
-            type: 'get',
-            url: '{{url('admin/category/get-top-categorys')}}',
-            success: function(data){
-                $('#top_category').find('option').remove().end().append('<option value="">--トップ カテゴリ 選択--</option>');
-                for(var i = 0; i < data.length; i++){
-                    var item = data[i];
-                    var opt = document.createElement('option');
-                    opt.value = item.category_id;
-                    opt.innerHTML = item.category_name;
-                    document.getElementById('top_category').appendChild(opt);
-                }
-
-                if (isInit) {
-                    $('#top_category').val("{{$top_category_id}}");
-                    addMainCategorys(isInit);
-                }
-            }
-        });
-    }
     function addMainCategorys(isInit) {
         var top = $('#top_category').val();
         $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
-        $('#main_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
+        $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
 
         if(top != ""){
             $.ajax( {
@@ -552,6 +535,7 @@
                     if (isInit) {
                         $('#main_category').val("{{$main_category_id}}");
                         addSubCategorys(isInit);
+                     //   updateSizeCategory();
                     }
                 }
             });
@@ -578,18 +562,16 @@
                     if (isInit) {
                         $('#sub_category').val("{{$product->product_category_id}}");
                     }
-
-                    
                 }
             });
         }
     }
-
     $('#top_category').change(function() {
         addMainCategorys(false);
     });
     $('#main_category').change(function() {
         addSubCategorys(false);
+        updateSizeCategory();
     });
     $('#sub_category').change(function() {
         updateParentProduct();
@@ -597,6 +579,73 @@
     $('#product_brand').change(function() {
         updateParentProduct();
     });
+    // $('#product_sizeCategory').change(function(){
+    //     addSizes(false);
+    //     updateSizeCategory();
+    // });
+    $('#btnProductImage').click(function(){
+        var imgct = parseInt($('#proimg_ct').val()) + 1;
+        alert(imgct);
+        if(imgct >= 10) return;
+        $ctrl = '<div class="form-group"> <label class="control-label col-md-3 col-sm-3 col-xs-12"></label> <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">';
+        $ctrl = $ctrl + '<input type="file"/ name="product_img_'+imgct+'" class="form-control"></div></div>';
+        $('#div_images').append($ctrl);
+        $('#proimg_ct').val(imgct);
+    });
+    $('#btnSubmit').click(function(){
+        $('#form_product_add').parsley();
+    });
+    // function onRemoveImg(id){
+    //     $('#existing_img_' + id).remove();
+    //     $('#existing_btn_' + id).remove();
+    // }
+    function addSizes(isInit) {
+        $('#product_size').find('option').remove();
+        var stock_type = $('#stock_type').val();
+
+        var sizeCategory = $('#product_sizeCategory').val();
+        if(sizeCategory != "") {
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/getssizes')}}' + "/" + sizeCategory,
+                success: function(data) {
+                 
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.size_id;
+                        opt.innerHTML = item.size_name;
+                        document.getElementById('product_size').appendChild(opt);
+                    }
+
+                    // if (isInit && stock_type == 1) {
+                    //     $('#product_size').val("{{$product_size_id}}");
+                    // }
+
+                   updateUI();
+                }
+            });
+        }
+    }
+    function updateSizeCategory() {
+        $main_category = $('#main_category').val();
+        $('#product_sizeCategory').val('');
+        $('#product_size').find('option').remove();
+
+        if ($main_category == '') {
+            updateUI();
+            return;
+        }
+
+        $.ajax( {
+            type: 'get',
+            url: '{{url('admin/category/get-size-category')}}' + "/" + $main_category ,
+            success: function(data){
+                $('#product_sizeCategory').val(data);
+                addSizes(false);
+            }
+        });
+    }
     function updateParentProduct() {
         $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
 
@@ -621,11 +670,12 @@
             });
         }
     }
-
     $('#product_color').multiselect({
         includeSelectAllOption: true
     });
-
+    $('#product_size').multiselect({
+        includeSelectAllOption: true
+    });
     $('input[type=radio][name=postage_type]').change(function() {
         if (this.value == "0") {
             $('#postage').prop('required', true);
@@ -633,11 +683,9 @@
             $('#postage').prop('required', false);
         }
     });
-
     $('#stock_type').change(function(){
         updateUI();
     });
-
     function updateUI() {
         $isEnable = false;
         if ($('#stock_type').val() == 1) {
@@ -646,20 +694,33 @@
             $('#product_color').prop('multiple', "");
             // $('#product_color').multiselect('disable');
             $('#product_color').multiselect('rebuild');
+
+            $('#product_size').prop('multiple', "");
+            $('#product_size').multiselect('rebuild');
         } else {
             $isEnable = false;
 
             $('#product_color').prop('multiple', "multiple");
             $('#product_color').multiselect('rebuild');
+
+            $('#product_size').prop('multiple', "multiple");
+            $('#product_size').multiselect('rebuild');
         }
 
         $('#product_price_sale').prop('disabled', !$isEnable);
         $('#product_price_ref').prop('disabled', !$isEnable);
         $('#product_price_law').prop('disabled', !$isEnable);
-        $('#product_size').prop('disabled', !$isEnable);
+        $('#stock_count').prop('disabled', !$isEnable);
 
         $('#product_price_sale').prop('required', $isEnable);
-        $('#product_size').prop('required', $isEnable);
+        $('#stock_count').prop('required', $isEnable);
     }
+    $('#product_salemethod').change(function(){
+        if ($('#product_salemethod').val() == 2 || $('#product_salemethod').val() == 4 || $('#product_salemethod').val() == 7) {
+            $('#reservation').prop('disabled', false);
+        } else {
+            $('#reservation').prop('disabled', true);
+        }        
+    });
 </script>
 @endsection

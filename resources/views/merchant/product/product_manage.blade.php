@@ -122,9 +122,6 @@
     <script src="{{ url('')}}/gvendor/pdfmake/build/vfs_fonts.js"></script>
 
 <script>
-    $(function(){
-        showProducts({{$product_status}})
-    });
     $(document).ready(function(){
         $('#dtFrom').datetimepicker({
             format: 'YYYY/MM/DD'
@@ -178,7 +175,7 @@
             ]
         });
 
-        // showProducts(1);
+        showProducts({{$product_status}})
     });
 
     function showProducts(product_status) {
@@ -189,6 +186,7 @@
             url: '{{url('merchant/product/manage')}}' + "/" + product_status,
             success: function(data) {
                 for(var i = 0; i < data.length; i++){
+                    
                     var item = data[i];
                     var status = "有効";
 
@@ -205,7 +203,7 @@
                             image += '">'; 
                         }
                     }                    
-
+                    
                     var actions = '<td style="text-align:center">';
                     actions += '<a style="margin:10px" href="{{ url('merchant/product/edit')}}/';
                     actions += product_id;
@@ -223,8 +221,7 @@
                     if (product_count == '' || product_count == null) {
                         product_count = 0;
                     }
-
-                    table.row.add([i + 1, item.product_name, item.product_price_sale, product_count, status, image, actions]).draw( false );
+                    table.row.add([i + 1, item.product_name, item.product_price, product_count, status, image, actions]).draw( false );
                 }
             }
         });
