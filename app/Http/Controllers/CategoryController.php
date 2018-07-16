@@ -31,18 +31,14 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $malls = Malls::get_malls();
-        $topcategory = Categorys::get_categorys(0, 0, $topid);
-        $linkedMalls = MallCategorys::get_malls($topid);
+        $topcategory = Categorys::get_category($topid);
         $sizecategorys = Sizes::get_sizecategorys();
 
         return view('admin.category.add')->with('toptitle', 'メインカテゴリを追加')
-                                        ->with('title', 'メインカテゴリを追加 ('.$topcategory[0]->category_name.')')
+                                        ->with('title', 'メインカテゴリを追加 ('.$topcategory->category_name.')')
                                         ->with('categorylevel', 2)
                                         ->with('topcategoryid', $topid)
                                         ->with('maincategoryid', 0)
-                                        ->with('linkedMalls', $linkedMalls)
-                                        ->with('malls', $malls)
                                         ->with('sizecategorys', $sizecategorys);
     }
 
@@ -51,18 +47,14 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $malls = Malls::get_malls();
-        $topcategory = Categorys::get_categorys(0, 0, $topid);
-        $maincategory = Categorys::get_categorys(0, 0, $mainid);
-        $linkedMalls = MallCategorys::get_malls($mainid);
+        $topcategory = Categorys::get_category($topid);
+        $maincategory = Categorys::get_category($mainid);
 
         return view('admin.category.add')->with('toptitle', 'サブカテゴリを追加')
-                                        ->with('title', 'サブカテゴリを追加 ('.$topcategory[0]->category_name.' > '.$maincategory[0]->category_name.')')
+                                        ->with('title', 'サブカテゴリを追加 ('.$topcategory->category_name.' > '.$maincategory->category_name.')')
                                         ->with('categorylevel', 3)
                                         ->with('topcategoryid', $topid)
-                                        ->with('maincategoryid', $mainid)
-                                        ->with('malls', $malls)
-                                        ->with('linkedMalls', $linkedMalls);
+                                        ->with('maincategoryid', $mainid);
     }
 
     public function addpost() {
@@ -72,9 +64,17 @@ class CategoryController extends Controller
 
         $topcategoryid = Input::get('topcategoryid');
         $maincategoryid = Input::get('maincategoryid');
+        $categorylevel = Input::get('categorylevel');
+        $parentid = 0;
+        if ($categorylevel == 1) {
+            $parentid = 0;
+        } else if ($categorylevel == 2) {
+            $parentid = $topcategoryid;
+        } else {
+            $parentid = $maincategoryid;
+        }
         $entry =  array(
-            'top_category_id' => $topcategoryid,
-            'main_category_id' => $maincategoryid,
+            'category_parent_id' => $parentid,
             'category_size_id' => Input::get('select_sizecategory'),
             'category_name' => Input::get('category_name'),
             'category_name_en' => Input::get('category_name_en'),
@@ -108,7 +108,7 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $categorys = Categorys::get_categorys(0, 0, 0);
+        $categorys = Categorys::getTopCategorys();
         return view('admin.category.list')->with('categorys', $categorys)
                                         ->with('categorylevel', 1)
                                         ->with('topcategoryid', 0)
@@ -122,14 +122,14 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $categorys = Categorys::get_categorys($topid, 0, 0);
-        $topcategory = Categorys::get_categorys(0, 0, $topid);
+        $categorys = Categorys::getMainCategorys($topid);
+        $topcategory = Categorys::get_category($topid);
         return view('admin.category.list')->with('categorys', $categorys)
                                         ->with('categorylevel', 2)
                                         ->with('topcategoryid', $topid)
                                         ->with('maincategoryid', 0)
                                         ->with('toptitle', '主なカテゴリ一覧')
-                                        ->with('title', '主なカテゴリ一覧 ('.$topcategory[0]->category_name.')');
+                                        ->with('title', '主なカテゴリ一覧 ('.$topcategory->category_name.')');
     }
 
     public function list($topid, $mainid) {
@@ -137,15 +137,15 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $categorys = Categorys::get_categorys($topid, $mainid, 0);
-        $topcategory = Categorys::get_categorys(0, 0, $topid);
-        $maincategory = Categorys::get_categorys(0, 0, $mainid);
+        $categorys = Categorys::getSubCategorys($mainid);
+        $topcategory = Categorys::get_category($topid);
+        $maincategory = Categorys::get_category($mainid);
         return view('admin.category.list')->with('categorys', $categorys)
                                         ->with('categorylevel', 3)
                                         ->with('topcategoryid', $topid)
                                         ->with('maincategoryid', $mainid)
                                         ->with('toptitle', 'サブカテゴリ一覧')
-                                        ->with('title', 'サブカテゴリ一覧 ('.$topcategory[0]->category_name.' > '.$maincategory[0]->category_name.')');
+                                        ->with('title', 'サブカテゴリ一覧 ('.$topcategory->category_name.' > '.$maincategory->category_name.')');
     }
 
     public function getTopCategorys() {
@@ -158,8 +158,8 @@ class CategoryController extends Controller
         return $mainCategorys;
     }
     
-    public function getSubCategorys($topCategoryId, $mainCategoryId) {
-        $mainCategorys = Categorys::getSubCategorys($topCategoryId, $mainCategoryId);
+    public function getSubCategorys($mainCategoryId) {
+        $mainCategorys = Categorys::getSubCategorys($mainCategoryId);
         return $mainCategorys;
     }
 
@@ -168,11 +168,9 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Categorys::get_categorys(0, 0, $topid);
-        $topCategorys = $this->getTopCategorys();
+        $category = Categorys::get_category($topid);
       
-        if(isset($search)){
-            $category = $search[0];
+        if(isset($category)){
             return view('admin.category.edit')->with('category', $category)
                                             ->with('toptitle', 'トップカテゴリを編集')
                                             ->with('title', 'トップカテゴリを編集')
@@ -189,18 +187,17 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Categorys::get_categorys(0, 0, $mainid);
+        $category = Categorys::get_category($mainid);
         $malls = Malls::get_malls();
         $sizecategorys = Sizes::get_sizecategorys();
         $linkedMalls = MallCategorys::get_malls($mainid);
         $topCategorys = $this->getTopCategorys();
-        $topcategory = Categorys::get_categorys(0, 0, $topid);
+        $topcategory = Categorys::get_category($topid);
 
-        if(isset($search)){
-            $category = $search[0];
+        if(isset($category)){
             return view('admin.category.edit')->with('category', $category)
                                             ->with('toptitle', 'メインカテゴリを編集')
-                                            ->with('title', 'メインカテゴリを編集 ('.$topcategory[0]->category_name.')')
+                                            ->with('title', 'メインカテゴリを編集 ('.$topcategory->category_name.')')
                                             ->with('categorylevel', 2)
                                             ->with('topcategoryid', $topid)
                                             ->with('maincategoryid', 0)
@@ -218,19 +215,18 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Categorys::get_categorys(0, 0, $id);
+        $category = Categorys::get_category($id);
         $malls = Malls::get_malls();
         
         $linkedMalls = MallCategorys::get_malls($id);
         $topCategorys = $this->getTopCategorys();
-        $topcategory = Categorys::get_categorys(0, 0, $topid);
-        $maincategory = Categorys::get_categorys(0, 0, $mainid);
+        $topcategory = Categorys::get_category($topid);
+        $maincategory = Categorys::get_category($mainid);
 
-        if(isset($search)){
-            $category = $search[0];
+        if(isset($category)){
             return view('admin.category.edit')->with('category', $category)
                                             ->with('toptitle', 'サブカテゴリ編集')
-                                            ->with('title', 'サブカテゴリ編集 ( '.$topcategory[0]->category_name.' > '.$maincategory[0]->category_name.' )')
+                                            ->with('title', 'サブカテゴリ編集 ( '.$topcategory->category_name.' > '.$maincategory->category_name.' )')
                                             ->with('categorylevel', 3)
                                             ->with('topcategoryid', $topid)
                                             ->with('maincategoryid', $mainid)
@@ -247,16 +243,45 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $category = Categorys::get_categorys(0, 0, $id)[0];
-        Categorys::remove($id);
-        MallCategorys::remove_malls($id);
-
-        if ($category->top_category_id == 0) {
+        $category = Categorys::get_category($id);
+        if ($category == null) {
             return Redirect::to('admin/category/list');
-        } else if ($category->main_category_id == 0) {
-            return Redirect::to('admin/category/list/'.$category->top_category_id);
+        }
+
+        $parent_category_id = $category->category_parent_id;
+        $parent_parent_category_id = 0;
+
+        if ($parent_category_id == "" || $parent_category_id == 0 || $parent_category_id == NULL) {
+            $parent_category_id = 0;
         } else {
-            return Redirect::to('admin/category/list/'.$category->top_category_id.'/'.$category->main_category_id);
+            $parent_category = Categorys::get_category($parent_category_id);
+            $parent_parent_category_id = $parent_category->category_parent_id;
+
+            if ($parent_parent_category_id == "" || $parent_parent_category_id == 0 || $parent_parent_category_id == NULL) {
+                $parent_parent_category_id = 0;
+            }
+        }
+
+        if ($parent_category_id == 0) {
+            $subCategorys = Categorys::getMainCategorys($id);
+            foreach ($subCategorys as $subCategory) {
+                Categorys::remove($subCategory->category_id);
+                MallCategorys::remove_malls($subCategory->category_id);
+            }
+
+            Categorys::remove($id);
+            MallCategorys::remove_malls($id);
+        } else {
+            Categorys::remove($id);
+            MallCategorys::remove_malls($id);
+        }
+
+        if ($parent_category_id == 0) {
+            return Redirect::to('admin/category/list');
+        } else if ($parent_parent_category_id == 0) {
+            return Redirect::to('admin/category/list/'.$parent_category_id);
+        } else {
+            return Redirect::to('admin/category/list/'.$parent_parent_category_id.'/'.$parent_category_id);
         }
     }
 
@@ -267,11 +292,18 @@ class CategoryController extends Controller
                 
         $topcategoryid = Input::get('topcategoryid');
         $maincategoryid = Input::get('maincategoryid');
-
+        $categorylevel = Input::get('categorylevel');
+        $parentid = 0;
+        if ($categorylevel == 1) {
+            $parentid = 0;
+        } else if ($categorylevel == 2) {
+            $parentid = $topcategoryid;
+        } else {
+            $parentid = $maincategoryid;
+        }
         $entry =  array(
-            'main_category_id' => $maincategoryid,
+            'category_parent_id' => $parentid,
             'category_size_id' => Input::get('select_sizecategory'),
-            'top_category_id' => $topcategoryid,
             'category_name' => Input::get('category_name'),
             'category_name_en' => Input::get('category_name_en'),
             'category_create' => Input::get('create_date'),
@@ -299,5 +331,16 @@ class CategoryController extends Controller
         } else {
             return Redirect::to('admin/category/list/'.$topcategoryid.'/'.$maincategoryid);
         }
+    }
+
+    public function getSizeCategory($maincategoryid) {
+        $maincategory = Categorys::get_category($maincategoryid);
+ 
+        if ($maincategory == null || $maincategory == '') {
+            return '';
+        }
+
+        $maincategorysize = $maincategory->category_size_id;
+        return $maincategorysize;
     }
 }

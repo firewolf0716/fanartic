@@ -35,4 +35,8 @@ class Malls extends Model{
     public static function remove_mall($id) {
         return DB::table('master_mall')->where('mall_id', $id)->delete();
     }
+
+    public static function get_mall_byname($name){
+        return DB::table('master_mall')->where('mall_name_en', $name)->get()->first();        
+    }
 }

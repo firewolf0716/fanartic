@@ -61,11 +61,11 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">消費税フラグ<span class="required">*</span></label>
                         <div class="radio col-md-4 col-sm-6 col-xs-12">
                             @if($merchant->merchant_taxflag == 0)
-                                <label><input type="radio" value="0" name="merchant_taxflag" checked>税込</label>
-                                <label><input type="radio" value="1" name="merchant_taxflag">税別</label>
+                                <label><input type="radio" value="0" name="merchant_taxflag" checked disabled>税込</label>
+                                <label><input type="radio" value="1" name="merchant_taxflag" disabled>税別</label>
                             @else
-                                <label><input type="radio" value="0" name="merchant_taxflag">税込</label>
-                                <label><input type="radio" value="1" name="merchant_taxflag" checked>税別</label>
+                                <label><input type="radio" value="0" name="merchant_taxflag" disabled>税込</label>
+                                <label><input type="radio" value="1" name="merchant_taxflag" checked disabled>税別</label>
                             @endif
                         </div>
                     </div>
@@ -167,13 +167,13 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">日本販売手数料<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_commission_jp" name="merchant_commission_jp" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_jp}}">
+                            <input type="number" id="merchant_commission_jp" name="merchant_commission_jp" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_jp}}" disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">海外販売手数料<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="number" id="merchant_commission_ex" name="merchant_commission_ex" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_ex}}">
+                            <input type="number" id="merchant_commission_ex" name="merchant_commission_ex" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_commission_ex}}" disabled>
                         </div>
                     </div>
                     <div class="form-group">
@@ -255,6 +255,7 @@
     <script>
         $(function(){
             changeState($('#merchant_state').val());
+            $('#merchant_taxflag').prop('disabled', false);
         });
         $('#merchant_state').change(function(){
             stateid = $('#merchant_state').val();
@@ -297,7 +298,7 @@
                 $('#merchant_address_ex').prop('required', true);
                 $('#merchant_province').prop('required', false);
                 $('#merchant_county').prop('required', false);
-                $('#merchant_address_jp').prop('required', false);
+                $('#merchant_address_jp').prop('required', false);                
 
                 $.ajax( {
                     type: 'get',

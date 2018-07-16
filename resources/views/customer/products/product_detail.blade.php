@@ -10,18 +10,13 @@
         <div class="product-detail__column">
         <div class="product-detail__figure">
             <div class="product-detail__figure__slider" data-productdetailslider="">
-            @php 
-                $file_get  = $product->product_image; 
-                $file_get_path =  explode("/**/",$file_get,-1); 
-                $img_count = count($file_get_path);
-            @endphp
-            @for($i = 0; $i < $img_count; $i++)
+            @foreach($imagerec as $image)
                 @php
-                $pro_img = $file_get_path[$i];
-                $prod_path = url('').'/images/products/'.$pro_img;
+                    $pro_img = $image->master_image_name;
+                    $prod_path = url('').'/images/products/'.$pro_img;
                 @endphp
-                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1404px; height:1334"></figure>                
-            @endfor
+                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1404px; height:1334"></figure>
+            @endforeach
             </div>
             <!--/.product-detail__figure__slider-->
         </div>
@@ -29,7 +24,7 @@
         <div class="product-detail__data">
             <h2 class="product-detail__data__brand">ブランド：<a href="#">{{$product->brand_name}}</a></h2>
             <h1 class="product-detail__data__name">{{$product->product_name}}</h1>
-            <div class="product-detail__data__price"><strong>&yen;{{number_format($product->product_price_sale)}}</strong>
+            <div class="product-detail__data__price"><strong>&yen;{{$price['min']}}-&yen;{{$price['max']}}</strong>
                 @if($product->product_taxflag == 0)
                     税込
                 @endif
@@ -43,22 +38,27 @@
             <h3 class="product-detail__data__cart__hd u-sp">カートに入れる</h3>
             @foreach($skucolor as $color)
             <div class="product-detail__data__cart__item">
-                <div class="product-detail__data__cart__item__figure"><img src="http://placehold.jp/120x154.png?text=2" alt="">{{$color->color_name}}</div>
+                @php
+                    $color_image = $skuimages[$imagerec[0]->master_image_id][$color->sku_type_id];
+                    $prod_path = url('').'/images/products/'.$color_image->image_name;
+                @endphp
+                <div class="product-detail__data__cart__item__figure"><img src="{{$prod_path}}" alt="">{{$color->color_name}}</div>
                 <ul class="product-detail__data__cart__item__list">
                 @foreach($skusize as $size)
                     <li>
-                        @if($skuinfo[$color->sku_type_id][$size->sku_type_id] > 0)
+                        @if($skuinfo[$color->sku_type_id][$size->sku_type_id]['count'] > 0)
                         <div class="product-detail__data__cart__item__list__size">
                             {{$size->size_name}}
                             <span class="u-pc">&nbsp;/&nbsp;</span>
                             <br class="u-sp">在庫あり
                         </div>
                         <div class="product-detail__data__cart__item__list__size">
-                            <input id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_type_id][$size->sku_type_id]}}'/>
+                            <input id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_type_id][$size->sku_type_id]['count']}}'/>
+                            <input id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_price' type="hidden" value='{{$skuinfo[$color->sku_type_id][$size->sku_type_id]['price']}}'/>
                         </div>
                         <div class="product-detail__data__cart__item__list__addcart">
                             <button id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button" 
-                                onClick="onCart('{{$color->sku_type_id.'_'.$size->sku_type_id}}', '{{$skuinfo[$color->sku_type_id][$size->sku_type_id]}}')">
+                                onClick="onCart('{{$color->sku_type_id.'_'.$size->sku_type_id}}', '{{$skuinfo[$color->sku_type_id][$size->sku_type_id]['count']}}')">
                                 <i class="c-icon u-pc"></i>カートへ入れる
                             </button>
                         </div>
@@ -165,127 +165,12 @@
     </div>
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     <!--/.product-detail-->
-    <div class="l-column--sub">
-        <h2 class="c-hd">最近チェックしたアイテム</h2>
-        <div class="c-items c-items--03">
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        </div>
-        <!--/.c-items c-items--03-->
-    </div>
     <script>
         function onCart(id, max){
             var colorid = id.split('_')[0];
             var sizeid = id.split('_')[1];
             var count = $('#' + id + '_count').val();
+            var price = $('#' + id + '_price').val();
             if(count <= 0){
                 alert('Please enter the amount of product');
                 return;
@@ -301,6 +186,7 @@
                     color   : colorid,
                     size    : sizeid,
                     count   : count,
+                    price   : price,
                     _token  : $('#token').val()
                 },
                 url: "{{url('customer/addtocart')}}",

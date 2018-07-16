@@ -31,20 +31,29 @@
                         <div class="c-item__column">
                             <div class="c-item__column__figure">
                                 @php
-                                    $file_get  = $product->product_image;
-                                    $file_get_path =  explode("/**/",$file_get,-1);
-                                    $prod_path = url('').'/images/products/'.$file_get_path[0];
+                                    $imageset = $images[$product->product_id];
+                                    
+                                    $file_get_path_0 = $imageset[0]->master_image_name;                                    
+                                    $prod_path = url('').'/images/products/'.$file_get_path_0;
+                                    
                                     $prod_path02 = NULL;
-                                    if (!empty($file_get_path[1])) {
-                                        $prod_path02 = url('').'/images/products/'.$file_get_path[1];
+                                    $file_get_path_1 = '';
+                                    try{
+                                        $file_get_path_1 = $imageset[1]->master_image_name;                                    
+                                        if (isset($file_get_path_1)) {
+                                            $prod_path02 = url('').'/images/products/'.$file_get_path_1;
+                                        }
+                                    } catch(\Exception $ex){
+                                        
                                     }
+                                    
                                 @endphp
                                 <figure class="c-item__figure">
                                     <a href="{{url('customer/product/detail').'/'.$product->product_id}}"
                                        class="image-block">
-                                        @if (empty($file_get_path[0]))
+                                        @if (empty($file_get_path_0))
                                             <img src="http://placehold.jp/340x440.png" alt="No Image">
-                                        @elseif (empty($file_get_path[1]))
+                                        @elseif (empty($file_get_path_1))
                                             <img style="height:300px; width:440px;" src="{{$prod_path}}" alt="">
                                         @else
                                             <img style="height:300px; width:440px;" src="{{$prod_path02}}" alt="">
@@ -65,7 +74,8 @@
                                         <li>{{$product->product_name_detail}}</li>
                                     </ul>
                                     <div class="c-item__price">
-                                        <strong>&yen;{{number_format($product->product_price_sale)}}</strong></div>
+                                        <strong>&yen;{{$prices[$product->product_id]['min']}}-
+                                        &yen;{{$prices[$product->product_id]['max']}}</strong></div>
                                 </a>
                             </div>
                             <!--/.c-item__column__data-->
@@ -96,13 +106,19 @@
                         <ul class="product-list__nav__category u-pc">
                             @foreach($maincategorys as $maincategory)
                                 <li class="is-hassub">
-                                    <a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id}}">
-                                                    {{$maincategory->category_name}}</a>
+                                    @php
+                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        if(isset($mallname)){
+                                            $url = url($mallname.'/good/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        } else if(isset($brandid)){
+                                            $url = url('/brand/'.$brandid.'/good/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        }
+                                    @endphp
+                                    <a href="{{$url}}">{{$maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
                                         @foreach($subcategorys[$maincategory->category_id] as $subcategory)
                                             <li>
-                                                <a href="{{url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id.'/'.$subcategory->category_id}}">
-                                                    {{$subcategory->category_name}}</a>
+                                                <a href="{{$url.'/'.$subcategory->category_id}}">{{$subcategory->category_name}}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -257,140 +273,29 @@
         <!--/.product-list__column-->
     </div>
     <!--/.product-list-->
-    <div class="l-column--sub">
-        <h2 class="c-hd">最近チェックしたアイテム</h2>
-        <div class="c-items c-items--03">
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
-                                                                        alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-        </div>
-        <!--/.c-items c-items--03-->
-    </div>
     <!--/.l-content-->
     <script>
         $('#top_women').click(function () {
-            window.location = "{{url('customer/product/list/2')}}"
+            @php
+                $url = url('customer/product/list/2');
+                if(isset($mallname)){
+                    $url = url($mallname.'/good/list/2');
+                } else if(isset($brandid)){
+                    $url = url('/brand/'.$brandid.'/good/list/2');
+                }
+            @endphp
+            window.location = "{{$url}}";
         });
         $('#top_men').click(function () {
-            window.location = "{{url('customer/product/list/1')}}"
+            @php
+                $url = url('customer/product/list/1');
+                if(isset($mallname)){
+                    $url = url($mallname.'/good/list/1');
+                } else if(isset($brandid)){
+                    $url = url('/brand/'.$brandid.'/good/list/1');
+                }
+            @endphp
+            window.location = "{{$url}}";
         });
 
 

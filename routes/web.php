@@ -13,9 +13,12 @@
 
 Route::middleware(['basicAuth'])->group(function () {
     //All the routes are placed in here
-    Route::get('/', function() {
-		return Redirect::to('customer/product/list/1');
-	});
+    // Route::get('/', function() {
+	// 	// return Redirect::to('customer/product/list/1');
+	// });
+    Route::get('/', 'CustomerController@index');
+	Route::get('/{mallname}', 'CustomerController@mall');
+	Route::get('/brand/{brandid}', 'CustomerController@brand');
 
     // widget
     Route::get('widget', function(){
@@ -78,8 +81,9 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('admin/category/editpost','CategoryController@editpost');
 	Route::get('admin/category/get-top-categorys','CategoryController@getTopCategorys');
 	Route::get('admin/category/get-main-categorys/{gender}','CategoryController@getMainCategorys');
-	Route::get('admin/category/get-sub-categorys/{gender}/{mainid}','CategoryController@getSubCategorys');
-
+	Route::get('admin/category/get-sub-categorys/{mainid}','CategoryController@getSubCategorys');
+	Route::get('admin/category/get-size-category/{subid}','CategoryController@getSizeCategory');
+	
 	// Size Category
 	Route::get('admin/size/addcategory','SizeController@addcategory');
 	Route::post('admin/size/addcategorypost','SizeController@addcategorypost');
@@ -146,8 +150,6 @@ Route::middleware(['basicAuth'])->group(function () {
 	// Route::get('admin/merchant_detailw/{id}','AdminController@detail_merchant_wait');
 	// Route::get('admin/merchant_reject/{id}','AdminController@merchant_reject');
 
-
-
 	//merchants
 	Route::get('merchant', 'MerchantloginController@merchant_signin');
 	Route::get('merchant/signin', 'MerchantloginController@merchant_signin');
@@ -169,12 +171,13 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('merchant/product/addpost', 'MerchantproductController@merchant_product_addpost');
 	Route::post('merchant/product/editpost', 'MerchantproductController@merchant_product_editpost');
 	Route::get('merchant/product/edit/{id}', 'MerchantproductController@merchant_product_edit');
+	Route::get('merchant/product/edit_sku/{id}', 'MerchantproductController@merchant_product_edit_sku');
 
 	Route::get('merchant/product/manage', 'MerchantproductController@merchant_product_manage');
 	Route::get('merchant/product/manage/{product_status}', 'MerchantproductController@merchant_product_manage_with_status');
 	Route::get('merchant/product/sold', 'MerchantproductController@merchant_product_sold');
 	Route::get('merchant/product/csvupload', 'MerchantproductController@merchant_product_csvupload');
-
+	Route::post('merchant/product/set_sku', 'MerchantproductController@merchant_product_set_sku');
 	Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
 
 	// Route::post('merchant/product/product_import_csv', function(){
@@ -182,11 +185,20 @@ Route::middleware(['basicAuth'])->group(function () {
 	// });
 	Route::get('merchant/product/product_import_csv', 'MerchantproductController@product_import_csv');
 
+	Route::get('customer/brands', 'CustomerController@brands');
+	Route::get('/brand/{brandid}/good/list/{topid}', 'CustomerController@product_list_brand');
+	Route::get('/brand/{brandid}/good/list/{topid}/{mainid}', 'CustomerController@product_list_brand');
+	Route::get('/brand/{brandid}/good/list/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_brand');
+
 	Route::get('customer/product/list', 'CustomerController@product_list');
 	Route::get('customer/product/list/{topid}', 'CustomerController@product_list');
 	Route::get('customer/product/list/{topid}/{mainid}', 'CustomerController@product_list');
 	Route::get('customer/product/list/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list');
 	Route::post('customer/product/product_list_post', 'CustomerController@product_list_post');
+
+	Route::get('{mallname}/good/list/{topid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/good/list/{topid}/{mainid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/good/list/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
 
 	Route::get('customer/product/detail/{productid}', 'CustomerController@product_detail');
 	//customer profile

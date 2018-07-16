@@ -25,9 +25,6 @@
                                 <th hidden>identify</th>
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
-                                @if ($categorylevel == 2)
-                                    <th style="text-align:center">サイズカテゴリ</th>
-                                @endif
                                 <th style="text-align:center">編集</th>
                                 @if ($categorylevel != 3)
                                     <th style="text-align:center">追加</th>
@@ -45,9 +42,6 @@
                                 <td hidden>{{$category->category_id}}</td>
                                 <td style="text-align:center">{{$category->category_name}}</td>
                                 <td style="text-align:center">{{$category->category_name_en}}</td>
-                                @if ($categorylevel == 2)
-                                    <td style="text-align:center">{{$category->sizecategory_name}}</td>                                
-                                @endif
                                 @if ($categorylevel == 1)
                                     <td style="text-align:center">
                                         <a href="{{ url('admin/category/edit/'.$category->category_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>

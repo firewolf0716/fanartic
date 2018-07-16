@@ -370,7 +370,7 @@
 
             $.ajax( {
                 type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + topID + "/" + mainID,
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + mainID,
                 success: function(data) {
                     for(var i = 0; i < data.length; i++){
                         var item = data[i];
@@ -476,7 +476,7 @@
         if(top != ""){
             $.ajax( {
                 type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + top + "/" + main,
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + main,
                 success: function(data) {
                     for(var i = 0; i < data.length; i++){
                         var item = data[i];

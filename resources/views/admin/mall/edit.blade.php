@@ -73,6 +73,20 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$mall->mall_create}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly  value="{{$mall->mall_update}}">
+                    </div>
+                </div>
+
+                <div class="ln_solid"></div>
                 <label class="x_title">ブランド</label>                
                 <div class="y_content">
                     <table id="datatable1" class="table table-striped table-bordered dt-responsive nowrap">
@@ -115,22 +129,8 @@
                     </table>
                 </div>
 
-
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$mall->mall_create}}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly  value="{{$mall->mall_update}}">
-                    </div>
-                </div>
-
                <div class="ln_solid"></div>
-
+               <label class="x_title">カテゴリ</label>
                 <div class="y_content">
                     <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap">
                         <thead>
@@ -363,7 +363,7 @@
 
             $.ajax( {
                 type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + topID + "/" + mainID,
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + mainID,
                 success: function(data) {
                     for(var i = 0; i < data.length; i++){
                         var item = data[i];
@@ -433,7 +433,7 @@
         if(top != ""){
             $.ajax( {
                 type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + top + "/" + main,
+                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + main,
                 success: function(data) {
                     for(var i = 0; i < data.length; i++){
                         var item = data[i];
@@ -448,6 +448,7 @@
     });
 
     $('#btnSubmit').click(function(){
+        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
     });
 

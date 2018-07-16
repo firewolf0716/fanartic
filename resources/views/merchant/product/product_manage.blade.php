@@ -18,7 +18,7 @@
                     <div class="clearfix"></div>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Status<span class="required">*</span></label>
                     <div class=" a col-md-4 col-sm-6 col-xs-12">
                         <select id="product_status" name="product_status" class="form-control">
@@ -29,7 +29,7 @@
                             <option value="5">Sold Product</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="x_content">
                 <table id="datatable" class="table table-striped table-bordered">
@@ -175,7 +175,7 @@
             ]
         });
 
-        showProducts(1);
+        showProducts({{$product_status}})
     });
 
     function showProducts(product_status) {
@@ -186,6 +186,7 @@
             url: '{{url('merchant/product/manage')}}' + "/" + product_status,
             success: function(data) {
                 for(var i = 0; i < data.length; i++){
+                    
                     var item = data[i];
                     var status = "有効";
 
@@ -193,27 +194,34 @@
                         status = "無効";
                     }
                     var product_id = item.product_id;
-
-                    var file_get  = item.product_image;
-                    var file_get_path = file_get.split("/**/");
-                    var image = '<img style="height:20px;" src="{{url("")}}./images/products/';
-                    image += file_get_path[0];
-                    image += '">';
-
+                    
+                    var image = '';
+                    if (item.product_images != '') {
+                        for (var j = 0; j < item.product_images.length; j++) {
+                            image += '<img style="height:20px;" src="{{url("")}}./images/products/';
+                            image += item.product_images[j].master_image_name;
+                            image += '">'; 
+                        }
+                    }                    
+                    
                     var actions = '<td style="text-align:center">';
                     actions += '<a style="margin:10px" href="{{ url('merchant/product/edit')}}/';
                     actions += product_id;
                     actions += '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
+                    if (item.stock_type != 1) {
+                        actions += '<a style="margin:10px" href="{{ url('merchant/product/edit_sku')}}/';
+                        actions += product_id;
+                        actions += '"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
+                    }
                     actions += '<a style="margin:10px" href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm(';
                     actions += product_id;
                     actions += ')" aria-hidden="true"></span></a></td>';
-
+                    
                     var product_count = item.product_count;
                     if (product_count == '' || product_count == null) {
                         product_count = 0;
                     }
-
-                    table.row.add([i + 1, item.product_name, item.product_price_sale, product_count, status, image, actions]).draw( false );
+                    table.row.add([i + 1, item.product_name, item.product_price, product_count, status, image, actions]).draw( false );
                 }
             }
         });
