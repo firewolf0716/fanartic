@@ -25,12 +25,11 @@ class Sizes extends Model
     public static function get_size($id) {
         return DB::table('master_size')->where('master_size.size_id', $id)
                                        ->leftJoin('master_sizecategory', 'master_size.size_category_id', '=', 'master_sizecategory.sizecategory_id')
-                                       ->get();
+                                       ->get()->first();
     }
 
     public static function get_sizes_with_category($id) {
-        return DB::table('master_size')->where('size_category_id', $id)
-                                       ->get();
+        return DB::table('master_size')->where('size_category_id', $id)->get();
     }
 
     public static function edit_size($entry,$id) {
@@ -56,9 +55,5 @@ class Sizes extends Model
 
     public static function edit_sizecategory($entry, $id) {
         return DB::table('master_sizecategory')->where('sizecategory_id', '=', $id)->update($entry);
-    }
-
-    public static function get_sizebycategory($id) {
-        return DB::table('master_size')->where('size_category_id', $id)->get();
     }
 }

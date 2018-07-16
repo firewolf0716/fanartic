@@ -13,9 +13,11 @@
 
 Route::middleware(['basicAuth'])->group(function () {
     //All the routes are placed in here
-    Route::get('/', function() {
-		return Redirect::to('customer/product/list/1');
-	});
+    // Route::get('/', function() {
+	// 	// return Redirect::to('customer/product/list/1');
+	// });
+    Route::get('/', 'CustomerController@index');
+    Route::get('/{mallname}', 'CustomerController@mall');
 
     // widget
     Route::get('widget', function(){
@@ -79,7 +81,8 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('admin/category/get-top-categorys','CategoryController@getTopCategorys');
 	Route::get('admin/category/get-main-categorys/{gender}','CategoryController@getMainCategorys');
 	Route::get('admin/category/get-sub-categorys/{mainid}','CategoryController@getSubCategorys');
-
+	Route::get('admin/category/get-size-category/{subid}','CategoryController@getSizeCategory');
+	
 	// Size Category
 	Route::get('admin/size/addcategory','SizeController@addcategory');
 	Route::post('admin/size/addcategorypost','SizeController@addcategorypost');
@@ -181,11 +184,17 @@ Route::middleware(['basicAuth'])->group(function () {
 	// });
 	Route::get('merchant/product/product_import_csv', 'MerchantproductController@product_import_csv');
 
+	Route::get('customer/brands', 'CustomerController@brands');
+
 	Route::get('customer/product/list', 'CustomerController@product_list');
 	Route::get('customer/product/list/{topid}', 'CustomerController@product_list');
 	Route::get('customer/product/list/{topid}/{mainid}', 'CustomerController@product_list');
 	Route::get('customer/product/list/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list');
 	Route::post('customer/product/product_list_post', 'CustomerController@product_list_post');
+
+	Route::get('{mallname}/good/list/{topid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/good/list/{topid}/{mainid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/good/list/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
 
 	Route::get('customer/product/detail/{productid}', 'CustomerController@product_detail');
 	//customer profile

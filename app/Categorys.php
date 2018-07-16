@@ -96,5 +96,40 @@ class Categorys extends Model
          ORDER BY master_category.category_id, master_category.category_id, master_category.category_id";
         $categorys = DB::select($query);
         return $categorys;
-    }    
+    }
+
+    public static function getMainCategorys_mall($mallid, $topid){
+        $result = array();
+        $subcategorys = Categorys::get_categorys_for_mall($mallid);
+        foreach($subcategorys as $cat){
+            $main = Categorys::getParentCategory($cat->category_id);
+            $top = Categorys::getParentCategory($main->category_id);
+            if($top->category_id == $topid)
+                $result[$main->category_id] = $main;
+        }
+        return $result;
+    }
+
+    public static function getSubCategorys_mall_frommain($mallid, $id){
+        $result = array();
+        $subcategorys = Categorys::get_categorys_for_mall($mallid);
+        foreach($subcategorys as $cat){
+            $main = Categorys::getParentCategory($cat->category_id);
+            if($main->category_id == $id)
+                $result[$cat->category_id] = $cat;
+        }
+        return $result;
+    }
+
+    public static function getSubCategorys_mall_fromtop($mallid, $id){
+        $result = array();
+        $subcategorys = Categorys::get_categorys_for_mall($mallid);
+        foreach($subcategorys as $cat){
+            $main = Categorys::getParentCategory($cat->category_id);
+            $top = Categorys::getParentCategory($main->category_id);
+            if($top->category_id == $id)
+                $result[$cat->category_id] = $cat;
+        }
+        return $result;
+    }
 }
