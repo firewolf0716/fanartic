@@ -82,4 +82,67 @@ class Customers extends Model
             ->where('customer_id', $id)
             ->get();
     }
+
+    public static function get_addresses($id){
+        return DB::table('customer_address')->where('customer_id', $id)
+                ->leftJoin('master_state', 'master_state.state_id', '=', 'customer_address.address_state')
+                ->get();
+    }
+
+    public static function get_address($id){
+        return DB::table('customer_address')->where('id', $id)->get();
+    }
+
+    public static function add_address($entry){
+        $prevaddrct = DB::table('customer_address')->where('customer_id', $entry['customer_id'])->count();
+        // dd($prevaddrct);
+        if($prevaddrct == 0){
+            $entry['address_default'] = 1;
+        } else {
+            $entry['address_default'] = 0;
+        }
+        $check_insert = DB::table('customer_address')->insert($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+
+    public static function edit_address($entry, $id){
+        return DB::table('customer_address')->where('id', $id)->update($entry);
+    }
+
+    public static function unset_address_flag($customerid){
+        DB::table('customer_address')->where('customer_id', $customerid)->update(['address_default' => 0]);
+    }
+
+    public static function delete_address($id){
+        return DB::table('customer_address')->where('id', $id)->delete();
+    }
+
+    public static function add_card($entry){
+        $check_insert = DB::table('customer_card')->insert($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+
+    public static function get_cards($customerid){
+        return DB::table('customer_card')->where('customer_id', $customerid)->get();
+    }
+
+    public static function get_card($id){
+        return DB::table('customer_card')->where('id', $id)->get();
+    }
+
+    public static function edit_card($entry, $id){
+        return DB::table('customer_card')->where('id', $id)->update($entry);
+    }
+
+    public static function delete_card($id){
+        return DB::table('customer_card')->where('id', $id)->delete();
+    }    
 }
