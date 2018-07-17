@@ -20,6 +20,7 @@ use App\ProductStock;
 use App\Cart;
 use App\Malls;
 use App\MallBrands;
+use App\States;
 
 class CustomerController extends Controller
 {
@@ -145,6 +146,11 @@ class CustomerController extends Controller
 
         $brands = MallBrands::get_brands($mall->mall_id);
 
+        $customerid = null;
+        if (Session::has('customerid')) {
+            $customerid = Session::get('customerid');
+        }
+
         return view('customer.products.product_list')->with('tcategory', $topcategory)
             ->with('maincategorys', $maincategorys)
             ->with('mcategory', $mcategory)
@@ -158,7 +164,8 @@ class CustomerController extends Controller
             ->with('brands', $brands)
             ->with('prices', $prices)
             ->with('images', $images)
-            ->with('mallname', $mallname);
+            ->with('mallname', $mallname)
+            ->with('customerid', $customerid);
     }
 
     public function product_list($topid = null, $mainid = null, $categoryid = null){
@@ -225,6 +232,11 @@ class CustomerController extends Controller
 
         $brands = Brands::get_brands();
 
+        $customerid = null;
+        if (Session::has('customerid')) {
+            $customerid = Session::get('customerid');
+        }
+
         return view('customer.products.product_list')->with('tcategory', $topcategory)
             ->with('maincategorys', $maincategorys)
             ->with('mcategory', $mcategory)
@@ -237,7 +249,8 @@ class CustomerController extends Controller
             ->with('womencategories', $womencategories)
             ->with('brands', $brands)
             ->with('prices', $prices)
-            ->with('images', $images);
+            ->with('images', $images)
+            ->with('customerid', $customerid);
     }
 
     public function product_list_brand($brandid ,$topid = null, $mainid = null, $categoryid = null){
@@ -304,6 +317,11 @@ class CustomerController extends Controller
 
         $brands = Brands::get_brands();
 
+        $customerid = null;
+        if (Session::has('customerid')) {
+            $customerid = Session::get('customerid');
+        }
+
         return view('customer.products.product_list')->with('tcategory', $topcategory)
             ->with('maincategorys', $maincategorys)
             ->with('mcategory', $mcategory)
@@ -317,7 +335,8 @@ class CustomerController extends Controller
             ->with('brands', $brands)
             ->with('prices', $prices)
             ->with('images', $images)
-            ->with('brandid', $brandid);
+            ->with('brandid', $brandid)
+            ->with('customerid', $customerid);
     }
 
     public function product_list_post(){
@@ -440,23 +459,12 @@ class CustomerController extends Controller
 
     public function signuppost(){
         Log::debug(Input::all());
-
         $entry = array(
-            'customer_name_first' => Input::get('first_name'),
-            'customer_name_second' => Input::get('second_name'),
-            'customer_name_kana_first' => Input::get('first_name_kana'),
-            'customer_name_kana_second' => Input::get('second_name_kana'),
-            'customer_gender' => Input::get('sex'),
-            'customer_birthday' => Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day'),
-            'customer_postalcode' => Input::get('zipcode'),
-            'customer_province' => Input::get('province'),
-            'customer_county' => Input::get('county'),
-            'customer_address_jp' => Input::get('address'),
-            'customer_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
+            'customer_name_first' => Input::get('name'),
             'customer_email' => Input::get('email'),
-            'customer_password' => Input::get('password'),
-            'customer_status' => '0'
+            'customer_password' => Input::get('password')
         );
+
 
         Customers::insert_customer($entry);
 
@@ -484,11 +492,16 @@ class CustomerController extends Controller
         $customerid = Session::get('customerid');
         $customer = Customers::get_customer($customerid)->first();
         $birth = $customer->customer_birthday;
-        $births = explode('/', $birth);
-
+        $births = array('', '', '');
+        if($birth != '' || isset($birth)){
+            $births = explode('/', $birth);
+        }
+        
         $phone = $customer->customer_phone;
-        $tel = explode('-', $phone);
-
+        $tel = array('', '', '');
+        if($phone != '' || isset($phone)){
+            $tel = explode('-', $phone);
+        }
         $view = view('customer.user.profile');
 
         return $this->layout_init($view, 1)->with('customer', $customer)
@@ -512,9 +525,13 @@ class CustomerController extends Controller
             'customer_address_jp' => Input::get('address'),
             'customer_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
             'customer_email' => Input::get('email'),
-            'customer_password' => Input::get('password'),
             'customer_status' => $customer->customer_status
         );
+        $password = Input::get('password');
+        if(isset($password)){
+            $entry['customer_password'] = $password;
+        }
+        // dd($entry);
         Customers::edit_customer($entry, $customerid);
         return Redirect::to('customer/user/profile');
     }
@@ -540,10 +557,17 @@ class CustomerController extends Controller
         $sum = Cart::getSum($customerid);
         $count = Cart::getCount($customerid);
 
+        $images = array();
+        foreach($cartitems as $item){
+            $image = Products::get_cart_image($item->cart_productid, $item->cart_skucolorid)->image_name;
+            $images[$item->cart_id] = $image;
+        }
+
         return $this->layout_init(view('customer.user.cart'), 1)
             ->with('cartitems', $cartitems)
             ->with('sum', $sum)
-            ->with('count', $count);
+            ->with('count', $count)
+            ->with('images', $images);
     }
 
     public function addtocart(){
@@ -568,5 +592,167 @@ class CustomerController extends Controller
         $id = Input::get('remove_id');
         Cart::removeitem($id);
         return Redirect::to('customer/user/cart');
+    }
+
+    public function address(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        $addresses = Customers::get_addresses($customerid);
+        return $this->layout_init(view('customer.user.address'), 1)
+                ->with('addresses', $addresses);
+    }
+
+    public function addressadd(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $states = States::get_states();
+        $customerid = Session::get('customerid');
+        return $this->layout_init(view('customer.user.address_add'), 1)
+            ->with('states', $states);
+    }
+
+    public function address_add_post(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        // dd(Input::all());
+        $customerid = Session::get('customerid');
+        $state = Input::get('state');
+        $entry = array(
+            'customer_id' => $customerid,
+            'address_name' => Input::get('name'),
+            'address_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
+            'address_postalcode' => Input::get('zipcode'),
+            'address_state' => Input::get('state'),
+            'address_city' => Input::get('city'),
+            'address_address_ex' => Input::get('address_ex'),
+            'address_province' => Input::get('province'),
+            'address_county' => Input::get('county'),
+            'address_address_jp' => Input::get('address_jp')
+        );
+        $id = Customers::add_address($entry);
+        return Redirect::to('customer/user/address');
+    }
+
+    public function address_flag($id){
+        if(!Session::has('customerid')){
+            return;
+        }
+        $customerid = Session::get('customerid');
+        Customers::unset_address_flag($customerid);
+
+        $entry = array(
+            'address_default' => 1
+        );
+        Customers::edit_address($entry, $id);
+        return Redirect::to('customer/user/address');
+    }
+
+    public function address_edit($id){
+        $address = Customers::get_address($id)->first();
+        $states = States::get_states();
+        $customerid = Session::get('customerid');
+        $phone = $address->address_phone;
+        $tel = array('', '', '');
+        if($phone != '' || isset($phone)){
+            $tel = explode('-', $phone);
+        }
+        return $this->layout_init(view('customer.user.address_edit'), 1)
+            ->with('states', $states)
+            ->with('address', $address)
+            ->with('phone', $tel)
+            ->with('customerid', $customerid);
+    }
+
+    public function address_edit_post(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        $state = Input::get('state');
+        $entry = array(
+            'id' => Input::get('address_id'),
+            'customer_id' => $customerid,
+            'address_name' => Input::get('name'),
+            'address_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
+            'address_postalcode' => Input::get('zipcode'),
+            'address_state' => Input::get('state'),
+            'address_city' => Input::get('city'),
+            'address_address_ex' => Input::get('address_ex'),
+            'address_province' => Input::get('province'),
+            'address_county' => Input::get('county'),
+            'address_address_jp' => Input::get('address_jp')
+        );
+        $id =  Input::get('address_id');
+        $res = Customers::edit_address($entry, $id);
+        return Redirect::to('customer/user/address');
+    }
+
+    public function address_delete($id){
+        Customers::delete_address($id);
+        return Redirect::to('customer/user/address');
+    }
+
+    public function credit(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        $cards = Customers::get_cards($customerid);
+        $tokens = array();
+        foreach($cards as $card){
+            $len = strlen($card->card_token);
+            $tokens[$card->id] = str_repeat('*', $len - 4).substr($card->card_token, $len - 4);
+        }
+        return $this->layout_init(view('customer.user.credit'), 1)
+                ->with('cards', $cards)
+                ->with('tokens', $tokens);
+    }
+
+    public function credit_add(){
+        return $this->layout_init(view('customer.user.credit_add'), 1);
+    }
+
+    public function credit_add_post(){
+        if(!Session::has('customerid')){
+            return;
+        }
+        $customerid = Session::get('customerid');
+        $entry = array(
+            'customer_id' => $customerid,
+            'card_name' => Input::get('name'),
+            'card_token' => Input::get('token')
+        );
+        $id = Customers::add_card($entry);
+        return Redirect::to('customer/user/credit');
+    }
+
+    public function credit_edit($id){
+        $card = Customers::get_card($id)->first();
+        return $this->layout_init(view('customer.user.credit_edit'), 1)
+            ->with('card', $card);
+    }
+
+    public function credit_edit_post(){
+        if(!Session::has('customerid')){
+            return;
+        }
+        $customerid = Session::get('customerid');
+        $cardid = Input::get('card_id');
+        $entry = array(
+            'customer_id' => $customerid,
+            'card_name' => Input::get('name'),
+            'card_token' => Input::get('token')
+        );
+        $id = Customers::edit_card($entry, $cardid);
+        return Redirect::to('customer/user/credit');
+    }
+
+    public function credit_delete($id){
+        Customers::delete_card($id);
+        return Redirect::to('customer/user/credit');
     }
 }

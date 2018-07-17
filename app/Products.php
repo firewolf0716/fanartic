@@ -321,4 +321,9 @@ class Products extends Model{
                                                     ->get()->first()->sku_type_id;
         return $product_size_id;
     }
+
+    public static function get_cart_image($product_id, $color) {
+        $img = DB::table('fan_product_image')->where('product_id', $product_id)->get()->first();
+        return $img;
+    }
 }

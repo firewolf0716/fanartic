@@ -213,9 +213,23 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('customer/user/profilepost', 'CustomerController@profilepost');
 
 	Route::get('customer/user/favourite', 'CustomerController@favourite');
-	Route::get('customer/user/cart', 'CustomerController@cart');
-	Route::get('customer/user/address', 'CustomerController@address');
-	
+
+	Route::get('customer/user/cart', 'CustomerController@cart');	
 	Route::post('customer/addtocart', 'CustomerController@addtocart');
 	Route::post('customer/cart_remove_item', 'CustomerController@cart_remove_item');
+
+	Route::get('customer/user/address', 'CustomerController@address');
+	Route::get('customer/user/addressadd', 'CustomerController@addressadd');
+	Route::post('customer/user/address_add_post', 'CustomerController@address_add_post');
+	Route::get('customer/user/address_flag/{addr_id}', 'CustomerController@address_flag');
+	Route::get('customer/user/address_edit/{addr_id}', 'CustomerController@address_edit');
+	Route::post('customer/user/address_edit_post', 'CustomerController@address_edit_post');
+	Route::get('customer/user/address_delete/{addr_id}', 'CustomerController@address_delete');
+
+	Route::get('customer/user/credit', 'CustomerController@credit');
+	Route::get('customer/user/credit_add', 'CustomerController@credit_add');
+	Route::post('customer/user/credit_add_post', 'CustomerController@credit_add_post');
+	Route::get('customer/user/credit_edit/{addr_id}', 'CustomerController@credit_edit');
+	Route::post('customer/user/credit_edit_post', 'CustomerController@credit_edit_post');
+	Route::get('customer/user/credit_delete/{addr_id}', 'CustomerController@credit_delete');
 });

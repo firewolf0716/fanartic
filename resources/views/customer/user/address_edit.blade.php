@@ -12,12 +12,13 @@
         <section class="c-box">
         <h3 class="c-box__hd">お届け先住所 追加</h3>
         <div class="c-box__content">
-            {!! Form::open(array('id' => 'form_address','url'=>'customer/user/address_add_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            {!! Form::open(array('id' => 'form_address','url'=>'customer/user/address_edit_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            {{ Form::hidden('address_id', $address->id)}}
             <div class="c-form__row">
                 <div class="c-form__row__label">名前<span class="c-form__require">必須</span></div>
                 <div class="c-form__row__input">
                     <div class="c-form__colum">
-                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="name" value="" required></div>
+                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="name" value="{{$address->address_name}}" required></div>
                     </div>
                 </div>
             </div>
@@ -25,14 +26,14 @@
             <div class="c-form__row">
                 <div class="c-form__row__label">電話番号<span class="c-form__require">必須</span></div>
                 <div class="c-form__row__input">
-                <input type="tel" class="c-form__input c-form__input--tel" name="tel1" value="" required> 
-                <input type="tel" class="c-form__input c-form__input--tel" name="tel2" value="" required> 
-                <input type="tel" class="c-form__input c-form__input--tel" name="tel3" value="" required></div>
+                <input type="tel" class="c-form__input c-form__input--tel" name="tel1" value="{{$phone[0]}}" required> 
+                <input type="tel" class="c-form__input c-form__input--tel" name="tel2" value="{{$phone[1]}}" required> 
+                <input type="tel" class="c-form__input c-form__input--tel" name="tel3" value="{{$phone[2]}}" required></div>
             </div>
             <!--/.c-form__row-->
             <div class="c-form__row">
                 <div class="c-form__row__label">郵便番号<span class="c-form__require">必須</span></div>
-                <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" value="" required> 
+                <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" value="{{$address->address_postalcode}}" required> 
                     <button type="button" class="c-button c-button--primary">住所自動入力</button>
                 </div>
             </div>
@@ -44,7 +45,13 @@
                         <span class="c-form__select__box">
                             <select name="state" id="state" onChange="onStateChanged()" required>
                                 @foreach($states as $state)
-                                <option value="{{$state->state_id}}">{{$state->state_code}}</option>
+                                <option value="{{$state->state_id}}"
+                                    @if($address->address_state == $state->state_id)
+                                        selected
+                                    @endif
+                                    >
+                                    {{$state->state_code}}
+                                </option>
                                 @endforeach
                             </select>
                         </span>
@@ -54,12 +61,12 @@
             <div id="address_abroad" style="display:none">
                 <div class="c-form__row">
                     <div class="c-form__row__label">都市<span class="c-form__require">必須</span></div>
-                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="city" value="" required></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="city" value="{{$address->address_city}}" required></div>
                 </div>
                 <!--/.c-form__row-->
                 <div class="c-form__row">
                     <div class="c-form__row__label">以降の住所<span class="c-form__require">必須</span></div>
-                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_ex" value="" required></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_ex" value="{{$address->address_address_ex}}" required></div>
                 </div>
                 <!--/.c-form__row-->
             </div>
@@ -69,24 +76,24 @@
                     <div class="c-form__row__label">都道府県<span class="c-form__require">必須</span></div>
                     <div class="c-form__row__input">
                         <div class="c-form__colum">
-                            <div class="c-form__colum__col"><input type="text" class="c-form__input" name="province" value="" required></div>
+                            <div class="c-form__colum__col"><input type="text" class="c-form__input" name="province" value="{{$address->address_province}}" required></div>
                         </div>
                     </div>
                 </div>
                 <!--/.c-form__row-->
                 <div class="c-form__row">
                     <div class="c-form__row__label">市町区村<span class="c-form__require">必須</span></div>
-                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" value="" required></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" value="{{$address->address_county}}" required></div>
                 </div>
                 <!--/.c-form__row-->
                 <div class="c-form__row">
                     <div class="c-form__row__label">番地<span class="c-form__require">必須</span></div>
-                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_jp" value="" required></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_jp" value="{{$address->address_address_jp}}" required></div>
                 </div>
                 <!--/.c-form__row-->
             </div>
             <hr class="c-hr">
-            <div class="l-button"><button type="button" class="c-button c-button--submit" onClick="onSubmit()">お届け先を追加する</button></div>
+            <div class="l-button"><button type="button" class="c-button c-button--submit" onClick="onSubmit()">お届け先を編集する</button></div>
             <!--/.l-button-->
             {{ Form::close() }}            
         </div>
@@ -118,6 +125,9 @@
 </div>
 <!--/.members-->
 <script>
+    $(function(){
+        onStateChanged();
+    });
     function onStateChanged(){
         var stateid = $('#state').val();
         if(stateid == 1){

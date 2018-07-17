@@ -136,8 +136,8 @@
                     <div class="c-form__row__label">パスワード<span class="c-form__require">必須</span></div>
                     <div class="c-form__row__input">
                         <p class="c-form__row__input__block">新しいパスワード</p>
-                        <div class="c-form__row__input__block"><input id='password' type="password" class="c-form__input" name="password" value="" placeholder="半角英数字8~12文字以上" required></div>
-                        <div class="c-form__row__input__block"><input id='passwordc' type="password" class="c-form__input" name="" value="" placeholder="確認のため再度入力してください" required></div>
+                        <div class="c-form__row__input__block"><input id='password' type="password" class="c-form__input" name="password" value="" placeholder="半角英数字8~12文字以上"></div>
+                        <div class="c-form__row__input__block"><input id='passwordc' type="password" class="c-form__input" name="" value="" placeholder="確認のため再度入力してください"></div>
                     </div>
                     </div>
                     <!--/.c-form__row-->
@@ -158,11 +158,11 @@
                 <li><a href="{{url('/customer/user/score')}}">ポイント</a></li>
                 <li><a>会員情報</a>
                     <ul class="members__nav__sub">
-                    <li><a href="{{url('/customer/user/profile')}}">会員情報変更</a></li>
-                    <li><a href="{{url('/customer/user/address')}}">お届け先の変更・追加</a></li>
-                    <li><a href="{{url('/customer/user/cc')}}">クレジットカード情報</a></li>
-                    <li><a href="{{url('/customer/user/magazine')}}">メールマガジン</a></li>
-                    <li><a href="{{url('/customer/user/signout')}}">退会手続き</a></li>
+                        <li><a href="{{url('/customer/user/profile')}}">会員情報変更</a></li>
+                        <li><a href="{{url('/customer/user/address')}}">お届け先の変更・追加</a></li>
+                        <li><a href="{{url('/customer/user/credit')}}">クレジットカード情報</a></li>
+                        <li><a href="{{url('/customer/user/magazine')}}">メールマガジン</a></li>
+                        <li><a href="{{url('/customer/user/signout')}}">退会手続き</a></li>
                     </ul>
                 </li>
                 </ul>
