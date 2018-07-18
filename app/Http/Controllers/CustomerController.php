@@ -379,7 +379,7 @@ class CustomerController extends Controller
         $skucolor = ProductSKU::get_for_product($productid, 1);
         $skusize = ProductSKU::get_for_product($productid, 2);
 
-        // dd($productid);
+        // dd($skucolor);
 
         $skuinfo = array();
 
@@ -388,11 +388,14 @@ class CustomerController extends Controller
             foreach($skusize as $skusize_id){
                 $skuvalue = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count_1;
                 $skuprice = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_price_sale;
-                $info[$skusize_id->sku_type_id]['count'] = $skuvalue;
-                $info[$skusize_id->sku_type_id]['price'] = $skuprice;
+                $info[$skusize_id->sku_id]['count'] = $skuvalue;
+                $info[$skusize_id->sku_id]['price'] = $skuprice;
             }
-            $skuinfo[$skucolor_id->sku_type_id] = $info;
+            $skuinfo[$skucolor_id->sku_id] = $info;
         }
+
+        // dd($skuinfo);
+
         $price = ProductStock::get_price_range($product->product_id);
         // dd(Categorys::getSubCategoryIDs(5));
         $imagerec = Products::get_master_images($product->product_id);
@@ -401,7 +404,7 @@ class CustomerController extends Controller
         foreach($imagerec as $image){
             $each = array();
             foreach($skucolor as $skucolor_id){
-                $each[$skucolor_id->sku_type_id] = Products::get_image($skucolor_id->sku_type_id, $image->master_image_id);
+                $each[$skucolor_id->sku_id] = Products::get_image($skucolor_id->sku_type_id, $image->master_image_id);
             }
             $skuimages[$image->master_image_id] = $each;
         }
@@ -554,20 +557,30 @@ class CustomerController extends Controller
         $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
 
         $cartitems = Cart::getItems($customerid);
-        $sum = Cart::getSum($customerid);
-        $count = Cart::getCount($customerid);
-
-        $images = array();
+        
+        $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
             $image = Products::get_cart_image($item->cart_productid, $item->cart_skucolorid)->image_name;
             $images[$item->cart_id] = $image;
+
+            $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
+            $colorname[$item->cart_id] = Colors::get_color($sku_color->sku_type_id);
+
+            $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
+            $sizename[$item->cart_id] = Sizes::get_size($sku_color->sku_type_id);
         }
+
+        $total = Cart::getSum($customerid);
+        $sum = $total['sum'];
+        $count = $total['count'];
 
         return $this->layout_init(view('customer.user.cart'), 1)
             ->with('cartitems', $cartitems)
             ->with('sum', $sum)
             ->with('count', $count)
-            ->with('images', $images);
+            ->with('images', $images)
+            ->with('colorname', $colorname)
+            ->with('sizename', $sizename);
     }
 
     public function addtocart(){
@@ -579,9 +592,9 @@ class CustomerController extends Controller
         $color = Input::get('color');
         $size = Input::get('size');
         $count = Input::get('count');
-        $price = Input::get('price');
+        // $price = Input::get('price');
         try{
-            Cart::addCart($customerid, $prodid, $color, $size, $count, $price);
+            Cart::addCart($customerid, $prodid, $color, $size, $count);
             return 'Add product to Cart Successed';
         }catch(\Exception $ex){
             return 'Add product to Cart Failed';
@@ -702,14 +715,9 @@ class CustomerController extends Controller
         }
         $customerid = Session::get('customerid');
         $cards = Customers::get_cards($customerid);
-        $tokens = array();
-        foreach($cards as $card){
-            $len = strlen($card->card_token);
-            $tokens[$card->id] = str_repeat('*', $len - 4).substr($card->card_token, $len - 4);
-        }
+        
         return $this->layout_init(view('customer.user.credit'), 1)
-                ->with('cards', $cards)
-                ->with('tokens', $tokens);
+                ->with('cards', $cards);
     }
 
     public function credit_add(){
@@ -717,14 +725,17 @@ class CustomerController extends Controller
     }
 
     public function credit_add_post(){
+        // dd(Input::all());
         if(!Session::has('customerid')){
             return;
         }
         $customerid = Session::get('customerid');
         $entry = array(
             'customer_id' => $customerid,
-            'card_name' => Input::get('name'),
-            'card_token' => Input::get('token')
+            'card_no' => Input::get('name'),
+            'card_token' => Input::get('token'),
+            'card_owner' => Input::get('owner'),
+            'card_validdate' => Input::get('year').'/'.Input::get('month')
         );
         $id = Customers::add_card($entry);
         return Redirect::to('customer/user/credit');
@@ -744,8 +755,10 @@ class CustomerController extends Controller
         $cardid = Input::get('card_id');
         $entry = array(
             'customer_id' => $customerid,
-            'card_name' => Input::get('name'),
-            'card_token' => Input::get('token')
+            'card_no' => Input::get('name'),
+            'card_token' => Input::get('token'),
+            'card_owner' => Input::get('owner'),
+            'card_validdate' => Input::get('year').'/'.Input::get('month')
         );
         $id = Customers::edit_card($entry, $cardid);
         return Redirect::to('customer/user/credit');
@@ -754,5 +767,125 @@ class CustomerController extends Controller
     public function credit_delete($id){
         Customers::delete_card($id);
         return Redirect::to('customer/user/credit');
+    }
+
+    public function checkflowinfo(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        $addresses = Customers::get_addresses($customerid);
+
+        $cards = Customers::get_cards($customerid);
+
+        $total = Cart::getSum($customerid);
+
+        return $this->layout_init(view('customer.checkflow.address_credit'), 1)
+                ->with('addresses', $addresses)
+                ->with('cards', $cards)
+                ->with('total', $total);
+    }
+
+    public function flow_post_ac(){
+        $customerid = Session::get('customerid');
+        $address = Input::get('address');
+        if($address == 'addressNew'){
+            $entry = array(
+                'customer_id' => $customerid,
+                'address_name' => Input::get('address_name'),
+                'address_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
+                'address_postalcode' => Input::get('zipcode'),
+                'address_state' => 1,
+                'address_province' => Input::get('province'),
+                'address_county' => Input::get('county'),
+                'address_address_jp' => Input::get('address_ex')
+            );
+            $id = Customers::add_address($entry);
+            Session::put('calc_address', $id);
+        } else {
+            Session::put('calc_address', $address);
+        }
+        $credit = Input::get('paymentCredit');
+        if($credit == 'creditnew'){
+            $entry = array(
+                'customer_id' => $customerid,
+                'card_no' => Input::get('card_no'),
+                'card_token' => Input::get('card_token'),
+                'card_owner' => Input::get('card_name'),
+                'card_validdate' => Input::get('card_year').'/'.Input::get('card_month')
+            );
+            $id = Customers::add_card($entry);
+            Session::put('calc_credit', $id);
+        } else {
+            Session::put('calc_credit', $credit);
+        }
+        return Redirect::to('/customer/user/checkflowconfirm');
+    }
+
+    public function checkflowconfirm(){
+        $customerid = Session::get('customerid');
+
+        $cartitems = Cart::getItems($customerid);
+        
+        $images = array(); $colorname = array(); $sizename = array();
+        foreach($cartitems as $item){
+            $image = Products::get_cart_image($item->cart_productid, $item->cart_skucolorid)->image_name;
+            $images[$item->cart_id] = $image;
+
+            $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
+            $colorname[$item->cart_id] = Colors::get_color($sku_color->sku_type_id);
+
+            $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
+            $sizename[$item->cart_id] = Sizes::get_size($sku_color->sku_type_id);
+        }
+
+        $address = Session::get('calc_address');
+        $credit = Session::get('calc_credit');
+        $addrobj = Customers::get_address($address)->first();
+        $creditobj = Customers::get_card($credit)->first();
+
+        $total = Cart::getSum($customerid);
+        return $this->layout_init(view('customer.checkflow.confirm'), 1)
+                ->with('cartitems', $cartitems)
+                ->with('addrobj', $addrobj)
+                ->with('creditobj', $creditobj)
+                ->with('total', $total)
+                ->with('images', $images)
+                ->with('colorname', $colorname)
+                ->with('sizename', $sizename);
+    }
+
+    public function confirm_order(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        //add to history
+        $maxgroup = Customers::max_history_group() + 1;
+        $cartitems = Cart::getItems($customerid);
+        // dd($cartitems);
+        foreach($cartitems as $item){
+            $entry = array(
+                'history_customerid' => $item->cart_customerid,
+                'history_productid' => $item->cart_productid,
+                'history_skucolorid' => $item->cart_skucolorid,
+                'history_skusizeid' => $item->cart_skusizeid,
+                'history_amount' => $item->cart_amount,
+                'history_status' => $item->cart_status,
+                'history_group' => $maxgroup
+            );
+            Customers::add_history($entry);
+        }
+        //remove from cart
+        Cart::clear_cart($customerid);
+        //remove from stock
+        foreach($cartitems as $item){
+            $remain = $item->product_count_1 - $item->cart_amount;
+            $entry = array(
+                'product_count_1' => $remain
+            );
+            Customers::update_remain($item->product_id, $item->product_sku_color_id, $item->product_sku_size_id, $entry);
+        }
+        return $this->layout_init(view('customer.checkflow.final'), 1);
     }
 }

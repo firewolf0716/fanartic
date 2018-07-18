@@ -232,4 +232,10 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('customer/user/credit_edit/{addr_id}', 'CustomerController@credit_edit');
 	Route::post('customer/user/credit_edit_post', 'CustomerController@credit_edit_post');
 	Route::get('customer/user/credit_delete/{addr_id}', 'CustomerController@credit_delete');
+
+	Route::get('customer/user/checkflowinfo', 'CustomerController@checkflowinfo');
+	Route::post('customer/user/flow_post_ac', 'CustomerController@flow_post_ac');
+	Route::get('customer/user/checkflowconfirm', 'CustomerController@checkflowconfirm');
+	Route::get('customer/user/confirm_order', 'CustomerController@confirm_order');
+
 });

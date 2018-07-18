@@ -90,7 +90,9 @@ class Customers extends Model
     }
 
     public static function get_address($id){
-        return DB::table('customer_address')->where('id', $id)->get();
+        return DB::table('customer_address')->where('id', $id)
+            ->leftJoin('master_state', 'master_state.state_id', '=', 'customer_address.address_state')
+            ->get();
     }
 
     public static function add_address($entry){
@@ -144,5 +146,26 @@ class Customers extends Model
 
     public static function delete_card($id){
         return DB::table('customer_card')->where('id', $id)->delete();
-    }    
+    }
+
+    public static function max_history_group(){
+        return DB::table('customer_buy_history')->max('history_group');
+    }
+
+    public static function add_history($entry){
+        $check_insert = DB::table('customer_buy_history')->insert($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+
+    public static function update_remain($proid, $colorid, $sizeid, $entry){
+        DB::table("fan_product_stock_management")
+            ->where('product_id', $proid)
+            ->where('product_sku_color_id', $colorid)
+            ->where('product_sku_size_id', $sizeid)
+            ->update($entry);
+    }
 }

@@ -13,21 +13,54 @@
         <h3 class="c-box__hd">カード追加</h3>
         <div class="c-box__content">
             {!! Form::open(array('id' => 'form_credit','url'=>'customer/user/credit_add_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+
             <div class="c-form__row">
-                <div class="c-form__row__label">名前<span class="c-form__require">必須</span></div>
+                <div class="c-form__row__label">カード番号<span class="c-form__require">必須</span></div>
                 <div class="c-form__row__input">
                     <div class="c-form__colum">
-                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="name" value="" required></div>
+                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="no" value="" required></div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="c-form__row">
-                <div class="c-form__row__label">トークン<span class="c-form__require">必須</span></div>
+                <div class="c-form__row__label">カード名義<span class="c-form__require">必須</span></div>
                 <div class="c-form__row__input">
                     <div class="c-form__colum">
-                        <div class="c-form__colum__col"><input type="number" class="c-form__input" name="token" value="" pattern="\d*" maxlength="16" required></div>
+                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="owner" value="" required></div>
                     </div>
+                </div>
+            </div>
+
+            <div class="c-form__row">
+                <div class="c-form__row__label">セキュリティ番号<span class="c-form__require">必須</span></div>
+                <div class="c-form__row__input">
+                    <div class="c-form__colum">
+                        <div class="c-form__colum__col"><input type="text" class="c-form__input c-form__input--tel" name="token" value="" maxlength="4" required></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="c-form__row">
+                <div class="c-form__row__label">有効期限<span class="c-form__require">必須</span></div>
+                <div class="c-form__row__input">
+                    <label class="c-form__select c-form__select--birthday--year">
+                    <span class="c-form__select__box">
+                        <select name="year" id="year" required>
+                            @for($i = 2018; $i <= 2022; $i++)
+                            <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>
+                    </span>
+                    <span class="u-pc">年</span></label> 
+                    <label class="c-form__select c-form__select--birthday--month">
+                    <span class="c-form__select__box">
+                        <select name="month" id="month" required>
+                            @for($i = 1; $i <= 12; $i++)
+                            <option value="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </select>
+                    </span><span class="u-pc">月</span></label>
                 </div>
             </div>
             

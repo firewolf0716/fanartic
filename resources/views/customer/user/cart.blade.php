@@ -24,10 +24,10 @@
                             <h3 class="c-item__name">{{$item->brand_name}}</h3>
                             <ul class="c-item__data">
                                 <li>{{$item->product_name}}</li>
-                                <li>カラー：{{$item->color_name}}</li>
-                                <li>サイズ：{{$item->size_name}}</li>
+                                <li>カラー：{{$colorname[$item->cart_id]->color_name}}</li>
+                                <li>サイズ：{{$sizename[$item->cart_id]->size_name}}</li>
                             </ul>
-                            <div class="c-item__price u-sp"><strong>&yen;{{number_format($item->cart_price)}}</strong></div>
+                            <div class="c-item__price u-sp"><strong>&yen;{{number_format($item->product_price_sale)}}</strong></div>
                         </div>
                         <!--/.c-item__column__data-->
                     </div>
@@ -35,7 +35,7 @@
                 </div>
                 <!--/.c-item-->
             </div>
-            <div class="l-column--cart__price u-pc">&yen;{{number_format($item->cart_price)}}</div>
+            <div class="l-column--cart__price u-pc">&yen;{{number_format($item->product_price_sale)}}</div>
             <div class="l-column--cart__quantity">
                 <input type="number" style="width:70px; margin-left:20px" class="c-form__input" value='{{$item->cart_amount}}' min='0' max='100'/>
             </div>
@@ -57,7 +57,7 @@
         <p class="cart__shipping__quantity">商品合計（{{number_format($count)}}点）</p>
         <p class="cart__shipping__price"><strong>¥{{number_format($sum)}}</strong></p>
         <p class="cart__shipping__point">獲得ポイント：2,000ポイント</p>
-        <div class="cart__shipping__button"><a href="#" class="c-button c-button--submit c-button--full">レジへ進む</a></div>
+        <div class="cart__shipping__button"><a href="{{url('customer/user/checkflowinfo')}}" class="c-button c-button--submit c-button--full">レジへ進む</a></div>
         <p class="cart__shipping__back"><a href="{{url('customer/product/list/1')}}">ショッピングを続ける</a></p>
         </div>
         <!--/.cart__shipping-->

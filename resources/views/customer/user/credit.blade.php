@@ -14,9 +14,9 @@
         <div class="c-box__content">
             @foreach($cards as $card)
             <div class="l-column l-column--list">
-                <div class="l-column--list__name">{{$card->card_name}}</div>
+                <div class="l-column--list__name">{{$card->card_owner}}</div>
                 <!--/.l-column--list__name-->
-                <div class="l-column--list__data">カード番号：{{$tokens[$card->id]}}<br>有効期限：2018/07</div>
+                <div class="l-column--list__data">カード番号：{{str_repeat('*', 12).$card->card_token}}<br>有効期限：{{$card->card_validdate}}</div>
                 <!--/.l-column--list__data-->
                 <div class="l-column--list__button">
                     <a href="{{url('/customer/user/credit_edit/'.$card->id)}}" class="c-button c-button--secondary">変更</a> 
