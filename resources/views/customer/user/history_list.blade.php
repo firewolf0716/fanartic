@@ -14,9 +14,9 @@
         <h3 class="c-box__hd">
             @if($group->history_status == 2)
                 未発送
-            @else if($group->history_status == 3)
+            @elseif($group->history_status == 3)
                 発送
-            @else if($group->history_status == 1)
+            @elseif($group->history_status == 1)
                 拒否
             @endif
         <small>発送予定日：&nbsp;&nbsp;&nbsp;&nbsp;注文日：{{implode('.', explode('/', substr($group->history_date, 0, 10)))}}</small></h3>
