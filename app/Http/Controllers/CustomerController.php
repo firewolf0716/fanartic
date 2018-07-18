@@ -560,14 +560,14 @@ class CustomerController extends Controller
         
         $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
-            $image = Products::get_cart_image($item->cart_productid, $item->cart_skucolorid)->image_name;
-            $images[$item->cart_id] = $image;
-
             $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
             $colorname[$item->cart_id] = Colors::get_color($sku_color->sku_type_id);
 
             $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
             $sizename[$item->cart_id] = Sizes::get_size($sku_color->sku_type_id);
+
+            $image = Products::get_cart_image($item->cart_productid, $colorname[$item->cart_id]->color_id)->image_name;
+            $images[$item->cart_id] = $image;
         }
 
         $total = Cart::getSum($customerid);
@@ -774,6 +774,12 @@ class CustomerController extends Controller
             return Redirect::to('/');
         }
         $customerid = Session::get('customerid');
+
+        $cartCt = Cart::getCartItemCt($customerid);
+        if($cartCt == 0){
+            return Redirect::to('customer/user/cart');
+        }
+
         $addresses = Customers::get_addresses($customerid);
 
         $cards = Customers::get_cards($customerid);
@@ -829,14 +835,14 @@ class CustomerController extends Controller
         
         $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
-            $image = Products::get_cart_image($item->cart_productid, $item->cart_skucolorid)->image_name;
-            $images[$item->cart_id] = $image;
-
             $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
             $colorname[$item->cart_id] = Colors::get_color($sku_color->sku_type_id);
 
             $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
             $sizename[$item->cart_id] = Sizes::get_size($sku_color->sku_type_id);
+
+            $image = Products::get_cart_image($item->cart_productid, $colorname[$item->cart_id]->color_id)->image_name;
+            $images[$item->cart_id] = $image;
         }
 
         $address = Session::get('calc_address');
@@ -863,16 +869,23 @@ class CustomerController extends Controller
         //add to history
         $maxgroup = Customers::max_history_group() + 1;
         $cartitems = Cart::getItems($customerid);
-        // dd($cartitems);
+        $address = Session::get('calc_address');
+        $credit = Session::get('calc_credit');
+        date_default_timezone_set('Asia/Tokyo');
         foreach($cartitems as $item){
             $entry = array(
                 'history_customerid' => $item->cart_customerid,
                 'history_productid' => $item->cart_productid,
+                'history_merchantid' => $item->product_merchant_id,
                 'history_skucolorid' => $item->cart_skucolorid,
                 'history_skusizeid' => $item->cart_skusizeid,
                 'history_amount' => $item->cart_amount,
-                'history_status' => $item->cart_status,
-                'history_group' => $maxgroup
+                'history_price' => $item->product_price_sale,
+                'history_address' => $address,
+                'history_card' => $credit,
+                'history_status' => 2,
+                'history_group' => $maxgroup,
+                'history_date' => date('Y/m/d H:i:s')
             );
             Customers::add_history($entry);
         }
@@ -881,11 +894,79 @@ class CustomerController extends Controller
         //remove from stock
         foreach($cartitems as $item){
             $remain = $item->product_count_1 - $item->cart_amount;
+            $remain2 = $item->product_count_2 + $item->cart_amount;
             $entry = array(
-                'product_count_1' => $remain
+                'product_count_1' => $remain,
+                'product_count_2' => $remain2,
             );
             Customers::update_remain($item->product_id, $item->product_sku_color_id, $item->product_sku_size_id, $entry);
         }
         return $this->layout_init(view('customer.checkflow.final'), 1);
+    }
+
+    public function history(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+
+        $groups = Customers::get_history_groups($customerid);
+        $subitems = array(); $total = array();
+        $images = array(); $colorname = array(); $sizename = array();
+        foreach($groups as $group){
+            $items = Customers::get_items_bygroup($group->history_group);
+            // dd($items);
+            $subitems[$group->history_group] = $items;
+            foreach($items as $item){
+                $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
+                $colorname[$item->id] = Colors::get_color($sku_color->sku_type_id);
+    
+                $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
+                $sizename[$item->id] = Sizes::get_size($sku_color->sku_type_id);
+    
+                $image = Products::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
+                $images[$item->id] = $image;
+            }
+            $total[$group->history_group] = Customers::get_sum_bygroup($group->history_group);
+        }
+
+        return $this->layout_init(view('customer.user.history_list'), 1)
+                ->with('groups', $groups)
+                ->with('subitems', $subitems)
+                ->with('total', $total)
+                ->with('images', $images)
+                ->with('colorname', $colorname)
+                ->with('sizename', $sizename);
+    }
+
+    public function historydetail($group){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        $group = Customers::get_history_group($customerid, $group);
+        // dd($group);
+
+        $images = array(); $colorname = array(); $sizename = array();
+        $items = Customers::get_items_bygroup($group->history_group);
+        foreach($items as $item){
+            $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
+            $colorname[$item->id] = Colors::get_color($sku_color->sku_type_id);
+
+            $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
+            $sizename[$item->id] = Sizes::get_size($sku_color->sku_type_id);
+
+            $image = Products::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
+            $images[$item->id] = $image;
+        }
+        $total['sum'] = Customers::get_sum_bygroup($group->history_group);
+
+        return $this->layout_init(view('customer.user.history_detail'), 1)
+            ->with('group', $group)
+            ->with('items', $items)
+            ->with('total', $total)
+            ->with('colorname', $colorname)
+            ->with('sizename', $sizename)
+            ->with('images', $images);
     }
 }

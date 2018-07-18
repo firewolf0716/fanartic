@@ -716,4 +716,22 @@ class MerchantproductController extends Controller
 
         return $this->merchant_manage(1);
     }
+
+    public function merchant_product_cash_on_delivery() {
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $merchant_id = Session::get('merchantid');
+        $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
+
+        return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
+            ->with('cashProducts', $cashProducts);
+    }
+    public function accept_pay_shipping_delivery($id) {
+        Products::set_buy_product_status($id, 3);
+    }
+    public function decline_pay_shipping_delivery($id) {
+        Products::set_buy_product_status($id, 1);
+    }
 }

@@ -44,6 +44,12 @@ class Cart extends Model
             ->get();
     }
 
+    public static function getCartItemCt($customer){
+        return DB::table('customer_cart')
+            ->where('cart_customerid', $customer)
+            ->count();
+    }
+
     public static function getSum($customer){
         $items = Cart::getItems($customer);
         $sum = 0; $count = 0;
