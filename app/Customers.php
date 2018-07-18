@@ -90,7 +90,9 @@ class Customers extends Model
     }
 
     public static function get_address($id){
-        return DB::table('customer_address')->where('id', $id)->get();
+        return DB::table('customer_address')->where('id', $id)
+            ->leftJoin('master_state', 'master_state.state_id', '=', 'customer_address.address_state')
+            ->get();
     }
 
     public static function add_address($entry){
@@ -144,5 +146,64 @@ class Customers extends Model
 
     public static function delete_card($id){
         return DB::table('customer_card')->where('id', $id)->delete();
-    }    
+    }
+
+    public static function max_history_group(){
+        return DB::table('customer_buy_history')->max('history_group');
+    }
+
+    public static function add_history($entry){
+        $check_insert = DB::table('customer_buy_history')->insert($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+
+    public static function update_remain($proid, $colorid, $sizeid, $entry){
+        DB::table("fan_product_stock_management")
+            ->where('product_id', $proid)
+            ->where('product_sku_color_id', $colorid)
+            ->where('product_sku_size_id', $sizeid)
+            ->update($entry);
+    }
+
+    public static function get_history_groups($customerid){
+        return DB::table('customer_buy_history')
+            ->where('history_customerid', $customerid)
+            ->groupBy('history_group')
+            ->orderBy('history_date')->get();
+    }
+
+    public static function get_items_bygroup($group){
+        return DB::table('customer_buy_history')
+            ->where('history_group', $group)
+            ->leftJoin('fan_product', 'fan_product.product_id', 'customer_buy_history.history_productid')
+            ->leftJoin('master_brand', 'fan_product.product_brand_id', 'master_brand.brand_id')
+            ->leftJoin('fan_product_stock_management', function($join){
+                $join->on('customer_buy_history.history_productid', '=', 'fan_product_stock_management.product_id');
+                $join->on('customer_buy_history.history_skucolorid', '=', 'fan_product_stock_management.product_sku_color_id');
+                $join->on('customer_buy_history.history_skusizeid', '=', 'fan_product_stock_management.product_sku_size_id');
+            })
+            ->groupBy('customer_buy_history.id')
+            ->get();
+    }
+
+    public static function get_sum_bygroup($group){
+        return DB::table('customer_buy_history')->where('history_group', $group)->sum(DB::raw('history_amount * history_price'));
+    }
+
+    public static function get_history_group($customerid, $group){
+        return DB::table('customer_buy_history')
+            ->where('history_customerid', $customerid)
+            ->where('history_group', $group)
+            ->leftJoin('customer_address', 'customer_buy_history.history_address', 'customer_address.id')
+            ->leftJoin('customer_card', 'customer_buy_history.history_card', 'customer_card.id')
+            ->get()->first();
+    }
+
+    public static function get_OrderNo($customerid, $group){
+
+    }
 }

@@ -32,8 +32,8 @@
             <!--/.c-form__row-->
             <div class="c-form__row">
                 <div class="c-form__row__label">郵便番号<span class="c-form__require">必須</span></div>
-                <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" value="" required> 
-                    <button type="button" class="c-button c-button--primary">住所自動入力</button>
+                <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" id="zipcode" name="zipcode" value="" required> 
+                    <button type="button" class="c-button c-button--primary" onClick="getAddress()">住所自動入力</button>
                 </div>
             </div>
             <!--/.c-form__row-->
@@ -69,14 +69,14 @@
                     <div class="c-form__row__label">都道府県<span class="c-form__require">必須</span></div>
                     <div class="c-form__row__input">
                         <div class="c-form__colum">
-                            <div class="c-form__colum__col"><input type="text" class="c-form__input" name="province" value="" required></div>
+                            <div class="c-form__colum__col"><input type="text" class="c-form__input" name="province" id="province" value="" required></div>
                         </div>
                     </div>
                 </div>
                 <!--/.c-form__row-->
                 <div class="c-form__row">
                     <div class="c-form__row__label">市町区村<span class="c-form__require">必須</span></div>
-                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" value="" required></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" id="county" value="" required></div>
                 </div>
                 <!--/.c-form__row-->
                 <div class="c-form__row">
@@ -97,10 +97,10 @@
     <!--/.members__column__content-->
     <div class="members__column__nav">
         <ul class="members__nav">
-        <li><a href="#">お気に入りアイテム</a></li>
-        <li><a href="#">探しているアイテム</a></li>
-        <li><a href="#">注文履歴</a></li>
-        <li><a href="#">ポイント</a></li>
+        <li><a href="{{url('/customer/user/favourite')}}">お気に入りアイテム</a></li>
+        <li><a href="{{url('/customer/user/wish')}}">探しているアイテム</a></li>
+        <li><a href="{{url('/customer/user/history')}}">注文履歴</a></li>
+        <li><a href="{{url('/customer/user/score')}}">ポイント</a></li>
         <li><a href="#">会員情報</a>
             <ul class="members__nav__sub">
                 <li><a href="{{url('/customer/user/profile')}}">会員情報変更</a></li>
@@ -131,6 +131,26 @@
     function onSubmit(){
         // $('#form_address').parsley();
         $('#form_address').submit();
+    }
+    function getAddress(){
+        var postalCode = $('#zipcode').val();
+        var purl = 'http://dev.virtualearth.net/REST/v1/Locations?countryRegion=JP&postalCode=' 
+                    + postalCode 
+                    + '&o=json&key=AoyhuvvuNi0LJYoJhgs0NIl4sTLl_aB_ew7NZr3bPhw6yLk1bIXywCbRVwhEIPfB&c=ja';
+        $.ajax({
+            type:"get",
+            url: purl, 
+            success: function(result){
+                var res = result.resourceSets[0].resources[0].name;
+                if(res.length < 8){
+                    alert('郵便番号が間違っている.');
+                    return;
+                }
+                $('#province').val(result.resourceSets[0].resources[0].address.adminDistrict);
+                $('#county').val(res.substring($('#zipcode').val().length + $('#province').val().length + 1));
+                $('#address').val('');
+            }
+        });
     }
 </script>
 @endsection

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100131
 File Encoding         : 65001
 
-Date: 2018-07-18 03:06:01
+Date: 2018-07-19 05:27:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -74,13 +74,41 @@ CREATE TABLE `customer_address` (
   `address_create` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `address_update` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of customer_address
 -- ----------------------------
 INSERT INTO `customer_address` VALUES ('3', '2', 'new', '080-0000-0000', '140-0005', '1', null, null, '東京都', '品川区広町', '123', null, '1', null, null);
-INSERT INTO `customer_address` VALUES ('5', '2', 'new', '080-3000-0000', '140-00067', '2', '0a', 'dsdw', null, null, null, null, '1', null, null);
+INSERT INTO `customer_address` VALUES ('5', '2', 'new', '080-3000-0000', '140-00067', '2', '0a', 'dsdw', null, null, null, null, '0', null, null);
+INSERT INTO `customer_address` VALUES ('6', '2', 'aaa', '080-2000-0000', '140-0006', '1', null, null, '東京都', '品川区広町', 'dsdw', null, '', null, null);
+
+-- ----------------------------
+-- Table structure for customer_buy_history
+-- ----------------------------
+DROP TABLE IF EXISTS `customer_buy_history`;
+CREATE TABLE `customer_buy_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_customerid` int(11) DEFAULT NULL,
+  `history_merchantid` int(11) DEFAULT NULL,
+  `history_productid` int(11) DEFAULT NULL,
+  `history_skucolorid` int(11) DEFAULT NULL,
+  `history_skusizeid` int(11) DEFAULT NULL,
+  `history_amount` double(255,0) DEFAULT NULL,
+  `history_price` double(10,2) DEFAULT NULL,
+  `history_address` int(11) DEFAULT NULL,
+  `history_card` int(11) DEFAULT NULL,
+  `history_status` int(11) DEFAULT '0' COMMENT '0 => cart, 1=>waiting,2=>accept,3=>decline',
+  `history_group` int(11) DEFAULT NULL,
+  `history_date` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of customer_buy_history
+-- ----------------------------
+INSERT INTO `customer_buy_history` VALUES ('47', '2', '2', '84', '361', '364', '1', '2.00', '3', '1', '3', '1', '2018/07/19 01:07:41');
+INSERT INTO `customer_buy_history` VALUES ('48', '2', '2', '84', '362', '365', '1', '14.00', '3', '1', '0', '1', '2018/07/19 01:07:41');
 
 -- ----------------------------
 -- Table structure for customer_card
@@ -89,18 +117,22 @@ DROP TABLE IF EXISTS `customer_card`;
 CREATE TABLE `customer_card` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) DEFAULT NULL,
-  `card_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `card_no` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `card_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `card_owner` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `card_validdate` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `card_create` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `card_update` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of customer_card
 -- ----------------------------
-INSERT INTO `customer_card` VALUES ('1', '2', 'card1', '1234567890123458', null, null);
-INSERT INTO `customer_card` VALUES ('2', '2', 'card2', '1234567890654321', null, null);
+INSERT INTO `customer_card` VALUES ('1', '2', '1234567891', '3458', 'hhh', '2018/7', null, null);
+INSERT INTO `customer_card` VALUES ('2', '2', '1234567892', '4321', 'ggg', '2019/10', null, null);
+INSERT INTO `customer_card` VALUES ('4', '2', '1234567893', '1234', 'ccc', '2018/1', null, null);
+INSERT INTO `customer_card` VALUES ('5', '2', '1234567894', '5648', 'gtb', '2018/6', null, null);
 
 -- ----------------------------
 -- Table structure for customer_cart
@@ -113,17 +145,14 @@ CREATE TABLE `customer_cart` (
   `cart_skucolorid` int(11) DEFAULT NULL,
   `cart_skusizeid` int(11) DEFAULT NULL,
   `cart_amount` double(255,0) DEFAULT NULL,
-  `cart_price` double(255,2) DEFAULT NULL,
   `cart_status` int(11) DEFAULT '0' COMMENT '0 => cart, 1=>waiting,2=>accept,3=>decline',
   `cart_history` enum('1','0') COLLATE utf8_unicode_ci DEFAULT '1',
   PRIMARY KEY (`cart_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of customer_cart
 -- ----------------------------
-INSERT INTO `customer_cart` VALUES ('13', '2', '85', '1', '1', '1', '3.00', '0', '1');
-INSERT INTO `customer_cart` VALUES ('15', '3', '85', '1', '1', '1', '3.00', '0', '1');
 
 -- ----------------------------
 -- Table structure for customer_favourite
@@ -482,12 +511,12 @@ CREATE TABLE `fan_product_stock_management` (
 -- ----------------------------
 -- Records of fan_product_stock_management
 -- ----------------------------
-INSERT INTO `fan_product_stock_management` VALUES ('350', '84', '1', '0', '0', '0', '0', '0', '2', '361', '364', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '2', '3', '4', null);
+INSERT INTO `fan_product_stock_management` VALUES ('350', '84', '3', '1', '0', '0', '0', '0', '2', '361', '364', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '2', '3', '4', null);
 INSERT INTO `fan_product_stock_management` VALUES ('351', '84', '5', '0', '0', '0', '0', '0', '2', '361', '365', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '6', '7', '8', '1');
-INSERT INTO `fan_product_stock_management` VALUES ('352', '84', '9', '0', '0', '0', '0', '0', '2', '362', '364', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '10', '11', '12', '1');
-INSERT INTO `fan_product_stock_management` VALUES ('353', '84', '13', '0', '0', '0', '0', '0', '2', '362', '365', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '14', '15', '16', null);
-INSERT INTO `fan_product_stock_management` VALUES ('354', '84', '17', '0', '0', '0', '0', '0', '2', '363', '364', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '18', '19', '20', null);
-INSERT INTO `fan_product_stock_management` VALUES ('355', '84', '21', '0', '0', '0', '0', '0', '2', '363', '365', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '22', '23', '24', null);
+INSERT INTO `fan_product_stock_management` VALUES ('352', '84', '5', '0', '0', '0', '0', '0', '2', '362', '364', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '10', '11', '12', '1');
+INSERT INTO `fan_product_stock_management` VALUES ('353', '84', '4', '1', '0', '0', '0', '0', '2', '362', '365', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '14', '15', '16', null);
+INSERT INTO `fan_product_stock_management` VALUES ('354', '84', '13', '0', '0', '0', '0', '0', '2', '363', '364', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '18', '19', '20', null);
+INSERT INTO `fan_product_stock_management` VALUES ('355', '84', '19', '0', '0', '0', '0', '0', '2', '363', '365', '2018/07/16 04:48:40', '2018/07/16 04:48:40', '22', '23', '24', null);
 INSERT INTO `fan_product_stock_management` VALUES ('356', '85', '3', '0', '0', '0', '0', '0', '2', '366', '367', '2018/07/16 06:15:26', '2018/07/16 06:15:26', '3', '3', '3', null);
 INSERT INTO `fan_product_stock_management` VALUES ('357', '83', '0', '0', '0', '0', '0', '0', '2', '368', '370', '2018/07/16 04:46:45', '2018/07/16 04:46:45', null, null, null, null);
 INSERT INTO `fan_product_stock_management` VALUES ('358', '83', '0', '0', '0', '0', '0', '0', '2', '368', '371', '2018/07/16 04:46:45', '2018/07/16 04:46:45', null, null, null, null);

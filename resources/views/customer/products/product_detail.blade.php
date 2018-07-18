@@ -39,26 +39,26 @@
             @foreach($skucolor as $color)
             <div class="product-detail__data__cart__item">
                 @php
-                    $color_image = $skuimages[$imagerec[0]->master_image_id][$color->sku_type_id];
+                    $color_image = $skuimages[$imagerec[0]->master_image_id][$color->sku_id];
                     $prod_path = url('').'/images/products/'.$color_image->image_name;
                 @endphp
                 <div class="product-detail__data__cart__item__figure"><img src="{{$prod_path}}" alt="">{{$color->color_name}}</div>
                 <ul class="product-detail__data__cart__item__list">
                 @foreach($skusize as $size)
                     <li>
-                        @if($skuinfo[$color->sku_type_id][$size->sku_type_id]['count'] > 0)
+                        @if($skuinfo[$color->sku_id][$size->sku_id]['count'] > 0)
                         <div class="product-detail__data__cart__item__list__size">
                             {{$size->size_name}}
                             <span class="u-pc">&nbsp;/&nbsp;</span>
                             <br class="u-sp">在庫あり
                         </div>
                         <div class="product-detail__data__cart__item__list__size">
-                            <input id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_type_id][$size->sku_type_id]['count']}}'/>
-                            <input id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_price' type="hidden" value='{{$skuinfo[$color->sku_type_id][$size->sku_type_id]['price']}}'/>
+                            <input id='{{$color->sku_id.'_'.$size->sku_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}'/>
+                            <input id='{{$color->sku_id.'_'.$size->sku_id}}_price' type="hidden" value='{{$skuinfo[$color->sku_id][$size->sku_id]['price']}}'/>
                         </div>
                         <div class="product-detail__data__cart__item__list__addcart">
-                            <button id='{{$color->sku_type_id.'_'.$size->sku_type_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button" 
-                                onClick="onCart('{{$color->sku_type_id.'_'.$size->sku_type_id}}', '{{$skuinfo[$color->sku_type_id][$size->sku_type_id]['count']}}')">
+                            <button id='{{$color->sku_id.'_'.$size->sku_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button" 
+                                onClick="onCart('{{$color->sku_id.'_'.$size->sku_id}}', '{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}')">
                                 <i class="c-icon u-pc"></i>カートへ入れる
                             </button>
                         </div>

@@ -232,7 +232,6 @@ class Products extends Model{
     }
 
 
-
     public static function get_product_detail($id){
         return DB::table('fan_product')->where('product_id', $id)
             ->leftJoin('master_brand', 'fan_product.product_brand_id', '=', 'master_brand.brand_id')
@@ -323,7 +322,34 @@ class Products extends Model{
     }
 
     public static function get_cart_image($product_id, $color) {
-        $img = DB::table('fan_product_image')->where('product_id', $product_id)->get()->first();
+        // $first = DB::table('fan_product_image')->where('product_id', $product_id)->get()->first();
+        $img = DB::table('fan_product_image')
+            ->where('product_id', $product_id)
+            ->where('color_id', $color)
+            ->get()->first();
         return $img;
+    }
+
+    public static function get_cash_on_delivery_products($merchant_id) {
+        $query = "SELECT customer_buy_history.id AS buy_history_id, customer_buy_history.history_amount AS product_amount
+                    , customer_buy_history.history_price AS product_price, customer_buy_history.history_date AS request_date
+                    , master_color.color_name, master_size.size_name, fan_product.product_name, fan_product.product_code
+                    , customer_address.address_name, customers.customer_name_first, customers.customer_name_second, customers.customer_email
+                    , customers.customer_phone, customers.customer_postalcode, customers.customer_gender, customers.customer_birthday
+                    FROM (SELECT * FROM customer_buy_history WHERE history_status = '2' AND history_merchantid = '$merchant_id') AS customer_buy_history
+                     LEFT JOIN fan_product_sku AS sku_color ON sku_color.sku_id = customer_buy_history.history_skucolorid
+                     LEFT JOIN master_color ON master_color.color_id = sku_color.sku_type_id
+                     LEFT JOIN fan_product_sku AS sku_size ON sku_size.sku_id = customer_buy_history.history_skusizeid
+                     LEFT JOIN master_size ON master_size.size_id = sku_size.sku_type_id
+                     LEFT JOIN fan_product ON fan_product.product_id = customer_buy_history.history_productid
+                     LEFT JOIN customer_address ON customer_address.id = customer_buy_history.history_address
+                     LEFT JOIN customers ON customers.customer_id = customer_buy_history.history_customerid";
+            $stocks = DB::select($query);
+            return $stocks; 
+    }
+    public static function set_buy_product_status($id, $status) {
+        return DB::table('customer_buy_history')
+            ->where('id', $id)
+            ->update(['history_status' => $status]);
     }
 }

@@ -177,6 +177,11 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/manage/{product_status}', 'MerchantproductController@merchant_product_manage_with_status');
 	Route::get('merchant/product/sold', 'MerchantproductController@merchant_product_sold');
 	Route::get('merchant/product/csvupload', 'MerchantproductController@merchant_product_csvupload');
+	Route::get('merchant/product/cash_on_delivery', 'MerchantproductController@merchant_product_cash_on_delivery');
+	Route::get('merchant/product/get_cash_on_delivery/{id}', 'MerchantproductController@get_cash_on_delivery');
+	Route::get('merchant/product/accept_pay_shipping_delivery/{id}', 'MerchantproductController@accept_pay_shipping_delivery');
+	Route::get('merchant/product/decline_pay_shipping_delivery/{id}', 'MerchantproductController@decline_pay_shipping_delivery');
+
 	Route::post('merchant/product/set_sku', 'MerchantproductController@merchant_product_set_sku');
 	Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
 
@@ -232,4 +237,12 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('customer/user/credit_edit/{addr_id}', 'CustomerController@credit_edit');
 	Route::post('customer/user/credit_edit_post', 'CustomerController@credit_edit_post');
 	Route::get('customer/user/credit_delete/{addr_id}', 'CustomerController@credit_delete');
+
+	Route::get('customer/user/checkflowinfo', 'CustomerController@checkflowinfo');
+	Route::post('customer/user/flow_post_ac', 'CustomerController@flow_post_ac');
+	Route::get('customer/user/checkflowconfirm', 'CustomerController@checkflowconfirm');
+	Route::get('customer/user/confirm_order', 'CustomerController@confirm_order');
+
+	Route::get('customer/user/history', 'CustomerController@history');
+	Route::get('customer/user/historydetail/{group}', 'CustomerController@historydetail');
 });

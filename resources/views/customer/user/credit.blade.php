@@ -14,9 +14,9 @@
         <div class="c-box__content">
             @foreach($cards as $card)
             <div class="l-column l-column--list">
-                <div class="l-column--list__name">{{$card->card_name}}</div>
+                <div class="l-column--list__name">{{$card->card_owner}}</div>
                 <!--/.l-column--list__name-->
-                <div class="l-column--list__data">カード番号：{{$tokens[$card->id]}}<br>有効期限：2018/07</div>
+                <div class="l-column--list__data">カード番号：{{str_repeat('*', 12).$card->card_token}}<br>有効期限：{{$card->card_validdate}}</div>
                 <!--/.l-column--list__data-->
                 <div class="l-column--list__button">
                     <a href="{{url('/customer/user/credit_edit/'.$card->id)}}" class="c-button c-button--secondary">変更</a> 
@@ -37,10 +37,10 @@
     <!--/.members__column__content-->
     <div class="members__column__nav">
         <ul class="members__nav">
-        <li><a href="#">お気に入りアイテム</a></li>
-        <li><a href="#">探しているアイテム</a></li>
-        <li><a href="#">注文履歴</a></li>
-        <li><a href="#">ポイント</a></li>
+        <li><a href="{{url('/customer/user/favourite')}}">お気に入りアイテム</a></li>
+        <li><a href="{{url('/customer/user/wish')}}">探しているアイテム</a></li>
+        <li><a href="{{url('/customer/user/history')}}">注文履歴</a></li>
+        <li><a href="{{url('/customer/user/score')}}">ポイント</a></li>
         <li><a href="#">会員情報</a>
             <ul class="members__nav__sub">
                 <li><a href="{{url('/customer/user/profile')}}">会員情報変更</a></li>
