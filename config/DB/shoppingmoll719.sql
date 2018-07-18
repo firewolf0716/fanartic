@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 100131
 File Encoding         : 65001
 
-Date: 2018-07-19 05:27:08
+Date: 2018-07-19 05:32:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -81,7 +81,7 @@ CREATE TABLE `customer_address` (
 -- ----------------------------
 INSERT INTO `customer_address` VALUES ('3', '2', 'new', '080-0000-0000', '140-0005', '1', null, null, '東京都', '品川区広町', '123', null, '1', null, null);
 INSERT INTO `customer_address` VALUES ('5', '2', 'new', '080-3000-0000', '140-00067', '2', '0a', 'dsdw', null, null, null, null, '0', null, null);
-INSERT INTO `customer_address` VALUES ('6', '2', 'aaa', '080-2000-0000', '140-0006', '1', null, null, '東京都', '品川区広町', 'dsdw', null, '', null, null);
+INSERT INTO `customer_address` VALUES ('6', '2', 'aaa', '080-2000-0000', '140-0006', '1', null, null, '東京都', '品川区広町', 'dsdw', null, '0', null, null);
 
 -- ----------------------------
 -- Table structure for customer_buy_history
