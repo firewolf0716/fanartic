@@ -56,4 +56,8 @@ class Sizes extends Model
     public static function edit_sizecategory($entry, $id) {
         return DB::table('master_sizecategory')->where('sizecategory_id', '=', $id)->update($entry);
     }
+    public static function get_size_id($size_name) {
+        return DB::table('master_size')->where('size_name', $size_name)->get()->first()->size_id;
+    }
+    
 }

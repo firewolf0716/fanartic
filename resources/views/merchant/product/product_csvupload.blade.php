@@ -16,6 +16,7 @@
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
+        {!! Form::open(array('id' => 'form_add','url'=>'merchant/product/load_from_csv','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             <div class="col-md-6">
                 <div class="x_panel">
                     <div class="x_title">
@@ -26,9 +27,9 @@
                         <label class="control-label">Please Select CSV File</label>
                         <div class="form-group" style="margin-Bottom:30px">
                             <div class="input-group">
-                                <input type="file" class="col-sm-4 form-control"/>
+                                <input type="file" name="csv_file" class="form-control" accept=".csv" required>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-success" onclick="loadDataFromCSV()" name="import_button">CSV Upload</button>
+                                    <button id="btnSubmit" type="submit" class="btn btn-warning">csvからの読み込み</button>
                                 </span>
                             </div>
                         </div>
@@ -36,6 +37,7 @@
                 </div>
             </div>
         </div>
+        {{ Form::close() }}
     </div>   
 </div>
     <!-- jQuery -->
@@ -92,7 +94,9 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
-    <script>
-        
-    </script>
+    <script type="text/javascript">
+    $('#btnSubmit').click(function() {
+        $('#form_add').parsley();
+    });
+</script>
 @endsection

@@ -21,8 +21,10 @@ class Controller extends BaseController
         }
     }
     public function check_merchant_session() {
-        if (!Session::has('merchantid')) {
-            // return Redirect::to('merchant/signin');
+        if (Session::has('merchantid')) {
+            return Session::get('merchantid');
+        } else {
+            return 0;
         }
     }
 }
