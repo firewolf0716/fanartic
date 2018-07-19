@@ -34,4 +34,8 @@ class Brands extends Model
     public static function remove($id){
         return DB::table('master_brand')->where('brand_id', $id)->delete();
     }
+
+    public static function get_brand_id($brand_name) {
+        return DB::table('master_brand')->where('brand_name', $brand_name)->get()->first()->brand_id;
+    }
 }

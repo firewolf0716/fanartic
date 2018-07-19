@@ -734,4 +734,218 @@ class MerchantproductController extends Controller
     public function decline_pay_shipping_delivery($id) {
         Products::set_buy_product_status($id, 1);
     }
+
+
+    public function importProductFromCSV(){
+        $merchant_id = $this->check_merchant_session();
+        if ($merchant_id == 0) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $csv_file = Input::file('csv_file');
+        if ($csv_file == null || $csv_file == "") {
+            return Redirect::to('merchant/product/manage');
+        }
+
+        $filename_new = "merchant_product_csv_" . time() . "." . strtolower($csv_file->getClientOriginalExtension());
+        $newdestinationPath = './csv/';
+        $uploadSuccess_new = $csv_file->move($newdestinationPath, $filename_new);
+
+        $importProductCount = 0;
+        if (($handle = fopen($uploadSuccess_new, 'r')) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                $importProductCount += 1;
+                if ($importProductCount == 1) {
+                    continue;
+                }
+                // product color string
+                $product_colors = array();
+                $tmpColors = explode('/**/', $data[25]);
+                $strProductColors = '';
+                foreach ($tmpColors as $tmpColor) {
+                    if ($strProductColors != '') {
+                        $strProductColors .= '/**/';
+                    }
+                    $tmpColorId = Colors::get_color_id($tmpColor);
+                    array_push($product_colors, $tmpColorId);
+                    $strProductColors .= $tmpColorId;
+                }
+
+                $product_sizes = array();
+                $tmpSizes = explode('/**/', $data[26]);
+                $strProductSizes = '';
+                foreach ($tmpSizes as $tmpSize) {
+                    if ($strProductSizes != '') {
+                        $strProductSizes .= '/**/';
+                    }
+                    $tmpSizeId = Sizes::get_size_id($tmpSize);
+                    array_push($product_sizes, $tmpSizeId);
+                    $strProductSizes .= $tmpSizeId;
+                }
+
+                $product_salemethod = 0;
+                if ($data[0] == '通常') {
+                    $product_salemethod = 1;
+                }
+                $product_salerange = $data[1];
+                $product_brand_id = Brands::get_brand_id($data[2]);
+                $product_category_id = Categorys::get_category_id($data[3], $data[4], $data[5]);
+
+                $product_event = '';
+                $product_old_status = 0;
+                if ($data[24] == 'B') {
+                    $product_old_status = 5;
+                }
+                $product_parent = '';
+                $stock_type = 1;
+                $max_order_count = 1;
+                $postage_type = 0;
+                $postage = '';
+                $delivery_id = 1;
+                $shipping_id = 0;
+                $product_color_1 = 1;
+                $current_date = date("Y/m/d H:i:s");
+
+                // Save fan product
+                $entry =  array(
+                    'product_salemethod' => $product_salemethod,
+                    'product_salerange' => $product_salerange,
+                    'product_brand_id' => $product_brand_id,
+                    'product_category_id' => $product_category_id,
+                    'product_event' => $product_event,
+                    'product_code' => $data[6],
+                    'product_name' => $data[7],
+                    'product_name_kana' => $data[8],
+                    'product_name_detail' => $data[9],
+                    'product_taxflag' => $data[13],
+                    'product_old_status' => $product_old_status,
+                    'product_color' => $strProductColors,
+                    'product_size' => $strProductSizes,
+                    'product_weight' => $data[28],
+                    'product_season' => $data[29],
+                    'product_place' => $data[30],
+                    'product_material' => $data[31],
+                    'product_memo' => $data[32],
+                    'product_status' => $data[33],
+                    'product_create' => $current_date,
+                    'product_update' => $current_date,
+                    'product_parent_id' => $product_parent,
+                    'product_merchant_id' => $merchant_id,
+                    'stock_type' => $stock_type,
+                    'max_order_count' => $max_order_count,
+                    'postage_type' => $postage_type,
+                    'postage' => $postage,
+                    'delivery_id' => $delivery_id,
+                    'shipping_id' => $shipping_id,
+                    'product_color_1' => $product_color_1
+                );
+                $productid = Products::insert_product($entry);
+
+                // SKU Color 1
+                foreach($product_colors as $product_color_id) {
+                    $sku_info = array (
+                        'product_id' => $productid,
+                        'sku_type' => '1',
+                        'sku_type_id' => $product_color_id,
+                        'sku_status' => '1',
+                        'sku_create' => $current_date,
+                        'sku_update' => $current_date,
+                        'product_merchant_id' => $merchant_id
+                    );
+                    ProductSKU::insert_sku($sku_info);
+                }
+
+                // SKU Size 2
+                foreach($product_sizes as $product_size_id) {
+                    $sku_info = array (
+                        'product_id' => $productid,
+                        'sku_type' => '2',
+                        'sku_type_id' => $product_size_id,
+                        'sku_status' => '1',
+                        'sku_create' => $current_date,
+                        'sku_update' => $current_date,
+                        'product_merchant_id' => $merchant_id
+                    );
+                    ProductSKU::insert_sku($sku_info);
+                }
+
+                $product_sku_colors = ProductSKU::get_product_sku($productid, 1, $merchant_id);
+                $product_sku_sizes = ProductSKU::get_product_sku($productid, 2, $merchant_id);
+
+                // stock
+                foreach($product_sku_colors as $product_sku_color) {
+                    $storeCount = 0;
+                    if ($stock_type == 1) {
+                        $storeCount = 1;
+                    }
+                    
+                    foreach($product_sku_sizes as $product_sku_size) {
+                        $stock_info = array (
+                            'product_id' => $productid,
+                            'product_count_1' => $storeCount,
+                            'product_count_2' => 0,
+                            'product_count_3' => 0,
+                            'product_count_4' => 0,
+                            'product_count_5' => 0,
+                            'product_count_6' => 0,
+                            'product_merchant_id' => $merchant_id,
+                            'product_sku_size_id' => $product_sku_size->sku_id,
+                            'product_sku_color_id' => $product_sku_color->sku_id,
+                            'product_stock_create' => $current_date,
+                            'product_stock_update' => $current_date,
+                            'product_price_sale' => $data[10],
+                            'product_price_ref' => $data[11],
+                            'product_price_law' => $data[12]
+                        );
+                        ProductStock::insert_product_stock($stock_info);
+                    }
+                }
+
+                // master image
+                $filename_new_get = '';        
+                for ($masterImageCount = 14; $masterImageCount < 24; $masterImageCount++) {
+                    $filename_new = $data[$masterImageCount];
+                    if ($filename_new == "") {
+                        continue;
+                    }
+
+                    $entry =  array(
+                        'product_id' => $productid,
+                        'master_image_name' => $filename_new,
+                        'merchant_id' => $merchant_id,
+                        'master_image_create' => $current_date,
+                        'master_image_update' => $current_date
+                    );
+                    $master_image_id = Products::insert_master_image($entry);
+
+                    $image_name = '';
+                    if ($stock_type == 1) {
+                        $image_name = $filename_new;
+                    }
+
+                    foreach($product_colors as $product_color_id) {
+                        $entry =  array(
+                            'product_id' => $productid,
+                            'master_image_id' => $master_image_id,
+                            'merchant_id' => $merchant_id,
+                            'color_id' => $product_color_id,
+                            'image_name' => $image_name,
+                            'image_create' => $current_date,
+                            'image_update' => $current_date
+                        );
+                        Products::insert_image($entry);
+                    }
+                }
+            }
+
+            fclose ($handle);
+        }
+        return Redirect::to('merchant/product/manage')->with('product_status', 1);
+
+        // if ($stock_type == 1) {
+        //     return Redirect::to('merchant/product/manage')->with('product_status', 1);
+        // } else {
+        //     return $this->merchant_product_edit_sku($productid);
+        // }
+    }
 }

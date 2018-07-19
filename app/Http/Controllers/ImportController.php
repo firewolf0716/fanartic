@@ -11,6 +11,10 @@ use App\Malls;
 use App\Brands;
 use App\Genres;
 use App\MallBrands;
+use App\ProductSKU;
+use App\ProductStock;
+use App\Categorys;
+use App\Products;
 
 class ImportController extends Controller
 {

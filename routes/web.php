@@ -181,7 +181,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/get_cash_on_delivery/{id}', 'MerchantproductController@get_cash_on_delivery');
 	Route::get('merchant/product/accept_pay_shipping_delivery/{id}', 'MerchantproductController@accept_pay_shipping_delivery');
 	Route::get('merchant/product/decline_pay_shipping_delivery/{id}', 'MerchantproductController@decline_pay_shipping_delivery');
-
+	Route::post('merchant/product/load_from_csv', 'MerchantproductController@importProductFromCSV');
 	Route::post('merchant/product/set_sku', 'MerchantproductController@merchant_product_set_sku');
 	Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
 

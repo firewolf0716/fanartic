@@ -132,4 +132,24 @@ class Categorys extends Model
         }
         return $result;
     }
+
+    public static function get_category_id($top_name, $main_name, $sub_name) {
+        $top_id = DB::table('master_category')->where('category_name', $top_name)
+                ->where(function($q) {
+                    $q->where('category_parent_id', '')
+                    ->orWhere('category_parent_id', '0')
+                    ->orWhere('category_parent_id', null);
+                })
+                ->get()->first()->category_id;
+
+        $main_id = DB::table('master_category')->where('category_name', $main_name)
+                ->where('category_parent_id', $top_id)
+                ->get()->first()->category_id;
+
+        $sub_id = DB::table('master_category')->where('category_name', $sub_name)
+                ->where('category_parent_id', $main_id)
+                ->get()->first()->category_id;
+
+        return $sub_id;
+    }
 }
