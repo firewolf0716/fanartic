@@ -57,7 +57,7 @@
                 <li>ご注文番号：</li>
                 <li>支払い方法： クレジット(一括)</li>
                 <li>支払い金額：<span class="c-item__price"><strong>&yen;{{number_format($total[$group->history_group])}}</strong></span></li>
-                </ul><a href="{{url('customer/user/historydetail/'.$group->history_group)}}" class="c-button c-button--primary c-button--full">注文内容の詳細</a></div>
+                </ul><a href="{{url('user/historydetail/'.$group->history_group)}}" class="c-button c-button--primary c-button--full">注文内容の詳細</a></div>
             </div>
             <!--/.c-box-detail-->
         </div>
@@ -69,17 +69,17 @@
     <!--/.members__column__content-->
     <div class="members__column__nav">
         <ul class="members__nav">
-        <li><a href="{{url('/customer/user/favourite')}}">お気に入りアイテム</a></li>
-        <li><a href="{{url('/customer/user/wish')}}">探しているアイテム</a></li>
-        <li><a href="{{url('/customer/user/history')}}">注文履歴</a></li>
-        <li><a href="{{url('/customer/user/score')}}">ポイント</a></li>
+        <li><a href="{{url('user/favourite')}}">お気に入りアイテム</a></li>
+        <li><a href="{{url('user/wish')}}">探しているアイテム</a></li>
+        <li><a href="{{url('user/history')}}">注文履歴</a></li>
+        <li><a href="{{url('user/score')}}">ポイント</a></li>
         <li><a href="#">会員情報</a>
             <ul class="members__nav__sub">
-                <li><a href="{{url('/customer/user/profile')}}">会員情報変更</a></li>
-                <li><a href="{{url('/customer/user/address')}}">お届け先の変更・追加</a></li>
-                <li><a href="{{url('/customer/user/credit')}}">クレジットカード情報</a></li>
-                <li><a href="{{url('/customer/user/magazine')}}">メールマガジン</a></li>
-                <li><a href="{{url('/customer/user/signout')}}">退会手続き</a></li>
+                <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
+                <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
+                <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
+                <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
+                <li><a href="{{url('user/signout')}}">退会手続き</a></li>
             </ul>
         </li>
         </ul>

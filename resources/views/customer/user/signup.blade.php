@@ -6,7 +6,7 @@
     </ul>
     <!--/.c-breadcrumbs-->
     <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--history"></i> 会員加入</h1>
-    {!! Form::open(array('id' => 'form_user','url'=>'customer/user/signuppost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+    {!! Form::open(array('id' => 'form_user','url'=>'user/signuppost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
     <div class="members" style="padding:10px">
         <div class="members__column">
         <div class="members__column__content">

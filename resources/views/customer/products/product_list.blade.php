@@ -74,8 +74,13 @@
                                         <li>{{$product->product_name_detail}}</li>
                                     </ul>
                                     <div class="c-item__price">
-                                        <strong>&yen;{{$prices[$product->product_id]['min']}}-
-                                        &yen;{{$prices[$product->product_id]['max']}}</strong></div>
+                                        @if($prices[$product->product_id]['min'] < $prices[$product->product_id]['max'])
+                                            <strong>&yen;{{$prices[$product->product_id]['min']}}-
+                                            &yen;{{$prices[$product->product_id]['max']}}</strong>
+                                        @else
+                                            <strong>&yen;{{$prices[$product->product_id]['min']}}</strong>
+                                        @endif
+                                    </div>
                                 </a>
                             </div>
                             <!--/.c-item__column__data-->

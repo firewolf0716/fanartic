@@ -12,7 +12,7 @@
         <section class="c-box">
         <h3 class="c-box__hd">カード追加</h3>
         <div class="c-box__content">
-            {!! Form::open(array('id' => 'form_credit','url'=>'customer/user/credit_edit_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            {!! Form::open(array('id' => 'form_credit','url'=>'user/credit_edit_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             {{ Form::hidden('card_id', $card->id)}}
             <div class="c-form__row">
                 <div class="c-form__row__label">カード番号<span class="c-form__require">必須</span></div>
@@ -84,17 +84,17 @@
     <!--/.members__column__content-->
     <div class="members__column__nav">
         <ul class="members__nav">
-        <li><a href="{{url('/customer/user/favourite')}}">お気に入りアイテム</a></li>
-        <li><a href="{{url('/customer/user/wish')}}">探しているアイテム</a></li>
-        <li><a href="{{url('/customer/user/history')}}">注文履歴</a></li>
-        <li><a href="{{url('/customer/user/score')}}">ポイント</a></li>
+        <li><a href="{{url('user/favourite')}}">お気に入りアイテム</a></li>
+        <li><a href="{{url('user/wish')}}">探しているアイテム</a></li>
+        <li><a href="{{url('user/history')}}">注文履歴</a></li>
+        <li><a href="{{url('user/score')}}">ポイント</a></li>
         <li><a href="#">会員情報</a>
             <ul class="members__nav__sub">
-                <li><a href="{{url('/customer/user/profile')}}">会員情報変更</a></li>
-                <li><a href="{{url('/customer/user/address')}}">お届け先の変更・追加</a></li>
-                <li><a href="{{url('/customer/user/credit')}}">クレジットカード情報</a></li>
-                <li><a href="{{url('/customer/user/magazine')}}">メールマガジン</a></li>
-                <li><a href="{{url('/customer/user/signout')}}">退会手続き</a></li>
+                <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
+                <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
+                <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
+                <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
+                <li><a href="{{url('user/signout')}}">退会手続き</a></li>
             </ul>
         </li>
         </ul>

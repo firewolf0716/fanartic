@@ -78,10 +78,10 @@
                 @if(!isset($customerid))
                 <a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @else
-                <a href="{{url('customer/user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                <a href="{{url('user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @endif
-                <li><a href="{{url('')}}/customer/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/customer/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
+                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
             </ul>
 
             <div class="header__search" data-header-search><span class="header__search__close"
@@ -329,7 +329,7 @@
                     <section class="c-box">
                         <h3 class="c-box__hd">ログイン</h3>
                         <div class="c-box__content">
-                            {!! Form::open(array('id' => 'user_form_signin','url'=>'customer/user/signinpost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                            {!! Form::open(array('id' => 'user_form_signin','url'=>'user/signinpost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                             {{ Form::hidden('redirect', url()->current() ,array('id' => 'redirect'))}}
                             <div class="c-form__row c-form__row--min">
                                 <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
@@ -382,7 +382,7 @@
                 <div class="login__column__content">
                     <section class="c-box">
                         <h3 class="c-box__hd">新規登録</h3>
-                        {!! Form::open(array('id' => 'user_form_signup','url'=>'customer/user/signuppost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                        {!! Form::open(array('id' => 'user_form_signup','url'=>'user/signuppost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                         {{ Form::hidden('redirect', url()->current() ,array('id' => 'redirectup'))}}
                         <div class="c-box__content">
                             <div class="c-form__row c-form__row--min">
