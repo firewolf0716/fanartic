@@ -31,16 +31,19 @@
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
                                 <li><a href="{{url('brands')}}">BRAND</a></li>
+                                @php $i=0; @endphp
                                 @foreach($womencategories as $key => $womencategory)
-                                @if($key < 5)
+                                @if($i < 5)
                                 @php
-                                    $url = url('customer/product/list').'/2/'.$womencategory->category_id;
+                                    $url = url('product/list').'/2/'.$womencategory->category_id;
                                     if(isset($mallname)){
-                                        $url = url($mallname.'/good/list/2/'.$womencategory->category_id);
+                                        $url = url($mallname.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
+                                    } else if(isset($brand)){
+                                        $url = url('/designer/'.$brand->brand_name_en.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
                                     }
+                                    $i++;
                                 @endphp
-                                <li><a href="{{$url}}">{{$womencategory->category_name}}</a>
-                                </li>
+                                <li><a href="{{$url}}">{{$womencategory->category_name}}</a></li>
                                 @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
@@ -53,17 +56,21 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('customer/brands')}}">BRAND</a></li>   
+                                <li><a href="{{url('designer')}}">BRAND</a></li>
+                                @php $i=0; @endphp
                                 @foreach($mencategories as $key => $mencategory)
-                                @if($key < 5)
+                                    @if($i < 5)
                                     @php
-                                        $url = url('customer/product/list').'/1/'.$mencategory->category_id;
+                                        $url = url('product/list').'/1/'.$mencategory->category_id;
                                         if(isset($mallname)){
-                                            $url = url($mallname.'/good/list/1/'.$mencategory->category_id);
+                                            $url = url($mallname.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
+                                        } else if(isset($brand)){
+                                            $url = url('/designer/'.$brand->brand_name_en.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
                                         }
+                                        $i++;
                                     @endphp
-                                    <li><a href="{{$url}}">{{$mencategory->category_name}}</a>
-                                @endif
+                                    <li><a href="{{$url}}">{{$mencategory->category_name}}</a></li>
+                                    @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
@@ -146,7 +153,7 @@
                             }
                             
                         @endphp
-                        <figure class="c-item__figure"><a href="{{url('customer/product/detail/'.$recentitem->product_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
+                        <figure class="c-item__figure"><a href="{{url('product/detail/'.$recentitem->product_id)}}"><img style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a></figure>
                     </div>
                     <!--/.c-item__column__figure-->
                     </div>
@@ -190,9 +197,9 @@
                             <ul class="footer__nav__list footer__nav__list--col02">
                                 @foreach($maincategorys as $maincategory)
                                     @php
-                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        $url = url('product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
                                         if(isset($mallname)){
-                                            $url = url($mallname.'/good/list/'.$tcategory->category_id.'/'.$maincategory->category_id);
+                                            $url = url($mallname.'/'.$tcategory->category_id.'/'.$maincategory->category_id);
                                         }
                                     @endphp
                                     <li><a href="{{$url}}">{{$maincategory->category_name}}</a>

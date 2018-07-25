@@ -152,4 +152,12 @@ class Categorys extends Model
 
         return $sub_id;
     }
+
+    public static function get_category_byname($parentid, $childname){
+        return DB::table('master_category')
+                ->where('category_parent_id', $parentid)
+                ->where('category_name_en', $childname)
+                ->get()
+                ->first();
+    }
 }

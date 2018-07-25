@@ -5,7 +5,7 @@
     <div class="cart__column">
     <div class="cart__column__content">
         <hr class="c-hr">
-        {!! Form::open(array('id' => 'form_cart_list','url'=>'customer/cart_remove_item', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        {!! Form::open(array('id' => 'form_cart_list','url'=>'user/cart_remove_item', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         {{ Form::hidden('remove_id', '',array('id' => 'remove_id'))}}
         @foreach($cartitems as $item)
         <div class="l-column l-column--cart">
@@ -17,7 +17,7 @@
                                 $pro_img  = $images[$item->cart_id];
                                 $prod_path = url('').'/images/products/'.$pro_img;
                             @endphp
-                            <figure class="c-item__figure"><a href="{{url('customer/product/detail/'.$item->product_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
+                            <figure class="c-item__figure"><a href=""><img src="{{$prod_path}}" alt=""></a></figure>
                         </div>
                         <!--/.c-item__column__figure-->
                         <div class="c-item__column__data">
@@ -58,7 +58,7 @@
         <p class="cart__shipping__price"><strong>¥{{number_format($sum)}}</strong></p>
         <p class="cart__shipping__point">獲得ポイント：2,000ポイント</p>
         <div class="cart__shipping__button"><a href="{{url('user/checkflowinfo')}}" class="c-button c-button--submit c-button--full">レジへ進む</a></div>
-        <p class="cart__shipping__back"><a href="{{url('customer/product/list/1')}}">ショッピングを続ける</a></p>
+        <p class="cart__shipping__back"><a href="">ショッピングを続ける</a></p>
         </div>
         <!--/.cart__shipping-->
     </div>

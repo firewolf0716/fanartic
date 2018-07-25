@@ -21,7 +21,7 @@
                                 $pro_img  = $images[$item->cart_id];
                                 $prod_path = url('').'/images/products/'.$pro_img;
                             @endphp
-                    <figure class="c-item__figure"><a href="{{url('customer/product/detail/'.$item->product_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
+                    <figure class="c-item__figure"><a href="{{url('product/detail/'.$item->product_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
                     </div>
                     <!--/.c-item__column__figure-->
                     <div class="c-item__column__data">

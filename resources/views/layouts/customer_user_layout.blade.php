@@ -34,7 +34,7 @@
                                 @foreach($womencategories as $key => $womencategory)
                                 @if($key < 5)
                                 @php
-                                    $url = url('customer/product/list').'/2/'.$womencategory->category_id;
+                                    $url = url('product/list').'/2/'.$womencategory->category_id;
                                     if(isset($mallname)){
                                         $url = url($mallname.'/good/list/2/'.$womencategory->category_id);
                                     }
@@ -53,11 +53,11 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('customer/brands')}}">BRAND</a></li>   
+                                <li><a href="{{url('designer')}}">BRAND</a></li>   
                                 @foreach($mencategories as $key => $mencategory)
                                 @if($key < 5)
                                     @php
-                                        $url = url('customer/product/list').'/1/'.$mencategory->category_id;
+                                        $url = url('product/list').'/1/'.$mencategory->category_id;
                                         if(isset($mallname)){
                                             $url = url($mallname.'/good/list/1/'.$mencategory->category_id);
                                         }
@@ -268,7 +268,7 @@
                             <ul class="footer__nav__list footer__nav__list--col02">
                                 @foreach($maincategorys as $maincategory)
                                     @php
-                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        $url = url('product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
                                         if(isset($mallname)){
                                             $url = url($mallname.'/good/list/'.$tcategory->category_id.'/'.$maincategory->category_id);
                                         }

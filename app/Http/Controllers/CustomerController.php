@@ -38,12 +38,14 @@ class CustomerController extends Controller
             return Redirect::to('admin/login');
         } else if($mallname == 'merchant'){
             return Redirect::to('merchant/signin');
-        } else if($mallname == 'brands'){
+        } else if($mallname == 'designer'){
             // return Redirect::to('brands');
-            return redirect()->action('CustomerController@brands');
+            // return redirect()->action('CustomerController@brands');
+            return $this->brands();
         }
         else {
-            return Redirect::to($mallname.'/good/list/1');
+            // return Redirect::to($mallname.'/good/list/1');
+            return $this->mall_product_list($mallname);
         }
     }
 
@@ -54,7 +56,8 @@ class CustomerController extends Controller
     }
 
     public function brand($brandid){
-        return Redirect::to('/brand/'.$brandid.'/good/list/1');
+        return $this->product_list_brand($brandid);
+        // return Redirect::to('designer/'.$brandid.'/good/list/1');
     }
 
     public function layout_init($view, $gender){
@@ -114,11 +117,13 @@ class CustomerController extends Controller
     public function mall_product_list($mallname, $topid = null, $mainid = null, $categoryid = null){
         $mall = Malls::get_mall_byname($mallname);
         $topcategorys = Categorys::getTopCategorys();
+        $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
         }
         else {
-            $topcategory = Categorys::get_category($topid);
+            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
+            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
         }
         $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
@@ -128,18 +133,15 @@ class CustomerController extends Controller
         }
         $colors = Colors::get_colors();
         $sizes = null;
-        if($mainid != null){
-            $category = Categorys::get_category($mainid);
-            $sizecategory_id = $category->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
-        }
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category($mainid);
+            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $sizecategory_id = $mcategory->category_size_id;
+            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category($categoryid);
+            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
@@ -285,13 +287,18 @@ class CustomerController extends Controller
     }
 
     public function product_list_brand($brandid ,$topid = null, $mainid = null, $categoryid = null){
+        $brand = Brands::get_brand_byname($brandid);
         $topcategorys = Categorys::getTopCategorys();
         $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
         }
         else {
-            $topcategory = Categorys::get_category($topid);
+            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
+            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            // else if($topid == "goods"){
+            //     return $this->product_detail($mainid);
+            // }
         }
         $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
@@ -301,18 +308,16 @@ class CustomerController extends Controller
         }
         $colors = Colors::get_colors();
         $sizes = null;
-        if($mainid != null){
-            $category = Categorys::get_category($mainid);
-            $sizecategory_id = $category->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
-        }
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category($mainid);
+            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $sizecategory_id = $mcategory->category_size_id;
+            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
+        
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category($categoryid);
+            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
@@ -331,7 +336,7 @@ class CustomerController extends Controller
         if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
         if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
         if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = Products::get_product_filter_brand($brandid, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $products = Products::get_product_filter_brand($brand->brand_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
         $prices = array(); $images = array();
         foreach($products as $product){
@@ -372,7 +377,7 @@ class CustomerController extends Controller
     }
 
     public function product_list_post(){
-        $url = 'customer/product/list/' . Input::get('tcategory_id');
+        $url = 'product/list/' . Input::get('tcategory_id');
         if(Input::has('mcategory_id')){
             $url .= '/'. Input::get('mcategory_id');
         }
@@ -396,7 +401,8 @@ class CustomerController extends Controller
         return Redirect::to($url);
     }
 
-    public function product_detail($productid){
+    public function product_detail($brandname, $productid){
+        $brand = Brands::get_brand_byname($brandname);
         $product = Products::get_product_detail($productid)->first();
         $tcategoryid = Categorys::getTopCategoryID($product->product_category_id);
 
@@ -455,7 +461,8 @@ class CustomerController extends Controller
             ->with('skusize', $skusize)
             ->with('price', $price)
             ->with('imagerec', $imagerec)
-            ->with('skuimages', $skuimages);
+            ->with('skuimages', $skuimages)
+            ->with('brand', $brand);
     }
 
     public function signup(){

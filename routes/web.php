@@ -16,9 +16,7 @@ Route::middleware(['basicAuth'])->group(function () {
     // Route::get('/', function() {
 	// 	// return Redirect::to('customer/product/list/1');
 	// });
-    Route::get('/', 'CustomerController@index');
-	Route::get('/{mallname}', 'CustomerController@mall');
-	Route::get('/brand/{brandid}', 'CustomerController@brand');
+    Route::get('/', 'CustomerController@index');	
 
     // widget
     Route::get('widget', function(){
@@ -190,22 +188,6 @@ Route::middleware(['basicAuth'])->group(function () {
 	// });
 	Route::get('merchant/product/product_import_csv', 'MerchantproductController@product_import_csv');
 
-	Route::get('customer/brands', 'CustomerController@brands');
-	Route::get('/brand/{brandid}/good/list/{topid}', 'CustomerController@product_list_brand');
-	Route::get('/brand/{brandid}/good/list/{topid}/{mainid}', 'CustomerController@product_list_brand');
-	Route::get('/brand/{brandid}/good/list/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_brand');
-
-	Route::get('customer/product/list', 'CustomerController@product_list');
-	Route::get('customer/product/list/{topid}', 'CustomerController@product_list');
-	Route::get('customer/product/list/{topid}/{mainid}', 'CustomerController@product_list');
-	Route::get('customer/product/list/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list');
-	Route::post('customer/product/product_list_post', 'CustomerController@product_list_post');
-
-	Route::get('{mallname}/good/list/{topid}', 'CustomerController@mall_product_list');
-	Route::get('{mallname}/good/list/{topid}/{mainid}', 'CustomerController@mall_product_list');
-	Route::get('{mallname}/good/list/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
-
-	Route::get('customer/product/detail/{productid}', 'CustomerController@product_detail');
 	//customer profile
 	Route::get('user/signup', 'CustomerController@signup');
 	Route::post('user/signuppost', 'CustomerController@signuppost');
@@ -250,4 +232,23 @@ Route::middleware(['basicAuth'])->group(function () {
 
 	Route::get('user/favourite', 'CustomerController@favourite');
 	Route::post('user/favitem_action', 'CustomerController@favitem_action');
+//all
+	Route::get('product/list', 'CustomerController@product_list');
+	Route::get('product/list/{topid}', 'CustomerController@product_list');
+	Route::get('product/list/{topid}/{mainid}', 'CustomerController@product_list');
+	Route::get('product/list/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list');
+	Route::post('product/product_list_post', 'CustomerController@product_list_post');
+	Route::get('product/detail/{productid}', 'CustomerController@product_detail');
+//brand
+	Route::get('/designer/{brandid}/goods/{productid}', 'CustomerController@product_detail');
+
+	Route::get('/designer/{brandid}', 'CustomerController@brand');
+	Route::get('/designer/{brandid}/{topid}', 'CustomerController@product_list_brand');
+	Route::get('/designer/{brandid}/{topid}/{mainid}', 'CustomerController@product_list_brand');
+	Route::get('/designer/{brandid}/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_brand');
+//mall
+	Route::get('/{mallname}', 'CustomerController@mall');
+	Route::get('{mallname}/{topid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/{topid}/{mainid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
 });

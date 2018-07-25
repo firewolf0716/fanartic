@@ -15,7 +15,7 @@
                     $pro_img = $image->master_image_name;
                     $prod_path = url('').'/images/products/'.$pro_img;
                 @endphp
-                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1404px; height:1334"></figure>
+                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1200px; height:600px"></figure>
             @endforeach
             </div>
             <!--/.product-detail__figure__slider-->
