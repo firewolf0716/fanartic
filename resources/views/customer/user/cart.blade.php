@@ -57,7 +57,12 @@
         <p class="cart__shipping__quantity">商品合計（{{number_format($count)}}点）</p>
         <p class="cart__shipping__price"><strong>¥{{number_format($sum)}}</strong></p>
         <p class="cart__shipping__point">獲得ポイント：2,000ポイント</p>
-        <div class="cart__shipping__button"><a href="{{url('user/checkflowinfo')}}" class="c-button c-button--submit c-button--full">レジへ進む</a></div>
+        <div class="cart__shipping__button">
+            <a href="
+            @if(count($cartitems) > 0) 
+                {{url('user/checkflowinfo')}}
+            @endif" class="c-button c-button--submit c-button--full">レジへ進む</a>
+        </div>
         <p class="cart__shipping__back"><a href="
             @if(isset($_GET['redirect']))
                 {{$_GET['redirect']}}

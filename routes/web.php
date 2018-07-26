@@ -188,23 +188,26 @@ Route::middleware(['basicAuth'])->group(function () {
 	// });
 	Route::get('merchant/product/product_import_csv', 'MerchantproductController@product_import_csv');
 
-	//customer profile
+	//sign
 	Route::get('user/signup', 'CustomerController@signup');
 	Route::post('user/signuppost', 'CustomerController@signuppost');
 	Route::get('user', 'CustomerController@user');
 	Route::get('user/signin', 'CustomerController@signin');
 	Route::post('user/signinpost', 'CustomerController@signinpost');
 	Route::get('user/signout', 'CustomerController@signout');
-
+	//profile
 	Route::get('user/profile', 'CustomerController@profile');
 	Route::post('user/profilepost', 'CustomerController@profilepost');
-
+	//favourite
 	Route::get('user/favourite', 'CustomerController@favourite');
-
+	Route::post('user/addFavourite', 'CustomerController@addFavourite');
+	Route::get('user/favourite', 'CustomerController@favourite');
+	Route::post('user/favitem_action', 'CustomerController@favitem_action');
+	//cart
 	Route::get('user/cart', 'CustomerController@cart');	
 	Route::post('user/addtocart', 'CustomerController@addtocart');
 	Route::post('user/cart_remove_item', 'CustomerController@cart_remove_item');
-
+	//address
 	Route::get('user/address', 'CustomerController@address');
 	Route::get('user/addressadd', 'CustomerController@addressadd');
 	Route::post('user/address_add_post', 'CustomerController@address_add_post');
@@ -212,26 +215,24 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('user/address_edit/{addr_id}', 'CustomerController@address_edit');
 	Route::post('user/address_edit_post', 'CustomerController@address_edit_post');
 	Route::get('user/address_delete/{addr_id}', 'CustomerController@address_delete');
-
+	//payment
 	Route::get('user/credit', 'CustomerController@credit');
 	Route::get('user/credit_add', 'CustomerController@credit_add');
 	Route::post('user/credit_add_post', 'CustomerController@credit_add_post');
 	Route::get('user/credit_edit/{addr_id}', 'CustomerController@credit_edit');
 	Route::post('user/credit_edit_post', 'CustomerController@credit_edit_post');
 	Route::get('user/credit_delete/{addr_id}', 'CustomerController@credit_delete');
-
+	//order flow
 	Route::get('user/checkflowinfo', 'CustomerController@checkflowinfo');
 	Route::post('user/flow_post_ac', 'CustomerController@flow_post_ac');
 	Route::get('user/checkflowconfirm', 'CustomerController@checkflowconfirm');
 	Route::get('user/confirm_order', 'CustomerController@confirm_order');
-
+	//order history
 	Route::get('user/history', 'CustomerController@history');
 	Route::get('user/historydetail/{group}', 'CustomerController@historydetail');
-
-	Route::post('user/addFavourite', 'CustomerController@addFavourite');
-
-	Route::get('user/favourite', 'CustomerController@favourite');
-	Route::post('user/favitem_action', 'CustomerController@favitem_action');
+	//magazine
+	Route::get('user/magazine', 'CustomerController@magazine');
+	Route::post('user/magazine_post', 'CustomerController@magazine_post');
 //all
 	Route::get('product/list', 'CustomerController@product_list');
 	Route::get('product/list/{topid}', 'CustomerController@product_list');
