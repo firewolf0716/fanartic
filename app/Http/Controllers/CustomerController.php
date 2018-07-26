@@ -377,7 +377,7 @@ class CustomerController extends Controller
     }
 
     public function product_list_post(){
-        $url = 'product/list/' . Input::get('tcategory_id');
+        $url = Input::get('cururl');
         if(Input::has('mcategory_id')){
             $url .= '/'. Input::get('mcategory_id');
         }
@@ -397,7 +397,6 @@ class CustomerController extends Controller
             $url .= '&rangemin='. $rangemin;
         if(isset($rangemax))
             $url .= '&rangemax='. $rangemax;
-        Log::debug(Input::all());
         return Redirect::to($url);
     }
 
@@ -696,7 +695,7 @@ class CustomerController extends Controller
     public function addtocart(){
         $customerid = Session::get('customerid');
         if(!isset($customerid)){
-            return 'Please log in first';
+            return 'Login';
         }
         $prodid = Input::get('product');
         $color = Input::get('color');
@@ -705,9 +704,9 @@ class CustomerController extends Controller
         // $price = Input::get('price');
         try{
             Cart::addCart($customerid, $prodid, $color, $size, $count);
-            return 'Add product to Cart Successed';
+            return 'Successed';
         }catch(\Exception $ex){
-            return 'Add product to Cart Failed';
+            return 'Failed';
         }
     }
 

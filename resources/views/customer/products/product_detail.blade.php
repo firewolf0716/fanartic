@@ -197,7 +197,11 @@
                 },
                 url: "{{url('user/addtocart')}}",
                 success: function(data){
-                    alert(data);
+                    if(data == "Successed"){
+                        window.location = "{{url('user/cart')}}";
+                    } else if(data == "Login"){
+                        alert('Please log in first');
+                    }
                 }
             });
         }

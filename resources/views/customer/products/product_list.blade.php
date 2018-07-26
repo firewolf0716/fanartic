@@ -97,6 +97,7 @@
         <div class="product-list__column__nav" data-productfilter__content="">
             {!! Form::open(array('id' => 'form_product_list','url'=>'product/product_list_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             {{ Form::hidden('tcategory_id', $tcategory->category_id)}}
+            {{ Form::hidden('cururl', Request::url())}}
             @if(isset($mcategory))
                 {{ Form::hidden('mcategory_id', $mcategory->category_id)}}
             @endif
@@ -201,7 +202,7 @@
                 {{ Form::hidden('range_min', '' ,array('id' => 'rangemin_val'))}}
                 {{ Form::hidden('range_max', '' ,array('id' => 'rangemax_val'))}}
                 <li data-productfiltermodal="">
-                    <h3 class="product-list__nav__hd" data-accordionproductlist="">価格</h3>
+                    <h3 id="cash_range" class="product-list__nav__hd" data-accordionproductlist="">価格</h3>
                     <div class="product-list__nav__item" data-productfiltermodal__content="" data-productlistprice="">
                         <h2 class="product-list__column__nav__hd u-sp">価格を選択</h2>
                         <div class="product-list__nav__price">
@@ -212,10 +213,10 @@
                                 if(isset($_GET['rangemax']))
                                     $rangemax = $_GET['rangemax'];
                             @endphp
-                            <input type="range" name="rangemin" id="rangemin" min="0" max="1000000" value="{{$rangemin}}"
+                            <input type="range" name="rangemin" id="rangemin" min="0" max="100000" value="{{$rangemin}}"
                                     data-productlistprice__min="">
                         
-                            <input type="range" name="rangemax" id="rangemax" min="0" max="1000000" value="{{$rangemax}}"
+                            <input type="range" name="rangemax" id="rangemax" min="0" max="100000" value="{{$rangemax}}"
                                     data-productlistprice__max="">
                             <!--/.product-list__nav__price__buttons-->
                             <script src="{{url('')}}/js/vendor/mm-jsr.js"></script>
@@ -226,7 +227,7 @@
                                     sliders: 2,
                                     min: $(minTarget).attr('min'),
                                     max: $(maxTarget).attr('max'),
-                                    values: ['{{$rangemin / 10}}', '{{$rangemax}}'],
+                                    values: ['{{$rangemin / 10}}', '{{$rangemax / 10}}'],
                                     limit: {
                                         show: false
                                     },
@@ -350,6 +351,9 @@
                     }
                 }
             });
+            @if(isset($_GET['rangemin']) && $_GET['rangemin'] != '')
+                $('#cash_range').addClass('is-open');
+            @endif
         });
 
         function onSizeChange(obj, sizeid) {
