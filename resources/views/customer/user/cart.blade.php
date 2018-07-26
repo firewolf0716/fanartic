@@ -58,7 +58,11 @@
         <p class="cart__shipping__price"><strong>¥{{number_format($sum)}}</strong></p>
         <p class="cart__shipping__point">獲得ポイント：2,000ポイント</p>
         <div class="cart__shipping__button"><a href="{{url('user/checkflowinfo')}}" class="c-button c-button--submit c-button--full">レジへ進む</a></div>
-        <p class="cart__shipping__back"><a href="">ショッピングを続ける</a></p>
+        <p class="cart__shipping__back"><a href="
+            @if(isset($_GET['redirect']))
+                {{$_GET['redirect']}}
+            @endif
+            ">ショッピングを続ける</a></p>
         </div>
         <!--/.cart__shipping-->
     </div>
