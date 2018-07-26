@@ -40,7 +40,6 @@
                 <!--/.c-item-->
             </div>
             <div class="l-column--cart__price u-pc">&yen;{{number_format($item->product_price_sale)}}</div>
-            <div class="l-column--cart__button"><a href="{{url('user/cart')}}" class="c-button c-button--secondary">変更</a></div>
         </div>
         <!--/.l-column l-column--cart-->
         <hr class="c-hr">
@@ -60,8 +59,6 @@
                             @endphp
                         <br>{{$addrobj->address_phone}}</div>
             <!--/.l-column--list__data-->
-            <div class="l-column--list__button"><a href="{{url('user/address_edit/'.$addrobj->id)}}" class="c-button c-button--sub">配送先情報を編集</a></div>
-            <!--/.l-column--list__button-->
             </div>
             <!--/.l-column l-column--list-->
         </div>
@@ -74,8 +71,6 @@
             <div class="l-column l-column--list l-column--top">
             <div class="l-column--list__data">カード番号：{{str_repeat('*', 12).$creditobj->card_token}}<br>有効期限：{{$creditobj->card_validdate}}</div>
             <!--/.l-column--list__data-->
-            <div class="l-column--list__button"><a href="{{url('user/credit_edit/'.$creditobj->id)}}" class="c-button c-button--sub">支払い方法を編集</a></div>
-            <!--/.l-column--list__button-->
             </div>
             <!--/.l-column l-column--list-->
         </div>
@@ -107,6 +102,7 @@
             </tr>
         </table>
         <div class="cart__shipping__button"><a href="{{url('user/confirm_order')}}" class="c-button c-button--submit c-button--full">注文を確定する</a></div>
+        <p class="cart__shipping__back"><a href="{{url('user/checkflowinfo')}}">戻る</a></p>
         </div>
         <!--/.cart__shipping-->
     </div>

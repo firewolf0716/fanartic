@@ -256,4 +256,26 @@ class Customers extends Model
         // dd($customerid);
         return DB::table('customer_recent_product')->where('customer_id', $customerid)->groupBy('product_id')->orderBy('recent_date', 'DESC')->get();
     }
+
+    public static function is_magazine_info_exists($customerid){
+        $rec = DB::table('customer_magazine')->where('customer_id', $customerid)->first();
+        if(!isset($rec)){
+            $entry = array(
+                'customer_id' => $customerid,
+                'magazine_status' => 0
+            );
+            DB::table('customer_magazine')->insert($entry);
+            return 0;
+        } else {
+            return $rec->magazine_status;
+        }
+    }
+
+    public static function change_magazine_info($customerid, $status){
+        $entry = array(
+            'customer_id' => $customerid,
+            'magazine_status' => $status
+        );
+        DB::table('customer_magazine')->where('customer_id', $customerid)->update($entry);
+    }
 }

@@ -40,8 +40,6 @@
                             @endphp
                         <br>{{$address->address_phone}}</div>
                     <!--/.l-column--list__data-->
-                    <div class="l-column--list__button"><a href="{{url('user/address_edit/'.$address->id)}}" class="c-button c-button--sub">配送先情報を編集</a></div>
-                    <!--/.l-column--list__button-->
                     </div>
                     <!--/.l-column l-column--list-->
                 </div>
@@ -85,7 +83,7 @@
                         <div class="l-column--half__col">
                             <div class="c-form__label">郵便番号</div>
                             <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" value=""> <button class="c-button c-button--sub">住所自動入力</button></div>
+                            <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" id="zipcode" value=""> <button type="button" class="c-button c-button--sub" onClick="getAddress()">住所自動入力</button></div>
                             </div>
                             <!--/.c-form__row-->
                         </div>
@@ -93,7 +91,7 @@
                         <div class="l-column--half__col">
                             <div class="c-form__label">都道府県</div>
                             <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input" name="province" value=""></div>
+                            <div class="c-form__row__input"><input type="text" class="c-form__input" name="province" id="province" value=""></div>
                             </div>
                             <!--/.c-form__row-->
                         </div>
@@ -107,7 +105,7 @@
                         <div class="l-column--half__col">
                             <div class="c-form__label">市町区村</div>
                             <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" value=""></div>
+                            <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" id="county" value=""></div>
                             </div>
                             <!--/.c-form__row-->
                         </div>
@@ -210,7 +208,9 @@
                                         <label class="c-form__select c-form__select--birthday--year">
                                             <span class="c-form__select__box">
                                                 <select name="card_year" id="">
-                                                    <option value="">----</option>
+                                                    @for($i = 2018; $i <= 2022; $i++)
+                                                    <option value="{{$i}}">{{$i}}</option>
+                                                    @endfor
                                                 </select>
                                             </span>
                                             <span class="u-pc">年</span>
@@ -218,7 +218,9 @@
                                         <label class="c-form__select c-form__select--birthday--month02">
                                             <span class="c-form__select__box">
                                                 <select name="card_month" id="">
-                                                    <option value="">----</option>
+                                                    @for($i = 1; $i <= 12; $i++)
+                                                    <option value="{{$i}}">{{$i}}</option>
+                                                    @endfor
                                                 </select>
                                             </span>
                                             <span class="u-pc">月</span>
@@ -249,7 +251,7 @@
                 <div class="c-form__checkswitch">
                     <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="payment">
                         <input type="radio" name="paymentCredit" value="paypal"><i></i>
-                        <img src="../common/images/checkout__payment--paypal.png" alt="PayPal" width="135"></label></div>
+                        <img src="{{url('')}}/images/checkout__payment--paypal.png" alt="PayPal" width="135"></label></div>
                 </div>
                 <!--/.c-form__row-->
             </div>
@@ -282,6 +284,7 @@
             </tr>
         </table>
         <div class="cart__shipping__button"><a class="c-button c-button--submit c-button--full" onClick="onSubmit()">次へ進む</a></div>
+        <p class="cart__shipping__back"><a href="{{url('user/cart')}}">戻る</a></p>
         </div>
         <!--/.cart__shipping-->
     </div>
@@ -293,6 +296,26 @@
 <script>
     function onSubmit(){
         $('#form_flow').submit();
+    }
+    function getAddress(){
+        var postalCode = $('#zipcode').val();
+        var purl = 'http://dev.virtualearth.net/REST/v1/Locations?countryRegion=JP&postalCode=' 
+                    + postalCode 
+                    + '&o=json&key=AoyhuvvuNi0LJYoJhgs0NIl4sTLl_aB_ew7NZr3bPhw6yLk1bIXywCbRVwhEIPfB&c=ja';
+        $.ajax({
+            type:"get",
+            url: purl, 
+            success: function(result){
+                var res = result.resourceSets[0].resources[0].name;
+                if(res.length < 8){
+                    alert('郵便番号が間違っている.');
+                    return;
+                }
+                $('#province').val(result.resourceSets[0].resources[0].address.adminDistrict);
+                $('#county').val(res.substring($('#zipcode').val().length + $('#province').val().length + 1));
+                $('#address').val('');
+            }
+        });
     }
 </script>
 @endsection
