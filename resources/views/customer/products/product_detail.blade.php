@@ -103,12 +103,12 @@
             <li id="detail01">
             <p>{{$product->product_memo}}</p>
             <dl class="c-dl">
-                <dt>カラー</dt><dd>{{$product->color_name}}</dd>
-                <dt>カテゴリ</dt><dd>{{$tcategory->category_name}}･{{$mcategory->category_name}}･{{$scategory->category_name}}</dd>
-                <dt>素材</dt><dd>{{$product->product_material}}</dd>
-                <dt>生産国</dt><dd>{{$product->product_place}}</dd>
-                <dt>取扱い</dt><dd>取扱い</dd>
-                <dt>商品番号</dt><dd>{{$product->product_code}}</dd>
+                <dt>カラー</dt><dd>&nbsp;{{$product->color_name}}</dd>
+                <dt>カテゴリ</dt><dd>&nbsp;{{$tcategory->category_name}}･{{$mcategory->category_name}}･{{$scategory->category_name}}</dd>
+                <dt>素材</dt><dd>&nbsp;{{$product->product_material}}</dd>
+                <dt>生産国</dt><dd>&nbsp;{{$product->product_place}}</dd>
+                <dt>取扱い</dt><dd>&nbsp;取扱い</dd>
+                <dt>商品番号</dt><dd>&nbsp;{{$product->product_code}}</dd>
             </dl>
             <ul class="product-detail__text__content__sns">
                 <li><a href="#"><i class="c-icon product-detail__text__content__sns--twitter"></i><span>twitter</span></a></li>
