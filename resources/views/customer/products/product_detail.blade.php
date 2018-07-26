@@ -15,7 +15,7 @@
                     $pro_img = $image->master_image_name;
                     $prod_path = url('').'/images/products/'.$pro_img;
                 @endphp
-                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1404px; height:1334"></figure>
+                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1200px; height:600px"></figure>
             @endforeach
             </div>
             <!--/.product-detail__figure__slider-->
@@ -24,7 +24,12 @@
         <div class="product-detail__data">
             <h2 class="product-detail__data__brand">ブランド：<a href="#">{{$product->brand_name}}</a></h2>
             <h1 class="product-detail__data__name">{{$product->product_name}}</h1>
-            <div class="product-detail__data__price"><strong>&yen;{{$price['min']}}-&yen;{{$price['max']}}</strong>
+            <div class="product-detail__data__price">
+                @if($price['min'] < $price['max'])
+                    <strong>&yen;{{$price['min']}}-&yen;{{$price['max']}}</strong>
+                @else
+                    <strong>&yen;{{$price['min']}}</strong>
+                @endif
                 @if($product->product_taxflag == 0)
                     税込
                 @endif
@@ -47,33 +52,34 @@
                 @foreach($skusize as $size)
                     <li>
                         @if($skuinfo[$color->sku_id][$size->sku_id]['count'] > 0)
-                        <div class="product-detail__data__cart__item__list__size">
-                            {{$size->size_name}}
-                            <span class="u-pc">&nbsp;/&nbsp;</span>
-                            <br class="u-sp">在庫あり
-                        </div>
-                        <div class="product-detail__data__cart__item__list__size">
-                            <input id='{{$color->sku_id.'_'.$size->sku_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}'/>
-                            <input id='{{$color->sku_id.'_'.$size->sku_id}}_price' type="hidden" value='{{$skuinfo[$color->sku_id][$size->sku_id]['price']}}'/>
-                        </div>
-                        <div class="product-detail__data__cart__item__list__addcart">
-                            <button id='{{$color->sku_id.'_'.$size->sku_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button" 
-                                onClick="onCart('{{$color->sku_id.'_'.$size->sku_id}}', '{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}')">
-                                <i class="c-icon u-pc"></i>カートへ入れる
-                            </button>
-                        </div>
-                        <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
+                            <div class="product-detail__data__cart__item__list__size">
+                                {{$size->size_name}}
+                                <span class="u-pc">&nbsp;/&nbsp;</span>
+                                <br class="u-sp">在庫あり
+                            </div>
+                            <div class="product-detail__data__cart__item__list__size">
+                                <input id='{{$color->sku_id.'_'.$size->sku_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}'/>
+                                <input id='{{$color->sku_id.'_'.$size->sku_id}}_price' type="hidden" value="{{$skuinfo[$color->sku_id][$size->sku_id]['price']}}"/>
+                            </div>
+                            <div class="product-detail__data__cart__item__list__addcart">
+                                <button id='{{$color->sku_id.'_'.$size->sku_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button" 
+                                    onClick="onCart('{{$color->sku_id.'_'.$size->sku_id}}', '{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}')">
+                                    <i class="c-icon u-pc"></i>カートへ入れる
+                                </button>
+                            </div>
+                            <div class="product-detail__data__cart__item__list__wish"><i class="c-icon" onClick="onFavourite({{$product->product_id}}, {{$color->sku_id}}, {{$size->sku_id}})"></i><span>お気に入りアイテム</span></div>
                         @else
-                        <div class="product-detail__data__cart__item__list__size">
-                            {{$size->size_name}}
-                            <span class="u-pc">&nbsp;/&nbsp;</span>
-                            <br class="u-sp">在庫なし
-                        </div>
-                        <div class="product-detail__data__cart__item__list__size">
-                            
-                        </div>
-                        <div class="product-detail__data__cart__item__list__addcart">完売しました</div>
-                        <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i><span>お気に入りアイテム</span></div>
+                            <div class="product-detail__data__cart__item__list__size">
+                                {{$size->size_name}}
+                                <span class="u-pc">&nbsp;/&nbsp;</span>
+                                <br class="u-sp">在庫なし
+                            </div>
+                            <div class="product-detail__data__cart__item__list__size">
+                                
+                            </div>
+                            <div class="product-detail__data__cart__item__list__addcart">完売しました</div>
+                            <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i>
+                            <span>お気に入りアイテム</span></div>
                         @endif
                     </li>
                 @endforeach
@@ -189,8 +195,30 @@
                     price   : price,
                     _token  : $('#token').val()
                 },
-                url: "{{url('customer/addtocart')}}",
+                url: "{{url('user/addtocart')}}",
                 success: function(data){
+                    if(data == "Successed"){
+                        window.location = "{{url('user/cart')}}";
+                    } else if(data == "Login"){
+                        alert('Please log in first');
+                    }
+                }
+            });
+        }
+        function onFavourite(proid, colorid, sizeid){
+            count = $('#' + colorid + "_" + sizeid + "_count").val();
+            $.ajax({
+                type: 'POST',
+                data: {
+                    product : proid,
+                    color   : colorid,
+                    size    : sizeid,
+                    brand   : {{$product->product_brand_id}},
+                    count   : count,
+                    _token  : $('#token').val()
+                },
+                url : "{{url('user/addFavourite')}}",
+                success : function(data){
                     alert(data);
                 }
             });

@@ -19,15 +19,15 @@
                 <div class="l-column--list__data">カード番号：{{str_repeat('*', 12).$card->card_token}}<br>有効期限：{{$card->card_validdate}}</div>
                 <!--/.l-column--list__data-->
                 <div class="l-column--list__button">
-                    <a href="{{url('/customer/user/credit_edit/'.$card->id)}}" class="c-button c-button--secondary">変更</a> 
-                    <a href="{{url('/customer/user/credit_delete/'.$card->id)}}" class="c-button c-button--secondary">削除</a>
+                    <a href="{{url('user/credit_edit/'.$card->id)}}" class="c-button c-button--secondary">変更</a> 
+                    <a href="{{url('user/credit_delete/'.$card->id)}}" class="c-button c-button--secondary">削除</a>
                 </div>
                 <!--/.l-column--list__button-->
             </div>
             <!--/.l-column l-column--list-->
             <hr class="c-hr">
             @endforeach
-            <div class="l-button"><a href="{{url('customer/user/credit_add')}}" class="c-button c-button--submit">カードを追加する</a></div>
+            <div class="l-button"><a href="{{url('user/credit_add')}}" class="c-button c-button--submit">カードを追加する</a></div>
             <!--/.l-button-->
         </div>
         <!--/.c-box__content-->
@@ -37,17 +37,17 @@
     <!--/.members__column__content-->
     <div class="members__column__nav">
         <ul class="members__nav">
-        <li><a href="{{url('/customer/user/favourite')}}">お気に入りアイテム</a></li>
-        <li><a href="{{url('/customer/user/wish')}}">探しているアイテム</a></li>
-        <li><a href="{{url('/customer/user/history')}}">注文履歴</a></li>
-        <li><a href="{{url('/customer/user/score')}}">ポイント</a></li>
+        <li><a href="{{url('user/favourite')}}">お気に入りアイテム</a></li>
+        <li><a href="{{url('user/wish')}}">探しているアイテム</a></li>
+        <li><a href="{{url('user/history')}}">注文履歴</a></li>
+        <li><a href="{{url('user/score')}}">ポイント</a></li>
         <li><a href="#">会員情報</a>
             <ul class="members__nav__sub">
-                <li><a href="{{url('/customer/user/profile')}}">会員情報変更</a></li>
-                <li><a href="{{url('/customer/user/address')}}">お届け先の変更・追加</a></li>
-                <li><a href="{{url('/customer/user/credit')}}">クレジットカード情報</a></li>
-                <li><a href="{{url('/customer/user/magazine')}}">メールマガジン</a></li>
-                <li><a href="{{url('/customer/user/signout')}}">退会手続き</a></li>
+                <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
+                <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
+                <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
+                <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
+                <li><a href="{{url('user/signout')}}">退会手続き</a></li>
             </ul>
         </li>
         </ul>

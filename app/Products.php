@@ -95,6 +95,7 @@ class Products extends Model{
 
     public static function get_product_filter_mall($mallid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax){
         $sql = DB::table('fan_product')
+            ->leftJoin('master_brand', 'master_brand.brand_id', '=', 'fan_product.product_brand_id')
             ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
             ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
             ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
@@ -104,7 +105,8 @@ class Products extends Model{
                 'color.sku_type_id AS color_id', 
                 'size.sku_type AS size_sku', 
                 'size.sku_type_id AS size_id',
-                'fan_product_stock_management.product_price_sale');
+                'fan_product_stock_management.product_price_sale',
+                'master_brand.brand_name');
         if($categorylevel == 1){
             $categories = Categorys::getSubCategorys_mall_fromtop($mallid, $category_id);
             $arrCategories = array();
@@ -146,6 +148,7 @@ class Products extends Model{
 
     public static function get_product_filter_brand($brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax){
         $sql = DB::table('fan_product')
+                ->leftJoin('master_brand', 'master_brand.brand_id', '=', 'fan_product.product_brand_id')
                 ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
                 ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
                 ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
@@ -156,7 +159,8 @@ class Products extends Model{
                     'color.sku_type_id AS color_id', 
                     'size.sku_type AS size_sku', 
                     'size.sku_type_id AS size_id',
-                    'fan_product_stock_management.product_price_sale');
+                    'fan_product_stock_management.product_price_sale',
+                    'master_brand.brand_name');
         if($categorylevel == 1){
             $arrCategories = Categorys::getSubCategoryIDs($category_id);
             $sql = $sql->whereIn('product_category_id', $arrCategories);
@@ -190,6 +194,7 @@ class Products extends Model{
 
     public static function get_product_filter($categorylevel, $category_id, $size, $color, $rangemin, $rangemax){
         $sql = DB::table('fan_product')
+                ->leftJoin('master_brand', 'master_brand.brand_id', '=', 'fan_product.product_brand_id')
                 ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
                 ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
                 ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
@@ -199,7 +204,8 @@ class Products extends Model{
                     'color.sku_type_id AS color_id', 
                     'size.sku_type AS size_sku', 
                     'size.sku_type_id AS size_id',
-                    'fan_product_stock_management.product_price_sale');
+                    'fan_product_stock_management.product_price_sale',
+                    'master_brand.brand_name');
         if($categorylevel == 1){
             $arrCategories = Categorys::getSubCategoryIDs($category_id);
             $sql = $sql->whereIn('product_category_id', $arrCategories);

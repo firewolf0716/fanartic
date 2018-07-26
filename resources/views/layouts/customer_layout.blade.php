@@ -31,16 +31,19 @@
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
                                 <li><a href="{{url('brands')}}">BRAND</a></li>
+                                @php $i=0; @endphp
                                 @foreach($womencategories as $key => $womencategory)
-                                @if($key < 5)
+                                @if($i < 5)
                                 @php
-                                    $url = url('customer/product/list').'/2/'.$womencategory->category_id;
+                                    $url = url('product/list').'/2/'.$womencategory->category_id;
                                     if(isset($mallname)){
-                                        $url = url($mallname.'/good/list/2/'.$womencategory->category_id);
+                                        $url = url($mallname.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
+                                    } else if(isset($brand)){
+                                        $url = url('/designer/'.$brand->brand_name_en.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
                                     }
+                                    $i++;
                                 @endphp
-                                <li><a href="{{$url}}">{{$womencategory->category_name}}</a>
-                                </li>
+                                <li><a href="{{$url}}">{{$womencategory->category_name}}</a></li>
                                 @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
@@ -53,17 +56,21 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('customer/brands')}}">BRAND</a></li>   
+                                <li><a href="{{url('designer')}}">BRAND</a></li>
+                                @php $i=0; @endphp
                                 @foreach($mencategories as $key => $mencategory)
-                                @if($key < 5)
+                                    @if($i < 5)
                                     @php
-                                        $url = url('customer/product/list').'/1/'.$mencategory->category_id;
+                                        $url = url('product/list').'/1/'.$mencategory->category_id;
                                         if(isset($mallname)){
-                                            $url = url($mallname.'/good/list/1/'.$mencategory->category_id);
+                                            $url = url($mallname.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
+                                        } else if(isset($brand)){
+                                            $url = url('/designer/'.$brand->brand_name_en.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
                                         }
+                                        $i++;
                                     @endphp
-                                    <li><a href="{{$url}}">{{$mencategory->category_name}}</a>
-                                @endif
+                                    <li><a href="{{$url}}">{{$mencategory->category_name}}</a></li>
+                                    @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
@@ -78,10 +85,10 @@
                 @if(!isset($customerid))
                 <a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @else
-                <a href="{{url('customer/user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                <a href="{{url('user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @endif
-                <li><a href="{{url('')}}/customer/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/customer/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
+                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
             </ul>
 
             <div class="header__search" data-header-search><span class="header__search__close"
@@ -123,116 +130,38 @@
         <div class="l-column--sub">
             <h2 class="c-hd">最近チェックしたアイテム</h2>
             <div class="c-items c-items--03">
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
+                @if(isset($recent))
+                @foreach($recent as $recentitem)
+                <div class="c-item c-item--03">
+                    <div class="c-item__column">
+                    <div class="c-item__column__figure">
+                        @php
+                            $imageset = $recentimages[$recentitem->product_id];
+                            
+                            $file_get_path_0 = $imageset[0]->master_image_name;                                    
+                            $prod_path = url('').'/images/products/'.$file_get_path_0;
+                            
+                            $prod_path02 = NULL;
+                            $file_get_path_1 = '';
+                            try{
+                                $file_get_path_1 = $imageset[1]->master_image_name;                                    
+                                if (isset($file_get_path_1)) {
+                                    $prod_path02 = url('').'/images/products/'.$file_get_path_1;
+                                }
+                            } catch(\Exception $ex){
+                                
+                            }
+                            
+                        @endphp
+                        <figure class="c-item__figure"><a href="{{url('product/detail/'.$recentitem->product_id)}}"><img style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a></figure>
+                    </div>
+                    <!--/.c-item__column__figure-->
+                    </div>
+                    <!--/.c-item__column-->
                 </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
+                @endforeach
+                @endif
+                <!--/.c-item-->
             </div>
             <!--/.c-items c-items--03-->
         </div>
@@ -268,9 +197,9 @@
                             <ul class="footer__nav__list footer__nav__list--col02">
                                 @foreach($maincategorys as $maincategory)
                                     @php
-                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        $url = url('product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
                                         if(isset($mallname)){
-                                            $url = url($mallname.'/good/list/'.$tcategory->category_id.'/'.$maincategory->category_id);
+                                            $url = url($mallname.'/'.$tcategory->category_id.'/'.$maincategory->category_id);
                                         }
                                     @endphp
                                     <li><a href="{{$url}}">{{$maincategory->category_name}}</a>
@@ -329,7 +258,7 @@
                     <section class="c-box">
                         <h3 class="c-box__hd">ログイン</h3>
                         <div class="c-box__content">
-                            {!! Form::open(array('id' => 'user_form_signin','url'=>'customer/user/signinpost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                            {!! Form::open(array('id' => 'user_form_signin','url'=>'user/signinpost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                             {{ Form::hidden('redirect', url()->current() ,array('id' => 'redirect'))}}
                             <div class="c-form__row c-form__row--min">
                                 <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
@@ -382,7 +311,7 @@
                 <div class="login__column__content">
                     <section class="c-box">
                         <h3 class="c-box__hd">新規登録</h3>
-                        {!! Form::open(array('id' => 'user_form_signup','url'=>'customer/user/signuppost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                        {!! Form::open(array('id' => 'user_form_signup','url'=>'user/signuppost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                         {{ Form::hidden('redirect', url()->current() ,array('id' => 'redirectup'))}}
                         <div class="c-box__content">
                             <div class="c-form__row c-form__row--min">

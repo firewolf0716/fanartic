@@ -38,12 +38,14 @@ class CustomerController extends Controller
             return Redirect::to('admin/login');
         } else if($mallname == 'merchant'){
             return Redirect::to('merchant/signin');
-        } else if($mallname == 'brands'){
+        } else if($mallname == 'designer'){
             // return Redirect::to('brands');
-            return redirect()->action('CustomerController@brands');
+            // return redirect()->action('CustomerController@brands');
+            return $this->brands();
         }
         else {
-            return Redirect::to($mallname.'/good/list/1');
+            // return Redirect::to($mallname.'/good/list/1');
+            return $this->mall_product_list($mallname);
         }
     }
 
@@ -54,7 +56,8 @@ class CustomerController extends Controller
     }
 
     public function brand($brandid){
-        return Redirect::to('/brand/'.$brandid.'/good/list/1');
+        return $this->product_list_brand($brandid);
+        // return Redirect::to('designer/'.$brandid.'/good/list/1');
     }
 
     public function layout_init($view, $gender){
@@ -71,25 +74,56 @@ class CustomerController extends Controller
         $brands = Brands::get_brands();
 
         $customerid = null;
+        $recent = null;
+        $images = null;
         if (Session::has('customerid')) {
             $customerid = Session::get('customerid');
+            $recent = Customers::get_recent($customerid);
+            $images = array();
+            foreach($recent as $product){
+                $imagerec = Products::get_master_images($product->product_id);
+                // dd($imagerec);
+                $images[$product->product_id] = $imagerec;
+            }
+
         }
         return $view->with('mencategories', $mencategories)
                 ->with('womencategories', $womencategories)
                 ->with('brands', $brands)
                 ->with('tcategory', $tcategory)
                 ->with('maincategorys', $maincategorys)
-                ->with('customerid', $customerid);
+                ->with('customerid', $customerid)
+                ->with('recent', $recent)
+                ->with('recentimages', $images);
+    }
+
+    public function set_recent($view){
+        $recent = null;
+        $images = null;
+        if (Session::has('customerid')) {
+            $customerid = Session::get('customerid');
+            $recent = Customers::get_recent($customerid);
+            $images = array();
+            foreach($recent as $product){
+                $imagerec = Products::get_master_images($product->product_id);
+                // dd($imagerec);
+                $images[$product->product_id] = $imagerec;
+            }
+        }
+        return $view->with('recent', $recent)
+                    ->with('recentimages', $images);
     }
 
     public function mall_product_list($mallname, $topid = null, $mainid = null, $categoryid = null){
         $mall = Malls::get_mall_byname($mallname);
         $topcategorys = Categorys::getTopCategorys();
+        $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
         }
         else {
-            $topcategory = Categorys::get_category($topid);
+            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
+            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
         }
         $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
@@ -99,18 +133,15 @@ class CustomerController extends Controller
         }
         $colors = Colors::get_colors();
         $sizes = null;
-        if($mainid != null){
-            $category = Categorys::get_category($mainid);
-            $sizecategory_id = $category->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
-        }
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category($mainid);
+            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $sizecategory_id = $mcategory->category_size_id;
+            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category($categoryid);
+            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
@@ -151,7 +182,7 @@ class CustomerController extends Controller
             $customerid = Session::get('customerid');
         }
 
-        return view('customer.products.product_list')->with('tcategory', $topcategory)
+        $view = view('customer.products.product_list')->with('tcategory', $topcategory)
             ->with('maincategorys', $maincategorys)
             ->with('mcategory', $mcategory)
             ->with('scategory', $scategory)
@@ -166,6 +197,7 @@ class CustomerController extends Controller
             ->with('images', $images)
             ->with('mallname', $mallname)
             ->with('customerid', $customerid);
+        return $this->set_recent($view);
     }
 
     public function product_list($topid = null, $mainid = null, $categoryid = null){
@@ -237,7 +269,7 @@ class CustomerController extends Controller
             $customerid = Session::get('customerid');
         }
 
-        return view('customer.products.product_list')->with('tcategory', $topcategory)
+        $view = view('customer.products.product_list')->with('tcategory', $topcategory)
             ->with('maincategorys', $maincategorys)
             ->with('mcategory', $mcategory)
             ->with('scategory', $scategory)
@@ -251,16 +283,22 @@ class CustomerController extends Controller
             ->with('prices', $prices)
             ->with('images', $images)
             ->with('customerid', $customerid);
+        return $this->set_recent($view);
     }
 
     public function product_list_brand($brandid ,$topid = null, $mainid = null, $categoryid = null){
+        $brand = Brands::get_brand_byname($brandid);
         $topcategorys = Categorys::getTopCategorys();
         $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
         }
         else {
-            $topcategory = Categorys::get_category($topid);
+            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
+            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            // else if($topid == "goods"){
+            //     return $this->product_detail($mainid);
+            // }
         }
         $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
@@ -270,18 +308,16 @@ class CustomerController extends Controller
         }
         $colors = Colors::get_colors();
         $sizes = null;
-        if($mainid != null){
-            $category = Categorys::get_category($mainid);
-            $sizecategory_id = $category->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
-        }
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category($mainid);
+            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $sizecategory_id = $mcategory->category_size_id;
+            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
+        
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category($categoryid);
+            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
@@ -300,7 +336,7 @@ class CustomerController extends Controller
         if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
         if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
         if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = Products::get_product_filter_brand($brandid, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $products = Products::get_product_filter_brand($brand->brand_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
         $prices = array(); $images = array();
         foreach($products as $product){
@@ -322,7 +358,7 @@ class CustomerController extends Controller
             $customerid = Session::get('customerid');
         }
 
-        return view('customer.products.product_list')->with('tcategory', $topcategory)
+        $view = view('customer.products.product_list')->with('tcategory', $topcategory)
             ->with('maincategorys', $maincategorys)
             ->with('mcategory', $mcategory)
             ->with('scategory', $scategory)
@@ -337,10 +373,11 @@ class CustomerController extends Controller
             ->with('images', $images)
             ->with('brandid', $brandid)
             ->with('customerid', $customerid);
+        return $this->set_recent($view);
     }
 
     public function product_list_post(){
-        $url = 'customer/product/list/' . Input::get('tcategory_id');
+        $url = Input::get('cururl');
         if(Input::has('mcategory_id')){
             $url .= '/'. Input::get('mcategory_id');
         }
@@ -360,11 +397,11 @@ class CustomerController extends Controller
             $url .= '&rangemin='. $rangemin;
         if(isset($rangemax))
             $url .= '&rangemax='. $rangemax;
-        Log::debug(Input::all());
         return Redirect::to($url);
     }
 
-    public function product_detail($productid){
+    public function product_detail($brandname, $productid){
+        $brand = Brands::get_brand_byname($brandname);
         $product = Products::get_product_detail($productid)->first();
         $tcategoryid = Categorys::getTopCategoryID($product->product_category_id);
 
@@ -408,7 +445,11 @@ class CustomerController extends Controller
             }
             $skuimages[$image->master_image_id] = $each;
         }
-        // dd($skuimages);
+        
+        if (Session::has('customerid')) {
+            $customerid = Session::get('customerid');
+            Customers::add_recent($customerid, $productid);
+        }
 
         return $this->layout_init(view('customer.products.product_detail'), $tcategoryid)
             ->with('product', $product)
@@ -419,7 +460,8 @@ class CustomerController extends Controller
             ->with('skusize', $skusize)
             ->with('price', $price)
             ->with('imagerec', $imagerec)
-            ->with('skuimages', $skuimages);
+            ->with('skuimages', $skuimages)
+            ->with('brand', $brand);
     }
 
     public function signup(){
@@ -440,9 +482,9 @@ class CustomerController extends Controller
 
     public function user(){
         if (Session::has('customerid')) {
-            return Redirect::to('customer/user/profile');
+            return Redirect::to('user/profile');
         } else {
-            return Redirect::to('customer/user/signin');
+            return Redirect::to('user/signin');
         }
     }
 
@@ -487,7 +529,7 @@ class CustomerController extends Controller
             return Redirect::to('/');
         } else {
             $status = Customers::customer_status($username, $password);
-            return Redirect::to('customer/user/signin?status='.$status);
+            return Redirect::to('user/signin?status='.$status);
         }
     }
 
@@ -536,11 +578,78 @@ class CustomerController extends Controller
         }
         // dd($entry);
         Customers::edit_customer($entry, $customerid);
-        return Redirect::to('customer/user/profile');
+        return Redirect::to('user/profile');
     }
 
     public function favourite(){
+        if(!Session::has('customerid')){
+            $redirect = $_GET['redirect'];
+            return Redirect::to($redirect);
+        }
+        $customerid = Session::get('customerid');
+        $favs = Customers::get_favs($customerid);
 
+        $images = array(); $colorname = array(); $sizename = array();
+        foreach($favs as $fav){
+            $sku_color = ProductSku::get_sku($fav->product_sku_color_id)->first();
+            $colorname[$fav->id] = Colors::get_color($sku_color->sku_type_id);
+
+            $sku_size = ProductSku::get_sku($fav->product_sku_size_id)->first();
+            $sizename[$fav->id] = Sizes::get_size($sku_color->sku_type_id);
+
+            $image = Products::get_cart_image($fav->fav_pro_id, $colorname[$fav->id]->color_id)->image_name;
+            $images[$fav->id] = $image;
+        }
+
+        return $this->layout_init(view('customer.user.favourite'), 1)
+            ->with('favs', $favs)
+            ->with('images', $images)
+            ->with('colorname', $colorname)
+            ->with('sizename', $sizename);
+    }
+
+    public function addFavourite(){
+        $productid = Input::get('product');
+        $colorid = Input::get('color');
+        $sizeid = Input::get('size');
+        $brand = Input::get('brand');
+        $amt = Input::get('count');
+
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        $entry = array(
+            'customer_id' => $customerid,
+            'fav_brand_id' => $brand,
+            'fav_pro_id' => $productid,
+            'fav_sku_color' => $colorid,
+            'fav_sku_size' => $sizeid,
+            'fav_amt' => $amt,
+        );
+        Customers::add_favourite($entry);
+        return "Product added to your favourite";
+    }
+
+    public function favitem_action(){
+        $customerid = Session::get('customerid');
+        if(!isset($customerid)){
+            return 'Please log in first';
+        }
+        $id = Input::get('action_id');
+        $type = Input::get('action_type');
+        if($type == 'cart'){
+            $fav = Customers::get_fav($id);
+
+            $prodid = $fav->fav_pro_id;
+            $color = $fav->fav_sku_color;
+            $size = $fav->fav_sku_size;
+            $count = $fav->fav_amt;
+            Cart::addCart($customerid, $prodid, $color, $size, $count);
+        } else if($type == 'remove'){
+            Customers::remove_fav($id);
+        }
+        return Redirect::to('user/favourite');
     }
 
     public function cart(){
@@ -586,7 +695,7 @@ class CustomerController extends Controller
     public function addtocart(){
         $customerid = Session::get('customerid');
         if(!isset($customerid)){
-            return 'Please log in first';
+            return 'Login';
         }
         $prodid = Input::get('product');
         $color = Input::get('color');
@@ -595,16 +704,16 @@ class CustomerController extends Controller
         // $price = Input::get('price');
         try{
             Cart::addCart($customerid, $prodid, $color, $size, $count);
-            return 'Add product to Cart Successed';
+            return 'Successed';
         }catch(\Exception $ex){
-            return 'Add product to Cart Failed';
+            return 'Failed';
         }
     }
 
     public function cart_remove_item(){
         $id = Input::get('remove_id');
         Cart::removeitem($id);
-        return Redirect::to('customer/user/cart');
+        return Redirect::to('user/cart');
     }
 
     public function address(){
@@ -647,7 +756,7 @@ class CustomerController extends Controller
             'address_address_jp' => Input::get('address_jp')
         );
         $id = Customers::add_address($entry);
-        return Redirect::to('customer/user/address');
+        return Redirect::to('user/address');
     }
 
     public function address_flag($id){
@@ -661,7 +770,7 @@ class CustomerController extends Controller
             'address_default' => 1
         );
         Customers::edit_address($entry, $id);
-        return Redirect::to('customer/user/address');
+        return Redirect::to('user/address');
     }
 
     public function address_edit($id){
@@ -701,12 +810,12 @@ class CustomerController extends Controller
         );
         $id =  Input::get('address_id');
         $res = Customers::edit_address($entry, $id);
-        return Redirect::to('customer/user/address');
+        return Redirect::to('user/address');
     }
 
     public function address_delete($id){
         Customers::delete_address($id);
-        return Redirect::to('customer/user/address');
+        return Redirect::to('user/address');
     }
 
     public function credit(){
@@ -738,7 +847,7 @@ class CustomerController extends Controller
             'card_validdate' => Input::get('year').'/'.Input::get('month')
         );
         $id = Customers::add_card($entry);
-        return Redirect::to('customer/user/credit');
+        return Redirect::to('user/credit');
     }
 
     public function credit_edit($id){
@@ -761,12 +870,12 @@ class CustomerController extends Controller
             'card_validdate' => Input::get('year').'/'.Input::get('month')
         );
         $id = Customers::edit_card($entry, $cardid);
-        return Redirect::to('customer/user/credit');
+        return Redirect::to('user/credit');
     }
 
     public function credit_delete($id){
         Customers::delete_card($id);
-        return Redirect::to('customer/user/credit');
+        return Redirect::to('user/credit');
     }
 
     public function checkflowinfo(){
@@ -777,7 +886,7 @@ class CustomerController extends Controller
 
         $cartCt = Cart::getCartItemCt($customerid);
         if($cartCt == 0){
-            return Redirect::to('customer/user/cart');
+            return Redirect::to('user/cart');
         }
 
         $addresses = Customers::get_addresses($customerid);
@@ -825,7 +934,7 @@ class CustomerController extends Controller
         } else {
             Session::put('calc_credit', $credit);
         }
-        return Redirect::to('/customer/user/checkflowconfirm');
+        return Redirect::to('user/checkflowconfirm');
     }
 
     public function checkflowconfirm(){

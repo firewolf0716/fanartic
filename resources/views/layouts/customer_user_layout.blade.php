@@ -34,7 +34,7 @@
                                 @foreach($womencategories as $key => $womencategory)
                                 @if($key < 5)
                                 @php
-                                    $url = url('customer/product/list').'/2/'.$womencategory->category_id;
+                                    $url = url('product/list').'/2/'.$womencategory->category_id;
                                     if(isset($mallname)){
                                         $url = url($mallname.'/good/list/2/'.$womencategory->category_id);
                                     }
@@ -53,11 +53,11 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('customer/brands')}}">BRAND</a></li>   
+                                <li><a href="{{url('designer')}}">BRAND</a></li>   
                                 @foreach($mencategories as $key => $mencategory)
                                 @if($key < 5)
                                     @php
-                                        $url = url('customer/product/list').'/1/'.$mencategory->category_id;
+                                        $url = url('product/list').'/1/'.$mencategory->category_id;
                                         if(isset($mallname)){
                                             $url = url($mallname.'/good/list/1/'.$mencategory->category_id);
                                         }
@@ -78,10 +78,10 @@
                 @if(!isset($customerid))
                 <a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @else
-                <a href="{{url('customer/user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                <a href="{{url('user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @endif
-                <li><a href="{{url('')}}/customer/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/customer/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
+                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
             </ul>
 
             <div class="header__search" data-header-search><span class="header__search__close"
@@ -268,7 +268,7 @@
                             <ul class="footer__nav__list footer__nav__list--col02">
                                 @foreach($maincategorys as $maincategory)
                                     @php
-                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        $url = url('product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
                                         if(isset($mallname)){
                                             $url = url($mallname.'/good/list/'.$tcategory->category_id.'/'.$maincategory->category_id);
                                         }
@@ -329,7 +329,7 @@
                     <section class="c-box">
                         <h3 class="c-box__hd">ログイン</h3>
                         <div class="c-box__content">
-                            {!! Form::open(array('id' => 'user_form_signin','url'=>'customer/user/signinpost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                            {!! Form::open(array('id' => 'user_form_signin','url'=>'user/signinpost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                             {{ Form::hidden('redirect', url()->current() ,array('id' => 'redirect'))}}
                             <div class="c-form__row c-form__row--min">
                                 <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
@@ -382,7 +382,7 @@
                 <div class="login__column__content">
                     <section class="c-box">
                         <h3 class="c-box__hd">新規登録</h3>
-                        {!! Form::open(array('id' => 'user_form_signup','url'=>'customer/user/signuppost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                        {!! Form::open(array('id' => 'user_form_signup','url'=>'user/signuppost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                         {{ Form::hidden('redirect', url()->current() ,array('id' => 'redirectup'))}}
                         <div class="c-box__content">
                             <div class="c-form__row c-form__row--min">

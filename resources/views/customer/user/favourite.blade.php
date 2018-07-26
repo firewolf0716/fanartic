@@ -1,236 +1,85 @@
 @extends('layouts.customer_layout')
 @section('content')
-<div class="l-content">
-    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--cart"></i> ショッピングカート</h1>
-    <div class="cart">
-        <div class="cart__column">
-        <div class="cart__column__content">
-            <hr class="c-hr">
-            <div class="l-column l-column--cart">
-            <div class="l-column--cart__item">
-                <div class="c-item c-item--01">
+<ul class="c-breadcrumbs">
+    <li><a href="/">HOME</a></li>
+    <li>お気に入りアイテム</li>
+</ul>
+<!--/.c-breadcrumbs-->
+<h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--member"></i> お気に入りアイテム</h1>
+<div class="members">
+    <div class="members__column">
+    <div class="members__column__content">
+        <div class="l-column l-column--control">
+        <div class="l-column--control__col"><label class="c-select c-select--sort u-sp__full"><span class="c-select__box u-sp__full"><select name="" id=""><option value="">すべてのカテゴリ</option></select></span></label></div>
+        <div class="l-column--control__col"><label class="c-select c-select--sort u-sp__full"><span class="c-select__box u-sp__full"><select name="" id=""><option value="">すべて</option></select></span></label></div>
+        </div>
+        <!--/.l-column l-column--control-->
+        {!! Form::open(array('id' => 'form_fav_list','url'=>'user/favitem_action', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        {{ Form::hidden('action_id', '',array('id' => 'action_id'))}}
+        {{ Form::hidden('action_type', '',array('id' => 'action_type'))}}
+        <div class="c-items c-items--02">
+            @foreach($favs as $fav)
+            <div class="c-item c-item--02">
                 <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                    <div class="c-item__column__data">
-                    <h3 class="c-item__name">BRUNELLO CUCINELLI</h3>
+                <div class="c-item__column__figure">
+                    @php 
+                        $pro_img  = $images[$fav->id];
+                        $prod_path = url('').'/images/products/'.$pro_img;
+                    @endphp
+                    <figure class="c-item__figure"><a href="{{url('customer/product/detail/'.$fav->fav_pro_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
+                </div>
+                <!--/.c-item__column__figure-->
+                <div class="c-item__column__data">
+                    <h3 class="c-item__name">{{$fav->brand_name}}</h3>
                     <ul class="c-item__data">
-                        <li>graphic print sweatshirt</li>
-                        <li>カラー：ライトグリーン</li>
-                        <li>サイズ：L</li>
+                    <li>{{$fav->product_name}}</li>
+                    <li>カラー：{{$colorname[$fav->id]->color_name}}</li>
                     </ul>
-                    <div class="c-item__price u-sp"><strong>&yen;11,000</strong></div>
-                    </div>
-                    <!--/.c-item__column__data-->
+                    <div class="c-item__price"><strong>&yen;{{number_format($fav->product_price_sale)}}</strong></div>
+                    <button class="c-item__addcart" onClick="onCart({{$fav->id}})"><i class="c-icon c-item__addcart__icon"></i>カートへ入れる</button> 
+                    <button type="button" class="c-item__delete" onClick="onRemove({{$fav->id}})"><i class="c-icon c-item__delete__icon"></i>削除</button></div>
+                <!--/.c-item__column__data-->
                 </div>
                 <!--/.c-item__column-->
-                </div>
-                <!--/.c-item-->
             </div>
-            <div class="l-column--cart__price u-pc">&yen;11,000</div>
-            <div class="l-column--cart__quantity"><label class="c-select c-select--quantity"><span class="c-select__box"><select name="" id=""><option value="">1</option><option value="">2</option><option value="">99</option></select></span></label></div>
-            <div class="l-column--cart__button"><a href="#" class="c-button c-button--secondary">削除</a></div>
-            </div>
-            <!--/.l-column l-column--cart-->
-            <hr class="c-hr">
-            <div class="l-column l-column--cart">
-            <div class="l-column--cart__item">
-                <div class="c-item c-item--01">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                    <div class="c-item__column__data">
-                    <h3 class="c-item__name">BRUNELLO CUCINELLI</h3>
-                    <ul class="c-item__data">
-                        <li>graphic print sweatshirt</li>
-                        <li>カラー：ライトグリーン</li>
-                        <li>サイズ：L</li>
-                    </ul>
-                    <div class="c-item__price u-sp"><strong>&yen;11,000</strong></div>
-                    </div>
-                    <!--/.c-item__column__data-->
-                </div>
-                <!--/.c-item__column-->
-                </div>
-                <!--/.c-item-->
-            </div>
-            <div class="l-column--cart__price u-pc">&yen;11,000</div>
-            <div class="l-column--cart__quantity"><label class="c-select c-select--quantity"><span class="c-select__box"><select name="" id=""><option value="">1</option><option value="">2</option><option value="">99</option></select></span></label></div>
-            <div class="l-column--cart__button"><a href="#" class="c-button c-button--secondary">削除</a></div>
-            </div>
-            <!--/.l-column l-column--cart-->
-            <hr class="c-hr">
-            <div class="l-column l-column--cart">
-            <div class="l-column--cart__item">
-                <div class="c-item c-item--01">
-                <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                    <div class="c-item__column__data">
-                    <h3 class="c-item__name">BRUNELLO CUCINELLI</h3>
-                    <ul class="c-item__data">
-                        <li>graphic print sweatshirt</li>
-                        <li>カラー：ライトグリーン</li>
-                        <li>サイズ：L</li>
-                    </ul>
-                    <div class="c-item__price u-sp"><strong>&yen;11,000</strong></div>
-                    </div>
-                    <!--/.c-item__column__data-->
-                </div>
-                <!--/.c-item__column-->
-                </div>
-                <!--/.c-item-->
-            </div>
-            <div class="l-column--cart__price u-pc">&yen;11,000</div>
-            <div class="l-column--cart__quantity"><label class="c-select c-select--quantity"><span class="c-select__box"><select name="" id=""><option value="">1</option><option value="">2</option><option value="">99</option></select></span></label></div>
-            <div class="l-column--cart__button"><a href="#" class="c-button c-button--secondary">削除</a></div>
-            </div>
-            <!--/.l-column l-column--cart-->
-            <hr class="c-hr">
-            <dl class="cart__total"><dt>商品合計（3点）</dt>
-            <dd><strong>¥12,960</strong></dd>
-            </dl>
-            <!--/.cart__total-->
+            @endforeach
+        {{ Form::close() }}
         </div>
-        <!--/.cart__column__content-->
-        <div class="cart__column__shipping">
-            <div class="cart__shipping">
-            <p class="cart__shipping__delivery">送料無料でお届けします。</p>
-            <p class="cart__shipping__quantity">商品合計（3点）</p>
-            <p class="cart__shipping__price"><strong>¥12,960</strong></p>
-            <p class="cart__shipping__point">獲得ポイント：2,000ポイント</p>
-            <div class="cart__shipping__button"><a href="#" class="c-button c-button--submit c-button--full">レジへ進む</a></div>
-            <p class="cart__shipping__back"><a href="#">ショッピングを続ける</a></p>
-            </div>
-            <!--/.cart__shipping-->
-        </div>
-        <!--/.cart__column__shipping-->
-        </div>
-        <!--/.cart__column-->
+        <!--/.c-items c-items--02-->
     </div>
-    <!--/.cart-->
-    <div class="l-column--sub">
-        <h2 class="c-hd">最近チェックしたアイテム</h2>
-        <div class="c-items c-items--03">
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        <div class="c-item c-item--03">
-            <div class="c-item__column">
-            <div class="c-item__column__figure">
-                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-            </div>
-            <!--/.c-item__column__figure-->
-            </div>
-            <!--/.c-item__column-->
-        </div>
-        <!--/.c-item-->
-        </div>
-        <!--/.c-items c-items--03-->
+    <!--/.members__column__content-->
+    <div class="members__column__nav">
+        <ul class="members__nav">
+        <li><a href="{{url('user/favourite')}}">お気に入りアイテム</a></li>
+        <li><a href="{{url('user/wish')}}">探しているアイテム</a></li>
+        <li><a href="{{url('user/history')}}">注文履歴</a></li>
+        <li><a href="{{url('user/score')}}">ポイント</a></li>
+        <li><a href="#">会員情報</a>
+            <ul class="members__nav__sub">
+                <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
+                <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
+                <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
+                <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
+                <li><a href="{{url('user/signout')}}">退会手続き</a></li>
+            </ul>
+        </li>
+        </ul>
     </div>
+    <!--/.members__column__nav-->
     </div>
-    <!--/.l-content-->
+    <!--/.members__column-->
+</div>
+<!--/.members-->
+<script>
+    function onCart(id){
+        $('#action_id').val(id);
+        $('#action_type').val('cart');
+        $('#form_fav_list').submit();
+    }
+    function onRemove(id){
+        $('#action_id').val(id);
+        $('#action_type').val('remove');
+        $('#form_fav_list').submit();
+    }
+</script>
 @endsection

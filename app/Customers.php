@@ -206,4 +206,54 @@ class Customers extends Model
     public static function get_OrderNo($customerid, $group){
 
     }
+
+    public static function add_favourite($entry){
+        $previousRec = DB::table('customer_favourite')->where('customer_id', $entry['customer_id'])
+            ->where('fav_pro_id', $entry['fav_pro_id'])
+            ->where('fav_sku_color', $entry['fav_sku_color'])
+            ->where('fav_sku_size', $entry['fav_sku_size'])
+            ->get();
+
+        if(count($previousRec) > 0){
+            $id = $previousRec->first()->id;
+            return DB::table('customer_favourite')->where('id', $id)->update($entry);
+        } else {
+            DB::table('customer_favourite')->insert($entry);
+        }
+    }
+
+    public static function get_favs($customerid){
+        return DB::table('customer_favourite')->where('customer_id', $customerid)
+            ->leftJoin('fan_product', 'fan_product.product_id', 'customer_favourite.fav_pro_id')
+            ->leftJoin('master_brand', 'master_brand.brand_id', 'customer_favourite.fav_brand_id')
+            ->leftJoin('fan_product_stock_management', function($join){
+                $join->on('customer_favourite.fav_pro_id', '=', 'fan_product_stock_management.product_id');
+                $join->on('customer_favourite.fav_sku_color', '=', 'fan_product_stock_management.product_sku_color_id');
+                $join->on('customer_favourite.fav_sku_size', '=', 'fan_product_stock_management.product_sku_size_id');
+            })
+            ->get();
+    }
+
+    public static function remove_fav($id){
+        return DB::table('customer_favourite')->where('id', $id)->delete();
+    }
+
+    public static function get_fav($id){
+        return DB::table('customer_favourite')->where('id', $id)->get()->first();
+    }
+
+    public static function add_recent($customerid, $productid){
+        date_default_timezone_set('Asia/Tokyo');
+        $entry = array(
+            'customer_id' => $customerid,
+            'product_id' => $productid,
+            'recent_date' => date('Y/m/d H:i:s')
+        );
+        DB::table('customer_recent_product')->insert($entry);
+    }
+
+    public static function get_recent($customerid){
+        // dd($customerid);
+        return DB::table('customer_recent_product')->where('customer_id', $customerid)->groupBy('product_id')->orderBy('recent_date', 'DESC')->get();
+    }
 }

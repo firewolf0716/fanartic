@@ -49,7 +49,7 @@
                                     
                                 @endphp
                                 <figure class="c-item__figure">
-                                    <a href="{{url('customer/product/detail').'/'.$product->product_id}}"
+                                    <a href="{{url('')}}/designer/{{$product->brand_name}}/goods/{{$product->product_id}}"
                                        class="image-block">
                                         @if (empty($file_get_path_0))
                                             <img src="http://placehold.jp/340x440.png" alt="No Image">
@@ -74,8 +74,13 @@
                                         <li>{{$product->product_name_detail}}</li>
                                     </ul>
                                     <div class="c-item__price">
-                                        <strong>&yen;{{$prices[$product->product_id]['min']}}-
-                                        &yen;{{$prices[$product->product_id]['max']}}</strong></div>
+                                        @if($prices[$product->product_id]['min'] < $prices[$product->product_id]['max'])
+                                            <strong>&yen;{{number_format($prices[$product->product_id]['min'])}}-
+                                            &yen;{{number_format($prices[$product->product_id]['max'])}}</strong>
+                                        @else
+                                            <strong>&yen;{{number_format($prices[$product->product_id]['min'])}}</strong>
+                                        @endif
+                                    </div>
                                 </a>
                             </div>
                             <!--/.c-item__column__data-->
@@ -90,8 +95,9 @@
         </div>
         <!--/.product-list__column__content-->
         <div class="product-list__column__nav" data-productfilter__content="">
-            {!! Form::open(array('id' => 'form_product_list','url'=>'customer/product/product_list_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            {!! Form::open(array('id' => 'form_product_list','url'=>'product/product_list_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             {{ Form::hidden('tcategory_id', $tcategory->category_id)}}
+            {{ Form::hidden('cururl', Request::url())}}
             @if(isset($mcategory))
                 {{ Form::hidden('mcategory_id', $mcategory->category_id)}}
             @endif
@@ -107,18 +113,20 @@
                             @foreach($maincategorys as $maincategory)
                                 <li class="is-hassub">
                                     @php
-                                        $url = url('customer/product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        $url = url('product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                        $tcategoryname = "men";
+                                        if($tcategory->category_id == 2) $tcategoryname = "women";
                                         if(isset($mallname)){
-                                            $url = url($mallname.'/good/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                            $url = url($mallname).'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
                                         } else if(isset($brandid)){
-                                            $url = url('/brand/'.$brandid.'/good/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
+                                            $url = url('/designer/'.$brandid).'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
                                         }
                                     @endphp
                                     <a href="{{$url}}">{{$maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
                                         @foreach($subcategorys[$maincategory->category_id] as $subcategory)
                                             <li>
-                                                <a href="{{$url.'/'.$subcategory->category_id}}">{{$subcategory->category_name}}</a>
+                                                <a href="{{$url.'/'.str_replace('/', '-', $subcategory->category_name_en)}}">{{$subcategory->category_name}}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -194,7 +202,7 @@
                 {{ Form::hidden('range_min', '' ,array('id' => 'rangemin_val'))}}
                 {{ Form::hidden('range_max', '' ,array('id' => 'rangemax_val'))}}
                 <li data-productfiltermodal="">
-                    <h3 class="product-list__nav__hd" data-accordionproductlist="">価格</h3>
+                    <h3 id="cash_range" class="product-list__nav__hd" data-accordionproductlist="">価格</h3>
                     <div class="product-list__nav__item" data-productfiltermodal__content="" data-productlistprice="">
                         <h2 class="product-list__column__nav__hd u-sp">価格を選択</h2>
                         <div class="product-list__nav__price">
@@ -205,10 +213,10 @@
                                 if(isset($_GET['rangemax']))
                                     $rangemax = $_GET['rangemax'];
                             @endphp
-                            <input type="range" name="rangemin" id="rangemin" min="0" max="1000000" value="{{$rangemin}}"
+                            <input type="range" name="rangemin" id="rangemin" min="0" max="100000" value="{{$rangemin}}"
                                     data-productlistprice__min="">
                         
-                            <input type="range" name="rangemax" id="rangemax" min="0" max="1000000" value="{{$rangemax}}"
+                            <input type="range" name="rangemax" id="rangemax" min="0" max="100000" value="{{$rangemax}}"
                                     data-productlistprice__max="">
                             <!--/.product-list__nav__price__buttons-->
                             <script src="{{url('')}}/js/vendor/mm-jsr.js"></script>
@@ -219,7 +227,7 @@
                                     sliders: 2,
                                     min: $(minTarget).attr('min'),
                                     max: $(maxTarget).attr('max'),
-                                    values: ['{{$rangemin / 10}}', '{{$rangemax}}'],
+                                    values: ['{{$rangemin / 10}}', '{{$rangemax / 10}}'],
                                     limit: {
                                         show: false
                                     },
@@ -277,22 +285,22 @@
     <script>
         $('#top_women').click(function () {
             @php
-                $url = url('customer/product/list/2');
+                $url = url('product/list/2');
                 if(isset($mallname)){
-                    $url = url($mallname.'/good/list/2');
+                    $url = url($mallname.'/women');
                 } else if(isset($brandid)){
-                    $url = url('/brand/'.$brandid.'/good/list/2');
+                    $url = url('/designer/'.$brandid.'/women');
                 }
             @endphp
             window.location = "{{$url}}";
         });
         $('#top_men').click(function () {
             @php
-                $url = url('customer/product/list/1');
+                $url = url('product/list/1');
                 if(isset($mallname)){
-                    $url = url($mallname.'/good/list/1');
+                    $url = url($mallname.'/men');
                 } else if(isset($brandid)){
-                    $url = url('/brand/'.$brandid.'/good/list/1');
+                    $url = url('/designer/'.$brandid.'/men');
                 }
             @endphp
             window.location = "{{$url}}";
@@ -343,6 +351,9 @@
                     }
                 }
             });
+            @if(isset($_GET['rangemin']) && $_GET['rangemin'] != '')
+                $('#cash_range').addClass('is-open');
+            @endif
         });
 
         function onSizeChange(obj, sizeid) {

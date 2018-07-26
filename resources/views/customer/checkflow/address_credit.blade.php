@@ -12,7 +12,7 @@
         <!--/.cart__checkout__flow-->
         <section class="c-box">
         <h3 class="c-box__hd">配送先住所を選択</h3>
-            {!! Form::open(array('id' => 'form_flow','url'=>'customer/user/flow_post_ac', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            {!! Form::open(array('id' => 'form_flow','url'=>'user/flow_post_ac', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
             <div class="c-box__content">
                 <div data-checkopen="address">
                 @foreach($addresses as $address)
@@ -40,7 +40,7 @@
                             @endphp
                         <br>{{$address->address_phone}}</div>
                     <!--/.l-column--list__data-->
-                    <div class="l-column--list__button"><a href="{{url('customer/user/address_edit/'.$address->id)}}" class="c-button c-button--sub">配送先情報を編集</a></div>
+                    <div class="l-column--list__button"><a href="{{url('user/address_edit/'.$address->id)}}" class="c-button c-button--sub">配送先情報を編集</a></div>
                     <!--/.l-column--list__button-->
                     </div>
                     <!--/.l-column l-column--list-->

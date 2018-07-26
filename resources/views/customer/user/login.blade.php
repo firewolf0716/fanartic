@@ -46,7 +46,7 @@
                 @endif
               @endif
             </h3>
-            {!! Form::open(array('id' => 'form_signin','url'=>'customer/user/signinpost')) !!}
+            {!! Form::open(array('id' => 'form_signin','url'=>'user/signinpost')) !!}
             {{ Form::hidden('redirect', $redirect)}}
               <h1>Login(Customer)</h1>
               <div>
@@ -64,7 +64,7 @@
 
               <div class="separator">
                 <p class="change_link">New to site?
-                  <a href="{{url('customer/user/signup')}}" class="to_register"> Create Account </a>
+                  <a href="{{url('user/signup')}}" class="to_register"> Create Account </a>
                 </p>
               </div>
             {{ Form::close() }}

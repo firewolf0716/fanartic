@@ -21,7 +21,7 @@
                                 $pro_img  = $images[$item->cart_id];
                                 $prod_path = url('').'/images/products/'.$pro_img;
                             @endphp
-                    <figure class="c-item__figure"><a href="{{url('customer/product/detail/'.$item->product_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
+                    <figure class="c-item__figure"><a href="{{url('product/detail/'.$item->product_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
                     </div>
                     <!--/.c-item__column__figure-->
                     <div class="c-item__column__data">
@@ -40,7 +40,7 @@
                 <!--/.c-item-->
             </div>
             <div class="l-column--cart__price u-pc">&yen;{{number_format($item->product_price_sale)}}</div>
-            <div class="l-column--cart__button"><a href="{{url('customer/user/cart')}}" class="c-button c-button--secondary">変更</a></div>
+            <div class="l-column--cart__button"><a href="{{url('user/cart')}}" class="c-button c-button--secondary">変更</a></div>
         </div>
         <!--/.l-column l-column--cart-->
         <hr class="c-hr">
@@ -60,7 +60,7 @@
                             @endphp
                         <br>{{$addrobj->address_phone}}</div>
             <!--/.l-column--list__data-->
-            <div class="l-column--list__button"><a href="{{url('customer/user/address_edit/'.$addrobj->id)}}" class="c-button c-button--sub">配送先情報を編集</a></div>
+            <div class="l-column--list__button"><a href="{{url('user/address_edit/'.$addrobj->id)}}" class="c-button c-button--sub">配送先情報を編集</a></div>
             <!--/.l-column--list__button-->
             </div>
             <!--/.l-column l-column--list-->
@@ -74,7 +74,7 @@
             <div class="l-column l-column--list l-column--top">
             <div class="l-column--list__data">カード番号：{{str_repeat('*', 12).$creditobj->card_token}}<br>有効期限：{{$creditobj->card_validdate}}</div>
             <!--/.l-column--list__data-->
-            <div class="l-column--list__button"><a href="{{url('customer/user/credit_edit/'.$creditobj->id)}}" class="c-button c-button--sub">支払い方法を編集</a></div>
+            <div class="l-column--list__button"><a href="{{url('user/credit_edit/'.$creditobj->id)}}" class="c-button c-button--sub">支払い方法を編集</a></div>
             <!--/.l-column--list__button-->
             </div>
             <!--/.l-column l-column--list-->
@@ -106,7 +106,7 @@
             <td class="cart__shipping__data__price cart__shipping__price"><strong>￥{{number_format($total['sum'])}}</strong></td>
             </tr>
         </table>
-        <div class="cart__shipping__button"><a href="{{url('customer/user/confirm_order')}}" class="c-button c-button--submit c-button--full">注文を確定する</a></div>
+        <div class="cart__shipping__button"><a href="{{url('user/confirm_order')}}" class="c-button c-button--submit c-button--full">注文を確定する</a></div>
         </div>
         <!--/.cart__shipping-->
     </div>
