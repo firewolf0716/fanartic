@@ -207,16 +207,16 @@
                         <h2 class="product-list__column__nav__hd u-sp">価格を選択</h2>
                         <div class="product-list__nav__price">
                             @php
-                                $rangemin = 0; $rangemax = 1000000;
+                                $rangemin = 0; $rangemax = 500000;
                                 if(isset($_GET['rangemin']))
                                     $rangemin = $_GET['rangemin'];
                                 if(isset($_GET['rangemax']))
                                     $rangemax = $_GET['rangemax'];
                             @endphp
-                            <input type="range" name="rangemin" id="rangemin" min="0" max="100000" value="{{$rangemin}}"
+                            <input type="range" name="rangemin" id="rangemin" min="0" max="50000" value="{{$rangemin}}"
                                     data-productlistprice__min="">
                         
-                            <input type="range" name="rangemax" id="rangemax" min="0" max="100000" value="{{$rangemax}}"
+                            <input type="range" name="rangemax" id="rangemax" min="0" max="50000" value="{{$rangemax}}"
                                     data-productlistprice__max="">
                             <!--/.product-list__nav__price__buttons-->
                             <script src="{{url('')}}/js/vendor/mm-jsr.js"></script>
@@ -235,7 +235,10 @@
                                     labels: {
                                         minMax: false,
                                         formatter: function (value) {
-                                            return '<span class="jsr_label__yen">￥</span>' + value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+                                            if(value == "500000")
+                                                return '<span class="jsr_label__yen">￥</span>' + value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + "+";
+                                            else
+                                                return '<span class="jsr_label__yen">￥</span>' + value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
                                         }
                                     }
                                 })

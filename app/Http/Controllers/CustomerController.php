@@ -39,12 +39,9 @@ class CustomerController extends Controller
         } else if($mallname == 'merchant'){
             return Redirect::to('merchant/signin');
         } else if($mallname == 'designer'){
-            // return Redirect::to('brands');
-            // return redirect()->action('CustomerController@brands');
             return $this->brands();
         }
         else {
-            // return Redirect::to($mallname.'/good/list/1');
             if($mall != null)
                 return $this->mall_product_list($mallname);
             else

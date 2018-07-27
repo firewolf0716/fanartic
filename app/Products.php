@@ -140,7 +140,7 @@ class Products extends Model{
         if(isset($rangemin) && $rangemin != ''){
             $sql = $sql->where('fan_product_stock_management.product_price_sale', '>=' ,$rangemin);
         }
-        if(isset($rangemax) && $rangemax != ''){
+        if(isset($rangemax) && $rangemax != '' && $rangemax != '500000'){
             $sql = $sql->where('fan_product_stock_management.product_price_sale', '<=' ,$rangemax);
         }
         return $sql->groupBy('fan_product.product_id')->get();
