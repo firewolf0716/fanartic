@@ -8,32 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customers extends Model
 {
-    //
-    // public static function check_login($uname, $pwd) {
-    //     $customers = DB::table('customers')->where('customer_email', '=', $uname)->get();
-    //     $check_password = 0;
-    //     dd(Hash::check($pwd, Hash::make($pwd)));
-    //     if(count($customers) > 0) { 
-    //         foreach($customers as $customer) {
-    //             if($customer->customer_email == $uname) {
-    //                 $check_password = DB::table('customers')->where('customer_email', '=', $uname)->where('customer_password', '=', $pwd)->get();
-    //             } else {
-    //                 return -1;
-    //             }
-    //             if(count($check_password) < 1) {
-    //                 return -2;
-    //             }
-    //             else if(count($check_password) > 0) {
-    //                 Session::put('site','customer');
-    //                 Session::put('customerid', $customer->customer_id);
-    //                 Session::put('customermail', $customer->customer_email);
-    //                 return 1;
-    //             }
-    //         }
-    //     } else { 
-    //         return 0;
-    //     }
-    // }
     public static function check_login($uname, $pwd){
         $customer = DB::table('customers')->where('customer_email', '=', $uname)->where('verified', 1)->get()->first();
         // dd($customer);
@@ -49,6 +23,27 @@ class Customers extends Model
             return -2;
         }
     }
+
+    public static function signverify($email, $token){
+        $prevmail = DB::table('customers')->where('customer_email', '=', $email)->get()->first();
+        // dd($prevmail);
+        if(isset($prevmail)){
+            if($token == $prevmail->token){
+                DB::table('customers')->where('customer_email', '=', $email)->update(array('verified' => 1));
+                Session::put('site','customer');
+                Session::put('customerid', $prevmail->customer_id);
+                Session::put('customermail', $prevmail->customer_email);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static function is_customer_email_exists($email){
+        $prevmail = DB::table('customers')->where('customer_email', '=', $email)->get()->first();
+        return isset($prevmail);
+    }
+
     public static function customer_status($uname, $pwd){
         $users = DB::table('customers')->where('customer_email', '=', $uname)->get();
         if(count($users) > 0){
@@ -61,6 +56,7 @@ class Customers extends Model
             return -1;
         }
     }
+
     public static function insert_customer($entry){
         $check_insert = DB::table('customers')->insert($entry);
         if ($check_insert) {
@@ -69,6 +65,7 @@ class Customers extends Model
             return 0;
         }
     }
+
     public static function get_customers(){
         return DB::table('customers')->orderBy('customer_id', 'ASC')->get();
     }

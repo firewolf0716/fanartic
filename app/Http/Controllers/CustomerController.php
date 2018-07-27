@@ -524,7 +524,9 @@ class CustomerController extends Controller
     }
 
     public function signuppost(){
-        Log::debug(Input::all());
+        if(Customers::is_customer_email_exists(Input::get('email'))){
+            return "Email already registered";
+        }
         $entry = array(
             'customer_name_first' => Input::get('name'),
             'customer_email' => Input::get('email'),
@@ -532,7 +534,7 @@ class CustomerController extends Controller
             'token' => uniqid()
         );
 
-        // Customers::insert_customer($entry);
+        Customers::insert_customer($entry);
 
         Mail::send('emails.reminder', ['user' => $entry], function ($m) use ($entry) {
             $m->from('hokelucpy@gmail.com', 'Laravel');
@@ -540,7 +542,15 @@ class CustomerController extends Controller
             $m->to($entry['customer_email'])->subject('Your Reminder!');
         });
 
-        return Redirect::to('/');
+        return "Registered successfully, Please check your mail to verify account";
+    }
+
+    public function signverify(){
+        $email = $_GET['mail'];
+        $token = $_GET['token'];
+        $res = Customers::signverify($email, $token);
+        if($res)
+            return Redirect::to('user/profile');
     }
 
     public function signinpost(){
