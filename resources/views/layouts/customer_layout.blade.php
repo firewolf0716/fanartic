@@ -39,7 +39,7 @@
                                     if(isset($mallname)){
                                         $url = url($mallname.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
                                     } else if(isset($brand)){
-                                        $url = url('/designer/'.$brand->brand_name_en.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
+                                        $url = url('/brands/'.$brand->brand_name_en.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
                                     }
                                     $i++;
                                 @endphp
@@ -56,7 +56,7 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('designer')}}">BRAND</a></li>
+                                <li><a href="{{url('brands')}}">BRAND</a></li>
                                 @php $i=0; @endphp
                                 @foreach($mencategories as $key => $mencategory)
                                     @if($i < 5)
@@ -65,7 +65,7 @@
                                         if(isset($mallname)){
                                             $url = url($mallname.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
                                         } else if(isset($brand)){
-                                            $url = url('/designer/'.$brand->brand_name_en.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
+                                            $url = url('/brands/'.$brand->brand_name_en.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
                                         }
                                         $i++;
                                     @endphp

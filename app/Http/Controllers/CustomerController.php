@@ -38,12 +38,14 @@ class CustomerController extends Controller
             return Redirect::to('admin/login');
         } else if($mallname == 'merchant'){
             return Redirect::to('merchant/signin');
-        } else if($mallname == 'designer'){
+        } else if($mallname == 'brands'){
             return $this->brands();
         }
         else {
-            if($mall != null)
-                return $this->mall_product_list($mallname);
+            if($mall != null){
+                $brands = MallBrands::get_brands($mall->mall_id);
+                return $this->layout_init(view('customer.mall_brand'), 1)->with('brands', $brands);
+            }
             else
                 return Redirect::to('');
         }
@@ -130,8 +132,9 @@ class CustomerController extends Controller
                     ->with('recentimages', $images);
     }
 
-    public function mall_product_list($mallname, $topid = null, $mainid = null, $categoryid = null){
+    public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null){
         $mall = Malls::get_mall_byname($mallname);
+        $brand = Brands::get_brand_byname($brandname);
         $topcategorys = Categorys::getTopCategorys();
         $topcategory = null;
         if($topid == null){
@@ -176,7 +179,7 @@ class CustomerController extends Controller
         if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
         if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
         if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = Products::get_product_filter_mall($mall->mall_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $products = Products::get_product_filter_mall($mall->mall_id, $brand->brand_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
         $prices = array(); $images = array();
         foreach($products as $product){
@@ -212,7 +215,8 @@ class CustomerController extends Controller
             ->with('prices', $prices)
             ->with('images', $images)
             ->with('mallname', $mallname)
-            ->with('customerid', $customerid);
+            ->with('customerid', $customerid)
+            ->with('brandname', $brandname);
         return $this->set_recent($view);
     }
 

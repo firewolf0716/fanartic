@@ -53,7 +53,7 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('designer')}}">BRAND</a></li>   
+                                <li><a href="{{url('brands')}}">BRAND</a></li>   
                                 @foreach($mencategories as $key => $mencategory)
                                 @if($key < 5)
                                     @php
