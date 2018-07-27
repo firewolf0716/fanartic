@@ -49,7 +49,7 @@
                                     
                                 @endphp
                                 <figure class="c-item__figure">
-                                    <a href="{{url('')}}/designer/{{$product->brand_name}}/goods/{{$product->product_id}}"
+                                    <a href="{{url('')}}/brands/{{$product->brand_name}}/goods/{{$product->product_id}}"
                                        class="image-block">
                                         @if (empty($file_get_path_0))
                                             <img src="http://placehold.jp/340x440.png" alt="No Image">
@@ -117,9 +117,9 @@
                                         $tcategoryname = "men";
                                         if($tcategory->category_id == 2) $tcategoryname = "women";
                                         if(isset($mallname)){
-                                            $url = url($mallname).'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            $url = url($mallname).'/'.$brandname.'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
                                         } else if(isset($brandid)){
-                                            $url = url('/designer/'.$brandid).'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            $url = url('/brands/'.$brandid).'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
                                         }
                                     @endphp
                                     <a href="{{$url}}">{{$maincategory->category_name}}</a>
@@ -292,7 +292,7 @@
                 if(isset($mallname)){
                     $url = url($mallname.'/women');
                 } else if(isset($brandid)){
-                    $url = url('/designer/'.$brandid.'/women');
+                    $url = url('/brands/'.$brandid.'/women');
                 }
             @endphp
             window.location = "{{$url}}";
@@ -303,7 +303,7 @@
                 if(isset($mallname)){
                     $url = url($mallname.'/men');
                 } else if(isset($brandid)){
-                    $url = url('/designer/'.$brandid.'/men');
+                    $url = url('/brands/'.$brandid.'/men');
                 }
             @endphp
             window.location = "{{$url}}";

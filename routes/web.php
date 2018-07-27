@@ -243,15 +243,16 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('product/product_list_post', 'CustomerController@product_list_post');
 	Route::get('product/detail/{productid}', 'CustomerController@product_detail');
 //brand
-	Route::get('/designer/{brandid}/goods/{productid}', 'CustomerController@product_detail');
+	Route::get('/brands/{brandid}/goods/{productid}', 'CustomerController@product_detail');
 
-	Route::get('/designer/{brandid}', 'CustomerController@brand');
-	Route::get('/designer/{brandid}/{topid}', 'CustomerController@product_list_brand');
-	Route::get('/designer/{brandid}/{topid}/{mainid}', 'CustomerController@product_list_brand');
-	Route::get('/designer/{brandid}/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_brand');
+	Route::get('/brands/{brandid}', 'CustomerController@brand');
+	Route::get('/brands/{brandid}/{topid}', 'CustomerController@product_list_brand');
+	Route::get('/brands/{brandid}/{topid}/{mainid}', 'CustomerController@product_list_brand');
+	Route::get('/brands/{brandid}/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_brand');
 //mall
 	Route::get('/{mallname}', 'CustomerController@mall');
-	Route::get('{mallname}/{topid}', 'CustomerController@mall_product_list');
-	Route::get('{mallname}/{topid}/{mainid}', 'CustomerController@mall_product_list');
-	Route::get('{mallname}/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/{brandid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/{brandid}/{topid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/{brandid}/{topid}/{mainid}', 'CustomerController@mall_product_list');
+	Route::get('{mallname}/{brandid}/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
 });

@@ -93,13 +93,14 @@ class Products extends Model{
                                     ->delete();
     }
 
-    public static function get_product_filter_mall($mallid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax){
+    public static function get_product_filter_mall($mallid, $brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax){
         $sql = DB::table('fan_product')
             ->leftJoin('master_brand', 'master_brand.brand_id', '=', 'fan_product.product_brand_id')
             ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
             ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
             ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
             ->where('fan_product_stock_management.product_count_1', '>' , '0')
+            ->where('fan_product.product_brand_id', $brandid)
             ->select('fan_product.*', 
                 'color.sku_type AS color_sku', 
                 'color.sku_type_id AS color_id', 
