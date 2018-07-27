@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Session;
-
+use Hash;
+use Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
@@ -527,11 +528,17 @@ class CustomerController extends Controller
         $entry = array(
             'customer_name_first' => Input::get('name'),
             'customer_email' => Input::get('email'),
-            'customer_password' => Input::get('password')
+            'customer_password' => Hash::make(Input::get('password')),
+            'token' => uniqid()
         );
 
+        // Customers::insert_customer($entry);
 
-        Customers::insert_customer($entry);
+        Mail::send('emails.reminder', ['user' => $entry], function ($m) use ($entry) {
+            $m->from('hokelucpy@gmail.com', 'Laravel');
+
+            $m->to($entry['customer_email'])->subject('Your Reminder!');
+        });
 
         return Redirect::to('/');
     }
@@ -549,7 +556,7 @@ class CustomerController extends Controller
             return Redirect::to('/');
         } else {
             $status = Customers::customer_status($username, $password);
-            return Redirect::to('user/signin?status='.$status);
+            return Redirect::to('/');
         }
     }
 
