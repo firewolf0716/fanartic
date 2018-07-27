@@ -311,8 +311,8 @@
                 <div class="login__column__content">
                     <section class="c-box">
                         <h3 class="c-box__hd">新規登録</h3>
-                        {!! Form::open(array('id' => 'user_form_signup','url'=>'user/signuppost', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-                        {{ Form::hidden('redirect', url()->current() ,array('id' => 'redirectup'))}}
+                        
+                        <h5 class="c-box__hd" id="errordiv_up" style="display:none"></h5>
                         <div class="c-box__content">
                             <div class="c-form__row c-form__row--min">
                                 <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
@@ -320,7 +320,7 @@
                                         <div class="c-form__label">お名前</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="text" class="c-form__input" name="name" value=""></div>
+                                                <div class="c-form__colum"><input type="text" class="c-form__input" name="name" id="username_up" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -330,7 +330,7 @@
                                         <div class="c-form__label">メールアドレス</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="email" class="c-form__input" name="email" value=""></div>
+                                                <div class="c-form__colum"><input type="email" class="c-form__input" name="email" id="email_up" value=""></div>
                                             </div>
                                             <!--/.c-form__row-->
                                         </div>
@@ -347,7 +347,7 @@
                                         <div class="c-form__label">パスワード</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" id="password_up" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -357,7 +357,7 @@
                                         <div class="c-form__label">パスワード（確認）</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password_confirm" id="password_confirm" value=""></div>
                                             </div>
                                             <!--/.c-form__row-->
                                         </div>
@@ -372,7 +372,7 @@
                             <div class="c-form__row c-form__row--min">
                                 <div class="c-form__checkswitch">
                                     <label class="c-form__checkbox">
-                                        <input type="checkbox" name="address" value="check_rule"><i></i>登録することで以下に同意したものとみなされます。
+                                        <input type="checkbox" name="checkagree1" id="checkagree1" value="check_rule"><i></i>登録することで以下に同意したものとみなされます。
                                         <a href="">利用規約</a>&emsp;<a href="">プライバシー＆クッキーポリシー</a>
                                     </label>
                                 </div>
@@ -382,7 +382,7 @@
                             <div class="c-form__row c-form__row--min">
                                 <div class="c-form__checkswitch">
                                     <label class="c-form__checkbox">
-                                        <input type="checkbox" name="address" value="check_rule"><i></i>セールへの先行アクセスや、お客様にぴったりの新着アイテム、トレンド情報や特別オファーをメールでお届けいたします。
+                                        <input type="checkbox" name="checkagree2" id="checkagree2" value="check_rule"><i></i>セールへの先行アクセスや、お客様にぴったりの新着アイテム、トレンド情報や特別オファーをメールでお届けいたします。
                                         <a href="">詳細を見る</a>
                                     </label>
                                 </div>
@@ -390,15 +390,15 @@
                             <!--/.c-form__row-->
 
                             <div class="l-button">
-                                <button class="c-button c-button--submit">新規登録する</button>
+                                <button type="button" class="c-button c-button--submit" onClick="onSignup()">新規登録する</button>
                             </div>
 
                             <hr class="c-hr">
 
                             <div class="l-button">
-                                <button class="c-button c-button--submit">Facebookで登録する</button>
+                                <button type="button" class="c-button c-button--submit">Facebookで登録する</button>
                             </div>
-                            {{ Form::close() }}
+                            
                         </div>
                         <!--/.c-box__content-->
                     </section>
@@ -408,7 +408,7 @@
             <!--/.cart__column-->
         </div>
     </div>
-
+    <input type="hidden" name="_token" id="token_layout" value="{{ csrf_token() }}">
     <script src="{{url('')}}/js/vendor/hiraku.min.js"></script>
     <script src="{{url('')}}/js/vendor/modaal.min.js"></script>
     <script src="{{url('')}}/js/plugins.js"></script>
@@ -425,6 +425,31 @@
                 $('#top_women').addClass('is-current');
             }
         });
+        function onSignup(){
+            if(!$('#checkagree1').is(':checked')){
+                return;
+            }
+            if(!$('#checkagree2').is(':checked')){
+                return;
+            }
+            if($('#password_up').val() != $('#password_confirm').val()){
+                alert('Please confirm your password');
+                return;
+            }
+            $.ajax( {
+                type: 'post',
+                data: {
+                    name        : $('#username_up').val(),
+                    password    : $('#password_up').val(),
+                    email       : $('#email_up').val(),
+                    _token      : $('#token_layout').val()
+                },
+                url: "{{url('user/signuppost')}}",
+                success: function(data){
+                    alert(data);
+                }
+            });
+        }
     </script>
 </div>
 </body>

@@ -193,6 +193,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('user/signuppost', 'CustomerController@signuppost');
 	Route::get('user', 'CustomerController@user');
 	Route::get('user/signin', 'CustomerController@signin');
+	Route::get('user/signverify', 'CustomerController@signverify');
 	Route::post('user/signinpost', 'CustomerController@signinpost');
 	Route::get('user/signout', 'CustomerController@signout');
 	//profile
