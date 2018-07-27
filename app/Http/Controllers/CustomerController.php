@@ -56,6 +56,22 @@ class CustomerController extends Controller
     }
 
     public function brand($brandid){
+        $brand = Brands::get_brand_byname($brandid);
+        if (Session::has('customerid')) {
+            $customerid = Session::get('customerid');
+            date_default_timezone_set('Asia/Tokyo');
+            $entry = array(
+                'customer_id' => $customerid,
+                'brand_id' => $brand->brand_id,
+                'score_value' => 100,
+                'score_action' => 0,
+                'score_status' => 1,
+                'score_type' => 1,
+                'score_create' => date('Y/m/d H:i:s'),
+                'score_update' => date('Y/m/d H:i:s')
+            );
+            Customers::record_score($entry);
+        }
         return $this->product_list_brand($brandid);
         // return Redirect::to('designer/'.$brandid.'/good/list/1');
     }
@@ -997,6 +1013,20 @@ class CustomerController extends Controller
                 'history_date' => date('Y/m/d H:i:s')
             );
             Customers::add_history($entry);
+
+            $product = Products::get_product($item->cart_productid);
+            date_default_timezone_set('Asia/Tokyo');
+            $scoreentry = array(
+                'customer_id' => $customerid,
+                'brand_id' => $product->product_brand_id,
+                'score_value' => 1000,
+                'score_action' => 1,
+                'score_status' => 1,
+                'score_type' => 1,
+                'score_create' => date('Y/m/d H:i:s'),
+                'score_update' => date('Y/m/d H:i:s')
+            );            
+            Customers::record_score($scoreentry);
         }
         //remove from cart
         Cart::clear_cart($customerid);
@@ -1105,5 +1135,17 @@ class CustomerController extends Controller
         Customers::change_magazine_info($customerid, Input::get('status'));
 
         return Redirect::to('user/magazine');
+    }
+
+    public function score(){
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        $totalscore = Customers::get_score($customerid);
+        $scores = Customers::get_score_bybrand($customerid);
+        return $this->layout_init(view('customer.user.score'), 1)
+                ->with('totalscore', $totalscore)
+                ->with('scores', $scores);
     }
 }
