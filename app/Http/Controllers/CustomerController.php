@@ -39,13 +39,13 @@ class CustomerController extends Controller
         } else if($mallname == 'merchant'){
             return Redirect::to('merchant/signin');
         } else if($mallname == 'designer'){
-            // return Redirect::to('brands');
-            // return redirect()->action('CustomerController@brands');
             return $this->brands();
         }
         else {
-            // return Redirect::to($mallname.'/good/list/1');
-            return $this->mall_product_list($mallname);
+            if($mall != null)
+                return $this->mall_product_list($mallname);
+            else
+                return Redirect::to('');
         }
     }
 
@@ -1025,7 +1025,7 @@ class CustomerController extends Controller
                 'score_type' => 1,
                 'score_create' => date('Y/m/d H:i:s'),
                 'score_update' => date('Y/m/d H:i:s')
-            );            
+            );
             Customers::record_score($scoreentry);
         }
         //remove from cart
