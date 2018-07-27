@@ -3,33 +3,50 @@
 namespace App;
 use Session;
 use DB;
+use Hash;
 use Illuminate\Database\Eloquent\Model;
 
 class Customers extends Model
 {
     //
-    public static function check_login($uname, $pwd) {
-        $customers = DB::table('customers')->where('customer_email', '=', $uname)->get();
-        $check_password = 0;
-        if(count($customers) > 0) { 
-            foreach($customers as $customer) {
-                if($customer->customer_email == $uname) {
-                    $check_password = DB::table('customers')->where('customer_email', '=', $uname)->where('customer_password', '=', $pwd)->get();
-                } else {
-                    return -1;
-                }
-                if(count($check_password) < 1) {
-                    return -2;
-                }
-                else if(count($check_password) > 0) {
-                    Session::put('site','customer');
-                    Session::put('customerid', $customer->customer_id);
-                    Session::put('customermail', $customer->customer_email);
-                    return 1;
-                }
-            }
-        } else { 
-            return 0;
+    // public static function check_login($uname, $pwd) {
+    //     $customers = DB::table('customers')->where('customer_email', '=', $uname)->get();
+    //     $check_password = 0;
+    //     dd(Hash::check($pwd, Hash::make($pwd)));
+    //     if(count($customers) > 0) { 
+    //         foreach($customers as $customer) {
+    //             if($customer->customer_email == $uname) {
+    //                 $check_password = DB::table('customers')->where('customer_email', '=', $uname)->where('customer_password', '=', $pwd)->get();
+    //             } else {
+    //                 return -1;
+    //             }
+    //             if(count($check_password) < 1) {
+    //                 return -2;
+    //             }
+    //             else if(count($check_password) > 0) {
+    //                 Session::put('site','customer');
+    //                 Session::put('customerid', $customer->customer_id);
+    //                 Session::put('customermail', $customer->customer_email);
+    //                 return 1;
+    //             }
+    //         }
+    //     } else { 
+    //         return 0;
+    //     }
+    // }
+    public static function check_login($uname, $pwd){
+        $customer = DB::table('customers')->where('customer_email', '=', $uname)->where('verified', 1)->get()->first();
+        // dd($customer);
+        if($customer == null){
+            return -1;
+        }
+        if(Hash::check($pwd, $customer->customer_password)){
+            Session::put('site','customer');
+            Session::put('customerid', $customer->customer_id);
+            Session::put('customermail', $customer->customer_email);
+            return 1;
+        } else {
+            return -2;
         }
     }
     public static function customer_status($uname, $pwd){
