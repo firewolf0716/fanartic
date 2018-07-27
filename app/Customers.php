@@ -278,4 +278,61 @@ class Customers extends Model
         );
         DB::table('customer_magazine')->where('customer_id', $customerid)->update($entry);
     }
+
+    public static function record_score($entry){
+        date_default_timezone_set('Asia/Tokyo');
+        $tmfrom = date('Y/m/d ')."00:00:00";
+        $tmto = date('Y/m/d ')."23:59:59";
+        $ct = DB::table('customer_score')->where('brand_id', $entry['brand_id'])->whereBetween('score_create', [$tmfrom, $tmto])->count();
+        if($ct > 0)
+            return;
+        DB::table('customer_score')->insert($entry);
+        Customers::update_score_sum($entry);
+    }
+
+    public static function update_score_sum($entry){
+        date_default_timezone_set('Asia/Tokyo');
+        $rec = DB::table('customer_scoresum')->where('customer_id', $entry['customer_id'])->where('brand_id', $entry['brand_id'])->get()->first();
+        if($rec == null){
+            $sumscore = 0;
+            if($entry['score_type'] == 1){//plus
+                $sumscore += $entry['score_value'];
+            } else if($entry['score_type'] == 0){//minus
+                $sumscore -= $entry['score_value'];
+            }
+            $insertentry = array(
+                'customer_id' => $entry['customer_id'],
+                'brand_id' => $entry['brand_id'],
+                'scoresum_value' => $sumscore,
+                'scoresum_create' => date('Y/m/d H:i:s'),
+                'scoresum_update' => date('Y/m/d H:i:s')
+            );
+            DB::table('customer_scoresum')->insert($insertentry);
+        } else {
+            $sumscore = $rec->scoresum_value;
+            if($entry['score_type'] == 1){//plus
+                $sumscore += $entry['score_value'];
+            } else if($entry['score_type'] == 0){//minus
+                $sumscore -= $entry['score_value'];
+            }
+            $updateentry = array(
+                'customer_id' => $entry['customer_id'],
+                'brand_id' => $entry['brand_id'],
+                'scoresum_value' => $sumscore,
+                'scoresum_update' => date('Y/m/d H:i:s')
+            );
+            DB::table('customer_scoresum')->where('customer_id', $entry['customer_id'])->where('brand_id', $entry['brand_id'])->update($updateentry);
+        }
+    }
+
+    public static function get_score_bybrand($customerid){
+        return DB::table('customer_scoresum')
+            ->where('customer_id', $customerid)
+            ->leftJoin('master_brand', 'master_brand.brand_id', '=', 'customer_scoresum.brand_id')
+            ->get();
+    }
+
+    public static function get_score($customerid){
+        return DB::table('customer_scoresum')->where('customer_id', $customerid)->sum('scoresum_value');
+    }
 }
