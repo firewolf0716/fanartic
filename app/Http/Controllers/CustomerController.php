@@ -1013,6 +1013,20 @@ class CustomerController extends Controller
                 'history_date' => date('Y/m/d H:i:s')
             );
             Customers::add_history($entry);
+
+            $product = Products::get_product($item->cart_productid);
+            date_default_timezone_set('Asia/Tokyo');
+            $scoreentry = array(
+                'customer_id' => $customerid,
+                'brand_id' => $product->product_brand_id,
+                'score_value' => 1000,
+                'score_action' => 1,
+                'score_status' => 1,
+                'score_type' => 1,
+                'score_create' => date('Y/m/d H:i:s'),
+                'score_update' => date('Y/m/d H:i:s')
+            );            
+            Customers::record_score($scoreentry);
         }
         //remove from cart
         Cart::clear_cart($customerid);
