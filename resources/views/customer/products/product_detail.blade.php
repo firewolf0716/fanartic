@@ -58,7 +58,7 @@
                                 <br class="u-sp">在庫あり
                             </div>
                             <div class="product-detail__data__cart__item__list__size">
-                                <input id='{{$color->sku_id.'_'.$size->sku_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='0' min='0' max='{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}'/>
+                                <input id='{{$color->sku_id.'_'.$size->sku_id}}_count' type="number" style="width:70px; margin-left:20px" class="c-form__input" value='1' min='0' max='{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}'/>
                                 <input id='{{$color->sku_id.'_'.$size->sku_id}}_price' type="hidden" value="{{$skuinfo[$color->sku_id][$size->sku_id]['price']}}"/>
                             </div>
                             <div class="product-detail__data__cart__item__list__addcart">

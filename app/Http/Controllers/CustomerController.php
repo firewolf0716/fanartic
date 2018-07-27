@@ -699,6 +699,8 @@ class CustomerController extends Controller
         $sum = $total['sum'];
         $count = $total['count'];
 
+        // dd($cartitems);
+
         return $this->layout_init(view('customer.user.cart'), 1)
             ->with('cartitems', $cartitems)
             ->with('sum', $sum)
