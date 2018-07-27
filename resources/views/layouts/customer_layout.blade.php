@@ -426,6 +426,9 @@
             }
         });
         function onSignup(){
+            if($('#username_up').val() == '' || $('#email_up').val() == ''){
+                return;
+            }
             if(!$('#checkagree1').is(':checked')){
                 return;
             }
@@ -434,6 +437,10 @@
             }
             if($('#password_up').val() != $('#password_confirm').val()){
                 alert('Please confirm your password');
+                return;
+            }
+            if($('#password_up').val().length < 8){
+                alert('Please input password more than 8 characters');
                 return;
             }
             $.ajax( {
