@@ -29,6 +29,7 @@ class MerchantShippingController extends Controller
         if ($merchant_id == 0) {
             return Redirect::to('merchant/signin');
         }
+        $beforeShippingID = Input::get('merchant_shipping_id');
 
         $entry =  array(
             'merchant_id' => $merchant_id,
@@ -93,6 +94,29 @@ class MerchantShippingController extends Controller
         $merchant_shippings = MerchantsShipping::get_merchant_shippings($merchant_id);
         return view('merchant.shipping.list')->with('merchant_shippings', $merchant_shippings);
     }
+    public function merchant_shipping_remove($shipping_id) {
+        $merchant_id = $this->get_merchant_session_id();
+        if ($merchant_id == 0) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $merchant_shippings = MerchantsShipping::remove_merchant_shippings($merchant_id);
+        return Redirect::to('merchant/shipping/list');
+    }
+    public function merchant_shipping_edit($shipping_id) {
+        $merchant_id = $this->get_merchant_session_id();
+        if ($merchant_id == 0) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $merchant_shipping = MerchantsShipping::get_merchant_shipping($merchant_id, $shipping_id);
+        $merchant_shipping_prices = MerchantsShipping::get_merchant_shipping_prices($merchant_id, $shipping_id);
+        return view('merchant.shipping.list')->with('merchant_shipping', $merchant_shipping)
+                                            ->with('merchant_shipping_prices', $merchant_shipping_prices);
+    }
+
+
+	Route::post('merchant/shipping/editpost', 'MerchantShippingController@merchant_shipping_editpost');
 
     // public function edit($id) {
     //     if ($this->check_admin_session() == false) {

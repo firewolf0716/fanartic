@@ -117,7 +117,8 @@ class CustomerController extends Controller
                 ->with('maincategorys', $maincategorys)
                 ->with('customerid', $customerid)
                 ->with('recent', $recent)
-                ->with('recentimages', $images);
+                ->with('recentimages', $images)
+                ->with('listtype', "malls");
     }
 
     public function set_recent($view){
@@ -393,7 +394,8 @@ class CustomerController extends Controller
             ->with('brands', $brands)
             ->with('prices', $prices)
             ->with('images', $images)
-            ->with('customerid', $customerid);
+            ->with('customerid', $customerid)
+            ->with('listtype', "malls");
         return $this->set_recent($view);
     }
 

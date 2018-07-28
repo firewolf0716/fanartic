@@ -145,19 +145,20 @@
     function removeShipping(id, shipping_id) {
         var table = $('#datatable').DataTable();
         
-        $.ajax( {
-            type: 'get',
-            url: '{{url('merchant/shipping/remove')}}' + "/" + shipping_id,
-            success: function(data) {
-                var table = $('#datatable').DataTable();
-                for (i = 0; i < table.rows().count(); i++) {
-                    if (table.cell(i, 0).data() == id) {
-                        table.row(i).remove().draw(false);
-                        return;
-                    }
-                }
-            }
-        });
+        window.location = "{{ url('merchant/shipping/remove') }}" + "/" + shipping_id;
+        // $.ajax( {
+        //     type: 'get',
+        //     url: '{{url('merchant/shipping/remove')}}' + "/" + shipping_id,
+        //     success: function(data) {
+        //         var table = $('#datatable').DataTable();
+        //         for (i = 0; i < table.rows().count(); i++) {
+        //             if (table.cell(i, 0).data() == id) {
+        //                 table.row(i).remove().draw(false);
+        //                 return;
+        //             }
+        //         }
+        //     }
+        // });
     }
 </script>
 

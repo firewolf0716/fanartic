@@ -163,9 +163,8 @@
                             } catch(\Exception $ex){
                                 
                             }
-                            
                         @endphp
-                        <figure class="c-item__figure"><a href="{{url('product/detail/'.$recentitem->product_id)}}"><img style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a></figure>
+                        <figure class="c-item__figure"><a href="{{url('brands/'.$recentitem->brand_name_en.'/goods/'.$recentitem->product_id)}}"><img style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a></figure>
                     </div>
                     <!--/.c-item__column__figure-->
                     </div>

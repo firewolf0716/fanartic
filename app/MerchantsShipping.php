@@ -39,10 +39,19 @@ class MerchantsShipping extends Model {
     public static function get_merchant_shippings($merchant_id) {
         return DB::table('merchant_shipping')->where('merchant_id', $merchant_id)->get();
     }
-    public static function get_merchant_shipping($shipping_id) {
-        return DB::table('merchant_shipping')->where('shipping_id', $shipping_id)->get();
+    public static function get_merchant_shipping($merchant_id, $shipping_id) {
+        return DB::table('merchant_shipping')->where('merchant_id', $merchant_id)
+                                            ->where('shipping_id', $shipping_id)->get()->first();
     }
-    public static function get_merchant_shipping_price($merchant_shipping_id) {
-        return DB::table('merchant_shipping_price')->where('shipping_price_id', $merchant_shipping_id)->get();
+    public static function get_merchant_shipping_prices($merchant_id, $shipping_id) {
+        return DB::table('merchant_shipping_price')->where('merchant_id', $merchant_id)
+                                                ->where('shipping_id', $shipping_id)->get();
+    }
+    public static function remove_merchant_shippings($merchant_id, $shipping_id) {
+        DB::table('merchant_shipping')->where('merchant_id', $merchant_id)
+                                            ->where('shipping_id', $shipping_id)->delete();
+        DB::table('merchant_shipping_price')->where('merchant_id', $merchant_id)
+                                            ->where('shipping_id', $shipping_id)->delete();
+        return;
     }
 }

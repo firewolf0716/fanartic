@@ -186,8 +186,8 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/shipping/add', 'MerchantShippingController@merchant_shipping_add');
 	Route::post('merchant/shipping/addpost', 'MerchantShippingController@merchant_shipping_addpost');
 	Route::get('merchant/shipping/list', 'MerchantShippingController@merchant_shipping_list');
-	Route::get('merchant/shipping/remove/{id}', 'MerchantShippingController@merchant_shipping_remove');
-	Route::get('merchant/shipping/edit/{id}', 'MerchantShippingController@merchant_shipping_edit');
+	Route::get('merchant/shipping/remove/{shipping_id}', 'MerchantShippingController@merchant_shipping_remove');
+	Route::get('merchant/shipping/edit/{shipping_id}', 'MerchantShippingController@merchant_shipping_edit');
 	Route::post('merchant/shipping/editpost', 'MerchantShippingController@merchant_shipping_editpost');
 	
 
