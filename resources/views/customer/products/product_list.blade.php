@@ -286,28 +286,28 @@
     <!--/.product-list-->
     <!--/.l-content-->
     <script>
-        $('#top_women').click(function () {
-            @php
-                $url = url('product/list/2');
-                if(isset($mallname)){
-                    $url = url($mallname.'/women');
-                } else if(isset($brandid)){
-                    $url = url('/brands/'.$brandid.'/women');
-                }
-            @endphp
-            window.location = "{{$url}}";
-        });
-        $('#top_men').click(function () {
-            @php
-                $url = url('product/list/1');
-                if(isset($mallname)){
-                    $url = url($mallname.'/men');
-                } else if(isset($brandid)){
-                    $url = url('/brands/'.$brandid.'/men');
-                }
-            @endphp
-            window.location = "{{$url}}";
-        });
+        // $('#top_women').click(function () {
+        //     @php
+        //         $url = url('product/list/2');
+        //         if(isset($mallname)){
+        //             $url = url($mallname.'/women');
+        //         } else if(isset($brandid)){
+        //             $url = url('/brands/'.$brandid.'/women');
+        //         }
+        //     @endphp
+        //     window.location = "{{$url}}";
+        // });
+        // $('#top_men').click(function () {
+        //     @php
+        //         $url = url('product/list/1');
+        //         if(isset($mallname)){
+        //             $url = url($mallname.'/men');
+        //         } else if(isset($brandid)){
+        //             $url = url('/brands/'.$brandid.'/men');
+        //         }
+        //     @endphp
+        //     window.location = "{{$url}}";
+        // });
 
 
         var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"); 
