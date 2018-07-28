@@ -113,13 +113,17 @@
                             @foreach($maincategorys as $maincategory)
                                 <li class="is-hassub">
                                     @php
-                                        $url = url('product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
-                                        $tcategoryname = "men";
-                                        if($tcategory->category_id == 2) $tcategoryname = "women";
-                                        if(isset($mallname)){
-                                            $url = url($mallname).'/'.$brandname.'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
-                                        } else if(isset($brandid)){
-                                            $url = url('/brands/'.$brandid).'/'.$tcategoryname.'/'.str_replace('/', '-', $maincategory->category_name_en);
+                                        $url = '/';
+                                        if(isset($listtype)){
+                                            if($listtype == 'malls'){
+                                                $url = url('').'/category/fanartic/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            } else if($listtype == 'mall_brands'){
+                                                $url = url('').'/category/'.$mallname.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            } else if($listtype == 'mall_brand_products'){
+                                                $url = url('').'/'.$mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            } else if($listtype == 'brand_products'){
+                                                $url = url('').'/brands/'.$brandid.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            }
                                         }
                                     @endphp
                                     <a href="{{$url}}">{{$maincategory->category_name}}</a>

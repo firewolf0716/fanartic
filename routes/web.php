@@ -186,7 +186,8 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/shipping/add', 'MerchantShippingController@merchant_shipping_add');
 	Route::post('merchant/shipping/addpost', 'MerchantShippingController@merchant_shipping_addpost');
 	Route::get('merchant/shipping/list', 'MerchantShippingController@merchant_shipping_list');
-	Route::get('merchant/shipping/edit', 'MerchantShippingController@merchant_shipping_edit');
+	Route::get('merchant/shipping/remove/{id}', 'MerchantShippingController@merchant_shipping_remove');
+	Route::get('merchant/shipping/edit/{id}', 'MerchantShippingController@merchant_shipping_edit');
 	Route::post('merchant/shipping/editpost', 'MerchantShippingController@merchant_shipping_editpost');
 	
 
@@ -257,7 +258,15 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('/brands/{brandid}/{topid}', 'CustomerController@product_list_brand');
 	Route::get('/brands/{brandid}/{topid}/{mainid}', 'CustomerController@product_list_brand');
 	Route::get('/brands/{brandid}/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_brand');
-//mall
+//category
+	Route::get('/category/fanartic/{topid}', 'CustomerController@product_list_category');
+	Route::get('/category/fanartic/{topid}/{mainid}', 'CustomerController@product_list_category');
+	Route::get('/category/fanartic/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_category');
+//category in mall
+	Route::get('/category/{mallname}/{topid}', 'CustomerController@product_list_mall');
+	Route::get('/category/{mallname}/{topid}/{mainid}', 'CustomerController@product_list_mall');
+	Route::get('/category/{mallname}/{topid}/{mainid}/{categoryid}', 'CustomerController@product_list_mall');
+//category in mall/brand
 	Route::get('/{mallname}', 'CustomerController@mall');
 	Route::get('{mallname}/{brandid}', 'CustomerController@mall_product_list');
 	Route::get('{mallname}/{brandid}/{topid}', 'CustomerController@mall_product_list');

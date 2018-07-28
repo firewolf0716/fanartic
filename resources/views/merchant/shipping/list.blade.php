@@ -1,12 +1,12 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admindefault')
 
-@section('title', 'Merchant Product Add|fanaRtic')
+@section('title', 'Merchant Shipping List|fanaRtic')
 
 @section('content')
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Malls</h3>
+            <h3>Home / Merchant Shipping List</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -14,44 +14,49 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h4>Manage Malls</h4>
+                    <h4>Merchant Shipping List</h4>
                     <div class="clearfix"></div>
                 </div>
+
                 <div class="x_content">
-                    <table id="datatable" class="table table-striped table-bordered">
-                        <thead>
+                <table id="datatable" class="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>名前</th>
+                          <th>地域</th>
+                          <th>出発拠点</th>
+                          <th>配送期間</th>
+                          <th>ステータス</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @php $i = 0; @endphp
+                        @foreach ($merchant_shippings as $merchant_shipping)
+                            @php $i += 1; @endphp
                             <tr>
-                                <th>ID</th>
-                                <th hidden>identify</th>
-                                <th style="text-align:center">名前</th>
-                                <th style="text-align:center">英名</th>
-                                <th style="text-align:center">ステータス</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        <?php $index = 0; ?>
-                        @foreach($malls as $mall)
-                        <?php $index += 1; ?>
-                            <tr>
-                                <td>{{$index}}</td>
-                                <td hidden>{{$mall->mall_id}}</td>
-                                <td style="text-align:center">{{$mall->mall_name}}</td>
-                                <td style="text-align:center">{{$mall->mall_name_en}}</td>
+                                <td>{{$i}}</td>
+                                <td>{{$merchant_shipping->shipping_name}}</td>
+                                @if ($merchant_shipping->shipping_state == 1)
+                                    <td>国内</td>
+                                @else
+                                    <td>海外</td>
+                                @endif                         
+                                <td>{{$merchant_shipping->shipping_start_position}}</td>
+                                <td>{{$merchant_shipping->shipping_min_duration}} ~ {{$merchant_shipping->shipping_max_duration}}</td>
+                                @if ($merchant_shipping->shipping_status == 1)
+                                    <td>国内</td>
+                                @else
+                                    <td>海外</td>
+                                @endif
                                 <td style="text-align:center">
-                                    @if($mall->mall_status == 1)
-                                    有効
-                                    @else
-                                    無効
-                                    @endif
-                                </td>
-                                <td style="text-align:center">
-                                    <a href="{{ url('admin/mall/edit/'.$mall->mall_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                    <a href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$mall->mall_id}})" aria-hidden="true"></span></a>
+                                    <a href="{{url('merchant/shipping/edit')}}/{{$merchant_shipping->shipping_id}}"><span class="glyphicon glyphicon-edit" onclick="editShipping({{$i}}, {{$merchant_shipping->shipping_id}})" aria-hidden="true"></span></a>
+                                    <a href="#"><span class="glyphicon glyphicon-trash" onclick="removeShippingConfirm({{$i}}, {{$merchant_shipping->shipping_id}})" aria-hidden="true"></span></a>
                                 </td>
                             </tr>
                         @endforeach
-                        </tbody>
+                      </tbody>
                     </table>
                 </div>
             </div>
@@ -129,15 +134,31 @@
     <script src="{{ url('')}}/gvendor/pdfmake/build/pdfmake.min.js"></script>
     <script src="{{ url('')}}/gvendor/pdfmake/build/vfs_fonts.js"></script>
 
-    <script>
-		function deleteConfirm(mall_id) {
-			var answer = confirm('本当に削除しますか?');
-            if(!answer){
-                return;
+<script>
+    function removeShippingConfirm(id, shipping_id) {
+        var answer = confirm('本当に削除しますか?');
+        if(!answer){
+            return;
+        }
+        removeProduct(priduct_id)
+    }
+    function removeShipping(id, shipping_id) {
+        var table = $('#datatable').DataTable();
+        
+        $.ajax( {
+            type: 'get',
+            url: '{{url('merchant/shipping/remove')}}' + "/" + shipping_id,
+            success: function(data) {
+                var table = $('#datatable').DataTable();
+                for (i = 0; i < table.rows().count(); i++) {
+                    if (table.cell(i, 0).data() == id) {
+                        table.row(i).remove().draw(false);
+                        return;
+                    }
+                }
             }
-
-			window.location = "{{ url('admin/mall/delete') }}" + "/" + mall_id;
-		}
-	</script>
+        });
+    }
+</script>
 
 @endsection

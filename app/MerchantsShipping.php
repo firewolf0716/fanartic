@@ -6,53 +6,43 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 
-class MerchantsShipping extends Model{
+class MerchantsShipping extends Model {
     
-    public static function addMerchantShipping($entry){
-        $check_insert = DB::table('merchant_shipping')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
+    public static function updateMerchantShipping($entry, $isAdd) {
+        if ($isAdd == 0) {
+            $check_insert = DB::table('merchant_shipping')->insert($entry);
+            if ($check_insert) {
+                return DB::getPdo()->lastInsertId();
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            DB::table('merchant_shipping')->where('shipping_id', $entry['shipping_id'])->update($entry);
+            return $entry['shipping_id'];
         }
     }
 
-    public static function addMerchantShippingPrices($entry){
-        $check_insert = DB::table('merchant_shipping')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
+    public static function updateMerchantShippingPrice($entry, $isAdd) {
+        if ($isAdd == 0) {
+            $check_insert = DB::table('merchant_shipping_price')->insert($entry);
+            if ($check_insert) {
+                return DB::getPdo()->lastInsertId();
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            DB::table('merchant_shipping_price')->where('shipping_price_id', $entry['shipping_price_id'])->update($entry);
+            return $entry['shipping_price_id'];
         }
     }
 
-
-
-    
-    public static function addMerchantTempo($entry){
-        $check_insert = DB::table('fan_merchant_submit')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
+    public static function get_merchant_shippings($merchant_id) {
+        return DB::table('merchant_shipping')->where('merchant_id', $merchant_id)->get();
     }
-    public static function getMerchantTempo($id){
-        return DB::table('fan_merchant_submit')->where('merchant_id', $id)->get();
+    public static function get_merchant_shipping($shipping_id) {
+        return DB::table('merchant_shipping')->where('shipping_id', $shipping_id)->get();
     }
-    public static function getMerchantTempos(){
-        return DB::table('fan_merchant_submit')->orderby('merchant_id', 'ASC')->get();
-    }
-    public static function editMerchantTempo($entry, $id){
-        return DB::table('fan_merchant_submit')->where('merchant_id', '=', $id)->update($entry);
-    }
-    public static function getMerchant($id){
-        return DB::table('fan_merchant')->where('merchant_id', $id)->get();
-    }
-    public static function getMerchants(){
-        return DB::table('fan_merchant')->orderby('merchant_id', 'ASC')->get();
-    }
-    public static function editMerchant($entry, $id){
-        return DB::table('fan_merchant')->where('merchant_id', '=', $id)->update($entry);
+    public static function get_merchant_shipping_price($merchant_shipping_id) {
+        return DB::table('merchant_shipping_price')->where('shipping_price_id', $merchant_shipping_id)->get();
     }
 }
