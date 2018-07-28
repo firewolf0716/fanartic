@@ -99,6 +99,12 @@
                                     <li><a href="#">権限管理</a></li>
                                     <li><a href="#">パスワードの変更</a></li>
                                     <li><a href="https://site3.ec-cube.net/admin/setting/shop/csv">CSV設定</a></li>
+                                    <li><a> 店舗設定 <span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{ url('merchant/shipping/add') }}">新規登録</a>
+                                            <li><a href="{{ url('merchant/shipping/list') }}">配送設定一覧</a>
+                                        </ul>
+                                    </li>
                                 </ul>
                             </li>
                         </ul>

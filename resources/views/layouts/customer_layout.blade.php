@@ -37,7 +37,7 @@
                                 @php
                                     $url = url('product/list').'/2/'.$womencategory->category_id;
                                     if(isset($mallname)){
-                                        $url = url($mallname.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
+                                        $url = url($mallname.'/'.$brandname.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
                                     } else if(isset($brand)){
                                         $url = url('/brands/'.$brand->brand_name_en.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
                                     }
@@ -63,7 +63,7 @@
                                     @php
                                         $url = url('product/list').'/1/'.$mencategory->category_id;
                                         if(isset($mallname)){
-                                            $url = url($mallname.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
+                                            $url = url($mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
                                         } else if(isset($brand)){
                                             $url = url('/brands/'.$brand->brand_name_en.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
                                         }

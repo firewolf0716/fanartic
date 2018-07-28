@@ -20,7 +20,7 @@ class Controller extends BaseController
             return false;
         }
     }
-    public function check_merchant_session() {
+    public function get_merchant_session_id() {
         if (Session::has('merchantid')) {
             return Session::get('merchantid');
         } else {
