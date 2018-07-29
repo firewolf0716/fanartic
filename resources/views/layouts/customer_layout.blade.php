@@ -35,11 +35,17 @@
                                 @foreach($womencategories as $key => $womencategory)
                                 @if($i < 5)
                                 @php
-                                    $url = url('product/list').'/2/'.$womencategory->category_id;
-                                    if(isset($mallname)){
-                                        $url = url($mallname.'/'.$brandname.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
-                                    } else if(isset($brand)){
-                                        $url = url('/brands/'.$brand->brand_name_en.'/women/'.str_replace('/', '-', $womencategory->category_name_en));
+                                    $url = '/';
+                                    if(isset($listtype)){
+                                        if($listtype == 'malls'){
+                                            $url = url('').'/category/fanartic/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                        } else if($listtype == 'mall_brands'){
+                                            $url = url('').'/category/'.$mallname.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                        } else if($listtype == 'mall_brand_products'){
+                                            $url = url('').'/'.$mallname.'/'.$brandname.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                        } else if($listtype == 'brand_products'){
+                                            $url = url('').'/brands/'.$brandid.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                        }
                                     }
                                     $i++;
                                 @endphp
@@ -61,11 +67,17 @@
                                 @foreach($mencategories as $key => $mencategory)
                                     @if($i < 5)
                                     @php
-                                        $url = url('product/list').'/1/'.$mencategory->category_id;
-                                        if(isset($mallname)){
-                                            $url = url($mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
-                                        } else if(isset($brand)){
-                                            $url = url('/brands/'.$brand->brand_name_en.'/men/'.str_replace('/', '-', $mencategory->category_name_en));
+                                        $url = '/';
+                                        if(isset($listtype)){
+                                            if($listtype == 'malls'){
+                                                $url = url('').'/category/fanartic/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                            } else if($listtype == 'mall_brands'){
+                                                $url = url('').'/category/'.$mallname.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                            } else if($listtype == 'mall_brand_products'){
+                                                $url = url('').'/'.$mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                            } else if($listtype == 'brand_products'){
+                                                $url = url('').'/brands/'.$brandid.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                            }
                                         }
                                         $i++;
                                     @endphp
@@ -151,9 +163,8 @@
                             } catch(\Exception $ex){
                                 
                             }
-                            
                         @endphp
-                        <figure class="c-item__figure"><a href="{{url('product/detail/'.$recentitem->product_id)}}"><img style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a></figure>
+                        <figure class="c-item__figure"><a href="{{url('brands/'.$recentitem->brand_name_en.'/goods/'.$recentitem->product_id)}}"><img style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a></figure>
                     </div>
                     <!--/.c-item__column__figure-->
                     </div>
@@ -186,7 +197,7 @@
                 <div class="footer__nav__list-wrap">
                     <ul class="footer__nav__list footer__nav__list--col04">
                         @foreach($brands as $brand)
-                            <li><a href="#">{{$brand->brand_name}}</a></li>
+                            <li><a href="{{url('').'/brands/'.$brand->brand_name_en}}">{{$brand->brand_name}}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -197,9 +208,16 @@
                             <ul class="footer__nav__list footer__nav__list--col02">
                                 @foreach($maincategorys as $maincategory)
                                     @php
-                                        $url = url('product/list').'/'.$tcategory->category_id.'/'.$maincategory->category_id;
-                                        if(isset($mallname)){
-                                            $url = url($mallname.'/'.$tcategory->category_id.'/'.$maincategory->category_id);
+                                        if(isset($listtype)){
+                                            if($listtype == 'malls'){
+                                                $url = url('').'/category/fanartic/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            } else if($listtype == 'mall_brands'){
+                                                $url = url('').'/category/'.$mallname.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            } else if($listtype == 'mall_brand_products'){
+                                                $url = url('').'/'.$mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            } else if($listtype == 'brand_products'){
+                                                $url = url('').'/brands/'.$brandid.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            }
                                         }
                                     @endphp
                                     <li><a href="{{$url}}">{{$maincategory->category_name}}</a>

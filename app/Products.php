@@ -100,7 +100,6 @@ class Products extends Model{
             ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
             ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
             ->where('fan_product_stock_management.product_count_1', '>' , '0')
-            ->where('fan_product.product_brand_id', $brandid)
             ->select('fan_product.*', 
                 'color.sku_type AS color_sku', 
                 'color.sku_type_id AS color_id', 
@@ -108,6 +107,9 @@ class Products extends Model{
                 'size.sku_type_id AS size_id',
                 'fan_product_stock_management.product_price_sale',
                 'master_brand.brand_name');
+        if(isset($brandid)){
+            $sql = $sql->where('fan_product.product_brand_id', $brandid);
+        }
         if($categorylevel == 1){
             $categories = Categorys::getSubCategorys_mall_fromtop($mallid, $category_id);
             $arrCategories = array();

@@ -14,7 +14,9 @@ class Customers extends Model
         if($customer == null){
             return -1;
         }
+        // dd(Hash::make($pwd));
         if(Hash::check($pwd, $customer->customer_password)){
+            // dd('success');
             Session::put('site','customer');
             Session::put('customerid', $customer->customer_id);
             Session::put('customermail', $customer->customer_email);
@@ -260,7 +262,7 @@ class Customers extends Model
         date_default_timezone_set('Asia/Tokyo');
         $entry = array(
             'customer_id' => $customerid,
-            'product_id' => $productid,
+            'recent_product_id' => $productid,
             'recent_date' => date('Y/m/d H:i:s')
         );
         DB::table('customer_recent_product')->insert($entry);
@@ -268,7 +270,12 @@ class Customers extends Model
 
     public static function get_recent($customerid){
         // dd($customerid);
-        return DB::table('customer_recent_product')->where('customer_id', $customerid)->groupBy('product_id')->orderBy('recent_date', 'DESC')->get();
+        return DB::table('customer_recent_product')
+            ->where('customer_id', $customerid)
+            ->leftJoin('fan_product', 'fan_product.product_id', 'customer_recent_product.recent_product_id')
+            ->leftJoin('master_brand', 'fan_product.product_brand_id', 'master_brand.brand_id')
+            ->groupBy('recent_product_id')
+            ->orderBy('recent_date', 'DESC')->get();
     }
 
     public static function is_magazine_info_exists($customerid){

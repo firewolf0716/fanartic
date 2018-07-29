@@ -1,6 +1,6 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admindefault')
 
-@section('title', 'Dashboard|fanaRtic')
+@section('title', 'Merchant Product Add|fanaRtic')
 
 @section('content')
 
@@ -73,8 +73,8 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">お届け日時指定<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="1" name="shipping_limit_date_set" checked>設定</label>
-                        <label><input type="radio" value="0" name="shipping_limit_date_set">解除</label>
+                        <label><input type="radio" value="1" name="shipping_limit_date_set" id="shipping_limit_date_set_1">設定</label>
+                        <label><input type="radio" value="0" name="shipping_limit_date_set" id="shipping_limit_date_set_2" checked>解除</label>
                     </div>
                 </div>
 
@@ -90,8 +90,8 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">お届け日時の表示日数<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="1" name="shipping_limit_duration_set">設定</label>
-                        <label><input type="radio" value="0" name="shipping_limit_duration_set" checked>解除</label>
+                        <label><input type="radio" value="1" name="shipping_limit_duration_set" id="shipping_limit_duration_set_1">設定</label>
+                        <label><input type="radio" value="0" name="shipping_limit_duration_set" id="shipping_limit_duration_set_2" checked>解除</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -103,8 +103,8 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="1" name="shipping_status">有効</label>
-                        <label><input type="radio" value="0" name="shipping_status" checked>無効</label>
+                        <label><input type="radio" value="1" name="shipping_status" checked>有効</label>
+                        <label><input type="radio" value="0" name="shipping_status">無効</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -117,6 +117,8 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
                         <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="merchant_shipping_id" name="merchant_shipping_id" class="form-control col-md-7 col-xs-12" readonly value="{{$merchant_shipping_id}}">
+                        <input type="hidden" id="merchant_shipping_price" name="merchant_shipping_price" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
@@ -267,7 +269,11 @@
         }
         
         var table = $('#datatable').DataTable();
-        var index = table.rows().count() + 1;
+        var count = table.rows().count();
+        var index = 1;
+        if (count != 0) {
+            index = parseInt(table.cell(table.rows().count() - 1, 0).data()) + 1;
+        }
         table.row.add([index, shipping_price, shipping_description, 0, '<a><span class="glyphicon glyphicon-trash" onclick="removePrices(' + index + ')" aria-hidden="true"></span></a>']).draw( false );
 
         $('#shipping_price').val("");
@@ -284,10 +290,25 @@
     $('#btnSubmit').click(function() {
         var table = $('#datatable').DataTable();
         var count = table.rows().count();
-        if (count == 0) {
-            alert("Please add 料金 and 描写.");
-            return;
+        // if (count == 0) {
+        //     alert("Please add 料金 and 描写.");
+        //     return;
+        // }
+
+        var merchant_shipping_price = "";
+        for (var i = 0; i < count; i++) {
+            if (i != 0) {
+                merchant_shipping_price += get_level_split_string(1);
+            }
+            for (j = 1; j <= 3; j++) {
+                if (j != 1) {
+                    merchant_shipping_price += get_level_split_string(2);
+                }
+                merchant_shipping_price += table.cell(i, j).data();
+            }
         }
+
+        $('#merchant_shipping_price').val(merchant_shipping_price);
         $('#form_add').parsley();
     });
 
@@ -299,6 +320,35 @@
                 return;
             }
         }
+    }
+    $('#shipping_limit_date_set_1').on("change", function() {
+        $('#single_cal2').prop('required', true);
+        $('#single_cal2').prop('disabled', false);
+    });
+    $('#shipping_limit_date_set_2').on("change", function() {
+        $('#single_cal2').prop('required', false);
+        $('#single_cal2').prop('disabled', true);
+    });
+
+    $('#shipping_limit_duration_set_1').click(function() {
+        $('#shipping_limit_duration').prop('required', true);
+        $('#shipping_limit_duration').prop('disabled', false);
+    });
+    $('#shipping_limit_duration_set_2').click(function() {
+        $('#shipping_limit_duration').prop('required', false);
+        $('#shipping_limit_duration').prop('disabled', true);
+    });
+
+
+    function get_special_number(level) {
+        if (level >= 10) {
+            return "⓪①②③④⑤⑥⑦⑧⑨";
+        }
+        numbers = "⓿➊➋➌➍➎➏➐➑➒";
+        return numbers.substr(level, 1);
+    }
+    function get_level_split_string(level) {
+        return "🅛🅔🅥🅔🅛➊" + get_special_number(level);
     }
 </script>
 

@@ -64,11 +64,7 @@
                 {{url('user/checkflowinfo')}}
             @endif" class="c-button c-button--submit c-button--full">レジへ進む</a>
         </div>
-        <p class="cart__shipping__back"><a href="
-            @if(isset($_GET['redirect']))
-                {{$_GET['redirect']}}
-            @endif
-            ">ショッピングを続ける</a></p>
+        <p class="cart__shipping__back"><a href="{{url('category/fanartic/men/')}}">ショッピングを続ける</a></p>
         </div>
         <!--/.cart__shipping-->
     </div>
