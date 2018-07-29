@@ -184,11 +184,12 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
 
 	Route::get('merchant/shipping/add', 'MerchantShippingController@merchant_shipping_add');
-	Route::post('merchant/shipping/addpost', 'MerchantShippingController@merchant_shipping_addpost');
+	Route::post('merchant/shipping/addpost', 'MerchantShippingController@merchant_shipping_updatepost');
 	Route::get('merchant/shipping/list', 'MerchantShippingController@merchant_shipping_list');
 	Route::get('merchant/shipping/remove/{shipping_id}', 'MerchantShippingController@merchant_shipping_remove');
 	Route::get('merchant/shipping/edit/{shipping_id}', 'MerchantShippingController@merchant_shipping_edit');
-	Route::post('merchant/shipping/editpost', 'MerchantShippingController@merchant_shipping_editpost');
+	Route::post('merchant/shipping/editpost', 'MerchantShippingController@merchant_shipping_updatepost');
+	Route::get('merchant/shipping/remove_price/{shipping_id}', 'MerchantShippingController@merchant_shipping_remove_price');
 	
 
 	// Route::post('merchant/product/product_import_csv', function(){

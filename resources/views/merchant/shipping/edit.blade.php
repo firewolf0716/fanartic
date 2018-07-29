@@ -1,205 +1,198 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admindefault')
 
-@section('title', 'Dashboard|fanaRtic')
+@section('title', 'Merchant Product Add|fanaRtic')
 
 @section('content')
-
-<head>
-    <!-- iCheck -->
-    <link href="{{ url('')}}/gvendor/iCheck/skins/flat/green.css" rel="stylesheet">
-
-    <style>
-        @supports (zoom:2) {
-            /* input[type="radio"],  input[type=checkbox]{ */
-            input[type=checkbox]{
-                zoom: 2;
-            }
-        }
-        @supports not (zoom:2) {
-            /* input[type="radio"],  input[type=checkbox] { */
-            input[type=checkbox] {
-                transform: scale(2);
-                margin: 15px;
-            }
-        }
-</style>
-</head>
 
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>モール 編集</h3>
+            <h3>Shipping Edit</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'admin/mall/editpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-        {{ Form::hidden('id', $mall->mall_id)}}
+        {!! Form::open(array('id' => 'form_add','url'=>'merchant/shipping/editpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+
         <div class="x_panel">
             <div class="x_title">
-                <h4>モール 編集</h4>
+                <h4>Shipping Add</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+            <div class="form-group">
                 <input type="hidden" id="mall_category" name="mall_category">
-
-                <div class="form-group">
-                    <input type="hidden" id="mall_brands" name="mall_brands" value="{{$selBrands}}">
-                </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name" name="mall_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$mall->mall_name}}" placeholder="モール名を日本語で入力してください">
+                        <input type="text" id="shipping_name" name="shipping_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_name}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="shipping_name_en" name="shipping_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_name_en}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">地域<span class="required">*</span></label>
+                    <div class="radio col-md-4 col-sm-6 col-xs-12">
+                    @if ( $merchant_shipping->shipping_state == 1 )
+                        <label><input type="radio" value="1" name="shipping_state" checked>国内</label>
+                        <label><input type="radio" value="0" name="shipping_state">海外</label>
+                    @else
+                        <label><input type="radio" value="1" name="shipping_state">国内</label>
+                        <label><input type="radio" value="0" name="shipping_state" checked>海外</label>
+                    @endif
+                        
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">出発拠点<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="shipping_start_position" name="shipping_start_position" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_start_position}}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">メモ</label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="shipping_memo" name="shipping_memo" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_memo}}">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">最低限配送期間<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$mall->mall_name_en}}" placeholder="モール名を英語で入力してください">
+                        <input type="number" id="shipping_min_duration" name="shipping_min_duration" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_min_duration}}">
                     </div>
                 </div>
+                
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">最大限配送期間<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="number" id="shipping_max_duration" name="shipping_max_duration" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_max_duration}}">
+                    </div>
+                </div>
+                
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">お届け日時指定<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        @if($mall->mall_status == 1)
-                            <label><input type="radio" value="1" name="optionValid" checked>有効</label>
-                            <label><input type="radio" value="0" name="optionValid">無効</label>
+                        @if ( $merchant_shipping->shipping_limit_date == '' )
+                            <label><input type="radio" value="1" name="shipping_limit_date_set" id="shipping_limit_date_set_1">設定</label>
+                            <label><input type="radio" value="0" name="shipping_limit_date_set" id="shipping_limit_date_set_2" checked>解除</label>
                         @else
-                            <label><input type="radio" value="0" name="optionValid">有効</label>
-                            <label><input type="radio" value="1" name="optionValid" checked>無効</label>
+                            <label><input type="radio" value="1" name="shipping_limit_date_set" id="shipping_limit_date_set_1" checked>設定</label>
+                            <label><input type="radio" value="0" name="shipping_limit_date_set" id="shipping_limit_date_set_2">解除</label>
                         @endif
                     </div>
                 </div>
 
                 <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        @if ( $merchant_shipping->shipping_limit_date == '' )
+                            <input type="text" class="form-control has-feedback-left" id="single_cal2" placeholder="First Name" aria-describedby="inputSuccess2Status2" name="shipping_limit_date" disabled>                        
+                        @else
+                            <input type="text" class="form-control has-feedback-left" id="single_cal2" placeholder="First Name" aria-describedby="inputSuccess2Status2" name="shipping_limit_date" value="{{$merchant_shipping->shipping_limit_date}}" require>                        
+                        @endif
+                        <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+                        <span id="inputSuccess2Status2" class="sr-only">(success)</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">お届け日時の表示日数<span class="required">*</span></label>
+                    <div class="radio col-md-4 col-sm-6 col-xs-12">
+                        @if ( $merchant_shipping->shipping_limit_duration == '' )
+                            <label><input type="radio" value="1" name="shipping_limit_duration_set" id="shipping_limit_duration_set_1">設定</label>
+                            <label><input type="radio" value="0" name="shipping_limit_duration_set" id="shipping_limit_duration_set_2" checked>解除</label>
+                        @else
+                            <label><input type="radio" value="1" name="shipping_limit_duration_set" id="shipping_limit_duration_set_1" checked>設定</label>
+                            <label><input type="radio" value="0" name="shipping_limit_duration_set" id="shipping_limit_duration_set_2">解除</label>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        @if ( $merchant_shipping->shipping_limit_duration == '' )
+                            <input type="number" id="shipping_limit_duration" name="shipping_limit_duration" class="form-control col-md-7 col-xs-12" disabled>
+                        @else
+                            <input type="number" id="shipping_limit_duration" name="shipping_limit_duration" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_limit_duration}}" require>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
+                    <div class="radio col-md-4 col-sm-6 col-xs-12">
+                        @if ( $merchant_shipping->shipping_status == 1 )
+                            <label><input type="radio" value="1" name="shipping_status" checked>有効</label>
+                            <label><input type="radio" value="0" name="shipping_status">無効</label>
+                        @else
+                            <label><input type="radio" value="1" name="shipping_status">有効</label>
+                            <label><input type="radio" value="0" name="shipping_status" checked>無効</label>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">デフォルト<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="shipping_default" name="shipping_default" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant_shipping->shipping_default}}">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$mall->mall_create}}">
+                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$merchant_shipping->shipping_create}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly  value="{{$mall->mall_update}}">
+                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$merchant_shipping->shipping_update}}">
+                    </div>
+                </div>
+         
+                <div class="form-group">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="hidden" id="merchant_shipping_id" name="merchant_shipping_id" class="form-control col-md-7 col-xs-12" readonly value="{{$merchant_shipping_id}}">
+                        <input type="hidden" id="merchant_shipping_price" name="merchant_shipping_price" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
                 <div class="ln_solid"></div>
-                <label class="x_title">ブランド</label>                
-                <div class="y_content">
-                    <table id="datatable1" class="table table-striped table-bordered dt-responsive nowrap">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <td hidden>identify</td>
-                                <th style="text-align:center">名前</th>
-                                <th style="text-align:center">英名</th>
-                                <th style="text-align:center">ステータス</th>
-                                <th style="text-align:center">接続</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablebody">
-                        <?php $index = 0; ?>
-                        @foreach($brands as $brand)
-                            <?php $index += 1; ?>
-                            <tr>
-                                <td>{{$index}}</td>
-                                <th hidden>{{$brand->brand_id}}</th>
-                                <th style="text-align:center">{{$brand->brand_name}}</th>
-                                <th style="text-align:center">{{$brand->brand_name_en}}</th>
-                                <td style="text-align:center"><img style="height:20px;" src="{{url("")}}./images/brands/{{$brand->brand_image}}"></td>
-                                <?php $isChecked = false; ?>
-                                @foreach($mall_brands as $mall_brand)
-                                    @if ($mall_brand == $brand->brand_id)
-                                        <?php $isChecked = true; ?>
-                                        @break
-                                    @endif
-                                @endforeach
-                                
-                                @if($isChecked == true)
-                                    <th style="text-align:center"><input type="checkbox" id="check-{{$brand->brand_id}}" onclick="checkboxEdit({{$brand->brand_id}})" checked></th>
-                                @else
-                                    <th style="text-align:center"><input type="checkbox" id="check-{{$brand->brand_id}}" onclick="checkboxEdit({{$brand->brand_id}})"></th>
-                                @endif
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
 
-               <div class="ln_solid"></div>
-               <label class="x_title">カテゴリ</label>
+                <label class="x_title">料金</label>                
                 <div class="y_content">
                     <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th style="text-align:center">トップ カテゴリ</th>
-                                <th style="text-align:center">メイン カテゴリ</th>
-                                <th style="text-align:center">サブ カテゴリ</th>
-                                <th style="text-align:center"></th>
+                                <th style="text-align:center">料金</th>
+                                <th style="text-align:center">描写</th>
+                                <th></th>
                             </tr>
                         </thead>
-                        <tbody id="tablebody1">
-                            @foreach ($selcategorys as $selcategory)
-                                <tr>
-                                    <td>{{$selcategory->category_id}}</th>
-                                    @if ($selcategory->top_category_name == "")
-                                        @if ($selcategory->main_category_name == "")
-                                            <?php $selcategory->top_category_name = $selcategory->category_name; ?>
-                                            <?php $selcategory->category_name = ""; ?>
-                                        @else
-                                            <?php $selcategory->top_category_name = $selcategory->main_category_name; ?>
-                                            <?php $selcategory->main_category_name = $selcategory->category_name; ?>
-                                            <?php $selcategory->category_name = ""; ?>
-                                        @endif
-                                    @endif
-                                    @if ($selcategory->main_category_name == "")
-                                        <?php $selcategory->main_category_name = $selcategory->category_name; ?>
-                                        <?php $selcategory->category_name = ""; ?>
-                                    @endif
-
-                                    <th style="text-align:center">{{$selcategory->top_category_name}}</th>
-                                    <th style="text-align:center">{{$selcategory->main_category_name}}</th>
-                                    <th style="text-align:center">{{$selcategory->category_name}}</th>
-                                    <th style="text-align:center">'<a><span class="glyphicon glyphicon-trash" onclick="removeCategory({{$selcategory->category_id}})" aria-hidden="true"></span></a></th>
-                                </tr>
-                            @endforeach
-                        </tbody>
                     </table>
-
+                
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
-                        <div class=" a col-md-4 col-sm-6 col-xs-12">
-                            <select id="top_category" name="top_category" class="form-control">
-                                <option value="">--トップ カテゴリ 選択--</option>
-                            </select>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">料金<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="number" id="shipping_price" name="shipping_price" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">性別(メイン カテゴリ)</label>
-                        <div class=" a col-md-4 col-sm-6 col-xs-12">
-                            <select id="main_category" name="main_category" class="form-control">
-                                <option value="">--メイン カテゴリ 選択--</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">サブ カテゴリ</label>
-                        <div class=" a col-md-4 col-sm-6 col-xs-12">
-                            <select id="sub_category" name="sub_category" class="form-control">
-                                <option value="">--サブ カテゴリ 選択--</option>
-                            </select>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">描写<span class="required">*</span></label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <input type="text" id="shipping_description" name="shipping_description" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-60 col-sm-60 col-xs-12 col-md-offset-4">
-                            <button id="addcategory" type="button" class="btn btn-primary" onclick="addCategory()">カテゴリ 追加</button>
+                            <button id="addPrice" type="button" class="btn btn-primary" onclick="addPrices()">料金追加</button>
                         </div>
                     </div>
                 </div>
@@ -208,7 +201,7 @@
 
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" onclick="updateMallCategorys()" class="btn btn-warning">モール 編集</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">Shipping 追加</button>
                         <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
@@ -248,7 +241,6 @@
 
     <!-- Custom Theme Scripts -->
 
-
     <script src="{{ URL::asset('gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
@@ -287,197 +279,147 @@
     <script src="{{ url('')}}/gvendor/jszip/dist/jszip.min.js"></script>
     <script src="{{ url('')}}/gvendor/pdfmake/build/pdfmake.min.js"></script>
     <script src="{{ url('')}}/gvendor/pdfmake/build/vfs_fonts.js"></script>
+    <!-- iCheck -->
+    <script src="{{ url('')}}/gvendor/iCheck/icheck.min.js"></script>
 
 <script type="text/javascript">
     $(function(){
-        $('#create_date').val('{{$mall->mall_create}}');
-        $('#update_date').val('{{$mall->mall_update}}');
-        addTopCategorys();
-
         var table = $('#datatable').DataTable({
             destroy: true,
             columnDefs: [
-                {
-                    "targets": 0,
-                    "className": "text-left",
-                    "width": "4%"
-                },
-                {
-                    "targets": 1,
-                    "className": "text-center",
-                },
-                {
-                    "targets": 2,
-                    "className": "text-center",
-                },
-                {
-                    "targets": 3,
-                    "className": "text-center",
-                },
-                {
-                    "targets": 4,
-                    "className": "text-center",
-                }
+                { "targets": 0, "className": "text-left", "width": "5%" },
+                { "targets": 1, "className": "text-right", "width": "15%" },
+                { "targets": 2, "className": "text-left" , "width": "75%" },
+                { "targets": 3, "className": "text-center", "width": "5%" },
             ]
         });
+
+        addOriginPrices();
     });
-    $('#btnReset').click(function(){
-        document.getElementById("form_add").reset();
-        $('#create_date').val('{{$mall->mall_create}}');
-        $('#update_date').val('{{$mall->mall_update}}');
-    });
-    function addTopCategorys() {
+
+    function addOriginPrices() {
+        var table = $('#datatable').DataTable();
+        index = 0;
+        shipments = "{{$strMerchantShippingPrices}}".split(get_level_split_string(1));
+
+        for(var i = 0; i < shipments.length; i++) {
+            shipmentPrices = shipments[i].split(get_level_split_string(2));
+            table.row.add([i + 1, shipmentPrices[1], shipmentPrices[2], '<a><span class="glyphicon glyphicon-trash" onclick="removeConfirm(' + parseInt(i + 1) + ',' + shipmentPrices[0] + ')" aria-hidden="true"></span></a>']).draw( false );
+        } 
+    }
+
+    function removeConfirm(id, shipping_id) {
+        var answer = confirm('本当に削除しますか?');
+        if(!answer){
+            return;
+        }
+
         $.ajax( {
             type: 'get',
-            url: '{{url('admin/category/get-top-categorys')}}',
-            success: function(data){
-                $('#top_category').find('option').remove().end().append('<option value="">--トップ カテゴリ 選択--</option>');
-                for(var i = 0; i < data.length; i++){
-                    var item = data[i];
-                    var opt = document.createElement('option');
-                    opt.value = item.category_id;
-                    opt.innerHTML = item.category_name;
-                    document.getElementById('top_category').appendChild(opt);
+            url: '{{url('merchant/shipping/remove_price')}}' + "/" + shipping_id,
+            success: function(data) {
+                if (data == 1) {
+                    removePrice(id, shipping_id);
                 }
             }
         });
     }
-    function addCategory() {
-        
-        if ($('#top_category').val() == '' && $('#main_category').val()) {
-            return;
-        }
-        
-        var $topCategoryName = jQuery("#top_category option:selected").text();
-        var $mainCategoryName = jQuery("#main_category option:selected").text();
-        var $subCategoryName = '';
-        if ($('#sub_category').val() != '') {
-            $subCategoryName = jQuery("#sub_category option:selected").text();
-        }
-
-        var table = $('#datatable').DataTable();
-
-        if ($('#sub_category').val() == '') {
-            var topID = $('#top_category').val();
-            var mainID = $('#main_category').val();
-
-            $.ajax( {
-                type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + mainID,
-                success: function(data) {
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var isExist = false;
-
-                        for (var j = 0; j < table.rows().count(); j++) {
-                            if (table.cell(j, 0).data() == item.category_id) {
-                                isExist = true;
-                               break;
-                            }
-                        }
-                        
-                        if (isExist == false) {
-                            table.row.add([item.category_id, $topCategoryName, $mainCategoryName, item.category_name, '<a><span class="glyphicon glyphicon-trash" onclick="removeCategory(' + item.category_id + ')" aria-hidden="true"></span></a>']).draw( false );
-                        }
-                    }
-                }
-            });
-        } else {
-            var $categoryid = $('#sub_category').val();            
+    function removePrice(id, shipping_id) {
+        if (shipping_id == 0) {
+            var table = $('#datatable').DataTable();
             for (i = 0; i < table.rows().count(); i++) {
-                if (table.cell(i, 0).data() == $categoryid) {
+                if (table.cell(i, 0).data() == id) { 
+                    table.row(i).remove().draw(false);
                     return;
                 }
             }
-
-            table.row.add([$categoryid, $topCategoryName, $mainCategoryName, $subCategoryName, '<a><span class="glyphicon glyphicon-trash" onclick="removeCategory(' + $categoryid + ')" aria-hidden="true"></span></a>']).draw( false );
-        }
-    }
-    function updateMallCategorys() {
-        var table = $('#datatable').DataTable();
-        var mall_category = "";
-        for (i = 0; i < table.rows().count(); i++) {
-            if (i != 0) {
-                mall_category += ",";
+        } else {
+            var table = $('#datatable').DataTable();
+            for (i = 0; i < table.rows().count(); i++) {
+                if (table.cell(i, 0).data() == id) { 
+                    table.row(i).remove().draw(false);
+                    return;
+                }
             }
-            mall_category += table.cell(i, 0).data();
         }
-        $('#mall_category').val(mall_category);
     }
-    $('#top_category').change(function() {
-        $('#main_category').find('option').remove().end().append('<option value="">--メイン カテゴリ 選択--</option>');
-        $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
-
-        var top = $('#top_category').val();
-        if(top != ""){
-            $.ajax( {
-                type: 'get',
-                url: '{{url('admin/category/get-main-categorys')}}' + "/" + top,
-                success: function(data) {
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.category_id;
-                        opt.innerHTML = item.category_name;
-                        document.getElementById('main_category').appendChild(opt);
-                    }
-                }
-            });
+    function addPrices() {
+        var shipping_price = $('#shipping_price').val();
+        var shipping_description = $('#shipping_description').val()
+        if (shipping_price == '' || shipping_description == '') {
+            alert("Please input 料金 and 描写.");
+            return;
         }
-    });
-    $('#main_category').change(function() {
-        $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
         
-        var top = $('#top_category').val();
-        var main = $('#main_category').val();
-        if(top != ""){
-            $.ajax( {
-                type: 'get',
-                url: '{{url('admin/category/get-sub-categorys')}}' + "/" + main,
-                success: function(data) {
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.category_id;
-                        opt.innerHTML = item.category_name;
-                        document.getElementById('sub_category').appendChild(opt);
-                    }
-                }
-            });
+        var table = $('#datatable').DataTable();
+        var count = table.rows().count();
+        var index = 1;
+        if (count != 0) {
+            index = parseInt(table.cell(table.rows().count() - 1, 0).data()) + 1;
         }
-    });
+        table.row.add([index, shipping_price, shipping_description, '<a><span class="glyphicon glyphicon-trash" onclick="removePrice(' + index + ', 0)" aria-hidden="true"></span></a>']).draw( false );
 
-    $('#btnSubmit').click(function(){
-        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#shipping_price').val("");
+        $('#shipping_description').val("");
+    }
+
+    $('#btnReset').click(function() {
+        document.getElementById("form_add").reset();
+        $('#datatable').DataTable().clear().draw(false);
+    });
+    
+    $('#btnSubmit').click(function() {
+        var table = $('#datatable').DataTable();
+        var count = table.rows().count();
+        // if (count == 0) {
+        //     alert("Please add 料金 and 描写.");
+        //     return;
+        // }
+
+        var merchant_shipping_price = "";
+        for (var i = 0; i < count; i++) {
+            if (i != 0) {
+                merchant_shipping_price += get_level_split_string(1);
+            }
+            for (j = 1; j <= 3; j++) {
+                if (j != 1) {
+                    merchant_shipping_price += get_level_split_string(2);
+                }
+                merchant_shipping_price += table.cell(i, j).data();
+            }
+        }
+
+        $('#merchant_shipping_price').val(merchant_shipping_price);
         $('#form_add').parsley();
     });
 
-    $('#brands').multiselect({
-        includeSelectAllOption: true
+    $('#shipping_limit_date_set_1').on("change", function() {
+        $('#single_cal2').prop('required', true);
+        $('#single_cal2').prop('disabled', false);
+    });
+    $('#shipping_limit_date_set_2').on("change", function() {
+        $('#single_cal2').prop('required', false);
+        $('#single_cal2').prop('disabled', true);
     });
 
-    function checkboxEdit(id) {
-        var table = $('#datatable1').DataTable();
-        
-        var brands = $('#mall_brands').val().split(",");
+    $('#shipping_limit_duration_set_1').click(function() {
+        $('#shipping_limit_duration').prop('required', true);
+        $('#shipping_limit_duration').prop('disabled', false);
+    });
+    $('#shipping_limit_duration_set_2').click(function() {
+        $('#shipping_limit_duration').prop('required', false);
+        $('#shipping_limit_duration').prop('disabled', true);
+    });
 
-        if (document.getElementById("check-" + id).checked) {
-            brands.push(id);
-        } else {
-            brands.pop(id);
+    function get_special_number(level) {
+        if (level >= 10) {
+            return "⓪①②③④⑤⑥⑦⑧⑨";
         }
-        
-        $('#mall_brands').val(brands.toString());
+        numbers = "⓿➊➋➌➍➎➏➐➑➒";
+        return numbers.substr(level, 1);
     }
-
-    function removeCategory(id) {
-        var table = $('#datatable').DataTable();
-        for (i = 0; i < table.rows().count(); i++) {
-            if (table.cell(i, 0).data() == id) {
-                table.row(i).remove().draw(false);
-                return;
-            }
-        }
+    function get_level_split_string(level) {
+        return "🅛🅔🅥🅔🅛➊" + get_special_number(level);
     }
 </script>
 

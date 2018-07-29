@@ -117,7 +117,7 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
                         <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
-                        <input type="hidden" id="merchant_shipping_id" name="merchant_shipping_id" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="merchant_shipping_id" name="merchant_shipping_id" class="form-control col-md-7 col-xs-12" readonly value="{{$merchant_shipping_id}}">
                         <input type="hidden" id="merchant_shipping_price" name="merchant_shipping_price" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
@@ -290,13 +290,13 @@
     $('#btnSubmit').click(function() {
         var table = $('#datatable').DataTable();
         var count = table.rows().count();
-        if (count == 0) {
-            alert("Please add 料金 and 描写.");
-            return;
-        }
+        // if (count == 0) {
+        //     alert("Please add 料金 and 描写.");
+        //     return;
+        // }
 
         var merchant_shipping_price = "";
-        for (var i = 0; i < table.rows().count(); i++) {
+        for (var i = 0; i < count; i++) {
             if (i != 0) {
                 merchant_shipping_price += get_level_split_string(1);
             }

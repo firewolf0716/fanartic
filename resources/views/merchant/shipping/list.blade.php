@@ -46,9 +46,9 @@
                                 <td>{{$merchant_shipping->shipping_start_position}}</td>
                                 <td>{{$merchant_shipping->shipping_min_duration}} ~ {{$merchant_shipping->shipping_max_duration}}</td>
                                 @if ($merchant_shipping->shipping_status == 1)
-                                    <td>国内</td>
+                                    <td>有効</td>
                                 @else
-                                    <td>海外</td>
+                                    <td>無効</td>
                                 @endif
                                 <td style="text-align:center">
                                     <a href="{{url('merchant/shipping/edit')}}/{{$merchant_shipping->shipping_id}}"><span class="glyphicon glyphicon-edit" onclick="editShipping({{$i}}, {{$merchant_shipping->shipping_id}})" aria-hidden="true"></span></a>
@@ -140,16 +140,15 @@
         if(!answer){
             return;
         }
-        removeProduct(priduct_id)
+        removeShipping(id, shipping_id);
     }
     function removeShipping(id, shipping_id) {
-        var table = $('#datatable').DataTable();
-        
-        window.location = "{{ url('merchant/shipping/remove') }}" + "/" + shipping_id;
+       window.location = "{{ url('merchant/shipping/remove') }}" + "/" + shipping_id;
         // $.ajax( {
         //     type: 'get',
         //     url: '{{url('merchant/shipping/remove')}}' + "/" + shipping_id,
         //     success: function(data) {
+        //         var table = $('#datatable').DataTable();
         //         var table = $('#datatable').DataTable();
         //         for (i = 0; i < table.rows().count(); i++) {
         //             if (table.cell(i, 0).data() == id) {

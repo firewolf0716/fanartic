@@ -19,6 +19,7 @@ use App\MerchantBrands;
 use App\ProductStates;
 use App\ProductSKU;
 use App\ProductStock;
+use App\MerchantShipping;
 
 use DB;
 use Session;
@@ -46,6 +47,7 @@ class MerchantproductController extends Controller
         $colors = Colors::get_colors();
         $productstates = ProductStates::get_productstates();
         $topCategorys = Categorys::getTopCategorys();
+        $shippings = MerchantShipping::get_merchant_shippings($merchant_id);
 
         return view('merchant.product.product_add')->with('merchant_id', $merchant_id)
             ->with('brands', $brands)
@@ -55,7 +57,8 @@ class MerchantproductController extends Controller
             ->with('productstates', $productstates)
             ->with('merchant_id', $merchant_id)
             ->with('topCategorys', $topCategorys)
-            ->with('merchant', $merchant);
+            ->with('merchant', $merchant)
+            ->with('shippings', $shippings);
     }
 
     public function merchant_product_edit($id){
@@ -88,6 +91,7 @@ class MerchantproductController extends Controller
 
         $size_category = Sizes::get_size($selectedSizes[0])->size_category_id;
         $sizes = Sizes::get_sizes_with_category($size_category);
+        $shippings = MerchantShipping::get_merchant_shippings($merchant_id);
 
         return view('merchant.product.product_edit')->with('merchant_id', $merchant_id)
             ->with('brands', $brands)
@@ -109,6 +113,7 @@ class MerchantproductController extends Controller
             ->with('product_size_id', $product_size_id)
             ->with('product_stock_info', $product_stock_info)
             ->with('proimg_ct', count($master_images) + 1)
+            ->with('shippings', $shippings)
             ->with('topCategorys', $topCategorys);
     }
     public function merchant_product_addpost(){

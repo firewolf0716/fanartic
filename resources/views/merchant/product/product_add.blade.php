@@ -161,9 +161,9 @@
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select id="shipping_id" name="shipping_id" class="form-control" required>
                                     <option value="">--Select 配送 Type--</option>
-                                    <option value="1">Rakuten</option>
-                                    <option value="2">EC Cube</option>
-                                    <option value="3">CS-cart</option>
+                                    @foreach ($shippings as $shipping)
+                                        <option value="{{$shipping->shipping_id}}">{{$shipping->shipping_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

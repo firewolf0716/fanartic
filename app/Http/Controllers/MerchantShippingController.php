@@ -12,7 +12,7 @@ use App\Brands;
 use App\MallBrands;
 use App\MallCategorys;
 use App\Categorys;
-use App\MerchantsShipping;
+use App\MerchantShipping;
 
 class MerchantShippingController extends Controller
 {
@@ -24,12 +24,11 @@ class MerchantShippingController extends Controller
         return view('merchant.shipping.add')->with('merchant_shipping_id', 0);
     }
 
-    public function merchant_shipping_addpost() {
+    public function merchant_shipping_updatepost() {
         $merchant_id = $this->get_merchant_session_id();
         if ($merchant_id == 0) {
             return Redirect::to('merchant/signin');
         }
-        $beforeShippingID = Input::get('merchant_shipping_id');
 
         $entry =  array(
             'merchant_id' => $merchant_id,
@@ -56,29 +55,33 @@ class MerchantShippingController extends Controller
             $entry['shipping_limit_duration'] = Input::get('shipping_limit_duration');
         }
 
-        $shippingID = MerchantsShipping::updateMerchantShipping($entry, Input::get('merchant_shipping_id'));
+        $shippingID = MerchantShipping::updateMerchantShipping($entry, Input::get('merchant_shipping_id'));
         $merchant_shipping_price = Input::get('merchant_shipping_price');
         
         $items = explode($this->get_level_split_string(1), $merchant_shipping_price);
 
         foreach($items as $item) {
             $subItems = explode($this->get_level_split_string(2), $item);
+            if (count($subItems) < 2) {
+                continue;
+            }
             
             if ($subItems[2] == 0) {
                 $merchantShippingPrice = array (
+                    'merchant_id' => $merchant_id,
                     'shipping_id' => $shippingID,
                     'shipping_price' => $subItems[0],
                     'shipping_description' => $subItems[1]
                 );
-                MerchantsShipping::updateMerchantShippingPrice($merchantShippingPrice, 0);
+                MerchantShipping::updateMerchantShippingPrice($merchantShippingPrice, 0);
             } else {
                 $merchantShippingPrice = array (
-                    'shipping_price_id' => $subItems[2],
+                    'merchant_id' => $merchant_id,
                     'shipping_id' => $shippingID,
                     'shipping_price' => $subItems[0],
                     'shipping_description' => $subItems[1]
                 );
-                MerchantsShipping::updateMerchantShippingPrice($merchantShippingPrice, $subItems[2]);
+                MerchantShipping::updateMerchantShippingPrice($merchantShippingPrice, $subItems[2]);
             }
         }
 
@@ -91,7 +94,7 @@ class MerchantShippingController extends Controller
             return Redirect::to('merchant/signin');
         }
 
-        $merchant_shippings = MerchantsShipping::get_merchant_shippings($merchant_id);
+        $merchant_shippings = MerchantShipping::get_merchant_shippings($merchant_id);
         return view('merchant.shipping.list')->with('merchant_shippings', $merchant_shippings);
     }
     public function merchant_shipping_remove($shipping_id) {
@@ -100,7 +103,7 @@ class MerchantShippingController extends Controller
             return Redirect::to('merchant/signin');
         }
 
-        $merchant_shippings = MerchantsShipping::remove_merchant_shippings($merchant_id);
+        $merchant_shippings = MerchantShipping::remove_merchant_shippings($merchant_id, $shipping_id);
         return Redirect::to('merchant/shipping/list');
     }
     public function merchant_shipping_edit($shipping_id) {
@@ -109,14 +112,31 @@ class MerchantShippingController extends Controller
             return Redirect::to('merchant/signin');
         }
 
-        $merchant_shipping = MerchantsShipping::get_merchant_shipping($merchant_id, $shipping_id);
-        $merchant_shipping_prices = MerchantsShipping::get_merchant_shipping_prices($merchant_id, $shipping_id);
-        return view('merchant.shipping.list')->with('merchant_shipping', $merchant_shipping)
-                                            ->with('merchant_shipping_prices', $merchant_shipping_prices);
+        $merchant_shipping = MerchantShipping::get_merchant_shipping($merchant_id, $shipping_id);
+        $merchant_shipping_prices = MerchantShipping::get_merchant_shipping_prices($merchant_id, $shipping_id);
+
+        $strMerchantShippingPrices = "";
+        foreach ($merchant_shipping_prices as $merchant_shipping_price) {
+            if ($strMerchantShippingPrices != "") {
+                $strMerchantShippingPrices .= $this->get_level_split_string(1);
+            }
+            $strMerchantShippingPrices .= $merchant_shipping_price->shipping_price_id;
+            $strMerchantShippingPrices .= $this->get_level_split_string(2) . $merchant_shipping_price->shipping_price;
+            $strMerchantShippingPrices .= $this->get_level_split_string(2) . $merchant_shipping_price->shipping_description;
+        }
+
+        return view('merchant.shipping.edit')->with('merchant_shipping', $merchant_shipping)
+                                            ->with('merchant_shipping_id', $shipping_id)
+                                            ->with('strMerchantShippingPrices', $strMerchantShippingPrices);
     }
-
-
-	Route::post('merchant/shipping/editpost', 'MerchantShippingController@merchant_shipping_editpost');
+    public function merchant_shipping_remove_price($shipping_price_id) {
+        $merchant_id = $this->get_merchant_session_id();
+        if ($merchant_id == 0) {
+            return Redirect::to('merchant/signin');
+        }
+ 
+        return MerchantShipping::remove_merchant_shipping_price($merchant_id, $shipping_price_id);
+    }
 
     // public function edit($id) {
     //     if ($this->check_admin_session() == false) {
