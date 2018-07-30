@@ -12,86 +12,42 @@
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
-            {!! Form::open(array('id' => 'form_product_search','url'=>'merchant/product/search','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h4>Manage Products</h4>
-                        <div class="clearfix"></div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h4>Manage Products</h4>
+                    <div class="clearfix"></div>
+                </div>
+
+                <!-- <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Product Status<span class="required">*</span></label>
+                    <div class=" a col-md-4 col-sm-6 col-xs-12">
+                        <select id="product_status" name="product_status" class="form-control">
+                            <option value="1">Store</option>
+                            <option value="2">Cash on Delivery</option>
+                            <option value="3">PayUmoney Shipping Delivery</option>
+                            <option value="4">Shipping Delivery</option>
+                            <option value="5">Sold Product</option>
+                        </select>
                     </div>
+                </div> -->
 
-                    <input type="hidden" id="product_status" name="product_status" value="{{$product_status}}" class="form-control col-md-7 col-xs-12">
+                <input type="hidden" id="product_status" name="product_status" value="{{$product_status}}" class="form-control col-md-7 col-xs-12">
 
-                    <div id="x_content">
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">フリーワード</label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="free_word" name="free_word" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">金額</label>
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <input type="number" id="min_price" name="min_price" class="form-control col-md-7 col-xs-12">                                
-                            </div>
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <input type="number" id="max_price" name="max_price" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">期間設置</label>
-                            <div class=" a col-md-4 col-sm-6 col-xs-12">
-                                <select id="duration_setting" name="duration_setting" class="form-control">
-                                    <option value="0">すべて</option>
-                                    <option value="1">本日</option>
-                                    <option value="2">今週</option>
-                                    <option value="3">今月</option>
-                                    <option value="4">先月</option>
-                                    <option value="5">今年</option>
-                                    <option value="6">過去24時間</option>
-                                    <option value="7">過去1週間</option>
-                                    <option value="8">過去30日</option>
-                                    <option value="9">カスタム</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">期間</label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <div class="input-prepend input-group">
-                                            <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                            <input type="text" name="duration_range" id="reservation" class="form-control" disabled/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
-                                <button id="btnSubmit" type="submit" class="btn btn-warning">Search</button>
-                            </div>
-                        </div>
-                   
-                        <table id="datatable" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Product Image</th>
-                                <th>Actions</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                {{ Form::close() }}
+                <div id="x_content">                   
+                    <table id="datatable" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                            <th>ID</th>
+                            <th>Product Name</th>
+                            <th>Price</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Product Image</th>
+                            <th>Actions</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>        
@@ -185,11 +141,6 @@
         removeProduct(priduct_id)
     }
 
-    $('#btnSubmit').click(function() {
-        $('#reservation').prop('disabled', false);
-        $('#form_product_search').parsley();
-    });
-
     $(function(){
         var table = $('#datatable').DataTable({
             destroy: true,
@@ -226,18 +177,16 @@
             ]
         });
 
-        showProducts();
-        updateDuration();
+        showProducts({{$product_status}});
     });
 
-    function showProducts() {
-        
+    function showProducts(product_status) {
         var table = $('#datatable').DataTable();
         table.clear();
 
         $.ajax( {
             type: 'get',
-            url: '{{url('merchant/product/manage')}}' + '/' + {{$product_status}},
+            url: '{{url('merchant/product/manage')}}' + '/' + product_status,
             success: function(data) {
                 for(var i = 0; i < data.length; i++){
                     
@@ -285,55 +234,6 @@
         showProducts($('#product_status').val());
     });
 
-    $('#duration_setting').change(function() {
-        updateDuration();
-    });
-
-    function updateDuration() {
-        duration_setting = $('#duration_setting').val();
-        $('#reservation').prop('disabled', true);
-
-        var today = new Date();
-
-        start_date = "";
-        end_date = "";
-
-        if (duration_setting == 0) {
-            start_date = getDateString(today);
-            end_date = getDateString(today);
-        } else if (duration_setting == 1) { // 本日
-            start_date = getDateString(today) + ' ' + '00:00:00';
-            end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 2) { // 今週
-            start_date = getThisWeekStartString(today) + ' ' + '00:00:00';
-            end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 3) { // 今月
-            start_date = getThisMonthStartString(today) + ' ' + '00:00:00';
-            end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 4) { // 先月
-            start_date = getPreviousMonthStartString(today) + ' ' + '00:00:00';
-            end_date = getPreviousMonthEndString(today) + ' ' + '23:59:59';
-        } else if (duration_setting == 5) { // 今年
-            start_date = getThisYearStartString(today) + ' ' + '00:00:00';
-            end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 6) { // 過去24時間
-            start_date = getBeforeDayString(today, 1) + ' ' + getTimeString(today);
-            end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 7) { // 過去1週間
-            start_date = getBeforeDayString(today, 7) + ' ' + getTimeString(today);
-            end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 8) { // 過去30日
-            start_date = getBeforeDayString(today, 30) + ' ' + getTimeString(today);
-            end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 9) { // カスタム
-            start_date = getDateString(today);
-            end_date = getDateString(today);
-            $('#reservation').prop('disabled', false);
-        }
-
-        $('#reservation').val(start_date + ' - ' + end_date);
-    }
-
     function removeProduct(id) {
         var table = $('#datatable').DataTable(); 
         for (i = 0; i < table.rows().count(); i++) {
@@ -345,48 +245,42 @@
         }
     }
 
-    function getDateString(date) {
-        var dd = date.getDate();
-        var mm = date.getMonth()+1; //January is 0!
-        var yyyy = date.getFullYear();
-
-        if (dd < 10) { dd = '0' + dd } 
-        if (mm < 10) { mm = '0' + mm }
-
-        dateString = yyyy + '/' + mm + '/' + dd;
-        return dateString;
-    }
-    function getTimeString(date) {
-        var hh = date.getHours();
-        var MM = date.getMinutes();
-        var ss = date.getSeconds();
-
-        if (hh < 10) { hh = '0' + hh } 
-        if (MM < 10) { MM = '0' + MM } 
-        if (ss < 10) { ss = '0' + ss } 
-
-        timeString = hh + ':' + MM + ':' + ss;
-        return timeString;
-    }
-    function getThisWeekStartString(date) {
-        weekStartDay = moment(getDateString(date), 'YYYY/MM/DD').day();
-        return moment(getDateString(date), 'YYYY/MM/DD').add('days', - weekStartDay).format('YYYY/MM/DD');
-    }
-    function getThisMonthStartString(date) {
-        return moment(getDateString(date), 'YYYY/MM/01').format('YYYY/MM/DD');
-    }
-    function getPreviousMonthStartString(date) {
-        return moment(getDateString(date), 'YYYY/MM/01').add('months', - 1).format('YYYY/MM/DD');
-    }
-    function getPreviousMonthEndString(date) {
-        return moment(getDateString(date), 'YYYY/MM/01').add('days', - 1).format('YYYY/MM/DD');
-    }
-    function getThisYearStartString(date) {
-        return moment(getDateString(date), 'YYYY/01/01').format('YYYY/MM/DD');
-    }
-    function getBeforeDayString(date, dayCount) {
-        return moment(getDateString(date), 'YYYY/MM/DD').add('days', - dayCount).format('YYYY/MM/DD');
-    }
 </script>
 
 @endsection
+
+
+//         @php
+//         start_date = "";
+//         end_date = "";
+//         current_date = date("YYYY/MM/DD H:i:s");
+//         if ($duration_setting == 0) {
+//             start_date = "";
+//             end_date = "";
+//         } else if ($duration_setting == 1) { // 本日
+//             start_date = date("YYYY/MM/DD 00:00:00");
+//             end_date = date("YYYY/MM/DD 23:59:59");
+//         } else if ($duration_setting == 2) { // 今週
+//             ts = strtotime(current_date);
+//             start = (date('w', $ts) == 0) ? $ts : strtotime('last sunday', $ts);
+//             start_date = date('YYYY/MM/DD 00:00:00', $start);
+//             end_date = date('YYYY/MM/DD 23:59:59', strtotime('next saturday', $start));
+//         } else if ($duration_setting == 3) { // 今月
+//             start_date = date('YYYY/MM/01 H:i:s', strtotime(current_date));
+//             end_date =  date('YYYY/MM/t H:i:s', strtotime(current_date));
+//         } else if ($duration_setting == 4) { // 先月
+//             start_date = date('YYYY/MM/DD H:i:s', strtotime('-1 month', strtotime(current_date)));
+//             end_date =  date('YYYY/MM/DD H:i:s', strtotime('last day of -1 month', strtotime(current_date)));
+//         } else if ($duration_setting == 5) { // 今年
+//             start_date = date('YYYY/MM/DD H:i:s', strtotime('year', strtotime(current_date)));
+//             end_date =  date('YYYY/MM/DD H:i:s', strtotime('last day of year', strtotime(current_date)));
+//         } else if ($duration_setting == 6) { // 過去24時間
+
+//         } else if ($duration_setting == 7) { // 過去1週間
+
+//         } else if ($duration_setting == 8) { // 過去30日
+
+//         } else if ($duration_setting == 9) { // カスタム
+
+//         }
+// @endphp

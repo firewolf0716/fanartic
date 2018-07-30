@@ -18,7 +18,7 @@
                 <div class="c-form__row__label">カード番号<span class="c-form__require">必須</span></div>
                 <div class="c-form__row__input">
                     <div class="c-form__colum">
-                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="name" value="{{$card->card_no}}" required></div>
+                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="no" value="{{$card->card_no}}" required></div>
                     </div>
                 </div>
             </div>

@@ -10,51 +10,112 @@
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            <div class="x_panel">
-                <div class="x_title">
-                    <h4>Sold Products</h4>
-                    <div class="clearfix"></div>
-                </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                {!! Form::open(array('id' => 'form_product_search','url'=>'merchant/product/search','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h4>Sold Products</h4>
+                            <div class="clearfix"></div>
+                        </div>
 
-                <div class="x_content">
-                <table id="datatable" class="table table-striped table-bordered">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Product Code</th>
-                          <th>Product Name</th>
-                          <th>Amount</th>
-                          <th>Unit</th>
-                          <th>Price</th>
-                          <th>User Name</th>
-                          <th>User Address</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        @php $i = 0; @endphp
-                        @foreach ($cashProducts as $cashProduct)
-                            @php $i += 1; @endphp
-                            <tr>
-                                <td>{{$i}}</td>
-                                <td>{{$cashProduct->product_code}}</td>
-                                <td>{{$cashProduct->product_name}}</td>
-                                <td>{{$cashProduct->product_amount}}</td>
-                                <td>{{$cashProduct->product_price}}</td>
-                                <td>{{$cashProduct->product_amount * $cashProduct->product_price}}</td>
-                                <td>{{$cashProduct->customer_name_first}} {{$cashProduct->customer_name_second}}</td>
-                                <td>{{$cashProduct->address_name}}</td>
-                                <td style="text-align:center">
-                                    <a href="#"><span class="glyphicon glyphicon-ok" onclick="accept({{$i}}, {{$cashProduct->buy_history_id}})" aria-hidden="true"></span></a>
-                                    <a href="#"><span class="glyphicon glyphicon-remove" onclick="decline({{$i}}, {{$cashProduct->buy_history_id}})" aria-hidden="true"></span></a>
-                                </td>
-                            </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                </div>
+                        <input type="hidden" id="product_status" name="product_status" value="{{$product_status}}" class="form-control col-md-7 col-xs-12">
+
+                        <div id="x_content">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">フリーワード</label>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <input type="text" id="free_word" name="free_word" class="form-control col-md-7 col-xs-12" value="{{$free_word}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">金額</label>
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <input type="number" id="min_price" name="min_price" class="form-control col-md-7 col-xs-12" value="{{$min_price}}">                                
+                                </div>
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <input type="number" id="max_price" name="max_price" class="form-control col-md-7 col-xs-12" value="{{$max_price}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">期間設置</label>
+                                <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                    <select id="duration_setting" name="duration_setting" class="form-control">
+                                        <option value="0">すべて</option>
+                                        <option value="1">本日</option>
+                                        <option value="2">今週</option>
+                                        <option value="3">今月</option>
+                                        <option value="4">先月</option>
+                                        <option value="5">今年</option>
+                                        <option value="6">過去24時間</option>
+                                        <option value="7">過去1週間</option>
+                                        <option value="8">過去30日</option>
+                                        <option value="9">カスタム</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">期間</label>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                                <input type="text" name="duration_range" id="reservation" class="form-control" disabled/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                                    <button id="btnSubmit" type="submit" class="btn btn-warning">Search</button>
+                                </div>
+                            </div>
+                            <table id="datatable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                    <th>ID</th>
+                                    <th>Product Code</th>
+                                    <th>Product Name</th>
+                                    <th>Amount</th>
+                                    <th>Unit</th>
+                                    <th>Price</th>
+                                    <th>User Name</th>
+                                    <th>User Address</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $i = 0; @endphp
+                                    @foreach ($cashProducts as $cashProduct)
+                                        @php $i += 1; @endphp
+                                        <tr>
+                                            <td>{{$i}}</td>
+                                            <td>{{$cashProduct->product_code}}</td>
+                                            <td>{{$cashProduct->product_name}}</td>
+                                            <td>{{$cashProduct->product_amount}}</td>
+                                            <td>{{$cashProduct->product_price}}</td>
+                                            <td>{{$cashProduct->product_amount * $cashProduct->product_price}}</td>
+                                            <td>{{$cashProduct->customer_name_first}} {{$cashProduct->customer_name_second}}</td>
+                                            <td>{{$cashProduct->address_name}}</td>
+                                            <td>{{$cashProduct->date_juchu}}</td>
+                                            <td style="text-align:center">
+                                                <a href="#"><span class="glyphicon glyphicon-ok" onclick="accept({{$i}}, {{$cashProduct->receipt_id}})" aria-hidden="true"></span></a>
+                                                <a href="#"><span class="glyphicon glyphicon-remove" onclick="decline({{$i}}, {{$cashProduct->receipt_id}})" aria-hidden="true"></span></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {{ Form::close() }}
             </div>
         </div>
     </div>        
@@ -140,69 +201,194 @@
         // });
     });
 
-    // function deleteConfirm(priduct_id) {
-    //     var answer = confirm('本当に削除しますか?');
-    //     if(!answer){
-    //         return;
-    //     }
-    //     removeProduct(priduct_id)
-    // }
+    function deleteConfirm(priduct_id) {
+        var answer = confirm('本当に削除しますか?');
+        if(!answer){
+            return;
+        }
+        removeProduct(priduct_id)
+    }
 
-    // $(function(){
-    //     var table = $('#datatable').DataTable({
-    //         destroy: true,
-    //         columnDefs: [
-    //             { "targets": 0, "className": "text-left", "width": "4%" },
-    //             { "targets": 1, "className": "text-left" },
-    //             { "targets": 2, "className": "text-right" },
-    //             { "targets": 3, "className": "text-right" },
-    //             { "targets": 4, "className": "text-center" },
-    //             { "targets": 5, "className": "text-center" },
-    //             { "targets": 6, "className": "text-center" },
-    //             { "targets": 7, "className": "text-center" },
-    //             { "targets": 8, "className": "text-center" }
-    //         ]
-    //     });
+    $('#btnSubmit').click(function() {
+        $('#reservation').prop('disabled', false);
+        $('#form_product_search').parsley();
+    });
 
-    //     showProducts();
-    // });
+    $(function(){
+        var table = $('#datatable').DataTable({
+            destroy: true,
+            columnDefs: [
+                {
+                    "targets": 0, // your case first column
+                    "className": "text-left",
+                    "width": "4%"
+                },
+                {
+                    "targets": 1,
+                    "className": "text-left",
+                },
+                {
+                    "targets": 2,
+                    "className": "text-right",
+                },
+                {
+                    "targets": 3,
+                    "className": "text-right",
+                },
+                {
+                    "targets": 4,
+                    "className": "text-center",
+                },
+                {
+                    "targets": 5,
+                    "className": "text-center",
+                },
+                {
+                    "targets": 6,
+                    "className": "text-center",
+                }
+            ]
+        });
 
-    // function showProducts() {
-    //     var table = $('#datatable').DataTable();
-    //     table.clear();
-    //     $.ajax( {
-    //         type: 'get',
-    //         url: '{{url('merchant/product/get_cash_on_delivery')}}' + "/" + $merchant_id,
-    //         success: function(data) {
-    //             for(var i = 0; i < data.length; i++) {
-    //                 table.row.add([i + 1, item.product_code, item.product_name, item.product_amount, item.product_price
-    //                     , item.product_amount * item.product_price, item.customer_name_first + ' ' + item.customer_name_second
-    //                     , item.address_name, item.address_name).draw( false );
-    //             }
-    //         }
-    //     });
-    // }
+        $('#duration_setting').val({{$duration_setting}});
+        updateDuration();
+    });
 
-    function accept(id, buy_history_id) {
+    $('#product_status').change(function() {
+        showProducts($('#product_status').val());
+    });
+
+    $('#duration_setting').change(function() {
+        updateDuration();
+    });
+
+    function updateDuration() {
+        duration_setting = $('#duration_setting').val();
+        $('#reservation').prop('disabled', true);
+
+        var today = new Date();
+
+        start_date = "";
+        end_date = "";
+
+        if (duration_setting == 0) {
+            start_date = getDateString(today);
+            end_date = getDateString(today);
+        } else if (duration_setting == 1) { // 本日
+            start_date = getDateString(today) + ' ' + '00:00:00';
+            end_date = getDateString(today) + ' ' + getTimeString(today);
+        } else if (duration_setting == 2) { // 今週
+            start_date = getThisWeekStartString(today) + ' ' + '00:00:00';
+            end_date = getDateString(today) + ' ' + getTimeString(today);
+        } else if (duration_setting == 3) { // 今月
+            start_date = getThisMonthStartString(today) + ' ' + '00:00:00';
+            end_date = getDateString(today) + ' ' + getTimeString(today);
+        } else if (duration_setting == 4) { // 先月
+            start_date = getPreviousMonthStartString(today) + ' ' + '00:00:00';
+            end_date = getPreviousMonthEndString(today) + ' ' + '23:59:59';
+        } else if (duration_setting == 5) { // 今年
+            start_date = getThisYearStartString(today) + ' ' + '00:00:00';
+            end_date = getDateString(today) + ' ' + getTimeString(today);
+        } else if (duration_setting == 6) { // 過去24時間
+            start_date = getBeforeDayString(today, 1) + ' ' + getTimeString(today);
+            end_date = getDateString(today) + ' ' + getTimeString(today);
+        } else if (duration_setting == 7) { // 過去1週間
+            start_date = getBeforeDayString(today, 7) + ' ' + getTimeString(today);
+            end_date = getDateString(today) + ' ' + getTimeString(today);
+        } else if (duration_setting == 8) { // 過去30日
+            start_date = getBeforeDayString(today, 30) + ' ' + getTimeString(today);
+            end_date = getDateString(today) + ' ' + getTimeString(today);
+        }
+        $('#reservation').val(start_date + ' - ' + end_date);
+
+        if (duration_setting == 9) { // カスタム
+            $('#reservation').prop('disabled', false);
+
+            start_date = getDateString(today);
+            end_date = getDateString(today);
+                
+            if ("{{$duration_range}}" == '') {
+                $('#reservation').val(start_date + ' - ' + end_date);
+            } else {
+                $('#reservation').val("{{$duration_range}}");
+            }    
+        }
+    }
+
+    function removeProduct(id) {
+        var table = $('#datatable').DataTable(); 
+        for (i = 0; i < table.rows().count(); i++) {
+            if (table.cell(i, 0).data() == id) {
+                table.row(i).remove().draw(false);
+                window.location = "{{ url('merchant/product/delete')}}" + "/" + id + "/" + $('#product_status').val();
+                return;
+            }
+        }
+    }
+
+    function getDateString(date) {
+        var dd = date.getDate();
+        var mm = date.getMonth()+1; //January is 0!
+        var yyyy = date.getFullYear();
+
+        if (dd < 10) { dd = '0' + dd } 
+        if (mm < 10) { mm = '0' + mm }
+
+        dateString = yyyy + '/' + mm + '/' + dd;
+        return dateString;
+    }
+    function getTimeString(date) {
+        var hh = date.getHours();
+        var MM = date.getMinutes();
+        var ss = date.getSeconds();
+
+        if (hh < 10) { hh = '0' + hh } 
+        if (MM < 10) { MM = '0' + MM } 
+        if (ss < 10) { ss = '0' + ss } 
+
+        timeString = hh + ':' + MM + ':' + ss;
+        return timeString;
+    }
+    function getThisWeekStartString(date) {
+        weekStartDay = moment(getDateString(date), 'YYYY/MM/DD').day();
+        return moment(getDateString(date), 'YYYY/MM/DD').add('days', - weekStartDay).format('YYYY/MM/DD');
+    }
+    function getThisMonthStartString(date) {
+        return moment(getDateString(date), 'YYYY/MM/01').format('YYYY/MM/DD');
+    }
+    function getPreviousMonthStartString(date) {
+        return moment(getDateString(date), 'YYYY/MM/01').add('months', - 1).format('YYYY/MM/DD');
+    }
+    function getPreviousMonthEndString(date) {
+        return moment(getDateString(date), 'YYYY/MM/01').add('days', - 1).format('YYYY/MM/DD');
+    }
+    function getThisYearStartString(date) {
+        return moment(getDateString(date), 'YYYY/01/01').format('YYYY/MM/DD');
+    }
+    function getBeforeDayString(date, dayCount) {
+        return moment(getDateString(date), 'YYYY/MM/DD').add('days', - dayCount).format('YYYY/MM/DD');
+    }
+
+    function accept(id, buy_history_id, product_count) {
         var table = $('#datatable').DataTable();
         
         $.ajax( {
             type: 'get',
             url: '{{url('merchant/product/accept_pay_shipping_delivery')}}' + "/" + buy_history_id,
             success: function(data) {
-                var cell = table.cell(id - 1, 8);
+                var cell = table.cell(id - 1, 9);
                 cell.data( 'Accepted' ).draw();
             }
         });
     }
 
-    function decline(id, buy_history_id) {
+    function decline(id, buy_history_id, product_count) {
         var table = $('#datatable').DataTable();
         $.ajax( {
             type: 'get',
             url: '{{url('merchant/product/decline_pay_shipping_delivery')}}' + "/" + buy_history_id,
             success: function(data) {
-                var cell = table.cell(id - 1, 8);
+                var cell = table.cell(id - 1, 9);
                 cell.data('Declined');
             }
         });

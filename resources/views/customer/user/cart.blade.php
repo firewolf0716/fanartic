@@ -37,8 +37,8 @@
             </div>
             <div class="l-column--cart__price u-pc">&yen;{{number_format($item->product_price_sale)}}</div>
             <div class="l-column--cart__quantity">
-                <input type="number" style="width:70px; margin-left:20px" class="c-form__input" value='{{$item->cart_amount}}' min='0' max='{{$item->product_count_1}}'
-                    onChange="onChangeCount(this, {{$item->product_count_1}})"/>
+                <input type="number" style="width:70px; margin-left:20px" class="c-form__input" value='{{$item->cart_amount}}' min='0' max='{{$item->product_count}}'
+                    onChange="onChangeCount(this, {{$item->product_count}})"/>
             </div>
             <div class="l-column--cart__button"><a class="c-button c-button--secondary" onClick="onRemove('{{$item->cart_id}}')">削除</a></div>
         </div>
