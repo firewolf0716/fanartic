@@ -176,13 +176,16 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/sold', 'MerchantproductController@merchant_product_sold');
 	Route::get('merchant/product/csvupload', 'MerchantproductController@merchant_product_csvupload');
 	Route::get('merchant/product/cash_on_delivery', 'MerchantproductController@merchant_product_cash_on_delivery');
-	Route::get('merchant/product/get_cash_on_delivery/{id}', 'MerchantproductController@get_cash_on_delivery');
+	Route::get('merchant/product/shipping', 'MerchantproductController@merchant_product_shipping');
 	Route::get('merchant/product/accept_pay_shipping_delivery/{id}', 'MerchantproductController@accept_pay_shipping_delivery');
 	Route::get('merchant/product/decline_pay_shipping_delivery/{id}', 'MerchantproductController@decline_pay_shipping_delivery');
+	Route::get('merchant/product/accept_sold_product/{id}', 'MerchantproductController@accept_sold_product');
+	Route::get('merchant/product/remove_solded_product/{id}', 'MerchantproductController@remove_solded_product');
 	Route::post('merchant/product/load_from_csv', 'MerchantproductController@importProductFromCSV');
 	Route::post('merchant/product/set_sku', 'MerchantproductController@merchant_product_set_sku');
 	Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
-
+	Route::post('merchant/product/search', 'MerchantproductController@merchant_search');
+	
 	Route::get('merchant/shipping/add', 'MerchantShippingController@merchant_shipping_add');
 	Route::post('merchant/shipping/addpost', 'MerchantShippingController@merchant_shipping_updatepost');
 	Route::get('merchant/shipping/list', 'MerchantShippingController@merchant_shipping_list');
@@ -240,6 +243,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	//order history
 	Route::get('user/history', 'CustomerController@history');
 	Route::get('user/historydetail/{group}', 'CustomerController@historydetail');
+	Route::get('user/history/receive/{item}', 'CustomerController@receiveitem');
 	//magazine
 	Route::get('user/magazine', 'CustomerController@magazine');
 	Route::post('user/magazine_post', 'CustomerController@magazine_post');

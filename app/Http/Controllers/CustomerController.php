@@ -534,7 +534,7 @@ class CustomerController extends Controller
         foreach($skucolor as $skucolor_id){
             $info = array();
             foreach($skusize as $skusize_id){
-                $skuvalue = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count_1;
+                $skuvalue = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count;
                 $skuprice = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_price_sale;
                 $info[$skusize_id->sku_id]['count'] = $skuvalue;
                 $info[$skusize_id->sku_id]['price'] = $skuprice;
@@ -661,6 +661,7 @@ class CustomerController extends Controller
     }
 
     public function profile(){
+        // dd(Hash::make('aaa'));
         $customerid = Session::get('customerid');
         $customer = Customers::get_customer($customerid)->first();
         $birth = $customer->customer_birthday;
@@ -970,7 +971,7 @@ class CustomerController extends Controller
         $customerid = Session::get('customerid');
         $entry = array(
             'customer_id' => $customerid,
-            'card_no' => Input::get('name'),
+            'card_no' => Input::get('no'),
             'card_token' => Input::get('token'),
             'card_owner' => Input::get('owner'),
             'card_validdate' => Input::get('year').'/'.Input::get('month')
@@ -989,11 +990,12 @@ class CustomerController extends Controller
         if(!Session::has('customerid')){
             return;
         }
+        // dd(Input::all());
         $customerid = Session::get('customerid');
         $cardid = Input::get('card_id');
         $entry = array(
             'customer_id' => $customerid,
-            'card_no' => Input::get('name'),
+            'card_no' => Input::get('no'),
             'card_token' => Input::get('token'),
             'card_owner' => Input::get('owner'),
             'card_validdate' => Input::get('year').'/'.Input::get('month')
@@ -1032,6 +1034,7 @@ class CustomerController extends Controller
 
     public function flow_post_ac(){
         $customerid = Session::get('customerid');
+        // dd(Input::all());
         $address = Input::get('address');
         if($address == 'addressNew'){
             $entry = array(
@@ -1050,18 +1053,22 @@ class CustomerController extends Controller
             Session::put('calc_address', $address);
         }
         $credit = Input::get('paymentCredit');
-        if($credit == 'creditnew'){
-            $entry = array(
-                'customer_id' => $customerid,
-                'card_no' => Input::get('card_no'),
-                'card_token' => Input::get('card_token'),
-                'card_owner' => Input::get('card_name'),
-                'card_validdate' => Input::get('card_year').'/'.Input::get('card_month')
-            );
-            $id = Customers::add_card($entry);
-            Session::put('calc_credit', $id);
+        if(Input::get('payment') == 'paypal'){
+            Session::put('calc_credit', 'paypal');
         } else {
-            Session::put('calc_credit', $credit);
+            if($credit == 'creditnew'){
+                $entry = array(
+                    'customer_id' => $customerid,
+                    'card_no' => Input::get('card_no'),
+                    'card_token' => Input::get('card_token'),
+                    'card_owner' => Input::get('card_name'),
+                    'card_validdate' => Input::get('card_year').'/'.Input::get('card_month')
+                );
+                $id = Customers::add_card($entry);
+                Session::put('calc_credit', $id);
+            } else {
+                Session::put('calc_credit', $credit);
+            }
         }
         return Redirect::to('user/checkflowconfirm');
     }
@@ -1086,7 +1093,12 @@ class CustomerController extends Controller
         $address = Session::get('calc_address');
         $credit = Session::get('calc_credit');
         $addrobj = Customers::get_address($address)->first();
-        $creditobj = Customers::get_card($credit)->first();
+
+        if($credit == 'paypal'){
+            $creditobj = 'paypal';
+        } else {
+            $creditobj = Customers::get_card($credit)->first();
+        }
 
         $total = Cart::getSum($customerid);
         return $this->layout_init(view('customer.checkflow.confirm'), 1)
@@ -1125,7 +1137,10 @@ class CustomerController extends Controller
                 'history_group' => $maxgroup,
                 'history_date' => date('Y/m/d H:i:s')
             );
-            Customers::add_history($entry);
+            $historyid = Customers::add_history($entry);
+
+            $receiptid = Customers::add_receipt($entry);
+            Customers::add_receipt_detail($entry, $historyid, $receiptid);
 
             $product = Products::get_product($item->cart_productid);
             date_default_timezone_set('Asia/Tokyo');
@@ -1145,11 +1160,9 @@ class CustomerController extends Controller
         Cart::clear_cart($customerid);
         //remove from stock
         foreach($cartitems as $item){
-            $remain = $item->product_count_1 - $item->cart_amount;
-            $remain2 = $item->product_count_2 + $item->cart_amount;
+            $remain = $item->product_count - $item->cart_amount;
             $entry = array(
-                'product_count_1' => $remain,
-                'product_count_2' => $remain2,
+                'product_count' => $remain
             );
             Customers::update_remain($item->product_id, $item->product_sku_color_id, $item->product_sku_size_id, $entry);
         }
@@ -1260,5 +1273,10 @@ class CustomerController extends Controller
         return $this->layout_init(view('customer.user.score'), 1)
                 ->with('totalscore', $totalscore)
                 ->with('scores', $scores);
+    }
+
+    public function receiveitem($itemid){
+        Customers::receive_item($itemid);
+        return Redirect::to('user/history');
     }
 }

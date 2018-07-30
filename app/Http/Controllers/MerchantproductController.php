@@ -226,12 +226,7 @@ class MerchantproductController extends Controller
             foreach($product_sku_sizes as $product_sku_size) {
                 $stock_info = array (
                     'product_id' => $productid,
-                    'product_count_1' => $storeCount,
-                    'product_count_2' => 0,
-                    'product_count_3' => 0,
-                    'product_count_4' => 0,
-                    'product_count_5' => 0,
-                    'product_count_6' => 0,
+                    'product_count' => $storeCount,
                     'product_merchant_id' => $merchant_id,
                     'product_sku_size_id' => $product_sku_size->sku_id,
                     'product_sku_color_id' => $product_sku_color->sku_id,
@@ -548,12 +543,7 @@ class MerchantproductController extends Controller
                 if (count($product_sku) == 0) {
                     $stock_info = array (
                         'product_id' => $productid,
-                        'product_count_1' => $storeCount,
-                        'product_count_2' => 0,
-                        'product_count_3' => 0,
-                        'product_count_4' => 0,
-                        'product_count_5' => 0,
-                        'product_count_6' => 0,
+                        'product_count' => $storeCount,
                         'product_merchant_id' => $merchant_id,
                         'product_sku_size_id' => $product_sku_size->sku_id,
                         'product_sku_color_id' => $product_sku_color->sku_id,
@@ -564,6 +554,17 @@ class MerchantproductController extends Controller
                         'product_price_law' => Input::get('product_price_law')
                     );
                     ProductStock::insert_product_stock($stock_info);
+                } else {
+                    $stock_info = array (
+                        'product_count' => $storeCount,
+                        'product_sku_size_id' => $product_sku_size->sku_id,
+                        'product_sku_color_id' => $product_sku_color->sku_id,
+                        'product_stock_update' => Input::get('update_date'),
+                        'product_price_sale' => Input::get('product_price_sale'),
+                        'product_price_ref' => Input::get('product_price_ref'),
+                        'product_price_law' => Input::get('product_price_law')
+                    );
+                    ProductStock::update_product_stock($product_sku[0]->product_stock_id, $stock_info);
                 }
             }
         }
@@ -589,15 +590,12 @@ class MerchantproductController extends Controller
         return $this->merchant_manage(1);
         // dd($this->merchant_product_manage_with_status(1));
     }
-    public function merchant_product_sold(){
-        return $this->merchant_manage(5);
-    }
     public function merchant_manage($product_status) {
-        return view('merchant.product.product_manage')->with('product_status', $product_status);
+        return view('merchant.product.product_store_manage')->with('product_status', $product_status);
     }
     public function merchant_product_manage_with_status($product_status) {
         $merchant_id = Session::get('merchantid');
-        $products = Products::get_products_manage($merchant_id, $product_status);
+        $products = Products::get_products_manage($merchant_id);
         
         foreach ($products as $product) {
             $master_images = Products::get_master_images($product->product_id);
@@ -722,27 +720,21 @@ class MerchantproductController extends Controller
         return $this->merchant_manage(1);
     }
 
-    public function merchant_product_cash_on_delivery() {
-        if (!Session::has('merchantid')) {
-            return Redirect::to('merchant/signin');
-        }
-
-        $merchant_id = Session::get('merchantid');
-        $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
-
-        return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
-            ->with('cashProducts', $cashProducts);
-    }
     public function accept_pay_shipping_delivery($id) {
-        Products::set_buy_product_status($id, 3);
+        Products::set_product_status($id, '3');
     }
     public function decline_pay_shipping_delivery($id) {
-        Products::set_buy_product_status($id, 1);
+        Products::set_product_status($id, '1');
     }
-
-
+    public function accept_sold_product($id) {
+        Products::set_product_status($id, '4');
+    }
+    public function remove_solded_product($id) {
+        Products::set_product_status($id, '5');
+    }
+    
     public function importProductFromCSV(){
-        $merchant_id = $this->check_merchant_session();
+        $merchant_id = $this->get_merchant_session_id();
         if ($merchant_id == 0) {
             return Redirect::to('merchant/signin');
         }
@@ -841,7 +833,7 @@ class MerchantproductController extends Controller
                     'postage_type' => $postage_type,
                     'postage' => $postage,
                     'delivery_id' => $delivery_id,
-                    'shipping_id' => $shipping_id,
+                    'shipping_id' => $data[34],
                     'product_color_1' => $product_color_1
                 );
                 $productid = Products::insert_product($entry);
@@ -887,12 +879,7 @@ class MerchantproductController extends Controller
                     foreach($product_sku_sizes as $product_sku_size) {
                         $stock_info = array (
                             'product_id' => $productid,
-                            'product_count_1' => $storeCount,
-                            'product_count_2' => 0,
-                            'product_count_3' => 0,
-                            'product_count_4' => 0,
-                            'product_count_5' => 0,
-                            'product_count_6' => 0,
+                            'product_count' => $storeCount,
                             'product_merchant_id' => $merchant_id,
                             'product_sku_size_id' => $product_sku_size->sku_id,
                             'product_sku_color_id' => $product_sku_color->sku_id,
@@ -953,4 +940,133 @@ class MerchantproductController extends Controller
         //     return $this->merchant_product_edit_sku($productid);
         // }
     }
+
+    public function merchant_product_cash_on_delivery() {
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $merchant_id = Session::get('merchantid');
+        // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
+        $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
+        
+        return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
+                                                            ->with('cashProducts', $cashProducts)
+                                                            ->with('product_status', '2')
+                                                            ->with('free_word', '')
+                                                            ->with('min_price', '')
+                                                            ->with('max_price', '')
+                                                            ->with('duration_setting', '0')
+                                                            ->with('duration_range', '');
+    }
+
+    public function merchant_product_shipping() {
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $merchant_id = Session::get('merchantid');
+        $cashProducts = Products::get_products_search($merchant_id, '3', '', '', '', '0', '');
+        
+        return view('merchant.product.product_shipping')->with('merchant_id', $merchant_id)
+                                                            ->with('cashProducts', $cashProducts)
+                                                            ->with('product_status', '3')
+                                                            ->with('free_word', '')
+                                                            ->with('min_price', '')
+                                                            ->with('max_price', '')
+                                                            ->with('duration_setting', '0')
+                                                            ->with('duration_range', '');
+    }
+    public function merchant_product_sold(){
+        if (!Session::has('merchantid')) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $merchant_id = Session::get('merchantid');
+        $cashProducts = Products::get_products_search($merchant_id, '4', '', '', '', '0', '');
+        
+        return view('merchant.product.product_sold')->with('merchant_id', $merchant_id)
+                                                            ->with('cashProducts', $cashProducts)
+                                                            ->with('product_status', '4')
+                                                            ->with('free_word', '')
+                                                            ->with('min_price', '')
+                                                            ->with('max_price', '')
+                                                            ->with('duration_setting', '0')
+                                                            ->with('duration_range', '');
+    }
+
+    public function merchant_search() {
+        $merchant_id = $this->get_merchant_session_id();
+        if ($merchant_id == 0) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $product_status = '2';
+        $free_word = '';
+        $min_price = '';
+        $max_price = '';
+        $duration_setting = '0';
+        $duration_range = '';
+
+        if(Input::has('product_status')) {
+            $product_status = Input::get('product_status');
+        }
+        if(Input::has('free_word')) {
+            $free_word = Input::get('free_word');
+        }
+        if(Input::has('min_price')) {
+            $min_price = Input::get('min_price');
+        }
+        if(Input::has('max_price')) {
+            $max_price = Input::get('max_price');
+        }
+        if(Input::has('duration_setting')) {
+            $duration_setting = Input::get('duration_setting');
+        }
+        if(Input::has('duration_range')) {
+            $duration_range = Input::get('duration_range');
+        }
+        
+        $cashProducts = Products::get_products_search($merchant_id, $product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range);
+        
+        if ( $product_status == '2') {
+            return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
+                                                                ->with('cashProducts', $cashProducts)
+                                                                ->with('product_status', $product_status)
+                                                                ->with('free_word', $free_word)
+                                                                ->with('min_price', $min_price)
+                                                                ->with('max_price', $max_price)
+                                                                ->with('duration_setting', $duration_setting)
+                                                                ->with('duration_range', $duration_range);
+        } else {
+            return;
+        }
+    }
+        
+    // public function gotoMerchantSearch($product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range) {
+    //     $merchant_id = $this->get_merchant_session_id();
+    //     if ($merchant_id == 0) {
+    //         return Redirect::to('merchant/signin');
+    //     }
+
+    //     $products = Products::get_products_search($merchant_id, $product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range);
+        
+    //     foreach ($products as $product) {
+    //         $master_images = Products::get_master_images($product->product_id);
+    //         if (count($master_images) == 0) {
+    //             $master_images = '';
+    //         }
+    //         $product->product_images = $master_images;
+    //     }
+
+    //     return Redirect::to('merchant/product/manage')->with('product_status', $product_status)
+    //                                                 ->with('free_word', $free_word)
+    //                                                 ->with('min_price', $min_price)
+    //                                                 ->with('max_price', $max_price)
+    //                                                 ->with('duration_setting', $duration_setting)
+    //                                                 ->with('duration_range', $duration_range)
+    //                                                 ->with('products', $products);
+    // }
+    
+    
 }

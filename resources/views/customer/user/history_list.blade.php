@@ -34,6 +34,15 @@
                     </div>
                     <!--/.c-item__column__figure-->
                     <div class="c-item__column__data">
+                        @if($subitem->history_status == 2)
+                            <a href="#">ステータス:未発送</a>
+                        @elseif($subitem->history_status == 3)
+                            <a href="{{url('user/history/receive/'.$subitem->id)}}">ステータス:発送</a>
+                        @elseif($subitem->history_status == 1)
+                            <a href="#">ステータス:拒否</a>
+                        @elseif($subitem->history_status == 4)
+                            <a href="#">ステータス:完了</a>
+                        @endif
                         <h3 class="c-item__name">{{$subitem->brand_name}}</h3>
                         <ul class="c-item__data">
                         <li>{{$subitem->product_name}}</li>

@@ -69,7 +69,13 @@
         <h3 class="c-box__hd">お支払い方法</h3>
         <div class="c-box__content">
             <div class="l-column l-column--list l-column--top">
-            <div class="l-column--list__data">カード番号：{{str_repeat('*', 12).$creditobj->card_token}}<br>有効期限：{{$creditobj->card_validdate}}</div>
+            <div class="l-column--list__data">
+                @if($creditobj == 'paypal')
+                    <img src="{{url('')}}/images/checkout__payment--paypal.png" alt="PayPal" width="135">
+                @else
+                    カード番号：{{str_repeat('*', 12).$creditobj->card_token}}<br>有効期限：{{$creditobj->card_validdate}}
+                @endif
+            </div>
             <!--/.l-column--list__data-->
             </div>
             <!--/.l-column l-column--list-->

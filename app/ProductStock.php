@@ -16,6 +16,15 @@ class ProductStock extends Model
         }
     }
 
+    public static function update_product_stock($product_stock_id, $entry) {
+        $check_insert = DB::table('fan_product_stock_management')->where('product_stock_id', $product_stock_id)->update($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+
     public static function get($merchant_id) {
         DB::table('fan_product_stock_management')->where('product_merchant_id', $merchant_id)
                                             ->leftJoin('master_color', 'master_color.color_id', 'product_merchant_id.product_sku_color_id')

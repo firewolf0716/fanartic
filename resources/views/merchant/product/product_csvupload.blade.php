@@ -4,9 +4,6 @@
 
 @section('content')
 
-
-
-
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">

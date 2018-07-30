@@ -150,108 +150,113 @@
             <h3 class="c-box__hd">お支払い方法を選択</h3>
             <div class="c-box__content" data-checkopen="payment">
                 <div class="c-form__row" data-checkopen__list="payment">
-                <div class="c-form__checkswitch"><label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="payment"><input type="radio" name="payment" value="credit" checked=""><i></i>クレジットカード</label>
-                    <div class="c-form__checkswitch__inner" data-checkopen__list__content="payment" data-checkopen="credit">
-                    @foreach($cards as $key => $card)                
-                    <div class="c-form__row" data-checkopen__list="credit">
-                        <div class="l-column l-column--list-left">
-                        <div class="l-column--list-left__col">
-                            <div class="c-form__checkswitch">
-                                <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="credit">
-                                    <input type="radio" name="paymentCredit" value="{{$card->id}}" 
-                                    @if($key == 0)
-                                    checked
-                                    @endif
-                                    ><i></i>{{$card->card_owner}}
-                                </label>
+                    <div class="c-form__checkswitch">
+                        <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="payment">
+                            <input type="radio" name="payment" value="credit" checked=""><i></i>クレジットカード
+                        </label>
+                        <div class="c-form__checkswitch__inner" data-checkopen__list__content="payment" data-checkopen="credit">
+                            @foreach($cards as $key => $card)                
+                            <div class="c-form__row" data-checkopen__list="credit">
+                                <div class="l-column l-column--list-left">
+                                <div class="l-column--list-left__col">
+                                    <div class="c-form__checkswitch">
+                                        <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="credit">
+                                            <input type="radio" name="paymentCredit" value="{{$card->id}}" 
+                                            @if($key == 0)
+                                            checked
+                                            @endif
+                                            ><i></i>{{$card->card_owner}}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="l-column--list-left__col">{{str_repeat('*', 12).$card->card_token}}</div>
+                                <div class="l-column--list-left__col">{{$card->card_validdate}}</div>
+                                </div>
+                                <!--/.l-column l-column--list-left-->
                             </div>
-                        </div>
-                        <div class="l-column--list-left__col">{{str_repeat('*', 12).$card->card_token}}</div>
-                        <div class="l-column--list-left__col">{{$card->card_validdate}}</div>
-                        </div>
-                        <!--/.l-column l-column--list-left-->
-                    </div>
-                    <!--/.c-form__row-->
-                    @endforeach
-                    <div data-checkopen__list="credit">
-                        <div class="c-form__row">
-                            <div class="c-form__checkswitch">
-                                <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="credit">
-                                    <input type="radio" name="paymentCredit" value="creditnew"><i></i>別のカードを追加
-                                </label>
-                            </div>
-                        </div>
-                        <!--/.c-form__row-->
-                        <div data-checkopen__list__content="credit">
-                        <div class="c-form__row">
-                            <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
-                            <div class="l-column--half__col">
-                                <div class="c-form__label">カード番号</div>
-                                <div class="c-form__row"><input type="text" class="c-form__input" name="card_no" value=""></div>
-                                <!--/.c-form__row-->
-                            </div>
-                            <div class="l-column--half__col">
-                                <div class="c-form__label">カード名義</div>
-                                <div class="c-form__row"><input type="text" class="c-form__input" name="card_name" value=""></div>
-                                <!--/.c-form__row-->
-                            </div>
-                            </div>
-                            <!--/.l-column l-column--half-->
-                        </div>
-                        <!--/.c-form__row-->
-                        <div class="c-form__row">
-                            <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
-                            <div class="l-column--half__col">
-                                <div class="c-form__label">有効期限</div>
+                            <!--/.c-form__row-->
+                            @endforeach
+                            <div data-checkopen__list="credit">
                                 <div class="c-form__row">
-                                    <div class="c-form__row__input">
-                                        <label class="c-form__select c-form__select--birthday--year">
-                                            <span class="c-form__select__box">
-                                                <select name="card_year" id="">
-                                                    @for($i = 2018; $i <= 2022; $i++)
-                                                    <option value="{{$i}}">{{$i}}</option>
-                                                    @endfor
-                                                </select>
-                                            </span>
-                                            <span class="u-pc">年</span>
-                                        </label> 
-                                        <label class="c-form__select c-form__select--birthday--month02">
-                                            <span class="c-form__select__box">
-                                                <select name="card_month" id="">
-                                                    @for($i = 1; $i <= 12; $i++)
-                                                    <option value="{{$i}}">{{$i}}</option>
-                                                    @endfor
-                                                </select>
-                                            </span>
-                                            <span class="u-pc">月</span>
+                                    <div class="c-form__checkswitch">
+                                        <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="credit">
+                                            <input type="radio" name="paymentCredit" value="creditnew"><i></i>別のカードを追加
                                         </label>
                                     </div>
                                 </div>
                                 <!--/.c-form__row-->
-                            </div>
-                            <div class="l-column--half__col">
-                                <div class="c-form__label">セキュリティ番号</div>
-                                <div class="c-form__row"><input type="text" class="c-form__input c-form__input--tel" name="card_token" value=""></div>
+                                <div data-checkopen__list__content="credit">
+                                <div class="c-form__row">
+                                    <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
+                                    <div class="l-column--half__col">
+                                        <div class="c-form__label">カード番号</div>
+                                        <div class="c-form__row"><input type="text" class="c-form__input" name="card_no" value=""></div>
+                                        <!--/.c-form__row-->
+                                    </div>
+                                    <div class="l-column--half__col">
+                                        <div class="c-form__label">カード名義</div>
+                                        <div class="c-form__row"><input type="text" class="c-form__input" name="card_name" value=""></div>
+                                        <!--/.c-form__row-->
+                                    </div>
+                                    </div>
+                                    <!--/.l-column l-column--half-->
+                                </div>
                                 <!--/.c-form__row-->
+                                <div class="c-form__row">
+                                    <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
+                                    <div class="l-column--half__col">
+                                        <div class="c-form__label">有効期限</div>
+                                        <div class="c-form__row">
+                                            <div class="c-form__row__input">
+                                                <label class="c-form__select c-form__select--birthday--year">
+                                                    <span class="c-form__select__box">
+                                                        <select name="card_year">
+                                                            @for($i = 2018; $i <= 2022; $i++)
+                                                            <option value="{{$i}}">{{$i}}</option>
+                                                            @endfor
+                                                        </select>
+                                                    </span>
+                                                    <span class="u-pc">年</span>
+                                                </label> 
+                                                <label class="c-form__select c-form__select--birthday--month02">
+                                                    <span class="c-form__select__box">
+                                                        <select name="card_month">
+                                                            @for($i = 1; $i <= 12; $i++)
+                                                            <option value="{{$i}}">{{$i}}</option>
+                                                            @endfor
+                                                        </select>
+                                                    </span>
+                                                    <span class="u-pc">月</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!--/.c-form__row-->
+                                    </div>
+                                    <div class="l-column--half__col">
+                                        <div class="c-form__label">セキュリティ番号</div>
+                                        <div class="c-form__row"><input type="text" class="c-form__input c-form__input--tel" name="card_token" value=""></div>
+                                        <!--/.c-form__row-->
+                                    </div>
+                                    </div>
+                                    <!--/.l-column l-column--half-->
+                                </div>
+                                <!--/.c-form__row-->
+                                </div>
+                                <!--/data-checkopen__list-->
                             </div>
-                            </div>
-                            <!--/.l-column l-column--half-->
+                        <!--/data-checkopen-->
                         </div>
-                        <!--/.c-form__row-->
-                        </div>
-                        <!--/data-checkopen__list-->
+                        <!--/.c-form__checkswitch__inner-->
                     </div>
-                    <!--/data-checkopen-->
-                    </div>
-                    <!--/.c-form__checkswitch__inner-->
-                </div>
                 </div>
                 <!--/.c-form__row-->
                 <div class="c-form__row" data-checkopen__list="payment">
-                <div class="c-form__checkswitch">
-                    <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="payment">
-                        <input type="radio" name="paymentCredit" value="paypal"><i></i>
-                        <img src="{{url('')}}/images/checkout__payment--paypal.png" alt="PayPal" width="135"></label></div>
+                    <div class="c-form__checkswitch">
+                        <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="payment">
+                            <input type="radio" name="payment" value="paypal"><i></i>
+                            <img src="{{url('')}}/images/checkout__payment--paypal.png" alt="PayPal" width="135">
+                        </label>
+                    </div>
                 </div>
                 <!--/.c-form__row-->
             </div>
@@ -266,7 +271,7 @@
         <table class="cart__shipping__data">
             <tr>
             <td>商品合計</td>
-            <td class="cart__shipping__data__price">￥{{$total['sum']}}</td>
+            <td class="cart__shipping__data__price">￥{{number_format($total['sum'])}}</td>
             </tr>
             <tr>
             <td>送料</td>
@@ -280,7 +285,7 @@
         <table class="cart__shipping__data cart__shipping__data--total">
             <tr>
             <td>合計</td>
-            <td class="cart__shipping__data__price cart__shipping__price"><strong>¥{{$total['sum']}}</strong></td>
+            <td class="cart__shipping__data__price cart__shipping__price"><strong>¥{{number_format($total['sum'])}}</strong></td>
             </tr>
         </table>
         <div class="cart__shipping__button"><a class="c-button c-button--submit c-button--full" onClick="onSubmit()">次へ進む</a></div>

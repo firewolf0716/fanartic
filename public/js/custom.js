@@ -1764,7 +1764,11 @@ if (typeof NProgress != 'undefined') {
 			if( typeof ($.fn.daterangepicker) === 'undefined'){ return; }
 			console.log('init_daterangepicker_reservation');
 		 
-			$('#reservation').daterangepicker(null, function(start, end, label) {
+			$('#reservation').daterangepicker({
+				locale: {
+					format: 'YYYY/MM/DD'
+				}
+			}, function(start, end, label) {
 			  console.log(start.toISOString(), end.toISOString(), label);
 			});
 
@@ -1772,7 +1776,7 @@ if (typeof NProgress != 'undefined') {
 			  timePicker: true,
 			  timePickerIncrement: 30,
 			  locale: {
-				format: 'MM/DD/YYYY h:mm A'
+				format: 'YYYY/MM/DD h:mm A'
 			  }
 			});
 	

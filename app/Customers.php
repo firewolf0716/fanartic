@@ -6,6 +6,8 @@ use DB;
 use Hash;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Products;
+
 class Customers extends Model
 {
     public static function check_login($uname, $pwd){
@@ -355,5 +357,169 @@ class Customers extends Model
 
     public static function get_score($customerid){
         return DB::table('customer_scoresum')->where('customer_id', $customerid)->sum('scoresum_value');
+    }
+
+    public static function add_entry($tablename, $entry){
+        $check_insert = DB::table($tablename)->insert($entry);
+        if ($check_insert) {
+            return DB::getPdo()->lastInsertId();
+        } else {
+            return 0;
+        }
+    }
+
+    public static function add_receipt_detail($entry, $historyid, $receiptid){
+        //save product
+        $product = Products::get_product($entry['history_productid']);
+        $product_entry =  array(
+            'product_id' => $product->product_id,
+            'product_salemethod' => $product->product_salemethod,
+            'product_salerange' => $product->product_salerange,
+            'product_brand_id' => $product->product_brand_id,
+            'product_category_id' => $product->product_category_id,
+            'product_event' => $product->product_event,
+            'product_code' => $product->product_code,
+            'product_name' => $product->product_name,
+            'product_name_kana' => $product->product_name_kana,
+            'product_name_detail' => $product->product_name_detail,
+            'product_taxflag' => $product->product_taxflag,
+            'product_old_status' => $product->product_old_status,
+            'product_color' => $product->product_color,
+            'product_size' => $product->product_size,
+            'product_weight' => $product->product_weight,
+            'product_season' => $product->product_season,
+            'product_place' => $product->product_place,
+            'product_material' => $product->product_material,
+            'product_memo' => $product->product_memo,
+            'product_status' => $product->product_status,
+            'product_parent_id' => $product->product_parent_id,
+            'product_merchant_id' => $product->product_merchant_id,
+            'stock_type' => $product->stock_type,
+            'max_order_count' => $product->max_order_count,
+            'postage_type' => $product->postage_type,
+            'postage' => $product->postage,
+            'delivery_id' => $product->delivery_id,
+            'shipping_id' => $product->shipping_id,
+            'product_color_1' => $product->product_color_1
+        );
+        $product_id = Customers::add_entry('receipt_product', $product_entry);
+        //save stock
+        $stock = ProductStock::get_for_product($entry['history_productid'], $entry['history_skucolorid'], $entry['history_skusizeid'])->first();
+        $stock_entry = array (
+            'product_id' => $stock->product_id,
+            'product_count' => $stock->product_count,
+            'product_merchant_id' => $stock->product_merchant_id,
+            'product_sku_size_id' => $stock->product_sku_size_id,
+            'product_sku_color_id' => $stock->product_sku_color_id,
+            'product_stock_create' => $stock->product_stock_create,
+            'product_stock_update' => $stock->product_stock_update,
+            'product_price_sale' => $stock->product_price_sale,
+            'product_price_ref' => $stock->product_price_ref,
+            'product_price_law' => $stock->product_price_law
+        );
+        $stockid = Customers::add_entry('receipt_stock', $stock_entry);
+
+        $detailentry = array(
+            'receipt_id' => $receiptid,
+            'history_id' => $historyid,
+            'stock_id' => $stock->product_stock_id,
+            'product_data' => $product_id,
+            'stock_data' => $stockid,
+            'product_amt' => $entry['history_amount'],
+            'tax_flag' => $product->product_taxflag,
+            'tax_rate' => '8.0'
+        );
+        Customers::add_entry('receipt_detail', $detailentry);
+    }
+
+    public static function add_receipt($entry){
+        //save address
+        $address = DB::table('customer_address')->where('id', $entry['history_address'])->get()->first();
+        $address_entry = array(
+            'address_name' => $address->address_name,
+            'address_phone' => $address->address_phone,
+            'address_postalcode' => $address->address_postalcode,
+            'address_state' => $address->address_state,
+            'address_city' => $address->address_city,
+            'address_address_ex' => $address->address_address_ex,
+            'address_province' => $address->address_province,
+            'address_county' => $address->address_county,
+            'address_address_jp' => $address->address_address_jp
+        );
+        $address_id = Customers::add_entry("receipt_address", $address_entry);
+        //save credit card
+        $card = DB::table('customer_card')->where('id', $entry['history_card'])->get()->first();
+        // dd($card);
+        $card_entry = array();
+        if($entry['history_card'] == 'paypal'){
+            $card_entry = array(
+                'card_no' => 'paypal'
+            );
+        } else {
+            $card_entry = array(
+                'card_no' => $card->card_no,
+                'card_token' => $card->card_token,
+                'card_owner' => $card->card_owner,
+                'card_validdate' => $card->card_validdate
+            );
+        }
+        $card_id = Customers::add_entry("receipt_card", $card_entry);
+        //save profile
+        $profile = Customers::get_customer($entry['history_customerid'])->first();
+        $customer_entry = array(
+            'customer_name_first' => $profile->customer_name_first,
+            'customer_name_second' =>  $profile->customer_name_second,
+            'customer_name_kana_first' =>  $profile->customer_name_kana_first,
+            'customer_name_kana_second' =>  $profile->customer_name_kana_second,
+            'customer_gender' =>  $profile->customer_gender,
+            'customer_birthday' =>  $profile->customer_birthday,
+            'customer_postalcode' =>  $profile->customer_postalcode,
+            'customer_province' =>  $profile->customer_province,
+            'customer_county' =>  $profile->customer_county,
+            'customer_address_jp' =>  $profile->customer_address_jp,
+            'customer_phone' =>  $profile->customer_phone,
+            'customer_email' =>  $profile->customer_email,
+            'customer_status' =>  $profile->customer_status
+        );
+        $profile_id = Customers::add_entry('receipt_customer', $customer_entry);
+        
+        $product = Products::get_product($entry['history_productid']);
+        //save devliery setting
+        $delivery = MerchantShipping::get_merchant_shipping($product->product_merchant_id, $product->shipping_id);
+        $delivery_entry =  array(
+            'merchant_id' => $delivery->merchant_id,
+            'shipping_state' =>  $delivery->shipping_state,
+            'shipping_name' =>  $delivery->shipping_name,
+            'shipping_name_en' =>  $delivery->shipping_name_en,
+            'shipping_start_position' =>  $delivery->shipping_start_position,
+            'shipping_memo' =>  $delivery->shipping_memo,
+            'shipping_min_duration' =>  $delivery->shipping_min_duration,
+            'shipping_max_duration' =>  $delivery->shipping_max_duration,
+            'shipping_status' =>  $delivery->shipping_status,
+            'shipping_default' =>  $delivery->shipping_default,
+            'shipping_limit_date' =>  $delivery->shipping_limit_date,
+            'shipping_limit_duration' =>  $delivery->shipping_limit_duration
+        );
+        $delivery_id = Customers::add_entry('receipt_shipping', $delivery_entry);
+        date_default_timezone_set('Asia/Tokyo');
+        $receipt_entry = array(
+            'merchant_id' => $entry['history_merchantid'],
+            'customer_id' => $entry['history_customerid'],
+            'profile_data' => $profile_id,
+            'address_data' => $address_id,
+            'shipping_data' => $delivery_id,
+            'credit_data' => $card_id,
+            'date_juchu' => date('Y/m/d H:i:s'),
+            'status' => '2',
+            'create_date' => date('Y/m/d H:i:s'),
+            'update_date' => date('Y/m/d H:i:s')
+        );
+        return Customers::add_entry('receipts', $receipt_entry);
+    }
+
+    public static function receive_item($historyid){
+        DB::table('customer_buy_history')->where('id', $historyid)->update(['history_status' => 4]);
+        $receipt_id = DB::table('receipt_detail')->where('history_id', $historyid)->get()->first()->receipt_id;
+        DB::table('receipts')->where('id', $receipt_id)->update(['status' => 4]);
     }
 }

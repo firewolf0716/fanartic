@@ -43,9 +43,9 @@ class Products extends Model{
         return DB::table('fan_product')->where('product_id', '=', $id)->update($entry);
     }
 
-    public static function get_products_manage($merchant, $product_exist_status = 1, $sub_category_id = '0', $brand_id = '0') {
+    public static function get_products_manage($merchant, $sub_category_id = '0', $brand_id = '0') {
         $query = "SELECT fan_product.product_id, fan_product.product_name, fan_product_stock_management.product_price_sale
-            , fan_product.product_status, fan_product_stock_management.product_count_$product_exist_status as product_count, fan_product.stock_type
+            , fan_product.product_status, fan_product_stock_management.product_count as product_count, fan_product.stock_type
              FROM (SELECT * FROM fan_product WHERE product_merchant_id = '$merchant'";
         if ($sub_category_id != '0') {
             $query .= " AND product_category_id = '$sub_category_id'";
@@ -61,7 +61,7 @@ class Products extends Model{
         $products = DB::select($query);
 
         foreach ($products as $product) {
-            $query = "SELECT SUM(product_count_$product_exist_status) as product_count
+            $query = "SELECT SUM(product_count) as product_count
              FROM fan_product_stock_management WHERE product_id = '$product->product_id'";
             $product_count = DB::select($query)[0]->product_count;
             $product->product_count = $product_count;
@@ -81,7 +81,7 @@ class Products extends Model{
         }
     
         return $products;
-    }
+    }    
 
     public static function delete_product($id){
         return DB::table('fan_product')->where('product_id', $id)->delete();
@@ -99,7 +99,7 @@ class Products extends Model{
             ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
             ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
             ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
-            ->where('fan_product_stock_management.product_count_1', '>' , '0')
+            ->where('fan_product_stock_management.product_count', '>' , '0')
             ->select('fan_product.*', 
                 'color.sku_type AS color_sku', 
                 'color.sku_type_id AS color_id', 
@@ -155,7 +155,7 @@ class Products extends Model{
                 ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
                 ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
                 ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
-                ->where('fan_product_stock_management.product_count_1', '>' , '0')
+                ->where('fan_product_stock_management.product_count', '>' , '0')
                 ->where('fan_product.product_brand_id', $brandid)
                 ->select('fan_product.*', 
                     'color.sku_type AS color_sku', 
@@ -201,7 +201,7 @@ class Products extends Model{
                 ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
                 ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')
                 ->leftJoin('fan_product_sku AS size', 'fan_product_stock_management.product_sku_size_id', '=', 'size.sku_id')
-                ->where('fan_product_stock_management.product_count_1', '>' , '0')
+                ->where('fan_product_stock_management.product_count', '>' , '0')
                 ->select('fan_product.*', 
                     'color.sku_type AS color_sku', 
                     'color.sku_type_id AS color_id', 
@@ -297,8 +297,7 @@ class Products extends Model{
             ->update(['image_name' => $image_path]);
     }
     public static function get_product_stock_full_info($product_id) {
-        $query = "SELECT stock_table.product_stock_id, stock_table.product_id, stock_table.product_count_1, stock_table.product_count_2, stock_table.product_count_3, stock_table.product_count_4
-                , stock_table.product_count_5, stock_table.product_count_6, stock_table.product_price_sale, stock_table.product_price_ref, stock_table.product_price_law
+        $query = "SELECT stock_table.product_stock_id, stock_table.product_id, stock_table.product_count, stock_table.product_price_sale, stock_table.product_price_ref, stock_table.product_price_law
                 , stock_table.product_count_endless, color_table.color_name, size_table.size_name
                  FROM (SELECT * FROM fan_product_stock_management WHERE product_id = '$product_id') AS stock_table
                  LEFT JOIN fan_product_sku AS color_sku_table ON stock_table.product_sku_color_id = color_sku_table.sku_id
@@ -316,7 +315,7 @@ class Products extends Model{
     public static function set_stock_info($product_stock_id, $product_count, $product_count_endless, $product_price_sale, $product_price_ref, $product_price_law) {
         return DB::table('fan_product_stock_management')
             ->where('product_stock_id', $product_stock_id)
-            ->update(['product_count_1' => $product_count,
+            ->update(['product_count' => $product_count,
                     'product_count_endless' => $product_count_endless,
                     'product_price_sale' => $product_price_sale,
                     'product_price_ref' => $product_price_ref,
@@ -339,26 +338,105 @@ class Products extends Model{
         return $img;
     }
 
-    public static function get_cash_on_delivery_products($merchant_id) {
-        $query = "SELECT customer_buy_history.id AS buy_history_id, customer_buy_history.history_amount AS product_amount
-                    , customer_buy_history.history_price AS product_price, customer_buy_history.history_date AS request_date
-                    , master_color.color_name, master_size.size_name, fan_product.product_name, fan_product.product_code
-                    , customer_address.address_name, customers.customer_name_first, customers.customer_name_second, customers.customer_email
-                    , customers.customer_phone, customers.customer_postalcode, customers.customer_gender, customers.customer_birthday
-                    FROM (SELECT * FROM customer_buy_history WHERE history_status = '2' AND history_merchantid = '$merchant_id') AS customer_buy_history
-                     LEFT JOIN fan_product_sku AS sku_color ON sku_color.sku_id = customer_buy_history.history_skucolorid
-                     LEFT JOIN master_color ON master_color.color_id = sku_color.sku_type_id
-                     LEFT JOIN fan_product_sku AS sku_size ON sku_size.sku_id = customer_buy_history.history_skusizeid
-                     LEFT JOIN master_size ON master_size.size_id = sku_size.sku_type_id
-                     LEFT JOIN fan_product ON fan_product.product_id = customer_buy_history.history_productid
-                     LEFT JOIN customer_address ON customer_address.id = customer_buy_history.history_address
-                     LEFT JOIN customers ON customers.customer_id = customer_buy_history.history_customerid";
-            $stocks = DB::select($query);
-            return $stocks; 
-    }
-    public static function set_buy_product_status($id, $status) {
-        return DB::table('customer_buy_history')
+    // public static function get_cash_on_delivery_products($merchant_id) {
+    //     $query = "SELECT customer_buy_history.id AS buy_history_id, customer_buy_history.history_amount AS product_amount
+    //                 , customer_buy_history.history_price AS product_price, customer_buy_history.history_date AS request_date
+    //                 , master_color.color_name, master_size.size_name, fan_product.product_name, fan_product.product_code
+    //                 , customer_address.address_name, customers.customer_name_first, customers.customer_name_second, customers.customer_email
+    //                 , customers.customer_phone, customers.customer_postalcode, customers.customer_gender, customers.customer_birthday
+    //                 FROM (SELECT * FROM customer_buy_history WHERE history_status = '2' AND history_merchantid = '$merchant_id') AS customer_buy_history
+    //                  LEFT JOIN fan_product_sku AS sku_color ON sku_color.sku_id = customer_buy_history.history_skucolorid
+    //                  LEFT JOIN master_color ON master_color.color_id = sku_color.sku_type_id
+    //                  LEFT JOIN fan_product_sku AS sku_size ON sku_size.sku_id = customer_buy_history.history_skusizeid
+    //                  LEFT JOIN master_size ON master_size.size_id = sku_size.sku_type_id
+    //                  LEFT JOIN fan_product ON fan_product.product_id = customer_buy_history.history_productid
+    //                  LEFT JOIN customer_address ON customer_address.id = customer_buy_history.history_address
+    //                  LEFT JOIN customers ON customers.customer_id = customer_buy_history.history_customerid";
+    //         $stocks = DB::select($query);
+    //         return $stocks; 
+    // }
+    public static function set_product_status($id, $status) {
+        if ($status == 1) {
+            $query = "SELECT * FROM (SELECT * FROM receipts WHERE id = '$id') AS receipts
+                INNER JOIN receipt_detail ON receipt_detail.receipt_id = receipts.id
+                INNER JOIN receipt_stock  ON receipt_stock.id = receipt_detail.stock_data
+                INNER JOIN receipt_product ON receipt_product.id = receipt_detail.product_data
+                INNER JOIN fan_product_stock_management ON fan_product_stock_management.product_id = receipt_product.product_id 
+                AND fan_product_stock_management.product_sku_color_id = receipt_stock.product_sku_color_id 
+                AND fan_product_stock_management.product_sku_size_id = receipt_stock.product_sku_size_id";
+            $product = DB::select($query)[0];
+
+            DB::table('fan_product_stock_management')
+                ->where('product_stock_id', $product->product_stock_id)
+                ->update(['product_count' => $product->product_count + $product->product_amt]);
+        }
+
+        $history_id = DB::table('receipts')->where('id', $id)->leftJoin('receipt_detail', 'receipt_detail.receipt_id', 'receipts.id')->get()->first()->history_id;
+        DB::table('customer_buy_history')->where('id', $history_id)->update(['history_status' => $status]);
+        return DB::table('receipts')
             ->where('id', $id)
-            ->update(['history_status' => $status]);
+            ->update(['status' => $status]);
+    }
+
+    public static function get_products_search($merchant_id, $product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range) {
+        $query = "SELECT receipts.id AS receipt_id, receipt_product.product_id AS product_id
+            , master_color.color_name, master_size.size_name, receipt_product.product_name, receipt_product.product_code
+            , receipts.date_juchu as date_juchu, receipts.date_pay as date_pay, receipts.date_delivery as date_delivery
+            , receipt_detail.product_amt as product_amount, receipt_detail.tax_flag as tax_flag
+            , receipt_detail.tax_rate as tax_rate, receipt_stock.product_price_sale as product_price
+            , receipt_address.address_name, receipt_customer.customer_name_first, receipt_customer.customer_name_second, receipt_customer.customer_email
+            , receipt_customer.customer_phone, receipt_customer.customer_postalcode, receipt_customer.customer_gender, receipt_customer.customer_birthday
+             FROM (SELECT * FROM receipts WHERE status = '$product_status' AND merchant_id = '$merchant_id'";
+        if ($duration_setting != "0") {
+            $duration_range_array = explode(" - ", $duration_range);
+
+            if ($product_status == "2") {
+                $query .= " AND date_juchu >= '$duration_range_array[0]'";
+                $query .= " AND date_juchu <= '$duration_range_array[1]'";
+            } else if ($product_status == "3") {
+                $query .= " AND date_delivery >= '$duration_range_array[0]'";
+                $query .= " AND date_delivery <= '$duration_range_array[1]'";
+            } else if ($product_status == "4") {
+                $query .= " AND date_pay >= '$duration_range_array[0]'";
+                $query .= " AND date_pay <= '$duration_range_array[1]'";
+            }           
+        }
+      
+        $query .= ") AS receipts
+             INNER JOIN receipt_detail ON receipt_detail.receipt_id = receipts.id
+             INNER JOIN receipt_product ON receipt_product.id = receipt_detail.product_data
+             INNER JOIN ";
+        if ($min_price == "" && $max_price == "") {
+            $query .= " receipt_stock";
+        } else {
+            $query .= " (SELECT * FROM receipt_stock WHERE product_merchant_id = '$merchant_id'";
+            if ($min_price != "") {
+                $query .= " AND product_price_sale >= '$min_price'";
+            }
+    
+            if ($max_price != "") {
+                $query .= " AND product_price_sale <= '$max_price'";
+            }
+            $query .= ") AS receipt_stock";
+        }
+
+        $query .= " ON receipt_stock.id = receipt_detail.stock_data
+                     LEFT JOIN fan_product_sku AS sku_color ON sku_color.sku_id = receipt_stock.product_sku_color_id
+                     LEFT JOIN master_color ON master_color.color_id = sku_color.sku_type_id
+                     LEFT JOIN fan_product_sku AS sku_size ON sku_size.sku_id = receipt_stock.product_sku_size_id
+                     LEFT JOIN master_size ON master_size.size_id = sku_size.sku_type_id
+                     LEFT JOIN receipt_shipping ON receipt_shipping.id = receipts.shipping_data
+                     LEFT JOIN receipt_card ON receipt_card.id = receipts.credit_data
+                     INNER JOIN receipt_address ON receipt_address.id = receipts.address_data
+                     INNER JOIN receipt_customer ON receipt_customer.id = receipts.profile_data
+                     WHERE receipt_shipping.merchant_id = '$merchant_id'";                     
+        if ($free_word != "") {
+            $query .= " AND (receipt_customer.customer_name_first like '%".$free_word."%' OR receipt_customer.customer_name_second like '%".$free_word."%'
+                     OR receipt_customer.customer_email like '%".$free_word."%' OR receipt_customer.customer_phone like '%".$free_word."%'
+                     OR receipt_address.address_name like '%".$free_word."%')";
+        }
+
+        $stocks = DB::select($query);
+        return $stocks; 
     }
 }

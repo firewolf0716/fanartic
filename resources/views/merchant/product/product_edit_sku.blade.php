@@ -78,7 +78,7 @@
                                             <td style="text-align:center">{{$production_sku_info->color_name}}</td>
                                             <td style="text-align:center">{{$production_sku_info->size_name}}</td>
                                             <td style="text-align:center">
-                                                <input style="text-align:right" type="text" id="product_place" name="product_count_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_count_1}}">
+                                                <input style="text-align:right" type="text" id="product_place" name="product_count_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_count}}">
                                                 @if ($production_sku_info->product_count_endless == 1)
                                                     <label><input type="checkbox" value="1" name="product_count_endless_{{$production_sku_info->product_stock_id}}" checked>無限</label>
                                                 @else

@@ -78,6 +78,7 @@
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ url('merchant/product/cash_on_delivery') }}">受注一覧</a></li>
+                                    <li><a href="{{ url('merchant/product/shipping') }}">出荷一覧</a></li>
                                     <li><a href="#">受注追加（マニュアル）</a></li>
                                 </ul>
                             </li>

@@ -194,10 +194,10 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫数<span class="required"></span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">在庫数<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                             @if ($product->stock_type == 1)
-                                <input type="number" id="stock_count" name="stock_count" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_count_1}}">
+                                <input type="number" id="stock_count" name="stock_count" class="form-control col-md-7 col-xs-12" value="{{$product_stock_info->product_count}}">
                             @else
                                 <input type="number" id="stock_count" name="stock_count" class="form-control col-md-7 col-xs-12">
                             @endif
@@ -205,7 +205,7 @@
                         </div>
                                 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">最大注文数<span class="required"></span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">最大注文数<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <input type="number" id="max_order_count" name="max_order_count" class="form-control col-md-7 col-xs-12" value="{{$product->max_order_count}}">
                             </div>

@@ -6,90 +6,114 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Home / Manage Products</h3>
+            <h3>Home / Cash On Delivery Products</h3>
         </div>
     </div>
     <div class="clearfix"></div>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-            {!! Form::open(array('id' => 'form_product_search','url'=>'merchant/product/search','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-                <div class="x_panel">
-                    <div class="x_title">
-                        <h4>Manage Products</h4>
-                        <div class="clearfix"></div>
-                    </div>
-
-                    <input type="hidden" id="product_status" name="product_status" value="{{$product_status}}" class="form-control col-md-7 col-xs-12">
-
-                    <div id="x_content">
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">フリーワード</label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <input type="text" id="free_word" name="free_word" class="form-control col-md-7 col-xs-12">
-                            </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                {!! Form::open(array('id' => 'form_product_search','url'=>'merchant/product/search','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h4>Sold Products</h4>
+                            <div class="clearfix"></div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">金額</label>
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <input type="number" id="min_price" name="min_price" class="form-control col-md-7 col-xs-12">                                
-                            </div>
-                            <div class="col-md-2 col-sm-6 col-xs-12">
-                                <input type="number" id="max_price" name="max_price" class="form-control col-md-7 col-xs-12">
-                            </div>
-                        </div>
+                        <input type="hidden" id="product_status" name="product_status" value="{{$product_status}}" class="form-control col-md-7 col-xs-12">
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">期間設置</label>
-                            <div class=" a col-md-4 col-sm-6 col-xs-12">
-                                <select id="duration_setting" name="duration_setting" class="form-control">
-                                    <option value="0">すべて</option>
-                                    <option value="1">本日</option>
-                                    <option value="2">今週</option>
-                                    <option value="3">今月</option>
-                                    <option value="4">先月</option>
-                                    <option value="5">今年</option>
-                                    <option value="6">過去24時間</option>
-                                    <option value="7">過去1週間</option>
-                                    <option value="8">過去30日</option>
-                                    <option value="9">カスタム</option>
-                                </select>
+                        <div id="x_content">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">フリーワード</label>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <input type="text" id="free_word" name="free_word" class="form-control col-md-7 col-xs-12" value="{{$free_word}}">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">期間</label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <div class="input-prepend input-group">
-                                            <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                            <input type="text" name="duration_range" id="reservation" class="form-control" disabled/>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">金額</label>
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <input type="number" id="min_price" name="min_price" class="form-control col-md-7 col-xs-12" value="{{$min_price}}">                                
+                                </div>
+                                <div class="col-md-2 col-sm-6 col-xs-12">
+                                    <input type="number" id="max_price" name="max_price" class="form-control col-md-7 col-xs-12" value="{{$max_price}}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">期間設置</label>
+                                <div class=" a col-md-4 col-sm-6 col-xs-12">
+                                    <select id="duration_setting" name="duration_setting" class="form-control">
+                                        <option value="0">すべて</option>
+                                        <option value="1">本日</option>
+                                        <option value="2">今週</option>
+                                        <option value="3">今月</option>
+                                        <option value="4">先月</option>
+                                        <option value="5">今年</option>
+                                        <option value="6">過去24時間</option>
+                                        <option value="7">過去1週間</option>
+                                        <option value="8">過去30日</option>
+                                        <option value="9">カスタム</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">期間</label>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <div class="input-prepend input-group">
+                                                <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                                <input type="text" name="duration_range" id="reservation" class="form-control" disabled/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
-                                <button id="btnSubmit" type="submit" class="btn btn-warning">Search</button>
+                            
+                            <div class="form-group">
+                                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-4">
+                                    <button id="btnSubmit" type="submit" class="btn btn-warning">Search</button>
+                                </div>
                             </div>
+                            <table id="datatable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                    <th>ID</th>
+                                    <th>Product Code</th>
+                                    <th>Product Name</th>
+                                    <th>Amount</th>
+                                    <th>Unit</th>
+                                    <th>Price</th>
+                                    <th>User Name</th>
+                                    <th>User Address</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php $i = 0; @endphp
+                                    @foreach ($cashProducts as $cashProduct)
+                                        @php $i += 1; @endphp
+                                        <tr>
+                                            <td>{{$i}}</td>
+                                            <td>{{$cashProduct->product_code}}</td>
+                                            <td>{{$cashProduct->product_name}}</td>
+                                            <td>{{$cashProduct->product_amount}}</td>
+                                            <td>{{$cashProduct->product_price}}</td>
+                                            <td>{{$cashProduct->product_amount * $cashProduct->product_price}}</td>
+                                            <td>{{$cashProduct->customer_name_first}} {{$cashProduct->customer_name_second}}</td>
+                                            <td>{{$cashProduct->address_name}}</td>
+                                            <td>{{$cashProduct->date_delivery}}</td>
+                                            <td style="text-align:center">
+                                                <a href="#"><span class="glyphicon glyphicon-ok" onclick="accept({{$i}}, {{$cashProduct->receipt_id}})" aria-hidden="true"></span></a>
+                                                <a href="#"><span class="glyphicon glyphicon-remove" onclick="decline({{$i}}, {{$cashProduct->receipt_id}})" aria-hidden="true"></span></a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                   
-                        <table id="datatable" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                <th>ID</th>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                                <th>Product Image</th>
-                                <th>Actions</th>
-                                </tr>
-                            </thead>
-                        </table>
                     </div>
                 {{ Form::close() }}
             </div>
@@ -169,12 +193,12 @@
 
 <script>
     $(document).ready(function(){
-        $('#dtFrom').datetimepicker({
-            format: 'YYYY/MM/DD'
-        });
-        $('#dtTo').datetimepicker({
-            format: 'YYYY/MM/DD'
-        });
+        // $('#dtFrom').datetimepicker({
+        //     format: 'YYYY/MM/DD'
+        // });
+        // $('#dtTo').datetimepicker({
+        //     format: 'YYYY/MM/DD'
+        // });
     });
 
     function deleteConfirm(priduct_id) {
@@ -226,60 +250,9 @@
             ]
         });
 
-        showProducts();
+        $('#duration_setting').val({{$duration_setting}});
         updateDuration();
     });
-
-    function showProducts() {
-        
-        var table = $('#datatable').DataTable();
-        table.clear();
-
-        $.ajax( {
-            type: 'get',
-            url: '{{url('merchant/product/manage')}}' + '/' + {{$product_status}},
-            success: function(data) {
-                for(var i = 0; i < data.length; i++){
-                    
-                    var item = data[i];
-                    var status = "有効";
-
-                    if (item.product_status == 0) {
-                        status = "無効";
-                    }
-                    var product_id = item.product_id;
-                    
-                    var image = '';
-                    if (item.product_images != '') {
-                        for (var j = 0; j < item.product_images.length; j++) {
-                            image += '<img style="height:20px;" src="{{url("")}}./images/products/';
-                            image += item.product_images[j].master_image_name;
-                            image += '">'; 
-                        }
-                    }                    
-                    
-                    var actions = '<td style="text-align:center">';
-                    actions += '<a style="margin:10px" href="{{ url('merchant/product/edit')}}/';
-                    actions += product_id;
-                    actions += '"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>';
-                    if (item.stock_type != 1) {
-                        actions += '<a style="margin:10px" href="{{ url('merchant/product/edit_sku')}}/';
-                        actions += product_id;
-                        actions += '"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>';
-                    }
-                    actions += '<a style="margin:10px" href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm(';
-                    actions += product_id;
-                    actions += ')" aria-hidden="true"></span></a></td>';
-                    
-                    var product_count = item.product_count;
-                    if (product_count == '' || product_count == null) {
-                        product_count = 0;
-                    }
-                    table.row.add([i + 1, item.product_name, item.product_price, product_count, status, image, actions]).draw( false );
-                }
-            }
-        });
-    }
 
     $('#product_status').change(function() {
         showProducts($('#product_status').val());
@@ -325,13 +298,21 @@
         } else if (duration_setting == 8) { // 過去30日
             start_date = getBeforeDayString(today, 30) + ' ' + getTimeString(today);
             end_date = getDateString(today) + ' ' + getTimeString(today);
-        } else if (duration_setting == 9) { // カスタム
+        }
+        $('#reservation').val(start_date + ' - ' + end_date);
+
+        if (duration_setting == 9) { // カスタム
+            $('#reservation').prop('disabled', false);
+
             start_date = getDateString(today);
             end_date = getDateString(today);
-            $('#reservation').prop('disabled', false);
+                
+            if ("{{$duration_range}}" == '') {
+                $('#reservation').val(start_date + ' - ' + end_date);
+            } else {
+                $('#reservation').val("{{$duration_range}}");
+            }    
         }
-
-        $('#reservation').val(start_date + ' - ' + end_date);
     }
 
     function removeProduct(id) {
@@ -387,6 +368,32 @@
     function getBeforeDayString(date, dayCount) {
         return moment(getDateString(date), 'YYYY/MM/DD').add('days', - dayCount).format('YYYY/MM/DD');
     }
+
+    function accept(id, buy_history_id) {
+        var table = $('#datatable').DataTable();
+        
+        $.ajax( {
+            type: 'get',
+            url: '{{url('merchant/product/accept_sold_product')}}' + "/" + buy_history_id,
+            success: function(data) {
+                var cell = table.cell(id - 1, 9);
+                cell.data( 'Solded' ).draw();
+            }
+        });
+    }
+
+    function decline(id, buy_history_id) {
+        var table = $('#datatable').DataTable();
+        $.ajax( {
+            type: 'get',
+            url: '{{url('merchant/product/decline_pay_shipping_delivery')}}' + "/" + buy_history_id,
+            success: function(data) {
+                var cell = table.cell(id - 1, 8);
+                cell.data('Canceled');
+            }
+        });
+    }
+
 </script>
 
 @endsection
