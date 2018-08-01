@@ -146,6 +146,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+	UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+ 	Intervention\Image\ImageServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -208,8 +210,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-	  'Form' => 'Collective\Html\FormFacade',
-	  'Html' => 'Collective\Html\HtmlFacade',
+	'Form' => 'Collective\Html\FormFacade',
+	'Html' => 'Collective\Html\HtmlFacade',
+	'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];
