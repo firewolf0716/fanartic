@@ -627,7 +627,7 @@ class CustomerController extends Controller
         Customers::insert_customer($entry);
 
         Mail::send('emails.reminder', ['user' => $entry], function ($m) use ($entry) {
-            $m->from('hokelucpy@gmail.com', 'Laravel');
+            $m->from('noreply@aidiot.xyz', 'Laravel');
 
             $m->to($entry['customer_email'])->subject('Your Reminder!');
         });

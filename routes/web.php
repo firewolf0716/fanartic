@@ -249,6 +249,10 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('user/magazine_post', 'CustomerController@magazine_post');
 	//score
 	Route::get('user/score', 'CustomerController@score');
+
+	Route::get('user/payment', function(){
+		return view('customer.user.payment');
+	});
 //all
 	Route::get('product/list', 'CustomerController@product_list');
 	Route::get('product/list/{topid}', 'CustomerController@product_list');
@@ -278,3 +282,9 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('{mallname}/{brandid}/{topid}/{mainid}', 'CustomerController@mall_product_list');
 	Route::get('{mallname}/{brandid}/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
 });
+
+/*
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+     \UniSharp\LaravelFilemanager\Lfm::routes();
+ });
+*/
