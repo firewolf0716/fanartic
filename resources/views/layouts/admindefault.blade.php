@@ -73,6 +73,7 @@
                                     <li><a href="{{ url('merchant/product/sold') }}">商品一覧（売切）</a></li>
                                     <li class="navproductadd"><a href="{{ url('merchant/product/add') }}">新規登録</a></li>
                                     <li><a href="{{ url('merchant/product/csvupload') }}">csvから登録</a></li>
+                                    <li><a href="{{ url('merchant/product/csvupdate') }}">csvから在庫連携</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
@@ -84,7 +85,7 @@
                             </li>
                             <li><a><i class="fa fa-dollar"></i> 売上管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="#">売上分析</a></li>
+                                    <li><a href="{{ url('merchant/product/sales_management') }}">売上分析</a></li>
                                     <li><a href="#">アクセス解析</a></li>
                                 </ul>
                             </li>

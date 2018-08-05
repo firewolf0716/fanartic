@@ -201,7 +201,7 @@
                     var image = '';
                     if (item.product_images != '') {
                         for (var j = 0; j < item.product_images.length; j++) {
-                            image += '<img style="height:20px;" src="{{url("")}}./images/products/';
+                            image += '<img style="height:20px;" src="{{url("")}}/images/products/';
                             image += item.product_images[j].master_image_name;
                             image += '">'; 
                         }

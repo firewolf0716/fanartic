@@ -280,11 +280,10 @@ class Products extends Model{
             return 0;
         }
     }
-    public static function get_image($color_id, $master_image_id) {
-        return DB::table('fan_product_image')->where('master_image_id', $master_image_id)
+    public static function get_image($product, $color_id) {
+        return DB::table('fan_product_image')->where('fan_product_image.product_id', $product)
             ->where('fan_product_image.color_id', $color_id)
-            ->leftJoin('master_color', 'fan_product_image.color_id', 'master_color.color_id')
-            ->orderBy('fan_product_image.master_image_id', 'ASC')
+            ->leftJoin('master_color', 'master_color.color_id', 'fan_product_image.color_id')
             ->orderBy('fan_product_image.image_id', 'ASC')
             ->get()->first();
     }
@@ -437,6 +436,36 @@ class Products extends Model{
         }
 
         $stocks = DB::select($query);
+        return $stocks; 
+    }
+
+    public static function is_registered_product($merchant_id, $product_code) {
+        $product = DB::table('fan_product')
+            ->where('product_merchant_id', $merchant_id)
+            ->where('product_code', $product_code)
+            ->get();
+        if (count($product) > 0) {
+            return $product[0]->product_id;
+        } else {
+            return 0;
+        }
+    }
+
+    public static function update_product_count($merchant_id, $product_id, $product_color, $product_size, $product_count) {
+        $query = "UPDATE fan_product_stock_management
+                INNER JOIN (SELECT sku_id AS color_sku_id FROM fan_product_sku 
+                    INNER JOIN (SELECT color_id FROM master_color WHERE color_name = '$product_color') AS master_color
+                        ON master_color.color_id = fan_product_sku.sku_type_id                        
+                    WHERE product_id = '$product_id' AND sku_type = '1' AND sku_type_id = color_id) AS fan_product_sku_color
+                    ON fan_product_stock_management.product_sku_color_id = fan_product_sku_color.color_sku_id
+                LEFT JOIN (SELECT sku_id AS size_sku_id FROM fan_product_sku 
+                    INNER JOIN (SELECT size_id FROM master_size WHERE size_name = '$product_size') AS master_size
+                        ON master_size.size_id = fan_product_sku.sku_type_id                        
+                    WHERE product_id = '$product_id' AND sku_type = '1' AND sku_type_id = size_id) AS fan_product_sku_size
+                    ON fan_product_stock_management.product_sku_size_id = fan_product_sku_size.size_sku_id
+                SET product_count = '$product_count'";
+     
+        $stocks = DB::statement($query);
         return $stocks; 
     }
 }

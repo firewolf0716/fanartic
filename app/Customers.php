@@ -162,8 +162,16 @@ class Customers extends Model
         return DB::table('customer_card')->where('id', $id)->update($entry);
     }
 
+    public static function edit_card_bytoken($entry, $token){
+        return DB::table('customer_card')->where('card_token', $token)->update($entry);
+    }
+
     public static function delete_card($id){
         return DB::table('customer_card')->where('id', $id)->delete();
+    }
+
+    public static function delete_card_bytoken($token){
+        return DB::table('customer_card')->where('card_token', $token)->delete();
     }
 
     public static function max_history_group(){

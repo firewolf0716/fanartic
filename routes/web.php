@@ -182,10 +182,14 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/accept_sold_product/{id}', 'MerchantproductController@accept_sold_product');
 	Route::get('merchant/product/remove_solded_product/{id}', 'MerchantproductController@remove_solded_product');
 	Route::post('merchant/product/load_from_csv', 'MerchantproductController@importProductFromCSV');
+	Route::get('merchant/product/csvupdate', 'MerchantproductController@showUpdateProductCount');
+	Route::post('merchant/product/update_product_count', 'MerchantproductController@updateProductCountFromCSV');
 	Route::post('merchant/product/set_sku', 'MerchantproductController@merchant_product_set_sku');
 	Route::get('merchant/product/delete/{product_id}/{product_status}', 'MerchantproductController@mer_delete_product');
 	Route::post('merchant/product/search', 'MerchantproductController@merchant_search');
-	
+	Route::get('merchant/product/sales_management', 'MerchantSaleManagementController@merchant_sales_management');
+	Route::post('merchant/sale_management/search', 'MerchantSaleManagementController@merchant_sales_management_search');
+
 	Route::get('merchant/shipping/add', 'MerchantShippingController@merchant_shipping_add');
 	Route::post('merchant/shipping/addpost', 'MerchantShippingController@merchant_shipping_updatepost');
 	Route::get('merchant/shipping/list', 'MerchantShippingController@merchant_shipping_list');
@@ -193,8 +197,8 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/shipping/edit/{shipping_id}', 'MerchantShippingController@merchant_shipping_edit');
 	Route::post('merchant/shipping/editpost', 'MerchantShippingController@merchant_shipping_updatepost');
 	Route::get('merchant/shipping/remove_price/{shipping_id}', 'MerchantShippingController@merchant_shipping_remove_price');
-	
 
+	
 	// Route::post('merchant/product/product_import_csv', function(){
 	//     return view('merchant.product.product_import_csv');
 	// });
@@ -249,10 +253,10 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('user/magazine_post', 'CustomerController@magazine_post');
 	//score
 	Route::get('user/score', 'CustomerController@score');
-
-	Route::get('user/payment', function(){
-		return view('customer.user.payment');
-	});
+	//credit js post
+	Route::get('user/removecard', 'CustomerController@delete_card');
+	Route::post('user/add_card_post', 'CustomerController@add_card_post');
+	Route::post('user/edit_card_post', 'CustomerController@edit_card_post');
 //all
 	Route::get('product/list', 'CustomerController@product_list');
 	Route::get('product/list/{topid}', 'CustomerController@product_list');

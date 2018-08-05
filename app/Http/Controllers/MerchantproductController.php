@@ -278,7 +278,6 @@ class MerchantproductController extends Controller
                 foreach($product_colors as $product_color_id) {
                     $entry =  array(
                         'product_id' => $productid,
-                        'master_image_id' => $master_image_id,
                         'merchant_id' => $merchant_id,
                         'color_id' => $product_color_id,
                         'image_name' => $image_name,
@@ -441,7 +440,6 @@ class MerchantproductController extends Controller
             foreach($product_colors as $product_color_id) {
                 $entry =  array(
                     'product_id' => $productid,
-                    'master_image_id' => $master_image_id,
                     'merchant_id' => $merchant_id,
                     'color_id' => $product_color_id,
                     'image_name' => $image_name,
@@ -663,25 +661,14 @@ class MerchantproductController extends Controller
         $product = Products::get_product($id);
 
         $selectedColors = explode("/**/", $product->product_color);
-        $master_images = Products::get_master_images($id);
         $images = Array();
         foreach ($selectedColors as $selectedColor) {
-            $image = array('color_name' => '');
-            $color = Colors::get_color($selectedColor);
-            $image['color_name'] = $color->color_name;
-            $color_images = Array();
-            foreach ($master_images as $master_image) {
-                $color_image = Products::get_image($selectedColor, $master_image->master_image_id);
-                array_push($color_images, $color_image);
-            }
-
-            $image['images'] = $color_images;
-            array_push($images, $image);
+            $color_image = Products::get_image($product->product_id, $selectedColor);
+            array_push($images, $color_image);
         }
         
         $production_sku_infos = Products::get_product_stock_full_info($id);
-        return view('merchant.product.product_edit_sku')->with('master_images', $master_images)
-                                                        ->with('merchant_id', $merchant_id)
+        return view('merchant.product.product_edit_sku')->with('merchant_id', $merchant_id)
                                                         ->with('images', $images)
                                                         ->with('product_id', $id)
                                                         ->with('production_sku_infos', $production_sku_infos);
@@ -700,7 +687,7 @@ class MerchantproductController extends Controller
 
             $newdestinationPath = './images/products/';
             $newFileName = "product_image_" . strval($merchant_id) . "_" . strval($product_id) 
-                    . "_" . strval($proruct_image->master_image_id) . "_" . strval($proruct_image->color_id) . "." . strtolower($new_image->getClientOriginalExtension());
+                    . "_" . strval($proruct_image->color_id) . "." . strtolower($new_image->getClientOriginalExtension());
             $uploadSuccess_new = $new_image->move($newdestinationPath, $newFileName);
             
             Products::set_image_path($proruct_image->image_id, $newFileName);
@@ -755,6 +742,10 @@ class MerchantproductController extends Controller
                 if ($importProductCount == 1) {
                     continue;
                 }
+                $product_code = $data[6];
+                if (Products::is_registered_product($merchant_id, $product_code) != 0) {
+                    continue;
+                }
                 // product color string
                 $product_colors = array();
                 $tmpColors = explode('/**/', $data[25]);
@@ -763,7 +754,11 @@ class MerchantproductController extends Controller
                     if ($strProductColors != '') {
                         $strProductColors .= '/**/';
                     }
-                    $tmpColorId = Colors::get_color_id($tmpColor);
+                    $tmpColor = Colors::get_color_with_name($tmpColor);
+                    if (count($tmpColor) == 0) {
+                        continue;
+                    }
+                    $tmpColorId = $tmpColor->color_id;
                     array_push($product_colors, $tmpColorId);
                     $strProductColors .= $tmpColorId;
                 }
@@ -771,6 +766,9 @@ class MerchantproductController extends Controller
                 $product_sizes = array();
                 $tmpSizes = explode('/**/', $data[26]);
                 $strProductSizes = '';
+                if (count($tmpSizes) == 0) {
+                    continue;
+                }
                 foreach ($tmpSizes as $tmpSize) {
                     if ($strProductSizes != '') {
                         $strProductSizes .= '/**/';
@@ -810,7 +808,7 @@ class MerchantproductController extends Controller
                     'product_brand_id' => $product_brand_id,
                     'product_category_id' => $product_category_id,
                     'product_event' => $product_event,
-                    'product_code' => $data[6],
+                    'product_code' => $product_code,
                     'product_name' => $data[7],
                     'product_name_kana' => $data[8],
                     'product_name_detail' => $data[9],
@@ -918,7 +916,6 @@ class MerchantproductController extends Controller
                     foreach($product_colors as $product_color_id) {
                         $entry =  array(
                             'product_id' => $productid,
-                            'master_image_id' => $master_image_id,
                             'merchant_id' => $merchant_id,
                             'color_id' => $product_color_id,
                             'image_name' => $image_name,
@@ -1041,6 +1038,48 @@ class MerchantproductController extends Controller
         } else {
             return;
         }
+    }
+
+    public function showUpdateProductCount(){
+        return view('merchant.product.product_csvupdate');
+    }
+    public function updateProductCountFromCSV(){
+        $merchant_id = $this->get_merchant_session_id();
+        if ($merchant_id == 0) {
+            return Redirect::to('merchant/signin');
+        }
+
+        $csv_file = Input::file('csv_file');
+        if ($csv_file == null || $csv_file == "") {
+            return Redirect::to('merchant/product/manage');
+        }
+
+        $filename_new = "merchant_product_count_csv_" . time() . "." . strtolower($csv_file->getClientOriginalExtension());
+        $newdestinationPath = './csv/';
+        $uploadSuccess_new = $csv_file->move($newdestinationPath, $filename_new);
+
+        $importProductCount = 0;
+        if (($handle = fopen($uploadSuccess_new, 'r')) !== FALSE) {
+            while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
+                $importProductCount += 1;
+                if ($importProductCount == 1) {
+                    continue;
+                }
+                $product_code = $data[0];
+                $product_count = $data[1];
+                $product_color = $data[2];
+                $product_size = $data[3];
+                $product_id = Products::is_registered_product($merchant_id, $product_code);
+                if ($product_id == 0) {
+                    continue;
+                }
+
+                Products::update_product_count($merchant_id, $product_id, $product_color, $product_size, $product_count);
+            }
+
+            fclose ($handle);
+        }
+        return Redirect::to('merchant/product/manage')->with('product_status', 1);
     }
         
     // public function gotoMerchantSearch($product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range) {

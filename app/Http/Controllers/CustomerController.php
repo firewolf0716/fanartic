@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
+use Stripe\Stripe;
+use Stripe\Customer;
+use Stripe\Charge;
+use Stripe\Account;
+use Stripe\Token;
+use Stripe\Error\Card;
+
 use App\Categorys;
 use App\Sizes;
 use App\Colors;
@@ -99,6 +106,7 @@ class CustomerController extends Controller
         $customerid = null;
         $recent = null;
         $images = null;
+        $customer_email = null;
         if (Session::has('customerid')) {
             $customerid = Session::get('customerid');
             $recent = Customers::get_recent($customerid);
@@ -108,7 +116,8 @@ class CustomerController extends Controller
                 // dd($imagerec);
                 $images[$product->product_id] = $imagerec;
             }
-
+            $customer_email = Customers::get_customer($customerid)->first()->customer_email;
+            // dd($customer_email);
         }
         return $view->with('mencategories', $mencategories)
                 ->with('womencategories', $womencategories)
@@ -118,7 +127,8 @@ class CustomerController extends Controller
                 ->with('customerid', $customerid)
                 ->with('recent', $recent)
                 ->with('recentimages', $images)
-                ->with('listtype', "malls");
+                ->with('listtype', "malls")
+                ->with('email', $customer_email);
     }
 
     public function set_recent($view){
@@ -547,12 +557,12 @@ class CustomerController extends Controller
         $price = ProductStock::get_price_range($product->product_id);
         // dd(Categorys::getSubCategoryIDs(5));
         $imagerec = Products::get_master_images($product->product_id);
-
+        // dd($imagerec);
         $skuimages = array();
         foreach($imagerec as $image){
             $each = array();
             foreach($skucolor as $skucolor_id){
-                $each[$skucolor_id->sku_id] = Products::get_image($skucolor_id->sku_type_id, $image->master_image_id);
+                $each[$skucolor_id->sku_id] = Products::get_image($productid, $skucolor_id->sku_type_id);
             }
             $skuimages[$image->master_image_id] = $each;
         }
@@ -953,14 +963,23 @@ class CustomerController extends Controller
             return Redirect::to('/');
         }
         $customerid = Session::get('customerid');
+        $customer_email = Customers::get_customer($customerid)->first()->customer_email;
         $cards = Customers::get_cards($customerid);
         
         return $this->layout_init(view('customer.user.credit'), 1)
-                ->with('cards', $cards);
+                ->with('cards', $cards)
+                ->with('email', $customer_email);
     }
 
     public function credit_add(){
-        return $this->layout_init(view('customer.user.credit_add'), 1);
+        if(!Session::has('customerid')){
+            return;
+        }
+        $customerid = Session::get('customerid');
+        // dd($customerid);
+        $customer_email = Customers::get_customer($customerid)->first()->customer_email;
+        return $this->layout_init(view('customer.user.credit_add'), 1)
+                    ->with('email', $customer_email);
     }
 
     public function credit_add_post(){
@@ -1111,6 +1130,22 @@ class CustomerController extends Controller
                 ->with('sizename', $sizename);
     }
 
+    public function process_payment($creditid, $amt){
+        try{
+            $card = Customers::get_card($creditid)->first();
+            Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+            $cu = Customer::retrieve($card->card_token);
+            $charge = Charge::create(array(
+                'customer' => $cu->id,
+                'amount' => $amt,
+                'currency' => 'jpy'
+            ));
+            return true;
+        } catch(Exception $ex){
+            return false;
+        }
+    }
+
     public function confirm_order(){
         if(!Session::has('customerid')){
             return Redirect::to('/');
@@ -1121,52 +1156,57 @@ class CustomerController extends Controller
         $cartitems = Cart::getItems($customerid);
         $address = Session::get('calc_address');
         $credit = Session::get('calc_credit');
-        date_default_timezone_set('Asia/Tokyo');
-        foreach($cartitems as $item){
-            $entry = array(
-                'history_customerid' => $item->cart_customerid,
-                'history_productid' => $item->cart_productid,
-                'history_merchantid' => $item->product_merchant_id,
-                'history_skucolorid' => $item->cart_skucolorid,
-                'history_skusizeid' => $item->cart_skusizeid,
-                'history_amount' => $item->cart_amount,
-                'history_price' => $item->product_price_sale,
-                'history_address' => $address,
-                'history_card' => $credit,
-                'history_status' => 2,
-                'history_group' => $maxgroup,
-                'history_date' => date('Y/m/d H:i:s')
-            );
-            $historyid = Customers::add_history($entry);
-
-            $receiptid = Customers::add_receipt($entry);
-            Customers::add_receipt_detail($entry, $historyid, $receiptid);
-
-            $product = Products::get_product($item->cart_productid);
+        $total = Cart::getSum($customerid);
+        $payresult = $this->process_payment($credit, $total['sum']);
+        // dd($payresult);
+        if($payresult){
             date_default_timezone_set('Asia/Tokyo');
-            $scoreentry = array(
-                'customer_id' => $customerid,
-                'brand_id' => $product->product_brand_id,
-                'score_value' => 1000,
-                'score_action' => 1,
-                'score_status' => 1,
-                'score_type' => 1,
-                'score_create' => date('Y/m/d H:i:s'),
-                'score_update' => date('Y/m/d H:i:s')
-            );
-            Customers::record_score($scoreentry);
+            foreach($cartitems as $item){
+                $entry = array(
+                    'history_customerid' => $item->cart_customerid,
+                    'history_productid' => $item->cart_productid,
+                    'history_merchantid' => $item->product_merchant_id,
+                    'history_skucolorid' => $item->cart_skucolorid,
+                    'history_skusizeid' => $item->cart_skusizeid,
+                    'history_amount' => $item->cart_amount,
+                    'history_price' => $item->product_price_sale,
+                    'history_address' => $address,
+                    'history_card' => $credit,
+                    'history_status' => 2,
+                    'history_group' => $maxgroup,
+                    'history_date' => date('Y/m/d H:i:s')
+                );
+                $historyid = Customers::add_history($entry);
+
+                $receiptid = Customers::add_receipt($entry);
+                Customers::add_receipt_detail($entry, $historyid, $receiptid);
+
+                $product = Products::get_product($item->cart_productid);
+                date_default_timezone_set('Asia/Tokyo');
+                $scoreentry = array(
+                    'customer_id' => $customerid,
+                    'brand_id' => $product->product_brand_id,
+                    'score_value' => 1000,
+                    'score_action' => 1,
+                    'score_status' => 1,
+                    'score_type' => 1,
+                    'score_create' => date('Y/m/d H:i:s'),
+                    'score_update' => date('Y/m/d H:i:s')
+                );
+                Customers::record_score($scoreentry);
+            }
+            //remove from cart
+            Cart::clear_cart($customerid);
+            //remove from stock
+            foreach($cartitems as $item){
+                $remain = $item->product_count - $item->cart_amount;
+                $entry = array(
+                    'product_count' => $remain
+                );
+                Customers::update_remain($item->product_id, $item->product_sku_color_id, $item->product_sku_size_id, $entry);
+            }
         }
-        //remove from cart
-        Cart::clear_cart($customerid);
-        //remove from stock
-        foreach($cartitems as $item){
-            $remain = $item->product_count - $item->cart_amount;
-            $entry = array(
-                'product_count' => $remain
-            );
-            Customers::update_remain($item->product_id, $item->product_sku_color_id, $item->product_sku_size_id, $entry);
-        }
-        return $this->layout_init(view('customer.checkflow.final'), 1);
+        return $this->layout_init(view('customer.checkflow.final'), 1)->with('payresult', $payresult);
     }
 
     public function history(){
@@ -1278,5 +1318,74 @@ class CustomerController extends Controller
     public function receiveitem($itemid){
         Customers::receive_item($itemid);
         return Redirect::to('user/history');
+    }
+
+    public function add_card_post(Request $request){
+        if(!Session::has('customerid')){
+            return;
+        }
+        $userid = Session::get('customerid');
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        $customer = Customer::create(array(
+            'email' => $request->stripeEmail,
+            'source' => $request->stripeToken
+        ));
+        $cus_token = $customer->id;
+        $last4 = $customer->sources->data['0']->last4;
+        $expiredt = $customer->sources->data['0']->exp_year.'/'.$customer->sources->data['0']->exp_month;
+        $name = $customer->sources->data['0']->name;
+        $entry = array(
+            'customer_id' => $userid,
+            'card_no' => $last4,
+            'card_token' => $cus_token,
+            'card_owner' => $name,
+            'card_validdate' => $expiredt
+        );
+        $id = Customers::add_card($entry);
+        return Redirect::to('user/credit');
+    }
+
+    public function edit_card_post(Request $request){
+        $userid = Session::get('customerid');
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        if(isset($request->stripeToken)){
+            try{
+                $cu = Customer::retrieve($request->customer_token);
+                $cu->source = $request->stripeToken;
+                $cu->save();
+                $last4 = $cu->sources->data['0']->last4;
+                $expiredt = $cu->sources->data['0']->exp_year.'/'.$cu->sources->data['0']->exp_month;
+                $name = $cu->sources->data['0']->name;
+                $cus_token = $cu->id;
+                $entry = array(
+                    'customer_id' => $userid,
+                    'card_no' => $last4,
+                    'card_token' => $cus_token,
+                    'card_owner' => $name,
+                    'card_validdate' => $expiredt
+                );
+                Customers::edit_card_bytoken($entry, $cus_token);
+            }catch(Card $e){
+                $body = $e->getJsonBody();
+                $err  = $body['error'];
+                $error = $err['message'];
+            }
+        }
+        return Redirect::to('user/credit');
+    }
+
+    public function delete_card(Request $request){
+        $token = $request->token;
+        if(!Session::has('customerid')){
+            return Redirect::to('/');
+        }
+        $customerid = Session::get('customerid');
+        // dd($token);
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        $cu = Customer::retrieve($token);
+        $cu->delete();
+
+        Customers::delete_card_bytoken($token);
+        return Redirect::to('user/credit');
     }
 }

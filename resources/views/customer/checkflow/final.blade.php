@@ -10,7 +10,13 @@
             <li class="cart__checkout__flow__step--03 is-curent"><i class="c-icon"></i>注文完了</li>
             </ol>
             <!--/.cart__checkout__flow-->
-            <p>注文が成功しました。</p>
+            <p>
+            @if($payresult)
+            注文が成功しました。
+            @else
+            注文が失敗しました。
+            @endif
+            </p>
             
         </div>
     </div>

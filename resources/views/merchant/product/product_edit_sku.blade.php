@@ -27,29 +27,47 @@
                                 <thead>
                                     <tr>
                                         <td style="text-align:center">色</td>
-                                        @foreach ($master_images as $master_image)
-                                        <th style="text-align:center">
-                                            <img style="height:20px;" src="{{url("")}}./images/products/{{$master_image->master_image_name}}">
-                                        </th>
-                                        @endforeach
+                                        <td style="text-align:center">Image</td>
+                                        <td style="text-align:center">色</td>
+                                        <td style="text-align:center">Image</td>
                                     </tr>
                                 </thead>
                                 <tbody id="tablebody">
-                                    @foreach ($images as $image)
+                                    @php $count = count($images) / 2; @endphp
+                                    @for ($i = 0; $i < $count; $i++)
                                         <tr>
-                                            <td style="text-align:center">{{$image['color_name']}}</td>
-                                            @foreach ($image['images'] as $color_image)
+                                        @if ($i * 2 > count($images))
+                                            <td style="text-align:center"></td>
+                                            <td style="text-align:center"></td>
+                                        @else
+                                            @php $color_image = $images[$i * 2]; @endphp
+                                            <td style="text-align:center">{{$color_image->color_name}}</td>
                                             <td style="text-align:center">
                                                 @if ($color_image->image_name != '' && $color_image->image_name != NULL)
-                                                    <img style="height:20px;" src="{{url("")}}./images/products/{{$color_image->image_name}}">
+                                                    <img style="height:20px;" src="{{url("")}}/images/products/{{$color_image->image_name}}">
                                                     <input type="file" name="product_image_{{$color_image->image_id}}" class="form-control">
                                                 @else
                                                     <input type="file" name="product_image_{{$color_image->image_id}}" class="form-control">
                                                 @endif
                                             </td>
-                                            @endforeach
+                                        @endif
+                                        @if ($i * 2 + 1 >= count($images))
+                                            <td style="text-align:center"></td>
+                                            <td style="text-align:center"></td>
+                                        @else
+                                            @php $color_image = $images[$i * 2 + 1]; @endphp
+                                            <td style="text-align:center">{{$color_image->color_name}}</td>
+                                            <td style="text-align:center">
+                                                @if ($color_image->image_name != '' && $color_image->image_name != NULL)
+                                                    <img style="height:20px;" src="{{url("")}}/images/products/{{$color_image->image_name}}">
+                                                    <input type="file" name="product_image_{{$color_image->image_id}}" class="form-control">
+                                                @else
+                                                    <input type="file" name="product_image_{{$color_image->image_id}}" class="form-control">
+                                                @endif
+                                            </td>
+                                        @endif                                            
                                         </tr>
-                                    @endforeach
+                                    @endfor
                                 </tbody>
                             </table>
                         </div>
