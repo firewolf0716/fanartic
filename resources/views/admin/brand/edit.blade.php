@@ -98,7 +98,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">写真<span class="required">*</span></label>
                         <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
-                            <img style="height:70px; width:70px;" src="{{url("")}}./images/brands/{{$brand->brand_image}}" id="brand_image2">
+                            <img style="height:70px; width:70px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}" id="brand_image2">
                             <button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">Remove</button>
                         </div>
                     </div>
@@ -194,7 +194,7 @@
         $('#create_date').val('{{$brand->brand_create}}');
         $('#update_date').val('{{$brand->brand_update}}');
 
-        $cstr = '<img style="height:70px; width:70px;" src="{{url("")}}./images/brands/{{$brand->brand_image}}" id="brand_image2">';
+        $cstr = '<img style="height:70px; width:70px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}" id="brand_image2">';
         $cstr += '<button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">Remove</button>';
         $('#div-product-image').html($cstr);
     });

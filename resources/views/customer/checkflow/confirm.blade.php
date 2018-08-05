@@ -73,7 +73,7 @@
                 @if($creditobj == 'paypal')
                     <img src="{{url('')}}/images/checkout__payment--paypal.png" alt="PayPal" width="135">
                 @else
-                    カード番号：{{str_repeat('*', 12).$creditobj->card_token}}<br>有効期限：{{$creditobj->card_validdate}}
+                    カード番号：{{str_repeat('*', 12).$creditobj->card_no}}<br>有効期限：{{$creditobj->card_validdate}}
                 @endif
             </div>
             <!--/.l-column--list__data-->

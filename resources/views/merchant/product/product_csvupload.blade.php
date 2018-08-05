@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Home / Products Bulk Upload</h3>
+            <h3>Home / Products Count Update</h3>
         </div>
     </div>
     <div class="clearfix"></div>

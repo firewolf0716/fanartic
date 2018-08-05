@@ -138,7 +138,7 @@
                                 <th hidden>{{$brand->brand_id}}</th>
                                 <th style="text-align:center">{{$brand->brand_name}}</th>
                                 <th style="text-align:center">{{$brand->brand_name_en}}</th>
-                                <td style="text-align:center"><img style="height:20px;" src="{{url("")}}./images/brands/{{$brand->brand_image}}"></td>
+                                <td style="text-align:center"><img style="height:20px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}"></td>
                                 <th style="text-align:center"><input type="checkbox" id="check-{{$brand->brand_id}}" onclick="checkboxEdit({{$brand->brand_id}})"></th>
                             </tr>
                         @endforeach
