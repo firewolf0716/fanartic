@@ -100,7 +100,6 @@
                                     <li><a href="#">メンバー管理</a></li>
                                     <li><a href="#">権限管理</a></li>
                                     <li><a href="#">パスワードの変更</a></li>
-                                    <li><a href="https://site3.ec-cube.net/admin/setting/shop/csv">CSV設定</a></li>
                                     <li><a> 店舗設定 <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li><a href="{{ url('merchant/shipping/add') }}">新規登録</a>
@@ -139,7 +138,7 @@
                 <!-- /sidebar menu -->
 
                 <!-- /menu footer buttons -->
-                <div class="sidebar-footer hidden-small">
+                <!-- <div class="sidebar-footer hidden-small">
                     <a data-toggle="tooltip" data-placement="top" title="Settings">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                     </a>
@@ -152,7 +151,7 @@
                     <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                     </a>
-                </div>
+                </div> -->
                 <!-- /menu footer buttons -->
             </div>
         </div>

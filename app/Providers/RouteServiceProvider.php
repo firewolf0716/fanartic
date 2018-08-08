@@ -41,7 +41,12 @@ class RouteServiceProvider extends ServiceProvider
 
         //
     }
-
+    function isMobileApi()
+    {
+        if (in_array('mobile', explode('/', strtolower($_SERVER['REQUEST_URI']))))
+            return true;
+        return false;
+    }
     /**
      * Define the "web" routes for the application.
      *
@@ -51,9 +56,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+        if ($this->isMobileApi()) {
+            Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web_mobile.php'));
+        } else {
+            Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+        }
     }
 
     /**
@@ -65,9 +76,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+        if ($this->isMobileApi()) {
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api_mobile.php'));
+        } else {
+            Route::prefix('api')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/api.php'));
+        }
     }
 }
