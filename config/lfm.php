@@ -12,7 +12,8 @@ return [
 
     // Middlewares which should be applied to all package routes.
     // For laravel 5.1 and before, remove 'web' from the array.
-    'middlewares' => ['web', 'auth'],
+    // 'middlewares' => ['web', 'auth'],
+    'middlewares' => ['web'],
 
     // The url to this package. Change it if necessary.
     'url_prefix' => 'laravel-filemanager',
@@ -33,7 +34,10 @@ return [
     // Then you can rewrite userField function in App\Handler\ConfigHander class
     // And set 'user_field' to App\Handler\ConfigHander::class
     // Ex: The private folder of user will be named as the user id.
-    'user_field' => UniSharp\LaravelFilemanager\Handlers\ConfigHandler::class,
+    // 'user_field' => UniSharp\LaravelFilemanager\Handlers\ConfigHandler::class,
+    'user_field' => function() {
+        return "aaa";
+    },
 
     /*
     |--------------------------------------------------------------------------
@@ -43,13 +47,47 @@ return [
 
     // Which folder to store files in project, fill in 'public', 'resources', 'storage' and so on.
     // You should create routes to serve images if it is not set to public.
-    'base_directory' => 'public',
+    // 'base_directory' => 's3',
+    'driver' => 's3',
+    'disk' => 's3',
+    // 'base_directory' => env('AWS_URL'),
 
     'images_folder_name' => 'photos',
     'files_folder_name'  => 'files',
 
     'shared_folder_name' => 'shares',
     'thumb_folder_name'  => 'thumbs',
+
+
+    'folder_categories'  => [
+        'file' => [
+            'folder_name'  => 'files',
+            'startup_view' => 'grid',
+            'max_size'     => 50000,
+            'valid_mime'   => [
+                'image/jpeg',
+                'image/pjpeg',
+                'image/png',
+                'image/gif',
+                'image/svg+xml',
+            ],
+        ],
+        'image' => [
+            'folder_name'  => 'photos',
+            'startup_view' => 'list',
+            'max_size'     => 50000,
+            'valid_mime'   => [
+                'image/jpeg',
+                'image/pjpeg',
+                'image/png',
+                'image/gif',
+                'image/svg+xml',
+                'application/pdf',
+                'text/plain',
+            ],
+        ],
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -187,3 +225,5 @@ return [
     ],
 
 ];
+
+dd('url');
