@@ -44,8 +44,8 @@ class CustomerNotifyController extends Controller
             'notify_name_en' => Input::get('notify_name_en'),
             'notify_memo' => Input::get('notify_memo'),
             'notify_status' => Input::get('optionValid'),
-            'notify_create' => Input::get('create_date'),
-            'notify_update' => Input::get('update_date'),
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date'),
             'admin_id' => $adminid,
         );
  
@@ -112,8 +112,8 @@ class CustomerNotifyController extends Controller
             'notify_name_en' => Input::get('notify_name_en'),
             'notify_memo' => Input::get('notify_memo'),
             'notify_status' => Input::get('optionValid'),
-            'notify_create' => Input::get('create_date'),
-            'notify_update' => Input::get('update_date'),
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date'),
             'admin_id' => $adminid,
         );
  

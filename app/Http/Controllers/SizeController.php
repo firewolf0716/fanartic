@@ -27,8 +27,8 @@ class SizeController extends Controller
         $entry =  array(
             'sizecategory_name_en' => Input::get('sizecategory_name_en'),
             'sizecategory_name' => Input::get('sizecategory_name'),
-            'sizecategory_create' => Input::get('create_date'),
-            'sizecategory_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         Sizes::insert_sizecategory($entry);
         return Redirect::to('admin/size/listcategory');   
@@ -64,8 +64,8 @@ class SizeController extends Controller
         $entry =  array(
             'sizecategory_name_en' => Input::get('sizecategory_name_en'),
             'sizecategory_name' => Input::get('sizecategory_name'),
-            'sizecategory_create' => Input::get('create_date'),
-            'sizecategory_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $id = Input::get('sizecategory_id');
         Sizes::edit_sizecategory($entry, $id);
@@ -90,8 +90,8 @@ class SizeController extends Controller
             'size_category_id' => Input::get('select_category'),
             'size_name' => Input::get('size_name'),
             'size_name_en' => Input::get('size_name_en'),
-            'size_create' => Input::get('create_date'),
-            'size_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         Sizes::insert_size($entry);
         return Redirect::to('admin/size/list'); 
@@ -130,8 +130,8 @@ class SizeController extends Controller
             'size_category_id' => Input::get('select_category'),
             'size_name' => Input::get('size_name'),
             'size_name_en' => Input::get('size_name_en'),
-            'size_create' => Input::get('create_date'),
-            'size_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $id = Input::get('size_id');
         Sizes::edit_size($entry, $id);

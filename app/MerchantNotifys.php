@@ -17,7 +17,7 @@ class MerchantNotifys extends Model
     }
 
     public static function getNotifysByAdmin($adminid) {
-        return DB::table('master_notifymerchant')->orderBy('notify_update', 'DESC')
+        return DB::table('master_notifymerchant')->orderBy('updated_at', 'DESC')
                                             ->where('admin_id', $adminid)
                                             ->get();
     }

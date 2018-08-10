@@ -78,8 +78,8 @@ class CategoryController extends Controller
             'category_size_id' => Input::get('select_sizecategory'),
             'category_name' => Input::get('category_name'),
             'category_name_en' => Input::get('category_name_en'),
-            'category_create' => Input::get('create_date'),
-            'category_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
  
         $id = Categorys::insert_category($entry);
@@ -306,8 +306,8 @@ class CategoryController extends Controller
             'category_size_id' => Input::get('select_sizecategory'),
             'category_name' => Input::get('category_name'),
             'category_name_en' => Input::get('category_name_en'),
-            'category_create' => Input::get('create_date'),
-            'category_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $id = Input::get('category_id');
         Categorys::edit_category($entry, $id);

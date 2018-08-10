@@ -21,18 +21,29 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function checkAuthentication (Request $request) {
-        if (!$request->has('user_id')) {
-            return response()->json("Bad Request", 400);
+    public function get_user_id() {
+        if (Session::has('user_id')) {
+            return Session::get('user_id');
+        } else {
+            return 0;
         }
-         
-        $authentication = $request->header('authentication');
-        $user_id = $request->input('user_id');
+    }
+
+    public function checkAuthentication ($user_id, Request $request) {         
+        // $authentication = $request->header('authentication');
         $count = Mobile_Users::get_authentication_user($user_id, $authentication);
         if ($count == 0) {
             return response()->json("Unauthorized", 401);
         } else {
             return NULL;
+        }
+    }
+
+    public function get_login_user_id() {
+        if (Session::has('user_id')) {
+            return Session::get('user_id');
+        } else {
+            return 0;
         }
     }
 }

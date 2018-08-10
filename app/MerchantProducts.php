@@ -14,7 +14,7 @@ class Merchantproducts extends Model
     {
         if ($from_date != null && $to_date == null) {
             return DB::table('nm_product')->where('nm_product.pro_mr_id', '=', $merchant_id)
-                                          ->where('nm_product.created_date', $from_date)
+                                          ->where('nm_product.created_at', $from_date)
                                           ->where('nm_product.pro_status', '=', 1)
                                           ->orderBy('nm_product.pro_id', 'DESC')
                                           ->LeftJoin('nm_store', 'nm_store.stor_id', '=', 'nm_product.pro_sh_id')
@@ -23,7 +23,7 @@ class Merchantproducts extends Model
         }
         elseif ($from_date != null && $to_date != null) {
             return DB::table('nm_product')->where('nm_product.pro_mr_id', '=', $merchant_id)
-                                          ->whereBetween('nm_product.created_date', array($from_date,$to_date))
+                                          ->whereBetween('nm_product.created_at', array($from_date,$to_date))
                                           ->where('nm_product.pro_status', '=', 1)
                                           ->orderBy('nm_product.pro_id', 'DESC')
                                           ->LeftJoin('nm_store', 'nm_store.stor_id', '=', 'nm_product.pro_sh_id')
@@ -42,7 +42,7 @@ class Merchantproducts extends Model
     {
         if ($from_date != null && $to_date == null) {
             return DB::table('nm_product')->where('nm_product.pro_mr_id', '=', $merchant_id)
-                                          ->where('nm_product.created_date', $from_date)
+                                          ->where('nm_product.created_at', $from_date)
                                           ->where('nm_product.pro_status', '=', 2)
                                           ->orderBy('nm_product.pro_id', 'DESC')
                                           ->LeftJoin('nm_store', 'nm_store.stor_id', '=', 'nm_product.pro_sh_id')
@@ -51,7 +51,7 @@ class Merchantproducts extends Model
         }
         elseif ($from_date != null && $to_date != null) {
             return DB::table('nm_product')->where('nm_product.pro_mr_id', '=', $merchant_id)
-                                          ->whereBetween('nm_product.created_date', array($from_date,$to_date))
+                                          ->whereBetween('nm_product.created_at', array($from_date,$to_date))
                                           ->where('nm_product.pro_status', '=', 2)
                                           ->orderBy('nm_product.pro_id', 'DESC')
                                           ->LeftJoin('nm_store', 'nm_store.stor_id', '=', 'nm_product.pro_sh_id')

@@ -50,7 +50,7 @@ class ProductSKU extends Model
             ->where('sku_type', $sku_type)
             ->where('sku_type_id', $sku_type_id)
             ->update(['sku_type_id' => $new_sku_type_id,
-                    'sku_update' => $update_date]);
+                    'updated_at' => $update_date]);
     }
     public static function remove_all_size_SKU($product_id) {
         return DB::table('fan_product_sku')->where('product_id', $product_id)

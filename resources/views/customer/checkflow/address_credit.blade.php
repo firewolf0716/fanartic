@@ -1,5 +1,7 @@
 @extends('layouts.customer_layout')
 @section('content')
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--checkout"></i> 配送方法・お支払い方法</h1>
 <div class="cart">
     <div class="cart__column">
@@ -180,7 +182,7 @@
                                 <div class="c-form__row">
                                     <div class="c-form__checkswitch">
                                         <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="credit">
-                                            <input type="radio" name="paymentCredit" value="creditnew"><i></i>別のカードを追加
+                                            <input type="radio" name="paymentCredit" value="creditnew" id="other_card"><i></i>別のカードを追加
                                         </label>
                                     </div>
                                 </div>
@@ -203,6 +205,7 @@
                 <!--/.c-form__row-->
             </div>
             <!--/.c-box__content-->
+            {{ Form::hidden('card_token', '', array('id' => 'card_token'))}}
             {{ Form::close() }}
         </section>
         <!--/.c-box-->
@@ -241,8 +244,29 @@
 </div>
 <!--/.cart-->
 <script>
+    var handler = StripeCheckout.configure({
+        key: 'pk_test_XXbN9QSy1TgyoQHe2i5l4JsK',
+        image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+        locale: 'auto',
+        token: function(token) {
+            // You can access the token ID with `token.id`.
+            // Get the token ID to your server-side code for use.
+            $('#card_token').val(token.id);
+            $('#form_flow').submit(); 
+        }
+    });
+
     function onSubmit(){
-        $('#form_flow').submit();
+        // $('#form_flow').submit();
+        if($('#other_card').is(':checked')){
+            handler.open({
+                name: 'Fanartic',
+                email:"{{$email}}",
+                allowRememberMe: false
+            });
+        } else {
+            $('#form_flow').submit(); 
+        }
     }
     function getAddress(){
         var postalCode = $('#zipcode').val();
@@ -264,5 +288,13 @@
             }
         });
     }
-</script>
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function() {
+        handler.close();
+    });
+
+        // Render the PayPal button
+
+   </script>
 @endsection

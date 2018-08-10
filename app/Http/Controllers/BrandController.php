@@ -43,8 +43,8 @@ class BrandController extends Controller
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),
             'brand_status' => Input::get('optionStatus'),
-            'brand_create' => Input::get('create_date'),
-            'brand_update' => Input::get('update_date'),
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date'),
             'brand_image' => $filename_new,
             'brand_description' => Input::get('brand_description')
         );
@@ -127,8 +127,8 @@ class BrandController extends Controller
             'brand_name_en' => Input::get('brand_name_en'),
             'brand_design' => Input::get('select_design'),
             'brand_status' => Input::get('optionStatus'),
-            'brand_create' => Input::get('create_date'),
-            'brand_update' => Input::get('update_date'),
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date'),
             'brand_description' => Input::get('brand_description')
         );
         $id = Input::get('brand_id');
