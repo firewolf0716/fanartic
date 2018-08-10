@@ -28,8 +28,8 @@ class PlanController extends Controller
             'plan_fixcost' => Input::get('plan_fixcost'),
             'plan_domestic_fee' => Input::get('plan_domestic_fee'),
             'plan_international_fee' => Input::get('plan_international_fee'),
-            'plan_create' => Input::get('create_date'),
-            'plan_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         Plans::insert_plan($entry);
         return Redirect::to('admin/plan/list');
@@ -69,8 +69,8 @@ class PlanController extends Controller
             'plan_fixcost' => Input::get('plan_fixcost'),
             'plan_domestic_fee' => Input::get('plan_domestic_fee'),
             'plan_international_fee' => Input::get('plan_international_fee'),
-            'plan_create' => Input::get('create_date'),
-            'plan_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $id = Input::get('plan_id');
         Plans::edit_plan($entry, $id);

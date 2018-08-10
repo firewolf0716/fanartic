@@ -81,8 +81,8 @@ class CustomerController extends Controller
                 'score_action' => 0,
                 'score_status' => 1,
                 'score_type' => 1,
-                'score_create' => date('Y/m/d H:i:s'),
-                'score_update' => date('Y/m/d H:i:s')
+                'created_at' => date('Y/m/d H:i:s'),
+                'updated_at' => date('Y/m/d H:i:s')
             );
             Customers::record_score($entry);
         }
@@ -1076,15 +1076,26 @@ class CustomerController extends Controller
             Session::put('calc_credit', 'paypal');
         } else {
             if($credit == 'creditnew'){
+                $email = Customers::get_customer($customerid)->first()->customer_email;
+                Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+                $customer = Customer::create(array(
+                    'email' => $email,
+                    'source' => Input::get('card_token')
+                ));
+                $cus_token = $customer->id;
+                $last4 = $customer->sources->data['0']->last4;
+                $expiredt = $customer->sources->data['0']->exp_year.'/'.$customer->sources->data['0']->exp_month;
+                $name = $customer->sources->data['0']->name;
                 $entry = array(
                     'customer_id' => $customerid,
-                    'card_no' => Input::get('card_no'),
-                    'card_token' => Input::get('card_token'),
-                    'card_owner' => Input::get('card_name'),
-                    'card_validdate' => Input::get('card_year').'/'.Input::get('card_month')
+                    'card_no' => $last4,
+                    'card_token' => $cus_token,
+                    'card_owner' => $name,
+                    'card_validdate' => $expiredt
                 );
                 $id = Customers::add_card($entry);
                 Session::put('calc_credit', $id);
+                // Session::put('card_token', Input::get('card_token'));
             } else {
                 Session::put('calc_credit', $credit);
             }
@@ -1131,18 +1142,22 @@ class CustomerController extends Controller
     }
 
     public function process_payment($creditid, $amt){
-        try{
-            $card = Customers::get_card($creditid)->first();
-            Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-            $cu = Customer::retrieve($card->card_token);
-            $charge = Charge::create(array(
-                'customer' => $cu->id,
-                'amount' => $amt,
-                'currency' => 'jpy'
-            ));
-            return true;
-        } catch(Exception $ex){
-            return false;
+        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        if($creditid == 'paypal'){
+
+        } else {
+            try{
+                $card = Customers::get_card($creditid)->first();
+                $cu = Customer::retrieve($card->card_token);
+                $charge = Charge::create(array(
+                    'customer' => $cu->id,
+                    'amount' => $amt,
+                    'currency' => 'jpy'
+                ));
+                return true;
+            } catch(Exception $ex){
+                return false;
+            }
         }
     }
 
@@ -1190,8 +1205,8 @@ class CustomerController extends Controller
                     'score_action' => 1,
                     'score_status' => 1,
                     'score_type' => 1,
-                    'score_create' => date('Y/m/d H:i:s'),
-                    'score_update' => date('Y/m/d H:i:s')
+                    'created_at' => date('Y/m/d H:i:s'),
+                    'updated_at' => date('Y/m/d H:i:s')
                 );
                 Customers::record_score($scoreentry);
             }

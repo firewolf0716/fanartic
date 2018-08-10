@@ -1,5 +1,6 @@
 @extends('layouts.customer_layout')
 @section('content')
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--checkout"></i> 注文内容の確認</h1>
 <div class="cart">
     <div class="cart__column">
@@ -71,7 +72,7 @@
             <div class="l-column l-column--list l-column--top">
             <div class="l-column--list__data">
                 @if($creditobj == 'paypal')
-                    <img src="{{url('')}}/images/checkout__payment--paypal.png" alt="PayPal" width="135">
+                    <div id="paypal-button-container"></div>
                 @else
                     カード番号：{{str_repeat('*', 12).$creditobj->card_no}}<br>有効期限：{{$creditobj->card_validdate}}
                 @endif
@@ -107,7 +108,13 @@
             <td class="cart__shipping__data__price cart__shipping__price"><strong>￥{{number_format($total['sum'])}}</strong></td>
             </tr>
         </table>
-        <div class="cart__shipping__button"><a href="{{url('user/confirm_order')}}" class="c-button c-button--submit c-button--full">注文を確定する</a></div>
+        <div class="cart__shipping__button"><a id="a_next"
+            @if($creditobj == 'paypal')
+
+            @else
+            href="{{url('user/confirm_order')}}"
+            @endif
+         class="c-button c-button--submit c-button--full">注文を確定する</a></div>
         <p class="cart__shipping__back"><a href="{{url('user/checkflowinfo')}}">戻る</a></p>
         </div>
         <!--/.cart__shipping-->
@@ -116,5 +123,55 @@
     </div>
     <!--/.cart__column-->
 </div>
+<script>
+    paypal.Button.render({
+
+        env: 'sandbox', // sandbox | production
+
+        style: {
+            label: 'paypal',
+            size:  'medium',    // small | medium | large | responsive
+            shape: 'rect',     // pill | rect
+            color: 'blue',     // gold | blue | silver | black
+            tagline: false    
+        },
+
+        // PayPal Client IDs - replace with your own
+        // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+        client: {
+            sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
+            production: '<insert production client id>'
+        },
+
+        // Show the buyer a 'Pay Now' button in the checkout flow
+        commit: true,
+
+        // payment() is called when the button is clicked
+        payment: function(data, actions) {
+
+            // Make a call to the REST api to create the payment
+            return actions.payment.create({
+                payment: {
+                    transactions: [
+                        {
+                            amount: { total: "{{$total['sum']}}", currency: 'JPY' }
+                        }
+                    ]
+                }
+            });
+        },
+
+        // onAuthorize() is called when the buyer approves the payment
+        onAuthorize: function(data, actions) {
+
+            // Make a call to the REST api to execute the payment
+            return actions.payment.execute().then(function() {
+                window.alert('Payment Complete!');
+                $('#a_next').prop('href', "{{url('user/confirm_order')}}");
+            });
+        }
+
+    }, '#paypal-button-container');
+</script>
 <!--/.cart-->
 @endsection

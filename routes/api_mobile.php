@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('mobile/accounts/login', 'Api\AccountController@login');
+Route::post('mobile/accounts/update_profile', 'Api\AccountController@update_profile');

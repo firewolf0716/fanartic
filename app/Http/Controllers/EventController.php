@@ -29,8 +29,8 @@ class EventController extends Controller
             'event_condition' => Input::get('event_condition'),
             'event_duration' => Input::get('reservation-time'),
             'event_content' => Input::get('event_content'),
-            'event_create' => Input::get('create_date'),
-            'event_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         Events::insert_event($entry);
         return Redirect::to('admin/event/list');
@@ -78,8 +78,8 @@ class EventController extends Controller
             'event_condition' => Input::get('event_condition'),
             'event_duration' => Input::get('reservation-time'),
             'event_content' => Input::get('event_content'),
-            'event_create' => Input::get('create_date'),
-            'event_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $id = Input::get('event_id');
         Events::edit_event($entry, $id);

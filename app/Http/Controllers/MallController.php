@@ -32,8 +32,8 @@ class MallController extends Controller
             'mall_name' => Input::get('mall_name'),
             'mall_name_en' => Input::get('mall_name_en'),
             'mall_status' => Input::get('optionValid'),
-            'mall_create' => Input::get('create_date'),
-            'mall_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $mallid = Malls::insert_mall($entry);
 
@@ -116,8 +116,8 @@ class MallController extends Controller
             'mall_name' => Input::get('mall_name'),
             'mall_name_en' => Input::get('mall_name_en'),
             'mall_status' => Input::get('optionValid'),
-            'mall_create' => Input::get('create_date'),
-            'mall_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $mallid = Input::get('id');
         Malls::edit_mall($entry, $mallid);

@@ -17,7 +17,7 @@ class CustomerNotifys extends Model
     }
 
     public static function getNotifysByAdmin($adminid) {
-        return DB::table('master_notifycustomer')->orderBy('notify_update', 'DESC')
+        return DB::table('master_notifycustomer')->orderBy('updated_at', 'DESC')
                                             ->where('admin_id', $adminid)
                                             ->get();
     }

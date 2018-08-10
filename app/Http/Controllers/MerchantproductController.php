@@ -164,8 +164,8 @@ class MerchantproductController extends Controller
             'product_material' => Input::get('product_material'),
             'product_memo' => Input::get('product_memo'),
             'product_status' => Input::get('product_status'),
-            'product_create' => Input::get('create_date'),
-            'product_update' => Input::get('update_date'),
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date'),
             'product_parent_id' => Input::get('product_parent'),
             'product_merchant_id' => $merchant_id,
             'stock_type' => Input::get('stock_type'),
@@ -186,8 +186,8 @@ class MerchantproductController extends Controller
                     'sku_type' => '1',
                     'sku_type_id' => $product_color_id,
                     'sku_status' => '1',
-                    'sku_create' => Input::get('create_date'),
-                    'sku_update' => Input::get('update_date'),
+                    'created_at' => Input::get('create_date'),
+                    'updated_at' => Input::get('update_date'),
                     'product_merchant_id' => $merchant_id
                 );
                 ProductSKU::insert_sku($sku_info);
@@ -202,8 +202,8 @@ class MerchantproductController extends Controller
                     'sku_type' => '2',
                     'sku_type_id' => $product_size_id,
                     'sku_status' => '1',
-                    'sku_create' => Input::get('create_date'),
-                    'sku_update' => Input::get('update_date'),
+                    'created_at' => Input::get('create_date'),
+                    'updated_at' => Input::get('update_date'),
                     'product_merchant_id' => $merchant_id
                 );
                 ProductSKU::insert_sku($sku_info);
@@ -230,8 +230,8 @@ class MerchantproductController extends Controller
                     'product_merchant_id' => $merchant_id,
                     'product_sku_size_id' => $product_sku_size->sku_id,
                     'product_sku_color_id' => $product_sku_color->sku_id,
-                    'product_stock_create' => Input::get('create_date'),
-                    'product_stock_update' => Input::get('update_date'),
+                    'created_at' => Input::get('create_date'),
+                    'updated_at' => Input::get('update_date'),
                     'product_price_sale' => Input::get('product_price_sale'),
                     'product_price_ref' => Input::get('product_price_ref'),
                     'product_price_law' => Input::get('product_price_law')
@@ -262,8 +262,8 @@ class MerchantproductController extends Controller
                 'product_id' => $productid,
                 'master_image_name' => $filename_new,
                 'merchant_id' => $merchant_id,
-                'master_image_create' => Input::get('create_date'),
-                'master_image_update' => Input::get('update_date')
+                'created_at' => Input::get('create_date'),
+                'updated_at' => Input::get('update_date')
             );
             $master_image_id = Products::insert_master_image($entry);
 
@@ -281,8 +281,8 @@ class MerchantproductController extends Controller
                         'merchant_id' => $merchant_id,
                         'color_id' => $product_color_id,
                         'image_name' => $image_name,
-                        'image_create' => Input::get('create_date'),
-                        'image_update' => Input::get('update_date')
+                        'created_at' => Input::get('create_date'),
+                        'updated_at' => Input::get('update_date')
                     );
                     Products::insert_image($entry);
                 }
@@ -353,8 +353,8 @@ class MerchantproductController extends Controller
             'product_material' => Input::get('product_material'),
             'product_memo' => Input::get('product_memo'),
             'product_status' => Input::get('product_status'),
-            'product_create' => Input::get('create_date'),
-            'product_update' => Input::get('update_date'),
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date'),
             'product_parent_id' => Input::get('product_parent'),
             'product_merchant_id' => $merchant_id,
             'stock_type' => Input::get('stock_type'),
@@ -391,8 +391,8 @@ class MerchantproductController extends Controller
                     'merchant_id' => $merchant_id,
                     'color_id' => $product_color_id,
                     'image_name' => $image_name,
-                    'image_create' => Input::get('create_date'),
-                    'image_update' => Input::get('update_date')
+                    'created_at' => Input::get('create_date'),
+                    'updated_at' => Input::get('update_date')
                 );
                 Products::insert_image($entry);
             }
@@ -425,8 +425,8 @@ class MerchantproductController extends Controller
                 'product_id' => $productid,
                 'master_image_name' => $filename_new,
                 'merchant_id' => $merchant_id,
-                'master_image_create' => Input::get('create_date'),
-                'master_image_update' => Input::get('update_date')
+                'created_at' => Input::get('create_date'),
+                'updated_at' => Input::get('update_date')
             );
             $master_image_id = Products::insert_master_image($entry);
 
@@ -443,8 +443,8 @@ class MerchantproductController extends Controller
                     'merchant_id' => $merchant_id,
                     'color_id' => $product_color_id,
                     'image_name' => $image_name,
-                    'image_create' => Input::get('create_date'),
-                    'image_update' => Input::get('update_date')
+                    'created_at' => Input::get('create_date'),
+                    'updated_at' => Input::get('update_date')
                 );
                 Products::insert_image($entry);
             }
@@ -463,8 +463,8 @@ class MerchantproductController extends Controller
                 'sku_type' => '1',
                 'sku_type_id' => $product_color_id,
                 'sku_status' => '1',
-                'sku_create' => Input::get('create_date'),
-                'sku_update' => Input::get('update_date'),
+                'created_at' => Input::get('create_date'),
+                'updated_at' => Input::get('update_date'),
                 'product_merchant_id' => $merchant_id
             );
             ProductSKU::insert_sku($sku_info);
@@ -506,8 +506,8 @@ class MerchantproductController extends Controller
                 'sku_type' => '2',
                 'sku_type_id' => $added_size,
                 'sku_status' => '1',
-                'sku_create' => Input::get('create_date'),
-                'sku_update' => Input::get('update_date'),
+                'created_at' => Input::get('create_date'),
+                'updated_at' => Input::get('update_date'),
                 'product_merchant_id' => $merchant_id
             );
             ProductSKU::insert_sku($sku_info);
@@ -545,8 +545,8 @@ class MerchantproductController extends Controller
                         'product_merchant_id' => $merchant_id,
                         'product_sku_size_id' => $product_sku_size->sku_id,
                         'product_sku_color_id' => $product_sku_color->sku_id,
-                        'product_stock_create' => Input::get('create_date'),
-                        'product_stock_update' => Input::get('update_date'),
+                        'created_at' => Input::get('create_date'),
+                        'updated_at' => Input::get('update_date'),
                         'product_price_sale' => Input::get('product_price_sale'),
                         'product_price_ref' => Input::get('product_price_ref'),
                         'product_price_law' => Input::get('product_price_law')
@@ -557,7 +557,7 @@ class MerchantproductController extends Controller
                         'product_count' => $storeCount,
                         'product_sku_size_id' => $product_sku_size->sku_id,
                         'product_sku_color_id' => $product_sku_color->sku_id,
-                        'product_stock_update' => Input::get('update_date'),
+                        'updated_at' => Input::get('update_date'),
                         'product_price_sale' => Input::get('product_price_sale'),
                         'product_price_ref' => Input::get('product_price_ref'),
                         'product_price_law' => Input::get('product_price_law')
@@ -822,8 +822,8 @@ class MerchantproductController extends Controller
                     'product_material' => $data[31],
                     'product_memo' => $data[32],
                     'product_status' => $data[33],
-                    'product_create' => $current_date,
-                    'product_update' => $current_date,
+                    'created_at' => $current_date,
+                    'updated_at' => $current_date,
                     'product_parent_id' => $product_parent,
                     'product_merchant_id' => $merchant_id,
                     'stock_type' => $stock_type,
@@ -843,8 +843,8 @@ class MerchantproductController extends Controller
                         'sku_type' => '1',
                         'sku_type_id' => $product_color_id,
                         'sku_status' => '1',
-                        'sku_create' => $current_date,
-                        'sku_update' => $current_date,
+                        'created_at' => $current_date,
+                        'updated_at' => $current_date,
                         'product_merchant_id' => $merchant_id
                     );
                     ProductSKU::insert_sku($sku_info);
@@ -857,8 +857,8 @@ class MerchantproductController extends Controller
                         'sku_type' => '2',
                         'sku_type_id' => $product_size_id,
                         'sku_status' => '1',
-                        'sku_create' => $current_date,
-                        'sku_update' => $current_date,
+                        'created_at' => $current_date,
+                        'updated_at' => $current_date,
                         'product_merchant_id' => $merchant_id
                     );
                     ProductSKU::insert_sku($sku_info);
@@ -881,8 +881,8 @@ class MerchantproductController extends Controller
                             'product_merchant_id' => $merchant_id,
                             'product_sku_size_id' => $product_sku_size->sku_id,
                             'product_sku_color_id' => $product_sku_color->sku_id,
-                            'product_stock_create' => $current_date,
-                            'product_stock_update' => $current_date,
+                            'created_at' => $current_date,
+                            'updated_at' => $current_date,
                             'product_price_sale' => $data[10],
                             'product_price_ref' => $data[11],
                             'product_price_law' => $data[12]
@@ -903,8 +903,8 @@ class MerchantproductController extends Controller
                         'product_id' => $productid,
                         'master_image_name' => $filename_new,
                         'merchant_id' => $merchant_id,
-                        'master_image_create' => $current_date,
-                        'master_image_update' => $current_date
+                        'created_at' => $current_date,
+                        'updated_at' => $current_date
                     );
                     $master_image_id = Products::insert_master_image($entry);
 
@@ -919,8 +919,8 @@ class MerchantproductController extends Controller
                             'merchant_id' => $merchant_id,
                             'color_id' => $product_color_id,
                             'image_name' => $image_name,
-                            'image_create' => $current_date,
-                            'image_update' => $current_date
+                            'created_at' => $current_date,
+                            'updated_at' => $current_date
                         );
                         Products::insert_image($entry);
                     }

@@ -31,8 +31,8 @@ class GenreController extends Controller
             'genre_name' => Input::get('genre_name'),
             'genre_name_en' => Input::get('genre_name_en'),
             'genre_status' => Input::get('optionValid'),
-            'genre_create' => Input::get('create_date'),
-            'genre_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         Genres::insert_genre($entry);
         return Redirect::to('admin/genre/list');
@@ -72,8 +72,8 @@ class GenreController extends Controller
             'genre_name' => Input::get('genre_name'),
             'genre_name_en' => Input::get('genre_name_en'),
             'genre_status' => Input::get('optionValid'),
-            'genre_create' => Input::get('create_date'),
-            'genre_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $id = Input::get('genre_id');
         Genres::edit_genre($entry, $id);

@@ -314,7 +314,7 @@ class Customers extends Model
         date_default_timezone_set('Asia/Tokyo');
         $tmfrom = date('Y/m/d ')."00:00:00";
         $tmto = date('Y/m/d ')."23:59:59";
-        $ct = DB::table('customer_score')->where('brand_id', $entry['brand_id'])->whereBetween('score_create', [$tmfrom, $tmto])->count();
+        $ct = DB::table('customer_score')->where('brand_id', $entry['brand_id'])->whereBetween('created_at', [$tmfrom, $tmto])->count();
         if($ct > 0)
             return;
         DB::table('customer_score')->insert($entry);
@@ -335,8 +335,8 @@ class Customers extends Model
                 'customer_id' => $entry['customer_id'],
                 'brand_id' => $entry['brand_id'],
                 'scoresum_value' => $sumscore,
-                'scoresum_create' => date('Y/m/d H:i:s'),
-                'scoresum_update' => date('Y/m/d H:i:s')
+                'created_at' => date('Y/m/d H:i:s'),
+                'updated_at' => date('Y/m/d H:i:s')
             );
             DB::table('customer_scoresum')->insert($insertentry);
         } else {
@@ -350,7 +350,7 @@ class Customers extends Model
                 'customer_id' => $entry['customer_id'],
                 'brand_id' => $entry['brand_id'],
                 'scoresum_value' => $sumscore,
-                'scoresum_update' => date('Y/m/d H:i:s')
+                'updated_at' => date('Y/m/d H:i:s')
             );
             DB::table('customer_scoresum')->where('customer_id', $entry['customer_id'])->where('brand_id', $entry['brand_id'])->update($updateentry);
         }
@@ -419,8 +419,8 @@ class Customers extends Model
             'product_merchant_id' => $stock->product_merchant_id,
             'product_sku_size_id' => $stock->product_sku_size_id,
             'product_sku_color_id' => $stock->product_sku_color_id,
-            'product_stock_create' => $stock->product_stock_create,
-            'product_stock_update' => $stock->product_stock_update,
+            'created_at' => $stock->created_at,
+            'updated_at' => $stock->updated_at,
             'product_price_sale' => $stock->product_price_sale,
             'product_price_ref' => $stock->product_price_ref,
             'product_price_law' => $stock->product_price_law
@@ -519,8 +519,8 @@ class Customers extends Model
             'credit_data' => $card_id,
             'date_juchu' => date('Y/m/d H:i:s'),
             'status' => '2',
-            'create_date' => date('Y/m/d H:i:s'),
-            'update_date' => date('Y/m/d H:i:s')
+            'created_at' => date('Y/m/d H:i:s'),
+            'updated_at' => date('Y/m/d H:i:s')
         );
         return Customers::add_entry('receipts', $receipt_entry);
     }

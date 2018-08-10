@@ -28,8 +28,8 @@ class ColorController extends Controller
             'color_name' => Input::get('color_name'),
             'color_name_en' => Input::get('color_name_en'),
             'color_value' => Input::get('color_value'),
-            'color_create' => Input::get('create_date'),
-            'color_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         Colors::insert_color($entry);
         return Redirect::to('admin/color/list');
@@ -67,8 +67,8 @@ class ColorController extends Controller
             'color_name' => Input::get('color_name'),
             'color_name_en' => Input::get('color_name_en'),
             'color_value' => Input::get('color_value'),
-            'color_create' => Input::get('create_date'),
-            'color_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
         $id = Input::get('color_id');
         Colors::edit_color($entry, $id);

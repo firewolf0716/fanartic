@@ -43,8 +43,8 @@ class MerchantShippingController extends Controller
             'shipping_default' => Input::get('shipping_default'),
             'shipping_limit_date' => '',
             'shipping_limit_duration' => '',
-            'shipping_create' => Input::get('create_date'),
-            'shipping_update' => Input::get('update_date')
+            'created_at' => Input::get('create_date'),
+            'updated_at' => Input::get('update_date')
         );
 
         if (Input::get('shipping_limit_date_set') == 1) {
