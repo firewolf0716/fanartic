@@ -115,11 +115,11 @@
                     <div class="dropdown-wrapper">
                         <div class="dropdown-content">
                             <ul>
-                                <li><a href="">test</a></li>
-                                <li><a href="">test2</a></li>
-                                <li><a href="">test3</a></li>
-                                <li><a href="">test4</a></li>
-                                <li><a href="">test5</a></li>
+                                <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
+                                <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
+                                <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
+                                <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
+                                <li><a href="{{url('user/signout')}}">ログアウト</a></li>
                             </ul>
                         </div>
                     </div>

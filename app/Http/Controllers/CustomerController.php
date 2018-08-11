@@ -609,11 +609,11 @@ class CustomerController extends Controller
         }
     }
 
-    public function signin(){
-        if(isset($_GET['redirect'])){
-            return view('customer.user.login')->with('redirect', $_GET['redirect']);
-        }
-        return view('customer.user.login')->with('redirect', '/');
+    public function login(){
+        $malls = Malls::get_malls();
+        return $this->layout_init(view('customer.user.login'), 1)
+            ->with('malls', $malls)
+            ->with('listtype', "malls");
     }
 
     public function signout(){

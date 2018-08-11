@@ -205,7 +205,8 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/product_import_csv', 'MerchantproductController@product_import_csv');
 
 	//sign
-	Route::get('user/signup', 'CustomerController@signup');
+	Route::get('user/login', 'CustomerController@login');
+    Route::get('user/signup', 'CustomerController@signup');
 	Route::post('user/signuppost', 'CustomerController@signuppost');
 	Route::get('user', 'CustomerController@user');
 	Route::get('user/signin', 'CustomerController@signin');
