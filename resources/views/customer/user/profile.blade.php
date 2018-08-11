@@ -129,7 +129,13 @@
                     <hr class="c-hr">
                     <div class="c-form__row">
                     <div class="c-form__row__label">メールアドレス<span class="c-form__require">必須</span></div>
-                    <div class="c-form__row__input"><input type="email" class="c-form__input" name="email" value="{{$customer->customer_email}}" required></div>
+                    <div class="c-form__row__input">
+                        <div class="c-form__row__input__block">
+                            <input type="email" class="c-form__input" name="email"
+                                   value="{{$customer->customer_email}}" disabled>
+                        </div>
+                        <p>メールアドレスは変更できません</p>
+                    </div>
                     </div>
                     <!--/.c-form__row-->
                     <div class="c-form__row c-form__row--top">
