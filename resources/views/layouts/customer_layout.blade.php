@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>fanaRtic | 探しているアイテム</title>
+    <title>or Not__ | 探しているアイテム</title>
     <meta name="viewport" content="width=device-width">
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="">
@@ -22,7 +22,7 @@
             <div class="header__button" data-header-button></div>
             <div class="header__button-search" data-header-search-button><i
                         class="c-icon header__button-search__icon"></i></div>
-            <div class="header__sitename"><a href="{{url('')}}">fanaRtic</a></div>
+            <div class="header__sitename"><a href="{{url('')}}">or Not__</a></div>
             <div class="header__nav-primary-wrap" data-header-primary>
                 <ul class="header__nav-primary">
                     <li><span class="header__nav-primary__button" data-header-primary__button
@@ -93,11 +93,37 @@
                 </ul>
             </div>
             <ul class="header__nav-secondary">
-                <li>
+                <li data-header-dropdown>
+                    <a href="{{url('user/profile')}}">日</a>
+                    <div class="dropdown-wrapper">
+                        <div class="dropdown-content">
+                            <ul>
+                                <li><a href="">英語</a></li>
+                                <li><a href="">繁体</a></li>
+                                <li><a href="">簡体</a></li>
+                                <li><a href="">韓国</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 @if(!isset($customerid))
-                <a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
+                <li><a href="#modal-user-signin" class="modal-sm">ログイン</a></li>
                 @else
-                <a href="{{url('user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                <li data-header-dropdown>
+                    <a href="{{url('user/profile')}}">アカウント</a>
+                    <div class="dropdown-wrapper">
+                        <div class="dropdown-content">
+                            <ul>
+                                <li><a href="">test</a></li>
+                                <li><a href="">test2</a></li>
+                                <li><a href="">test3</a></li>
+                                <li><a href="">test4</a></li>
+                                <li><a href="">test5</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
                 @endif
                 <li><a href="{{url('')}}/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
                 <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
@@ -263,7 +289,7 @@
         </div>
         <!--/.footer__nav-->
         <div class="footer__copyrights">
-            <p>&copy; fanaRtic INC. ALL RIGHTS RESERVED.</p>
+            <p>&copy; or Not__ INC. ALL RIGHTS RESERVED.</p>
         </div>
         <!--/.footer__copyrights-->
     </div>
@@ -309,8 +335,8 @@
                                 <button class="c-button c-button--submit">ログインする</button>
                             </div>
                             {{ Form::close() }}
-                            <p>パスワードを忘れた方</p>
-                            <p>新規登録の方</p>
+                            <p><a href="">パスワードを忘れた方</a></p>
+                            <p><a href="#modal-user-signup" class="modal-sm">新規登録の方</a></p>
 
                         </div>
                         <!--/.c-box__content-->

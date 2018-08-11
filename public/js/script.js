@@ -45,7 +45,7 @@ $(function () {
     -----------------------------------------------------------------
      */
     header = function () {
-        var button, closeButton, currentClass, gmenu, gmenuli, openClass, primary, searchArea, searchButton;
+        var button, closeButton, currentClass, gmenu, gmenuli, openClass, primary, searchArea, searchButton, dropdownButton;
         primary = '[data-header-primary]';
         button = '[data-header-primary__button]';
         gmenuli = '.header__nav-primary__list__menu li';
@@ -86,12 +86,18 @@ $(function () {
                 return $(searchArea).addClass(openClass);
             }
         });
-        return $(closeButton).on('click', function () {
+        $(closeButton).on('click', function () {
             if ($(searchArea).hasClass(openClass)) {
                 return $(searchArea).removeClass(openClass);
             } else {
                 return $(searchArea).addClass(openClass);
             }
+        });
+        dropdownButton = '[data-header-dropdown]';
+        $(dropdownButton).mouseover(function (e) {
+            $(this).find('.dropdown-wrapper').show();
+        }).mouseout(function (e) {
+            $(this).find('.dropdown-wrapper').hide();
         });
     };
 
