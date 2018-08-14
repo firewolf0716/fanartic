@@ -731,7 +731,8 @@ class MerchantproductController extends Controller
             return Redirect::to('merchant/product/manage');
         }
 
-        $filename_new = "merchant_product_csv_" . time() . "." . strtolower($csv_file->getClientOriginalExtension());
+        // $filename_new = "merchant_product_csv_" . time() . "." . strtolower($csv_file->getClientOriginalExtension());
+        $filename_new = "merchant_product_csv_" . $merchant_id . "." . strtolower($csv_file->getClientOriginalExtension());
         $newdestinationPath = './csv/';
         $uploadSuccess_new = $csv_file->move($newdestinationPath, $filename_new);
 
