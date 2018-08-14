@@ -280,7 +280,7 @@ body {
     color: #000;
     /*font-family: YuGothic, "游ゴシック", "ヒラギノ角ゴ ProN W3", "メイリオ", "Meiryo", "Meiryo UI", "ＭＳ Ｐゴシック", sans-serif;*/
     font-family: MS PGothic,Osaka,Arial,sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 1.1;
     -webkit-text-size-adjust: 100%;
 }
@@ -1796,8 +1796,8 @@ Component
     position: absolute;
     top: 0;
     left: 0;
-    -webkit-transition: all linear 0.3s;
-    transition: all linear 0.3s;
+    -webkit-transition: all linear 0s;
+    transition: all linear 0s;
 }
 .c-item__figure > a > span:hover {
     opacity: 0;
@@ -3049,13 +3049,13 @@ header
     padding: 10px 0;
     display: none;
     position: absolute;
-    min-width: 100px;
     z-index: 1;
 }
 .dropdown-content {
     padding: 10px;
     background: #fff;
     color: #000;
+    min-width: 100px;
 }
 .dropdown-content ul li {
     margin-bottom: 5px;
@@ -3914,11 +3914,11 @@ themes
     }
 }
 
-.members__nav > li:first-child > a {
-    border-top: 1px #f2f2f2 solid;
-}
-
 @media (max-width: 768px) {
+    .members__nav > li:first-child > a {
+        border-top: 1px #f2f2f2 solid;
+    }
+
     .members__nav > li > a {
         position: relative;
         display: block;
