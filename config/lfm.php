@@ -25,7 +25,7 @@ return [
     */
 
     // If true, private folders will be created for each signed-in user.
-    'allow_multi_user' => false,
+    'allow_multi_user' => true,
     // If true, share folder will be created when allow_multi_user is true.
     'allow_share_folder' => true,
 
@@ -50,7 +50,7 @@ return [
     // 'base_directory' => 's3',
     // 'driver' => 's3',
     // 'disk' => 's3',
-    'base_directory' => 'public',
+    'base_directory' => 'upload',
 
     'images_folder_name' => 'photos',
     'files_folder_name'  => 'files',
