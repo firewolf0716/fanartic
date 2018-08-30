@@ -5,7 +5,7 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Genres extends Model
+class Genres extends AppModel
 {
     protected $guarded = array('genre_id');
     protected $table = 'master_genre';

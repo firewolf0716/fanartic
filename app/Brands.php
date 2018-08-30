@@ -6,7 +6,7 @@ use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Brands extends Model
+class Brands extends AppModel
 {
     protected $guarded = array('id');
     protected $table = 'master_brand';

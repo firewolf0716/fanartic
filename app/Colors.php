@@ -6,7 +6,7 @@ use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Colors extends Model
+class Colors extends AppModel
 {
     protected $guarded = array('id');
     protected $table = 'master_color';

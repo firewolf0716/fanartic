@@ -6,7 +6,7 @@ use DB;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MerchantBrands extends Model
+class MerchantBrands extends AppModel
 {
     //
     public static function insert_match($entry){

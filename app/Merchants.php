@@ -1,52 +1,51 @@
 <?php
+
 namespace App;
+
 use DB;
 use Session;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Support\Facades\Log;
 
-class Merchants extends Model{
+class Merchants extends AppModel
+{
     protected $table = 'nm_merchant';
-    public static function check_login($uname, $pwd){
-        $check_email = DB::table('fan_merchant')->where('merchant_email', '=', $uname)->where('merchant_status','=',1)->get();
+
+    public static function check_login($uname, $pwd)
+    {
+        $check_email = DB::table('fan_merchant')->where('merchant_email', '=', $uname)->where('merchant_status', '=', 1)->get();
         $check_password = 0;
-        if(count($check_email)>0)
-        { 
-            foreach($check_email as $check)
-            {
-                if($check->merchant_email == $uname)
-                {
+        if (count($check_email) > 0) {
+            foreach ($check_email as $check) {
+                if ($check->merchant_email == $uname) {
                     $check_password = DB::table('fan_merchant')->where('merchant_email', '=', $uname)
-                                                              ->where('merchant_password', '=', $pwd)
-                                                              ->where('merchant_status','=',1)->get();
+                        ->where('merchant_password', '=', $pwd)
+                        ->where('merchant_status', '=', 1)->get();
                 } else {
                     return -1;
                 }
-                if(count($check_password) < 1)
-                {
+                if (count($check_password) < 1) {
                     return -2;
-                }
-                else if(count($check_password) > 0)
-                {
+                } else if (count($check_password) > 0) {
                     $check = $check_password[0];
-                    Session::put('site','merchant');
+                    Session::put('site', 'merchant');
                     Session::put('merchantid', $check->merchant_id);
                     Session::put('merchantname', $check->merchant_admin);
                     return 1;
                 }
             }
-        } 
-        else 
-        { 
-        return 0;
+        } else {
+            return 0;
         }
     }
-    public static function merchant_status($uname, $pwd){
+
+    public static function merchant_status($uname, $pwd)
+    {
         $users = DB::table('fan_merchant_submit')->where('merchant_email', '=', $uname)->get();
-        if(count($users) > 0){
+        if (count($users) > 0) {
             $merchant = $users->first();
-            if($pwd != $merchant->merchant_password){
+            if ($pwd != $merchant->merchant_password) {
                 return -2;
             }
             return $merchant->merchant_status;
@@ -54,7 +53,9 @@ class Merchants extends Model{
             return -1;
         }
     }
-    public static function addMerchant($entry){
+
+    public static function addMerchant($entry)
+    {
         $check_insert = DB::table('fan_merchant')->insert($entry);
         if ($check_insert) {
             return DB::getPdo()->lastInsertId();
@@ -62,7 +63,9 @@ class Merchants extends Model{
             return 0;
         }
     }
-    public static function addMerchantTempo($entry){
+
+    public static function addMerchantTempo($entry)
+    {
         $check_insert = DB::table('fan_merchant_submit')->insert($entry);
         if ($check_insert) {
             return DB::getPdo()->lastInsertId();
@@ -70,22 +73,34 @@ class Merchants extends Model{
             return 0;
         }
     }
-    public static function getMerchantTempo($id){
+
+    public static function getMerchantTempo($id)
+    {
         return DB::table('fan_merchant_submit')->where('merchant_id', $id)->get();
     }
-    public static function getMerchantTempos(){
+
+    public static function getMerchantTempos()
+    {
         return DB::table('fan_merchant_submit')->orderby('merchant_id', 'ASC')->get();
     }
-    public static function editMerchantTempo($entry, $id){
+
+    public static function editMerchantTempo($entry, $id)
+    {
         return DB::table('fan_merchant_submit')->where('merchant_id', '=', $id)->update($entry);
     }
-    public static function getMerchant($id){
+
+    public static function getMerchant($id)
+    {
         return DB::table('fan_merchant')->where('merchant_id', $id)->get();
     }
-    public static function getMerchants(){
+
+    public static function getMerchants()
+    {
         return DB::table('fan_merchant')->orderby('merchant_id', 'ASC')->get();
     }
-    public static function editMerchant($entry, $id){
+
+    public static function editMerchant($entry, $id)
+    {
         return DB::table('fan_merchant')->where('merchant_id', '=', $id)->update($entry);
     }
 }

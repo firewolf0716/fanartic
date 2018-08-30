@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 
 
-class Categorys extends Model
+class Categorys extends AppModel
 {
     protected $guarded = array('category_id');
     protected $table = 'master_category';

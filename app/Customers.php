@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Products;
 
-class Customers extends Model
+class Customers extends AppModel
 {
     public static function check_login($uname, $pwd){
         $customer = DB::table('customers')->where('customer_email', '=', $uname)->where('verified', 1)->get()->first();

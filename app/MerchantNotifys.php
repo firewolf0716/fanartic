@@ -5,7 +5,7 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class MerchantNotifys extends Model
+class MerchantNotifys extends AppModel
 {
     public static function insert($entry) {
         $check_insert = DB::table('master_notifymerchant')->insert($entry);

@@ -7,7 +7,7 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Cart extends Model
+class Cart extends AppModel
 {
     //
     public static function addCart($customer, $proid, $color, $size, $count){

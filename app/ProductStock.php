@@ -5,7 +5,8 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductStock extends Model
+
+class ProductStock extends AppModel
 {
     public static function insert_product_stock($entry) {
         $check_insert = DB::table('fan_product_stock_management')->insert($entry);

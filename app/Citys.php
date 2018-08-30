@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class Citys extends Model
+class Citys extends AppModel
 {
     //
     public static function getCitys($stateid){

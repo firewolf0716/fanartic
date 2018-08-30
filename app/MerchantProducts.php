@@ -5,7 +5,7 @@ use File;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 
-class Merchantproducts extends Model
+class Merchantproducts extends AppModel
 {
     protected $guarded = array('id');
     protected $table = 'nm_product';

@@ -5,9 +5,10 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
-class Sizes extends Model
+class Sizes extends AppModel
 {
-    public static function insert_size($entry) {
+    public static function insert_size($entry)
+    {
         $check_insert = DB::table('master_size')->insert($entry);
         if ($check_insert) {
             return DB::getPdo()->lastInsertId();
@@ -16,27 +17,32 @@ class Sizes extends Model
         }
     }
 
-    public static function get_sizes() {
+    public static function get_sizes()
+    {
         return DB::table('master_size')->orderBy('master_size.size_id', 'ASC')
-                                       ->leftJoin('master_sizecategory', 'master_size.size_category_id', '=', 'master_sizecategory.sizecategory_id')
-                                       ->get();
+            ->leftJoin('master_sizecategory', 'master_size.size_category_id', '=', 'master_sizecategory.sizecategory_id')
+            ->get();
     }
 
-    public static function get_size($id) {
+    public static function get_size($id)
+    {
         return DB::table('master_size')->where('master_size.size_id', $id)
-                                       ->leftJoin('master_sizecategory', 'master_size.size_category_id', '=', 'master_sizecategory.sizecategory_id')
-                                       ->get()->first();
+            ->leftJoin('master_sizecategory', 'master_size.size_category_id', '=', 'master_sizecategory.sizecategory_id')
+            ->get()->first();
     }
 
-    public static function get_sizes_with_category($id) {
+    public static function get_sizes_with_category($id)
+    {
         return DB::table('master_size')->where('size_category_id', $id)->get();
     }
 
-    public static function edit_size($entry,$id) {
+    public static function edit_size($entry, $id)
+    {
         return DB::table('master_size')->where('size_id', '=', $id)->update($entry);
     }
 
-    public static function insert_sizecategory($entry) {
+    public static function insert_sizecategory($entry)
+    {
         $check_insert = DB::table('master_sizecategory')->insert($entry);
         if ($check_insert) {
             return DB::getPdo()->lastInsertId();
@@ -45,19 +51,24 @@ class Sizes extends Model
         }
     }
 
-    public static function get_sizecategorys() {
+    public static function get_sizecategorys()
+    {
         return DB::table('master_sizecategory')->orderBy('sizecategory_id', 'ASC')->get();
     }
 
-    public static function get_sizecategory($id) {
+    public static function get_sizecategory($id)
+    {
         return DB::table('master_sizecategory')->where('sizecategory_id', $id)->get();
     }
 
-    public static function edit_sizecategory($entry, $id) {
+    public static function edit_sizecategory($entry, $id)
+    {
         return DB::table('master_sizecategory')->where('sizecategory_id', '=', $id)->update($entry);
     }
-    public static function get_size_id($size_name) {
+
+    public static function get_size_id($size_name)
+    {
         return DB::table('master_size')->where('size_name', $size_name)->get()->first()->size_id;
     }
-    
+
 }

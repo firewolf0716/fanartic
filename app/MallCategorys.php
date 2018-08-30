@@ -5,7 +5,7 @@ namespace App;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-class MallCategorys extends Model
+class MallCategorys extends AppModel
 {
     //
     public static function insert_match($entry){
