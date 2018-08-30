@@ -113,13 +113,13 @@
                      <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->brand_create}}">
+                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->created_at}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->brand_update}}">
+                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->updated_at}}">
                     </div>
                 </div>
 
@@ -191,8 +191,8 @@
 <script type="text/javascript">
     $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
-        $('#create_date').val('{{$brand->brand_create}}');
-        $('#update_date').val('{{$brand->brand_update}}');
+        $('#create_date').val('{{$brand->created_at}}');
+        $('#update_date').val('{{$brand->updated_at}}');
 
         $cstr = '<img style="height:70px; width:70px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}" id="brand_image2">';
         $cstr += '<button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">Remove</button>';

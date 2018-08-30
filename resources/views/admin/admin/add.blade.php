@@ -80,8 +80,6 @@
     <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
-
-
     <script src="{{ URL::asset('gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('gvendor/parsleyjs/dist/parsley.min.js') }}"></script>

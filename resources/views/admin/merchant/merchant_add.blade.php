@@ -190,12 +190,12 @@
 
                     <div class="form-group">
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
+                            <input type="hidden" id="created_at" name="created_at" class="form-control col-md-7 col-xs-12" readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
+                            <input type="hidden" id="updated_at" name="updated_at" class="form-control col-md-7 col-xs-12" readonly>
                         </div>
                     </div>
                     <div class="ln_solid"></div>
@@ -284,8 +284,8 @@
     <script>
         $(function(){
             changeState($('#merchant_state').val());
-            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#created_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#updated_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         });
         $('#merchant_state').change(function(){
             stateid = $('#merchant_state').val();
@@ -295,7 +295,7 @@
             location.reload();
         });
         $('#btnSubmit').click(function(){
-            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#updated_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
             $('#form_add').parsley();
         });
         $('#merchant_plan').change(function() {

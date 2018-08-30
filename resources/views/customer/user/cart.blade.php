@@ -54,7 +54,7 @@
     <!--/.cart__column__content-->
     <div class="cart__column__shipping">
         <div class="cart__shipping">
-        <p class="cart__shipping__delivery">送料無料でお届けします。</p>
+        {{--<p class="cart__shipping__delivery">送料無料でお届けします。</p>--}}
         <p class="cart__shipping__quantity">商品合計（{{number_format($count)}}点）</p>
         <p class="cart__shipping__price"><strong>¥{{number_format($sum)}}</strong></p>
         <p class="cart__shipping__point">獲得ポイント：2,000ポイント</p>

@@ -114,7 +114,7 @@ class SizeController extends Controller
         $search = Sizes::get_size($id);
         $categorys = Sizes::get_sizecategorys();
         if(isset($search)){
-            $size = $search[0];
+            $size = $search;
             return view('admin.size.edit')->with('size', $size)->with('categorys', $categorys);
         } else {
             return Redirect::to('admin/size/list');

@@ -50,13 +50,13 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$size->size_create}}">
+                        <input type="text" id="created_at" name="created_at" class="form-control col-md-7 col-xs-12" readonly value="{{$size->created_at}}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$size->size_update}}">
+                        <input type="text" id="updated_at" name="updated_at" class="form-control col-md-7 col-xs-12" readonly value="{{$size->updated_at}}">
                     </div>
                 </div>
                 <div class="ln_solid"></div>
@@ -124,12 +124,12 @@
 <script type="text/javascript">
     $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
-        $('#create_date').val('{{$size->size_create}}');
-        $('#update_date').val('{{$size->size_update}}');
+        $('#created_at').val('{{$size->created_at}}');
+        $('#updated_at').val('{{$size->updated_at}}');
     });
 
     $('#btnSubmit').click(function() {
-        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#updated_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
     });
 </script>
