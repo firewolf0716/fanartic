@@ -48,8 +48,8 @@ return [
     // Which folder to store files in project, fill in 'public', 'resources', 'storage' and so on.
     // You should create routes to serve images if it is not set to public.
     // 'base_directory' => 's3',
-    // 'driver' => 's3',
-    // 'disk' => 's3',
+    'driver' => 's3',
+    'disk' => 's3',
     'base_directory' => 'upload',
 
     'images_folder_name' => 'photos',

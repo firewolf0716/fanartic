@@ -11,6 +11,10 @@
 |
 */
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
 Route::middleware(['basicAuth'])->group(function () {
     //All the routes are placed in here
     // Route::get('/', function() {
@@ -288,8 +292,3 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('{mallname}/{brandid}/{topid}/{mainid}/{categoryid}', 'CustomerController@mall_product_list');
 });
 
-/*
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-     \UniSharp\LaravelFilemanager\Lfm::routes();
- });
-*/
