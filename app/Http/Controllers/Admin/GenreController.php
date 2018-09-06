@@ -26,15 +26,12 @@ class GenreController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'mall_id' => Input::get('select_mall'),
-            'genre_name' => Input::get('genre_name'),
-            'genre_name_en' => Input::get('genre_name_en'),
-            'genre_status' => Input::get('optionValid'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
-        Genres::insert_genre($entry);
+        $genre = new Genres();
+        $genre->mall_id = Input::get('select_mall');
+        $genre->genre_name = Input::get('genre_name');
+        $genre->genre_name_en = Input::get('genre_name_en');
+        $genre->optionValid = Input::get('optionValid');
+        $genre->save();
         return Redirect::to('admin/genre/list');
     }
 
@@ -43,7 +40,7 @@ class GenreController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $genres = Genres::get_genres();
+        $genres = Genres::get();
         return view('admin.genre.list')->with('genres', $genres);
     }
 
@@ -52,14 +49,9 @@ class GenreController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Genres::get_genre($id);
         $malls = Malls::get();
-        if(isset($search)){
-            $genre = $search[0];
-            return view('admin.genre.edit')->with('genre', $genre)->with('malls', $malls);
-        } else{
-            return Redirect::to('admin/genre/list');
-        }
+        $genre = Genres::find($id);
+        return view('admin.genre.edit')->with('genre', $genre)->with('malls', $malls);
     }
 
     public function editpost() {
@@ -67,16 +59,13 @@ class GenreController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'mall_id' => Input::get('select_mall'),
-            'genre_name' => Input::get('genre_name'),
-            'genre_name_en' => Input::get('genre_name_en'),
-            'genre_status' => Input::get('optionValid'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
         $id = Input::get('genre_id');
-        Genres::edit_genre($entry, $id);
+        $genre = Genres::find($id);
+        $genre->mall_id = Input::get('select_mall');
+        $genre->genre_name = Input::get('genre_name');
+        $genre->genre_name_en = Input::get('genre_name_en');
+        $genre->optionValid = Input::get('optionValid');
+        $genre->save();
         return Redirect::to('admin/genre/list');
     }
 
@@ -85,7 +74,7 @@ class GenreController extends Controller
             return Redirect::to('admin/login');
         }
 
-        Genres::remove($id);
+        Genres::find($id)->delete();
         return Redirect::to('admin/genre/list');
     }
 }

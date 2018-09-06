@@ -20,7 +20,7 @@ class BrandController extends Controller
         }
 
         $malls = Malls::get();
-        $genres = Genres::get_genres();
+        $genres = Genres::get();
         return view('admin.brand.add')->with('malls', $malls)->with('genres', $genres);
     }
 
@@ -79,7 +79,7 @@ class BrandController extends Controller
 
         $search = Brands::get_brand($id);
         $malls = Malls::get();
-        $genres = Genres::get_genres();
+        $genres = Genres::get();
         if(isset($search)){
             $brand = $search[0];
             $selmalls = MallBrands::get_malls($brand->brand_id);
