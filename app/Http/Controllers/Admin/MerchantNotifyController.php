@@ -38,16 +38,24 @@ class MerchantNotifyController extends Controller
             }
         }
         
-        $entry = array (
-            'notify_merchant' => $strNotifyMerchants,
-            'notify_name' => Input::get('notify_name'),
-            'notify_name_en' => Input::get('notify_name_en'),
-            'notify_memo' => Input::get('notify_memo'),
-            'notify_status' => Input::get('optionValid'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date'),
-            'admin_id' => $adminid,
-        );
+        // $entry = array (
+        //     'notify_merchant' => $strNotifyMerchants,
+        //     'notify_name' => Input::get('notify_name'),
+        //     'notify_name_en' => Input::get('notify_name_en'),
+        //     'notify_memo' => Input::get('notify_memo'),
+        //     'notify_status' => Input::get('optionValid'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date'),
+        //     'admin_id' => $adminid,
+        // );
+        $notify = new MerchantNotifys();
+        $notify->notify_merchant = $strNotifyMerchants;
+        $notify->notify_name = Input::get('notify_name');
+        $notify->notify_name_en = Input::get('notify_name_en');
+        $notify->notify_memo = Input::get('notify_memo');
+        $notify->optionValid = Input::get('optionValid');
+        $notify->notify_merchant = $adminid;
+        $notify->save();
  
         $id = MerchantNotifys::insert($entry);
         return Redirect::to('admin/notifymerchant/list');
@@ -106,18 +114,25 @@ class MerchantNotifyController extends Controller
             }
         }
         
-        $entry = array (
-            'notify_merchant' => $strNotifyMerchants,
-            'notify_name' => Input::get('notify_name'),
-            'notify_name_en' => Input::get('notify_name_en'),
-            'notify_memo' => Input::get('notify_memo'),
-            'notify_status' => Input::get('optionValid'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date'),
-            'admin_id' => $adminid,
-        );
- 
-        $id = MerchantNotifys::edit(Input::get('notify_id'), $entry);
+        // $entry = array (
+        //     'notify_merchant' => $strNotifyMerchants,
+        //     'notify_name' => Input::get('notify_name'),
+        //     'notify_name_en' => Input::get('notify_name_en'),
+        //     'notify_memo' => Input::get('notify_memo'),
+        //     'notify_status' => Input::get('optionValid'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date'),
+        //     'admin_id' => $adminid,
+        // );
+        $notify = MerchantNotifys::find('notify_id');
+        $notify->notify_merchant = $strNotifyMerchants;
+        $notify->notify_name = Input::get('notify_name');
+        $notify->notify_name_en = Input::get('notify_name_en');
+        $notify->notify_memo = Input::get('notify_memo');
+        $notify->optionValid = Input::get('optionValid');
+        $notify->notify_merchant = $adminid;
+        $notify->save();
+        
         return Redirect::to('admin/notifymerchant/list');
     }
 }
