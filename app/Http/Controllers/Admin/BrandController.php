@@ -19,7 +19,7 @@ class BrandController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         $genres = Genres::get_genres();
         return view('admin.brand.add')->with('malls', $malls)->with('genres', $genres);
     }
@@ -78,7 +78,7 @@ class BrandController extends Controller
         }
 
         $search = Brands::get_brand($id);
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         $genres = Genres::get_genres();
         if(isset($search)){
             $brand = $search[0];

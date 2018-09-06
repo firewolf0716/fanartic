@@ -17,7 +17,7 @@ class GenreController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         return view('admin.genre.add')->with('malls', $malls);
     }
 
@@ -53,7 +53,7 @@ class GenreController extends Controller
         }
 
         $search = Genres::get_genre($id);
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         if(isset($search)){
             $genre = $search[0];
             return view('admin.genre.edit')->with('genre', $genre)->with('malls', $malls);

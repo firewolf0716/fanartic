@@ -34,7 +34,7 @@ class CustomerController extends Controller
 {
     //
     public function index(){
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         return $this->layout_init(view('customer.top'), 1)
                 ->with('malls', $malls)
                 ->with('listtype', "malls");
@@ -610,7 +610,7 @@ class CustomerController extends Controller
     }
 
     public function login(){
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         return $this->layout_init(view('customer.user.login'), 1)
             ->with('malls', $malls)
             ->with('listtype', "malls");

@@ -188,7 +188,7 @@ class CategoryController extends Controller
         }
 
         $category = Categorys::get_category($mainid);
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         $sizecategorys = Sizes::get_sizecategorys();
         $linkedMalls = MallCategorys::get_malls($mainid);
         $topCategorys = $this->getTopCategorys();
@@ -216,7 +216,7 @@ class CategoryController extends Controller
         }
 
         $category = Categorys::get_category($id);
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         
         $linkedMalls = MallCategorys::get_malls($id);
         $topCategorys = $this->getTopCategorys();
