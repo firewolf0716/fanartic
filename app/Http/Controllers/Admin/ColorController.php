@@ -24,14 +24,18 @@ class ColorController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'color_name' => Input::get('color_name'),
-            'color_name_en' => Input::get('color_name_en'),
-            'color_value' => Input::get('color_value'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
-        Colors::insert_color($entry);
+        // $entry =  array(
+        //     'color_name' => Input::get('color_name'),
+        //     'color_name_en' => Input::get('color_name_en'),
+        //     'color_value' => Input::get('color_value'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
+        $color = new Colors();
+        $color->color_name = Input::get('color_name');
+        $color->color_name_en = Input::get('color_name_en');
+        $color->color_value = Input::get('color_value');
+        $color->save();
         return Redirect::to('admin/color/list');
     }
 
@@ -40,7 +44,7 @@ class ColorController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         return view('admin.color.list')->with('colors', $colors);
     }
 
@@ -48,14 +52,8 @@ class ColorController extends Controller
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
-
-        $search = Colors::get_color($id);
-        if(isset($search)){
-            $color = $search;
-            return view('admin.color.edit')->with('color', $color);
-        } else{
-            return Redirect::to('admin/color/list');
-        }
+        $color = Colors::find($id);
+        return view('admin.color.edit')->with('color', $color);
     }
     
     public function editpost() {
@@ -63,15 +61,19 @@ class ColorController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'color_name' => Input::get('color_name'),
-            'color_name_en' => Input::get('color_name_en'),
-            'color_value' => Input::get('color_value'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
+        // $entry =  array(
+        //     'color_name' => Input::get('color_name'),
+        //     'color_name_en' => Input::get('color_name_en'),
+        //     'color_value' => Input::get('color_value'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
         $id = Input::get('color_id');
-        Colors::edit_color($entry, $id);
+        $color = Colors::find($id);
+        $color->color_name = Input::get('color_name');
+        $color->color_name_en = Input::get('color_name_en');
+        $color->color_value = Input::get('color_value');
+        $color->save();
         return Redirect::to('admin/color/list');
     }
 }
