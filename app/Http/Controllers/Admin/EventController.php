@@ -23,16 +23,22 @@ class EventController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'event_title' => Input::get('event_title'),
-            'event_title_en' => Input::get('event_title_en'),
-            'event_condition' => Input::get('event_condition'),
-            'event_duration' => Input::get('reservation-time'),
-            'event_content' => Input::get('event_content'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
-        Events::insert_event($entry);
+        // $entry =  array(
+        //     'event_title' => Input::get('event_title'),
+        //     'event_title_en' => Input::get('event_title_en'),
+        //     'event_condition' => Input::get('event_condition'),
+        //     'event_duration' => Input::get('reservation-time'),
+        //     'event_content' => Input::get('event_content'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
+        $event = new Event();
+        $event->event_title = Input::get('event_title');
+        $event->event_title_en = Input::get('event_title_en');
+        $event->event_condition = Input::get('event_condition');
+        $event->event_duration = Input::get('event_duration');
+        $event->event_content = Input::get('event_content');
+        $event->save();
         return Redirect::to('admin/event/list');
     }
 
@@ -41,7 +47,7 @@ class EventController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $events = Events::get_events();
+        $events = Events::get();
         return view('admin.event.list')->with('events', $events);
     }
 
@@ -49,14 +55,8 @@ class EventController extends Controller
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
-
-        $search = Events::get_event($id);
-        if(isset($search)){
-            $event = $search[0];
-            return view('admin.event.edit')->with('event', $event);
-        } else{
-            return Redirect::to('admin/event/list');
-        }
+        $event = Events::find($id);
+        return view('admin.event.edit')->with('event', $event);
     }
 
     public function delete($id) {
@@ -64,7 +64,7 @@ class EventController extends Controller
             return Redirect::to('admin/login');
         }
 
-        Events::remove_event($id);
+        Events::find($id)->delete();
         return Redirect::to('admin/event/list');
     }
     public function editpost() {
@@ -72,17 +72,23 @@ class EventController extends Controller
             return Redirect::to('admin/login');
         }
         
-        $entry =  array(
-            'event_title' => Input::get('event_title'),
-            'event_title_en' => Input::get('event_title_en'),
-            'event_condition' => Input::get('event_condition'),
-            'event_duration' => Input::get('reservation-time'),
-            'event_content' => Input::get('event_content'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
+        // $entry =  array(
+        //     'event_title' => Input::get('event_title'),
+        //     'event_title_en' => Input::get('event_title_en'),
+        //     'event_condition' => Input::get('event_condition'),
+        //     'event_duration' => Input::get('reservation-time'),
+        //     'event_content' => Input::get('event_content'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
         $id = Input::get('event_id');
-        Events::edit_event($entry, $id);
+        $event = Events::find($id);
+        $event->event_title = Input::get('event_title');
+        $event->event_title_en = Input::get('event_title_en');
+        $event->event_condition = Input::get('event_condition');
+        $event->event_duration = Input::get('event_duration');
+        $event->event_content = Input::get('event_content');
+        $event->save();
         return Redirect::to('admin/event/list');
     }
 }
