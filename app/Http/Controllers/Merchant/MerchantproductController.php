@@ -75,7 +75,7 @@ class MerchantproductController extends Controller
         $colors = Colors::get_colors();
         $productstates = ProductStates::get_productstates();
         $sizeCategorys = Sizes::get_sizecategorys();
-        $categoryinfo = Categorys::get_category($id);
+        $categoryinfo = Categorys::find($id);
         $product_parents = $this->merchant_getparentprefers($product->product_category_id, $product->product_brand_id);
         $selectedColors = explode("/**/", $product->product_color);
         $selectedSizes = explode("/**/", $product->product_size);

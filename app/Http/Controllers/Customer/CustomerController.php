@@ -156,8 +156,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
@@ -245,8 +245,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
@@ -332,8 +332,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
@@ -417,8 +417,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
@@ -527,9 +527,9 @@ class CustomerController extends Controller
         $tcategoryid = Categorys::getTopCategoryID($product->product_category_id);
 
         $mcategoryid = Categorys::getMainCategoryID($product->product_category_id);
-        $mcategory = Categorys::get_category($mcategoryid);
+        $mcategory = Categorys::find($mcategoryid);
 
-        $scategory = Categorys::get_category($product->product_category_id);
+        $scategory = Categorys::find($product->product_category_id);
 
         $colors = Colors::get_colors();
         $sizes = Sizes::get_sizes_with_category($mcategoryid);

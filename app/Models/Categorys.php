@@ -11,19 +11,7 @@ class Categorys extends AppModel
 {
     protected $guarded = array('category_id');
     protected $table = 'master_category';
-
-    public static function insert_category($entry){
-        $check_insert = DB::table('master_category')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
-    }
-
-    public static function edit_category($entry, $id) {
-        return DB::table('master_category')->where('category_id', $id)->update($entry);
-    }
+    protected $primaryKey = 'category_id';
 
     public static function getTopCategorys() {
         return DB::table('master_category')->orderBy('category_id', 'ASC')
@@ -33,10 +21,6 @@ class Categorys extends AppModel
                                     ->orWhere('category_parent_id', null);
                                 })
                                 ->get();
-    }
-
-    public static function get_category($id) {
-        return DB::table('master_category')->where('category_id', $id)->get()->first();
     }
 
     public static function getMainCategorys($topcategoryid) {
@@ -54,12 +38,6 @@ class Categorys extends AppModel
     public static function getParentCategory($id) {
         $parent_id = DB::table('master_category')->where('category_id', $id)->get()->first()->category_parent_id;
         return DB::table('master_category')->where('category_id', $parent_id)->get()->first();     
-    }
-
-    public static function remove($id) {
-        DB::table('master_category')->where('category_id', $id)->delete();
-        DB::table('master_category')->where('category_parent_id', $id)->delete();
-        return;
     }
 
     public static function getMainCategoryID($id) {
