@@ -70,27 +70,6 @@ class AdminController extends Controller
         return view("admin.merchant.merchants")->with('merchants_live', $merchants_live)->with('merchants_wait', $merchants_wait);
     }
 
-    // public function approve_merchant($id){
-    //     $mw = Merchants::getMerchantTempo($id)->first();
-    //     $mw->merchant_status = 1;
-    //     $array = json_decode(json_encode($mw),true);
-    //     unset($array['merchant_id']);
-    //     Log::debug($array);
-    //     Merchants::editMerchantTempo($array, $mw->merchant_id);
-    //     Merchants::addMerchant($array);
-    //     return Redirect::to('admin/merchants');
-    // }
-
-    // public function merchant_reject($id){
-    //     $mw = Merchants::getMerchantTempo($id)->first();
-    //     $mw->merchant_status = 2;
-    //     $array = json_decode(json_encode($mw),true);
-    //     unset($array['merchant_id']);
-    //     Log::debug($array);
-    //     Merchants::editMerchantTempo($array, $mw->merchant_id);
-    //     return Redirect::to('admin/merchants');
-    // }
-
     public function merchant_open($id) {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
@@ -118,15 +97,6 @@ class AdminController extends Controller
         Merchants::editMerchant($array, $ml->merchant_id);
         return Redirect::to('admin/merchants/list');
     }
-
-    // public function detail_merchant_wait($id){
-    //     $merchant = Merchants::getMerchantTempo($id)->first();
-    //     $plans = Plans::get_plans();
-    //     $states = States::get_states();
-    //     return view('admin.merchant_detail')->with('merchant', $merchant)
-    //                                 ->with('plans', $plans)
-    //                                 ->with('states', $states);
-    // }
 
     public function detail_merchant_live($id) {
         if ($this->check_admin_session() == false) {
@@ -307,13 +277,13 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'admin_name' => Input::get('admin_name'),
-            'admin_email' => Input::get('admin_email'),
-            'admin_password' => Input::get('admin_password'),
-            'admin_permission' => '2'
-        );
-        Admins::insert_admin($entry);
+        $admin = new Admins();
+        $admin->admin_name = Input::get('admin_name');
+        $admin->admin_email = Input::get('admin_email');
+        $admin->admin_password = Input::get('admin_password');
+        $admin->admin_permission = 2;
+        $admin->save();
+
         return Redirect::to('admin/admins/list');
     }
 
@@ -322,8 +292,7 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $admins = Admins::get_admin($id);
-        $admin = $admins->first();
+        $admin = Admins::find($id);
         return view('admin.admin.edit')->with('admin', $admin);
     }
 
@@ -332,7 +301,7 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $admins = Admins::get_admins();
+        $admins = Admins::where('admin_permission', '!=', 1)->orderBy('admin_id', 'ASC')->get();
         return view('admin.admin.list')->with('admins', $admins);
     }
 
@@ -341,13 +310,12 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $adminid = Input::get('admin_id');
-        $entry =  array(
-            'admin_name' => Input::get('admin_name'),
-            'admin_email' => Input::get('admin_email'),
-            'admin_password' => Input::get('admin_password')
-        );
-        Admins::edit_admin($entry, $adminid);
+        $admin = Admins::find(Input::get('admin_id'));
+        $admin->admin_name = Input::get('admin_name');
+        $admin->admin_email = Input::get('admin_email');
+        $admin->admin_password = Input::get('admin_password');
+        $admin->save();
+
         return Redirect::to('admin/admins/list');
     }
 }
