@@ -11,14 +11,6 @@ class Brands extends AppModel
     protected $guarded = array('id');
     protected $table = 'master_brand';
 
-    public static function insert_brand($entry){
-        $check_insert = DB::table('master_brand')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
-    }
     public static function get_brands(){
         return DB::table('master_brand')
                                     ->orderBy('tempostar_sort_by', 'DESC')

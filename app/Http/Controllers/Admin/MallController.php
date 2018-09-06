@@ -20,7 +20,7 @@ class MallController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         return view('admin.mall.add')->with('brands', $brands);
     }
     public function addpost() {
@@ -88,7 +88,7 @@ class MallController extends Controller
 
         
         $mall = Malls::find($id);
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         $selBrands = MallBrands::get_brands($mall->mall_id);
         $selBrandsString = '';
         for ($i = 0; $i < count($selBrands); $i++) {

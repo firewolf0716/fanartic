@@ -38,28 +38,15 @@ class BrandController extends Controller
         $newdestinationPath = './images/brands/';
         $uploadSuccess_new = Input::file('brand_image')->move($newdestinationPath, $filename_new);
 
-        $entry =  array (
-            'brand_name' => Input::get('brand_name'),
-            'brand_name_en' => Input::get('brand_name_en'),
-            'brand_design' => Input::get('select_design'),
-            'brand_status' => Input::get('optionStatus'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date'),
-            'brand_image' => $filename_new,
-            'brand_description' => Input::get('brand_description')
-        );
-        $id = Brands::insert_brand($entry);
+        $brand = new Brands();
+        $brand->brand_name = Input::get('brand_name');
+        $brand->brand_name_en = Input::get('brand_name_en');
+        $brand->brand_design = Input::get('brand_design');
+        $brand->brand_status = Input::get('brand_status');
+        $brand->brand_image = Input::get('brand_image');
+        $brand->brand_description = Input::get('brand_description');
+        $brand->save();
         
-        // if(Input::has('brand_mall')){
-        //     $malls = Input::get('brand_mall');
-        //     foreach($malls as $mall){
-        //         $mentry = array(
-        //             'mall_id' => $mall,
-        //             'brand_id' => $id
-        //         );
-        //         MallBrands::insert_match($mentry);
-        //     }
-        // }
         return Redirect::to('admin/brand/list');
     }
 
@@ -68,7 +55,7 @@ class BrandController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         return view('admin.brand.list')->with('brands', $brands);
     }
 
@@ -77,16 +64,11 @@ class BrandController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Brands::get_brand($id);
         $malls = Malls::get();
         $genres = Genres::get();
-        if(isset($search)){
-            $brand = $search[0];
-            $selmalls = MallBrands::get_malls($brand->brand_id);
-            return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls)->with('genres', $genres)->with('selmalls', $selmalls);
-        } else{
-            return Redirect::to('admin/brand/list');
-        }
+        $brand = Brands::find($id);
+        $selmalls = MallBrands::get_malls($brand->brand_id);
+        return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls)->with('genres', $genres)->with('selmalls', $selmalls);
     }
 
     public function delete($id) {
@@ -94,16 +76,12 @@ class BrandController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Brands::get_brand($id);
-        if(isset($search)){
-            $brand = $search[0];
-            $imgPath = "./images/brands/".$brand->brand_image;
-            if (file_exists($imgPath)) {
-                unlink($imgPath);
-            }
+        $brand = Brands::find($id);
+        $imgPath = "./images/brands/".$brand->brand_image;
+        if (file_exists($imgPath)) {
+            unlink($imgPath);
         }
-
-        Brands::remove($id);
+        Brands::find($id)->delete();
         MallBrands::remove_malls($id);
         return Redirect::to('admin/brand/list');
     }
@@ -122,17 +100,15 @@ class BrandController extends Controller
             $uploadSuccess_new = $brand_image_file->move($newdestinationPath, $filename);
         }
         
-        $entry =  array(
-            'brand_name' => Input::get('brand_name'),
-            'brand_name_en' => Input::get('brand_name_en'),
-            'brand_design' => Input::get('select_design'),
-            'brand_status' => Input::get('optionStatus'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date'),
-            'brand_description' => Input::get('brand_description')
-        );
         $id = Input::get('brand_id');
-        Brands::edit_brand($entry, $id);
+        $brand = Brands::find($id);
+        $brand->brand_name = Input::get('brand_name');
+        $brand->brand_name_en = Input::get('brand_name_en');
+        $brand->brand_design = Input::get('brand_design');
+        $brand->brand_status = Input::get('brand_status');
+        $brand->brand_image = Input::get('brand_image');
+        $brand->brand_description = Input::get('brand_description');
+        $brand->save();
 
         // MallBrands::remove_malls($id);
         // if(Input::has('brand_mall')){

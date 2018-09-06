@@ -64,7 +64,7 @@ class CustomerController extends Controller
     }
 
     public function brands(){
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         return $this->layout_init(view('customer.brand'), 1)
                 ->with('brands', $brands)->with('listtype', "malls");
     }
@@ -101,7 +101,7 @@ class CustomerController extends Controller
             $maincategorys = Categorys::getMainCategorys($topcategorys[1]->category_id);
         }
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
 
         $customerid = null;
         $recent = null;
@@ -384,7 +384,7 @@ class CustomerController extends Controller
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
 
         $customerid = null;
         if (Session::has('customerid')) {
@@ -471,7 +471,7 @@ class CustomerController extends Controller
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
 
         $customerid = null;
         if (Session::has('customerid')) {
@@ -589,7 +589,7 @@ class CustomerController extends Controller
         $topcategorys = Categorys::getTopCategorys();
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         $tcategory = $topcategorys[0];
         $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
         
@@ -799,7 +799,7 @@ class CustomerController extends Controller
         $topcategorys = Categorys::getTopCategorys();
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         $tcategory = $topcategorys[0];
         $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
 

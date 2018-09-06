@@ -40,7 +40,7 @@ class MerchantproductController extends Controller
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);
         } else {
-            $brands = Brands::get_brands();
+            $brands = Brands::get();
         }
         $sizeCategorys = Sizes::get_sizecategorys();
         $events = Events::get_events();
@@ -69,7 +69,7 @@ class MerchantproductController extends Controller
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);
         } else {
-            $brands = Brands::get_brands();
+            $brands = Brands::get();
         }
         $events = Events::get_events();
         $colors = Colors::get_colors();
