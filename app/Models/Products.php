@@ -14,6 +14,7 @@ class Products extends AppModel
 {
     protected $guarded = array('id');
     protected $table = 'fan_product';
+    protected $primaryKey = 'product_id';
 
     public static function insert_product($entry)
     {
