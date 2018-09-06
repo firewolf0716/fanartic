@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class Merchants extends AppModel
 {
-    protected $table = 'nm_merchant';
+    protected $table = 'fan_merchant';
+    protected $primaryKey = 'merchant_id';
 
     public static function check_login($uname, $pwd)
     {
@@ -72,31 +73,6 @@ class Merchants extends AppModel
         } else {
             return 0;
         }
-    }
-
-    public static function getMerchantTempo($id)
-    {
-        return DB::table('fan_merchant_submit')->where('merchant_id', $id)->get();
-    }
-
-    public static function getMerchantTempos()
-    {
-        return DB::table('fan_merchant_submit')->orderby('merchant_id', 'ASC')->get();
-    }
-
-    public static function editMerchantTempo($entry, $id)
-    {
-        return DB::table('fan_merchant_submit')->where('merchant_id', '=', $id)->update($entry);
-    }
-
-    public static function getMerchant($id)
-    {
-        return DB::table('fan_merchant')->where('merchant_id', $id)->get();
-    }
-
-    public static function getMerchants()
-    {
-        return DB::table('fan_merchant')->orderby('merchant_id', 'ASC')->get();
     }
 
     public static function editMerchant($entry, $id)

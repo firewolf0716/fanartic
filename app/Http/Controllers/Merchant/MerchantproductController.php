@@ -35,7 +35,7 @@ class MerchantproductController extends Controller
             return Redirect::to('merchant/signin?redirect=merchant/product/add');
         }
         $merchant_id = Session::get('merchantid');
-        $merchants = Merchants::getMerchant($merchant_id);
+        $merchants = Merchants::find($merchant_id);
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);
@@ -64,7 +64,7 @@ class MerchantproductController extends Controller
     public function merchant_product_edit($id){
         $product = Products::get_product($id);
         $merchant_id = Session::get('merchantid');
-        $merchants = Merchants::getMerchant($merchant_id);
+        $merchants = Merchants::find($merchant_id);
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);

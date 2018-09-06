@@ -17,7 +17,7 @@ class CustomerNotifyController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $customers = Merchants::getMerchants();
+        $customers = Merchants::get();
         return view('admin.notifyc.add')->with('customers', $customers);
     }
 
@@ -79,7 +79,7 @@ class CustomerNotifyController extends Controller
         }
 
         $adminid = Session::get('adminid');
-        $customers = Merchants::getMerchants();
+        $customers = Merchants::get();
         $notifys = CustomerNotifys::getNotifysByAdminAndID($adminid, $id);
         if (count($notifys) == 0) {
             return Redirect::to('admin/notifycustomer/list');
