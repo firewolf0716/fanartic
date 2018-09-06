@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Malls;
-use App\Brands;
-use App\MallBrands;
-use App\MallCategorys;
-use App\Categorys;
-use App\MerchantShipping;
+use App\Models\Malls;
+use App\Models\Brands;
+use App\Models\MallBrands;
+use App\Models\MallCategorys;
+use App\Models\Categorys;
+use App\Models\MerchantShipping;
 
 class MerchantShippingController extends Controller
 {

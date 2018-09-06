@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Malls;
-use App\Categorys;
-use App\Sizes;
-use App\MallCategorys;
+use App\Models\Malls;
+use App\Models\Categorys;
+use App\Models\Sizes;
+use App\Models\MallCategorys;
 
 class CategoryController extends Controller
 {

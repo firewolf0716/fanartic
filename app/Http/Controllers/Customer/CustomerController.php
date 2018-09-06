@@ -17,18 +17,18 @@ use Stripe\Account;
 use Stripe\Token;
 use Stripe\Error\Card;
 
-use App\Categorys;
-use App\Sizes;
-use App\Colors;
-use App\Products;
-use App\Customers;
-use App\Brands;
-use App\ProductSKU;
-use App\ProductStock;
-use App\Cart;
-use App\Malls;
-use App\MallBrands;
-use App\States;
+use App\Models\Categorys;
+use App\Models\Sizes;
+use App\Models\Colors;
+use App\Models\Products;
+use App\Models\Customers;
+use App\Models\Brands;
+use App\Models\ProductSKU;
+use App\Models\ProductStock;
+use App\Models\Cart;
+use App\Models\Malls;
+use App\Models\MallBrands;
+use App\Models\States;
 
 class CustomerController extends Controller
 {

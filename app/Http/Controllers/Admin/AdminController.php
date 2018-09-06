@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Admins;
-use App\Merchants;
-use App\Plans;
-use App\States;
-use App\Brands;
-use App\MerchantBrands;
+use App\Models\Admins;
+use App\Models\Merchants;
+use App\Models\Plans;
+use App\Models\States;
+use App\Models\Brands;
+use App\Models\MerchantBrands;
 
 class AdminController extends Controller
 {

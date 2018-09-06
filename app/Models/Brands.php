@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use DB;
 
@@ -20,11 +20,8 @@ class Brands extends AppModel
         }
     }
     public static function get_brands(){
-        return DB::table('master_brand')
-                                    ->orderBy('tempostar_sort_by', 'DESC')
-                                    ->orderBy('brand_id', 'ASC')->get();
+        return DB::table('master_brand')->orderBy('tempostar_sort_by', 'DESC')->orderBy('brand_id', 'ASC')->get();
     }
-
     public static function get_brand($id){
         return DB::table('master_brand')->where('brand_id', $id)->get();
     }
@@ -38,9 +35,11 @@ class Brands extends AppModel
         return DB::table('master_brand')->where('brand_id', $id)->delete();
     }
 
-    public static function removeAll() {
-        $query = "TRUNCATE TABLE master_brand";
-        $categorys = DB::select($query);
-        return $categorys;
+    public static function get_brand_id($brand_name) {
+        return DB::table('master_brand')->where('brand_name', $brand_name)->get()->first()->brand_id;
+    }
+
+    public static function get_brand_byname($brand_name){
+        return DB::table('master_brand')->where('brand_name_en', $brand_name)->get()->first();
     }
 }

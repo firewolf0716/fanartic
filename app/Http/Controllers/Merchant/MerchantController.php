@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 
-use App\Merchants;
-use App\Plans;
-use App\States;
-use App\Citys;
-use App\Brands;
-use App\MerchantBrands;
+use App\Models\Merchants;
+use App\Models\Plans;
+use App\Models\States;
+use App\Models\Citys;
+use App\Models\Brands;
+use App\Models\MerchantBrands;
 
 class MerchantController extends Controller
 {

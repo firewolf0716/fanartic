@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Malls;
-use App\Brands;
-use App\Genres;
-use App\MallBrands;
+use App\Models\Malls;
+use App\Models\Brands;
+use App\Models\Genres;
+use App\Models\MallBrands;
 
 class BrandController extends Controller
 {

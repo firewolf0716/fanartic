@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 
-use App\MerchantNotifys;
-use App\Merchants;
+use App\Models\MerchantNotifys;
+use App\Models\Merchants;
 use Session;
 
 class MerchantNotifyController extends Controller

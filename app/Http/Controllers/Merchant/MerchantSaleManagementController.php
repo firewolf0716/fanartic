@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\MerchantSaleManagement;
+use App\Models\MerchantSaleManagement;
 
 class MerchantSaleManagementController extends Controller
 {

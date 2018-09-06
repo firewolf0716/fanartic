@@ -32,7 +32,7 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('admin/signin', 'Admin\AdminController@signin');
 
 	// Admin
-	Route::get('admin','AdminController@login');
+	Route::get('admin','Admin\AdminController@login');
 	Route::get('admin/dashboard','Admin\AdminController@dashboard');
 	Route::get('admin/admins/add','Admin\AdminController@addadmin');
 	Route::post('admin/admins/addpost','Admin\AdminController@addadminpost');

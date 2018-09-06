@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Malls;
-use App\Brands;
-use App\Genres;
-use App\MallBrands;
-use App\ProductSKU;
-use App\ProductStock;
-use App\Categorys;
-use App\Products;
+use App\Models\Malls;
+use App\Models\Brands;
+use App\Models\Genres;
+use App\Models\MallBrands;
+use App\Models\ProductSKU;
+use App\Models\ProductStock;
+use App\Models\Categorys;
+use App\Models\Products;
 
 class ImportController extends Controller
 {

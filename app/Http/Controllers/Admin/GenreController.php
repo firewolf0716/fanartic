@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Malls;
-use App\Genres;
+use App\Models\Malls;
+use App\Models\Genres;
 
 class GenreController extends Controller
 {
