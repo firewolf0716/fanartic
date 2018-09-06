@@ -34,7 +34,7 @@ class CustomerController extends Controller
 {
     //
     public function index(){
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         return $this->layout_init(view('customer.top'), 1)
                 ->with('malls', $malls)
                 ->with('listtype', "malls");
@@ -64,7 +64,7 @@ class CustomerController extends Controller
     }
 
     public function brands(){
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         return $this->layout_init(view('customer.brand'), 1)
                 ->with('brands', $brands)->with('listtype', "malls");
     }
@@ -101,7 +101,7 @@ class CustomerController extends Controller
             $maincategorys = Categorys::getMainCategorys($topcategorys[1]->category_id);
         }
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
 
         $customerid = null;
         $recent = null;
@@ -156,8 +156,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
@@ -245,8 +245,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
@@ -332,8 +332,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
@@ -384,7 +384,7 @@ class CustomerController extends Controller
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
 
         $customerid = null;
         if (Session::has('customerid')) {
@@ -417,8 +417,8 @@ class CustomerController extends Controller
             $topcategory = $topcategorys[0];
         }
         else {
-            if($topid == "men"){ $topcategory = Categorys::get_category(1);}
-            else if($topid == "women"){$topcategory = Categorys::get_category(2);}
+            if($topid == "men"){ $topcategory = Categorys::find(1);}
+            else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
         $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
@@ -471,7 +471,7 @@ class CustomerController extends Controller
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
 
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
 
         $customerid = null;
         if (Session::has('customerid')) {
@@ -527,9 +527,9 @@ class CustomerController extends Controller
         $tcategoryid = Categorys::getTopCategoryID($product->product_category_id);
 
         $mcategoryid = Categorys::getMainCategoryID($product->product_category_id);
-        $mcategory = Categorys::get_category($mcategoryid);
+        $mcategory = Categorys::find($mcategoryid);
 
-        $scategory = Categorys::get_category($product->product_category_id);
+        $scategory = Categorys::find($product->product_category_id);
 
         $colors = Colors::get_colors();
         $sizes = Sizes::get_sizes_with_category($mcategoryid);
@@ -589,7 +589,7 @@ class CustomerController extends Controller
         $topcategorys = Categorys::getTopCategorys();
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         $tcategory = $topcategorys[0];
         $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
         
@@ -610,7 +610,7 @@ class CustomerController extends Controller
     }
 
     public function login(){
-        $malls = Malls::get_malls();
+        $malls = Malls::get();
         return $this->layout_init(view('customer.user.login'), 1)
             ->with('malls', $malls)
             ->with('listtype', "malls");
@@ -799,7 +799,7 @@ class CustomerController extends Controller
         $topcategorys = Categorys::getTopCategorys();
         $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
         $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get_brands();
+        $brands = Brands::get();
         $tcategory = $topcategorys[0];
         $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
 

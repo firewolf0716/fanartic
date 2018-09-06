@@ -8,32 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brands extends AppModel
 {
-    protected $guarded = array('id');
+    protected $guarded = array('brand_id');
     protected $table = 'master_brand';
-
-    public static function insert_brand($entry){
-        $check_insert = DB::table('master_brand')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
-    }
-    public static function get_brands(){
-        return DB::table('master_brand')->orderBy('tempostar_sort_by', 'DESC')->orderBy('brand_id', 'ASC')->get();
-    }
-    public static function get_brand($id){
-        return DB::table('master_brand')->where('brand_id', $id)->get();
-    }
-
-    public static function edit_brand($entry,$id)
-    {
-        return DB::table('master_brand')->where('brand_id', $id)->update($entry);
-    }
-
-    public static function remove($id){
-        return DB::table('master_brand')->where('brand_id', $id)->delete();
-    }
+    protected $primaryKey = 'brand_id';
 
     public static function get_brand_id($brand_name) {
         return DB::table('master_brand')->where('brand_name', $brand_name)->get()->first()->brand_id;

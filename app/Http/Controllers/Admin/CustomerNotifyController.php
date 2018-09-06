@@ -17,7 +17,7 @@ class CustomerNotifyController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $customers = Merchants::getMerchants();
+        $customers = Merchants::get();
         return view('admin.notifyc.add')->with('customers', $customers);
     }
 
@@ -38,18 +38,25 @@ class CustomerNotifyController extends Controller
             }
         }
         
-        $entry = array (
-            'notify_customer' => $strNotifyCustomers,
-            'notify_name' => Input::get('notify_name'),
-            'notify_name_en' => Input::get('notify_name_en'),
-            'notify_memo' => Input::get('notify_memo'),
-            'notify_status' => Input::get('optionValid'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date'),
-            'admin_id' => $adminid,
-        );
- 
-        $id = CustomerNotifys::insert($entry);
+        // $entry = array (
+        //     'notify_customer' => $strNotifyCustomers,
+        //     'notify_name' => Input::get('notify_name'),
+        //     'notify_name_en' => Input::get('notify_name_en'),
+        //     'notify_memo' => Input::get('notify_memo'),
+        //     'notify_status' => Input::get('optionValid'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date'),
+        //     'admin_id' => $adminid,
+        // );
+        $notify = new CustomerNotifys();
+        $notify->notify_customer = $strNotifyCustomers;
+        $notify->notify_name = Input::get('notify_name');
+        $notify->notify_name_en = Input::get('notify_name_en');
+        $notify->notify_memo = Input::get('notify_memo');
+        $notify->notify_status = Input::get('notify_status');
+        $notify->admin_id = $adminid;
+        $notify->save();
+
         return Redirect::to('admin/notifycustomer/list');
     }
 
@@ -79,7 +86,7 @@ class CustomerNotifyController extends Controller
         }
 
         $adminid = Session::get('adminid');
-        $customers = Merchants::getMerchants();
+        $customers = Merchants::get();
         $notifys = CustomerNotifys::getNotifysByAdminAndID($adminid, $id);
         if (count($notifys) == 0) {
             return Redirect::to('admin/notifycustomer/list');
@@ -106,18 +113,25 @@ class CustomerNotifyController extends Controller
             }
         }
         
-        $entry = array (
-            'notify_customer' => $strNotifyCustomers,
-            'notify_name' => Input::get('notify_name'),
-            'notify_name_en' => Input::get('notify_name_en'),
-            'notify_memo' => Input::get('notify_memo'),
-            'notify_status' => Input::get('optionValid'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date'),
-            'admin_id' => $adminid,
-        );
- 
-        $id = CustomerNotifys::edit(Input::get('notify_id'), $entry);
+        // $entry = array (
+        //     'notify_customer' => $strNotifyCustomers,
+        //     'notify_name' => Input::get('notify_name'),
+        //     'notify_name_en' => Input::get('notify_name_en'),
+        //     'notify_memo' => Input::get('notify_memo'),
+        //     'notify_status' => Input::get('optionValid'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date'),
+        //     'admin_id' => $adminid,
+        // );
+        $id = Input::get('notify_id');
+        $notify = CustomerNotifys::find($id);
+        $notify->notify_customer = $strNotifyCustomers;
+        $notify->notify_name = Input::get('notify_name');
+        $notify->notify_name_en = Input::get('notify_name_en');
+        $notify->notify_memo = Input::get('notify_memo');
+        $notify->notify_status = Input::get('notify_status');
+        $notify->admin_id = $adminid;
+        $notify->save();
         return Redirect::to('admin/notifycustomer/list');
     }
 }

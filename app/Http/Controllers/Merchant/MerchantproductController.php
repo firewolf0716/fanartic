@@ -35,12 +35,12 @@ class MerchantproductController extends Controller
             return Redirect::to('merchant/signin?redirect=merchant/product/add');
         }
         $merchant_id = Session::get('merchantid');
-        $merchants = Merchants::getMerchant($merchant_id);
+        $merchants = Merchants::find($merchant_id);
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);
         } else {
-            $brands = Brands::get_brands();
+            $brands = Brands::get();
         }
         $sizeCategorys = Sizes::get_sizecategorys();
         $events = Events::get_events();
@@ -64,18 +64,18 @@ class MerchantproductController extends Controller
     public function merchant_product_edit($id){
         $product = Products::get_product($id);
         $merchant_id = Session::get('merchantid');
-        $merchants = Merchants::getMerchant($merchant_id);
+        $merchants = Merchants::find($merchant_id);
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
             $brands = MerchantBrands::get_brands($merchant_id);
         } else {
-            $brands = Brands::get_brands();
+            $brands = Brands::get();
         }
         $events = Events::get_events();
         $colors = Colors::get_colors();
         $productstates = ProductStates::get_productstates();
         $sizeCategorys = Sizes::get_sizecategorys();
-        $categoryinfo = Categorys::get_category($id);
+        $categoryinfo = Categorys::find($id);
         $product_parents = $this->merchant_getparentprefers($product->product_category_id, $product->product_brand_id);
         $selectedColors = explode("/**/", $product->product_color);
         $selectedSizes = explode("/**/", $product->product_size);

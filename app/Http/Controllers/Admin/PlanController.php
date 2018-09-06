@@ -22,16 +22,22 @@ class PlanController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'plan_name' => Input::get('plan_name'),
-            'plan_opencost' => Input::get('plan_opencost'),
-            'plan_fixcost' => Input::get('plan_fixcost'),
-            'plan_domestic_fee' => Input::get('plan_domestic_fee'),
-            'plan_international_fee' => Input::get('plan_international_fee'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
-        Plans::insert_plan($entry);
+        // $entry =  array(
+        //     'plan_name' => Input::get('plan_name'),
+        //     'plan_opencost' => Input::get('plan_opencost'),
+        //     'plan_fixcost' => Input::get('plan_fixcost'),
+        //     'plan_domestic_fee' => Input::get('plan_domestic_fee'),
+        //     'plan_international_fee' => Input::get('plan_international_fee'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
+        $plan = new Plans();
+        $plan->plan_name = Input::get('plan_name');
+        $plan->plan_opencost = Input::get('plan_opencost');
+        $plan->plan_fixcost = Input::get('plan_fixcost');
+        $plan->plan_domestic_fee = Input::get('plan_domestic_fee');
+        $plan->plan_international_fee = Input::get('plan_international_fee');
+        $plan->save();
         return Redirect::to('admin/plan/list');
     }
 
@@ -40,7 +46,7 @@ class PlanController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $plans = Plans::get_plans();
+        $plans = Plans::get();
         return view('admin.plan.list')->with('plans', $plans);
     }
 
@@ -49,13 +55,8 @@ class PlanController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Plans::get_plan($id);
-        if(isset($search)){
-            $plan = $search[0];
-            return view('admin.plan.edit')->with('plan', $plan);
-        } else{
-            return Redirect::to('admin/plan/list');
-        }
+        $plan = Plans::find($id);
+        return view('admin.plan.edit')->with('plan', $plan);
     }
 
     public function editpost() {
@@ -63,17 +64,23 @@ class PlanController extends Controller
             return Redirect::to('admin/login');
         }
         
-        $entry =  array(
-            'plan_name' => Input::get('plan_name'),
-            'plan_opencost' => Input::get('plan_opencost'),
-            'plan_fixcost' => Input::get('plan_fixcost'),
-            'plan_domestic_fee' => Input::get('plan_domestic_fee'),
-            'plan_international_fee' => Input::get('plan_international_fee'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
+        // $entry =  array(
+        //     'plan_name' => Input::get('plan_name'),
+        //     'plan_opencost' => Input::get('plan_opencost'),
+        //     'plan_fixcost' => Input::get('plan_fixcost'),
+        //     'plan_domestic_fee' => Input::get('plan_domestic_fee'),
+        //     'plan_international_fee' => Input::get('plan_international_fee'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
         $id = Input::get('plan_id');
-        Plans::edit_plan($entry, $id);
+        $plan = Plans::find($id);
+        $plan->plan_name = Input::get('plan_name');
+        $plan->plan_opencost = Input::get('plan_opencost');
+        $plan->plan_fixcost = Input::get('plan_fixcost');
+        $plan->plan_domestic_fee = Input::get('plan_domestic_fee');
+        $plan->plan_international_fee = Input::get('plan_international_fee');
+        $plan->save();
         return Redirect::to('admin/plan/list');
     }
 }

@@ -30,11 +30,11 @@ class MerchantController extends Controller
     public function merchant_setting(){
         if (Session::has('merchantid')) {
             $id = Session::get('merchantid');
-            $merchants = Merchants::getMerchant($id);
+            $merchants = Merchants::find($id);
             $merchant = $merchants[0];
             $plans = Plans::get_plans();
             $states = States::get_states();
-            $brands = Brands::get_brands();
+            $brands = Brands::get();
             $selbrands = MerchantBrands::get_brands($merchant->merchant_id);
             return view('merchant.setting')->with('merchant', $merchant)
                                         ->with('plans', $plans)

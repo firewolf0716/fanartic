@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Admins extends Model
 {
+    protected $table = 'master_admin';
+    protected $primaryKey = 'admin_id';
+    
     public static function check_login($uname, $pwd) {
         $admins = DB::table('master_admin')->where('admin_name', '=', $uname)->get();
         $check_password = 0;
@@ -31,26 +34,5 @@ class Admins extends Model
         } else { 
             return 0;
         }
-    }
-
-    public static function insert_admin($entry) {
-        $check_insert = DB::table('master_admin')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
-    }
-
-    public static function get_admin($id) {
-        return DB::table('master_admin')->where('admin_id', $id)->get();
-    }
-
-    public static function get_admins() {
-        return DB::table('master_admin')->where('admin_permission', '!=', 1)->orderBy('admin_id', 'ASC')->get();
-    }
-
-    public static function edit_admin($entry,$id) {
-        return DB::table('master_admin')->where('admin_id', '=', $id)->update($entry);
     }
 }

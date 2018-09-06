@@ -68,20 +68,29 @@ class ImportController extends Controller
                             $tempostar_brand_parent_id = 0;
                         }
     
-                        $entry =  array (
-                            'brand_name' => $brand_name,
-                            'brand_name_en' => $brand_name,
-                            'brand_design' => '0',
-                            'brand_status' => '0',
-                            'created_at' => $create_date,
-                            'updated_at' => $update_date,
-                            'brand_image' => '',
-                            'brand_description' => 'Tempostarブランド',
-                            'tempostar_brand_id' => $tempostar_brand_id,
-                            'tempostar_brand_parent_id' => $tempostar_brand_parent_id,
-                            'tempostar_sort_by' => $data[4]
-                        );
-                        $id = Brands::insert_brand($entry);
+                        // $entry =  array (
+                        //     'brand_name' => $brand_name,
+                        //     'brand_name_en' => $brand_name,
+                        //     'brand_design' => '0',
+                        //     'brand_status' => '0',
+                        //     'created_at' => $create_date,
+                        //     'updated_at' => $update_date,
+                        //     'brand_image' => '',
+                        //     'brand_description' => 'Tempostarブランド',
+                        //     'tempostar_brand_id' => $tempostar_brand_id,
+                        //     'tempostar_brand_parent_id' => $tempostar_brand_parent_id,
+                        //     'tempostar_sort_by' => $data[4]
+                        // );
+                        $brand = new Brands();
+                        $brand->brand_name = $brand_name;
+                        $brand->brand_name_en = $brand_name;
+                        $brand->brand_design = '0';
+                        $brand->brand_image = '';
+                        $brand->brand_description = 'Tempostarブランド';
+                        $brand->tempostar_brand_id = $tempostar_brand_id;
+                        $brand->tempostar_brand_parent_id = $tempostar_brand_parent_id;
+                        $brand->tempostar_sort_by = $data[4];
+                        $brand->save();
                     }
                 }
 
