@@ -31,10 +31,9 @@ class CustomerAddressController extends Controller
         if(!Session::has('customerid')){
             return Redirect::to('/');
         }
-        $states = States::get_states();
+        $states = States::get();
         $customerid = Session::get('customerid');
-        return $this->layout_init(view('customer.user.address_add'), 1)
-            ->with('states', $states);
+        return $this->layout_init(view('customer.user.address_add'), 1)->with('states', $states);
     }
     public function address_add_post(){
         if(!Session::has('customerid')){
@@ -42,6 +41,7 @@ class CustomerAddressController extends Controller
         }
         $customerid = Session::get('customerid');
         $state = Input::get('state');
+
         $address = new CustomerAddress();
         $address->customer_id = $customerid;
         $address->address_name = Input::get('name');
@@ -54,6 +54,7 @@ class CustomerAddressController extends Controller
         $address->address_county = Input::get('county');
         $address->address_address_jp = Input::get('address_jp');
         $address->save();
+
         return Redirect::to('user/address');
     }
     public function address_flag($id){
@@ -70,18 +71,15 @@ class CustomerAddressController extends Controller
     }
     public function address_edit($id){
         $address = CustomerAddress::find($id);
-        $states = States::get_states();
+        $states = States::get();
         $customerid = Session::get('customerid');
         $phone = $address->address_phone;
         $tel = array('', '', '');
         if($phone != '' || isset($phone)){
             $tel = explode('-', $phone);
         }
-        return $this->layout_init(view('customer.user.address_edit'), 1)
-            ->with('states', $states)
-            ->with('address', $address)
-            ->with('phone', $tel)
-            ->with('customerid', $customerid);
+        return $this->layout_init(view('customer.user.address_edit'), 1)->with('states', $states)->with('address', $address)
+            ->with('phone', $tel)->with('customerid', $customerid);
     }
     public function address_edit_post(){
         if(!Session::has('customerid')){
