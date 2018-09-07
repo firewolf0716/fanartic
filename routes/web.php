@@ -230,13 +230,13 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('user/addtocart', 'Customer\CustomerController@addtocart');
 	Route::post('user/cart_remove_item', 'Customer\CustomerController@cart_remove_item');
 	//address
-	Route::get('user/address', 'Customer\CustomerController@address');
-	Route::get('user/addressadd', 'Customer\CustomerController@addressadd');
-	Route::post('user/address_add_post', 'Customer\CustomerController@address_add_post');
-	Route::get('user/address_flag/{addr_id}', 'Customer\CustomerController@address_flag');
-	Route::get('user/address_edit/{addr_id}', 'Customer\CustomerController@address_edit');
-	Route::post('user/address_edit_post', 'Customer\CustomerController@address_edit_post');
-	Route::get('user/address_delete/{addr_id}', 'Customer\CustomerController@address_delete');
+	Route::get('user/address', 'Customer\CustomerAddressController@address');
+	Route::get('user/addressadd', 'Customer\CustomerAddressController@addressadd');
+	Route::post('user/address_add_post', 'Customer\CustomerAddressController@address_add_post');
+	Route::get('user/address_flag/{addr_id}', 'Customer\CustomerAddressController@address_flag');
+	Route::get('user/address_edit/{addr_id}', 'Customer\CustomerAddressController@address_edit');
+	Route::post('user/address_edit_post', 'Customer\CustomerAddressController@address_edit_post');
+	Route::get('user/address_delete/{addr_id}', 'Customer\CustomerAddressController@address_delete');
 	//payment
 	Route::get('user/credit', 'Customer\CustomerController@credit');
 	Route::get('user/credit_add', 'Customer\CustomerController@credit_add');

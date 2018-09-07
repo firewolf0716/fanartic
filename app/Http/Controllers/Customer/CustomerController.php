@@ -29,6 +29,8 @@ use App\Models\Cart;
 use App\Models\Malls;
 use App\Models\MallBrands;
 use App\Models\States;
+use App\Models\CustomerUser;
+use App\Models\CustomerAddress;
 
 class CustomerController extends Controller
 {
@@ -87,48 +89,6 @@ class CustomerController extends Controller
             Customers::record_score($entry);
         }
         return $this->product_list_brand($brandid);
-        // return Redirect::to('designer/'.$brandid.'/good/list/1');
-    }
-
-    public function layout_init($view, $gender){
-        $topcategorys = Categorys::getTopCategorys();
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $tcategory = $topcategorys[0];
-        if($gender == 2){
-            $tcategory = $topcategorys[1];
-            $maincategorys = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        }
-
-        $brands = Brands::get();
-
-        $customerid = null;
-        $recent = null;
-        $images = null;
-        $customer_email = null;
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
-            $recent = Customers::get_recent($customerid);
-            $images = array();
-            foreach($recent as $product){
-                $imagerec = Products::get_master_images($product->product_id);
-                // dd($imagerec);
-                $images[$product->product_id] = $imagerec;
-            }
-            $customer_email = Customers::get_customer($customerid)->first()->customer_email;
-            // dd($customer_email);
-        }
-        return $view->with('mencategories', $mencategories)
-                ->with('womencategories', $womencategories)
-                ->with('brands', $brands)
-                ->with('tcategory', $tcategory)
-                ->with('maincategorys', $maincategorys)
-                ->with('customerid', $customerid)
-                ->with('recent', $recent)
-                ->with('recentimages', $images)
-                ->with('listtype', "malls")
-                ->with('email', $customer_email);
     }
 
     public function set_recent($view){
@@ -627,14 +587,19 @@ class CustomerController extends Controller
         if(Customers::is_customer_email_exists(Input::get('email'))){
             return "Email already registered";
         }
-        $entry = array(
-            'customer_name_first' => Input::get('name'),
-            'customer_email' => Input::get('email'),
-            'customer_password' => Hash::make(Input::get('password')),
-            'token' => uniqid()
-        );
+        // $entry = array(
+        //     'customer_name_first' => Input::get('name'),
+        //     'customer_email' => Input::get('email'),
+        //     'customer_password' => Hash::make(Input::get('password')),
+        //     'token' => uniqid()
+        // );
 
-        Customers::insert_customer($entry);
+        $customer = new CustomerUser();
+        $customer->customer_name_first = Input::get('name');
+        $customer->customer_email = Input::get('email');
+        $customer->customer_password = Hash::make(Input::get('password'));
+        $customer->token = uniquid();
+        $customer->save();
 
         Mail::send('emails.reminder', ['user' => $entry], function ($m) use ($entry) {
             $m->from('noreply@aidiot.xyz', 'Laravel');
@@ -673,7 +638,8 @@ class CustomerController extends Controller
     public function profile(){
         // dd(Hash::make('aaa'));
         $customerid = Session::get('customerid');
-        $customer = Customers::get_customer($customerid)->first();
+        $customer = CustomerUser::find($customerid);
+        // dd($customer->address);
         $birth = $customer->customer_birthday;
         $births = array('', '', '');
         if($birth != '' || isset($birth)){
@@ -694,28 +660,42 @@ class CustomerController extends Controller
 
     public function profilepost(){
         $customerid = Session::get('customerid');
-        $customer = Customers::get_customer($customerid)->first();
-        $entry = array(
-            'customer_name_first' => Input::get('first_name'),
-            'customer_name_second' => Input::get('second_name'),
-            'customer_name_kana_first' => Input::get('first_name_kana'),
-            'customer_name_kana_second' => Input::get('second_name_kana'),
-            'customer_gender' => Input::get('sex'),
-            'customer_birthday' => Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day'),
-            'customer_postalcode' => Input::get('zipcode'),
-            'customer_province' => Input::get('province'),
-            'customer_county' => Input::get('county'),
-            'customer_address_jp' => Input::get('address'),
-            'customer_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
-            'customer_email' => Input::get('email'),
-            'customer_status' => $customer->customer_status
-        );
+        $customer = CustomerUser::find($customerid);
+        // $entry = array(
+        //     'customer_name_first' => Input::get('first_name'),
+        //     'customer_name_second' => Input::get('second_name'),
+        //     'customer_name_kana_first' => Input::get('first_name_kana'),
+        //     'customer_name_kana_second' => Input::get('second_name_kana'),
+        //     'customer_gender' => Input::get('sex'),
+        //     'customer_birthday' => Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day'),
+        //     'customer_postalcode' => Input::get('zipcode'),
+        //     'customer_province' => Input::get('province'),
+        //     'customer_county' => Input::get('county'),
+        //     'customer_address_jp' => Input::get('address'),
+        //     'customer_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
+        //     'customer_email' => Input::get('email'),
+        //     'customer_status' => $customer->customer_status
+        // );
+        $customer->customer_name_first = Input::get('first_name');
+        $customer->customer_name_second = Input::get('second_name');
+        $customer->customer_name_kana_first = Input::get('first_name_kana');
+        $customer->customer_name_kana_second = Input::get('second_name_kana');
+        $customer->customer_gender = Input::get('sex');
+        $customer->customer_birthday = Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day');
+        $customer->customer_postalcode = Input::get('zipcode');
+        $customer->customer_province = Input::get('province');
+        $customer->customer_county = Input::get('county');
+        $customer->customer_address_jp = Input::get('address');
+        $customer->customer_phone = Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3');
+        $customer->customer_email = Input::get('email');
+        $customer->customer_status = $customer->customer_status;
+        $customer->save();
+
         $password = Input::get('password');
         if(isset($password)){
             $entry['customer_password'] = $password;
         }
         // dd($entry);
-        Customers::edit_customer($entry, $customerid);
         return Redirect::to('user/profile');
     }
 
@@ -856,114 +836,12 @@ class CustomerController extends Controller
         return Redirect::to('user/cart');
     }
 
-    public function address(){
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        $addresses = Customers::get_addresses($customerid);
-        return $this->layout_init(view('customer.user.address'), 1)
-                ->with('addresses', $addresses);
-    }
-
-    public function addressadd(){
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        $states = States::get_states();
-        $customerid = Session::get('customerid');
-        return $this->layout_init(view('customer.user.address_add'), 1)
-            ->with('states', $states);
-    }
-
-    public function address_add_post(){
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        // dd(Input::all());
-        $customerid = Session::get('customerid');
-        $state = Input::get('state');
-        $entry = array(
-            'customer_id' => $customerid,
-            'address_name' => Input::get('name'),
-            'address_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
-            'address_postalcode' => Input::get('zipcode'),
-            'address_state' => Input::get('state'),
-            'address_city' => Input::get('city'),
-            'address_address_ex' => Input::get('address_ex'),
-            'address_province' => Input::get('province'),
-            'address_county' => Input::get('county'),
-            'address_address_jp' => Input::get('address_jp')
-        );
-        $id = Customers::add_address($entry);
-        return Redirect::to('user/address');
-    }
-
-    public function address_flag($id){
-        if(!Session::has('customerid')){
-            return;
-        }
-        $customerid = Session::get('customerid');
-        Customers::unset_address_flag($customerid);
-
-        $entry = array(
-            'address_default' => 1
-        );
-        Customers::edit_address($entry, $id);
-        return Redirect::to('user/address');
-    }
-
-    public function address_edit($id){
-        $address = Customers::get_address($id)->first();
-        $states = States::get_states();
-        $customerid = Session::get('customerid');
-        $phone = $address->address_phone;
-        $tel = array('', '', '');
-        if($phone != '' || isset($phone)){
-            $tel = explode('-', $phone);
-        }
-        return $this->layout_init(view('customer.user.address_edit'), 1)
-            ->with('states', $states)
-            ->with('address', $address)
-            ->with('phone', $tel)
-            ->with('customerid', $customerid);
-    }
-
-    public function address_edit_post(){
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        $state = Input::get('state');
-        $entry = array(
-            'id' => Input::get('address_id'),
-            'customer_id' => $customerid,
-            'address_name' => Input::get('name'),
-            'address_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
-            'address_postalcode' => Input::get('zipcode'),
-            'address_state' => Input::get('state'),
-            'address_city' => Input::get('city'),
-            'address_address_ex' => Input::get('address_ex'),
-            'address_province' => Input::get('province'),
-            'address_county' => Input::get('county'),
-            'address_address_jp' => Input::get('address_jp')
-        );
-        $id =  Input::get('address_id');
-        $res = Customers::edit_address($entry, $id);
-        return Redirect::to('user/address');
-    }
-
-    public function address_delete($id){
-        Customers::delete_address($id);
-        return Redirect::to('user/address');
-    }
-
     public function credit(){
         if(!Session::has('customerid')){
             return Redirect::to('/');
         }
         $customerid = Session::get('customerid');
-        $customer_email = Customers::get_customer($customerid)->first()->customer_email;
+        $customer_email = CustomerUser::find($customerid)->customer_email;
         $cards = Customers::get_cards($customerid);
         
         return $this->layout_init(view('customer.user.credit'), 1)
@@ -976,8 +854,7 @@ class CustomerController extends Controller
             return;
         }
         $customerid = Session::get('customerid');
-        // dd($customerid);
-        $customer_email = Customers::get_customer($customerid)->first()->customer_email;
+        $customer_email = CustomerUser::find($customerid)->customer_email;
         return $this->layout_init(view('customer.user.credit_add'), 1)
                     ->with('email', $customer_email);
     }
@@ -1076,7 +953,7 @@ class CustomerController extends Controller
             Session::put('calc_credit', 'paypal');
         } else {
             if($credit == 'creditnew'){
-                $email = Customers::get_customer($customerid)->first()->customer_email;
+                $email = CustomerUser::find($customerid)->customer_email;
                 Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
                 $customer = Customer::create(array(
                     'email' => $email,
@@ -1296,7 +1173,7 @@ class CustomerController extends Controller
         }
         $customerid = Session::get('customerid');
 
-        $customer = Customers::get_customer($customerid)->first();
+        $customer = CustomerUser::find($customerid);
         $email = $customer->customer_email;
 
         $mmg = Customers::is_magazine_info_exists($customerid);

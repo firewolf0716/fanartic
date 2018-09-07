@@ -61,32 +61,6 @@ class Customers extends AppModel
         }
     }
 
-    public static function insert_customer($entry){
-        $check_insert = DB::table('customers')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
-    }
-
-    public static function get_customers(){
-        return DB::table('customers')->orderBy('customer_id', 'ASC')->get();
-    }
-
-    public static function get_customer($id){
-        return DB::table('customers')->where('customer_id', $id)->get();
-    }
-
-    public static function edit_customer($entry,$id)
-    {
-        return DB::table('customers')->where('customer_id', $id)->update($entry);
-    }
-
-    public static function remove($id){
-        return DB::table('customers')->where('customer_id', $id)->delete();
-    }
-
     public static function addRecent($id, $proid){
         $entry = array(
             'customer_id' => $id,
@@ -111,26 +85,6 @@ class Customers extends AppModel
         return DB::table('customer_address')->where('id', $id)
             ->leftJoin('master_state', 'master_state.state_id', '=', 'customer_address.address_state')
             ->get();
-    }
-
-    public static function add_address($entry){
-        $prevaddrct = DB::table('customer_address')->where('customer_id', $entry['customer_id'])->count();
-        // dd($prevaddrct);
-        if($prevaddrct == 0){
-            $entry['address_default'] = 1;
-        } else {
-            $entry['address_default'] = 0;
-        }
-        $check_insert = DB::table('customer_address')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
-    }
-
-    public static function edit_address($entry, $id){
-        return DB::table('customer_address')->where('id', $id)->update($entry);
     }
 
     public static function unset_address_flag($customerid){
@@ -473,7 +427,7 @@ class Customers extends AppModel
         }
         $card_id = Customers::add_entry("receipt_card", $card_entry);
         //save profile
-        $profile = Customers::get_customer($entry['history_customerid'])->first();
+        $profile = Customers::find($entry['history_customerid']);
         $customer_entry = array(
             'customer_name_first' => $profile->customer_name_first,
             'customer_name_second' =>  $profile->customer_name_second,
