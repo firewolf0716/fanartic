@@ -125,7 +125,7 @@ class CustomerController extends Controller
             $result = Categorys::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
@@ -162,7 +162,6 @@ class CustomerController extends Controller
             $prices[$product->product_id] = $price;
 
             $imagerec = Products::get_master_images($product->product_id);
-            // dd($imagerec);
             $images[$product->product_id] = $imagerec;
         }
 
@@ -214,7 +213,7 @@ class CustomerController extends Controller
             $result = Categorys::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
@@ -301,7 +300,7 @@ class CustomerController extends Controller
             $result = Categorys::getSubCategorys($maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
@@ -386,7 +385,7 @@ class CustomerController extends Controller
             $result = Categorys::getSubCategorys($maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
@@ -491,7 +490,7 @@ class CustomerController extends Controller
 
         $scategory = Categorys::find($product->product_category_id);
 
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         $sizes = Sizes::get_sizes_with_category($mcategoryid);
 
         $skucolor = ProductSKU::get_for_product($productid, 1);
@@ -543,96 +542,6 @@ class CustomerController extends Controller
             ->with('imagerec', $imagerec)
             ->with('skuimages', $skuimages)
             ->with('brand', $brand);
-    }
-
-    public function signup(){
-        $topcategorys = Categorys::getTopCategorys();
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get();
-        $tcategory = $topcategorys[0];
-        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        
-        return view('customer.user.signup')
-            ->with('mencategories', $mencategories)
-            ->with('womencategories', $womencategories)
-            ->with('brands', $brands)
-            ->with('maincategorys', $maincategorys)
-            ->with('tcategory', $tcategory);
-    }
-
-    public function user(){
-        if (Session::has('customerid')) {
-            return Redirect::to('user/profile');
-        } else {
-            return Redirect::to('user/signin');
-        }
-    }
-
-    public function login(){
-        $malls = Malls::get();
-        return $this->layout_init(view('customer.user.login'), 1)
-            ->with('malls', $malls)
-            ->with('listtype', "malls");
-    }
-
-    public function signout(){
-        Session::forget('site');
-        Session::forget('customerid');
-        Session::forget('customermail');
-        return Redirect::to(url(''));
-    }
-
-    public function signuppost(){
-        if(Customers::is_customer_email_exists(Input::get('email'))){
-            return "Email already registered";
-        }
-        // $entry = array(
-        //     'customer_name_first' => Input::get('name'),
-        //     'customer_email' => Input::get('email'),
-        //     'customer_password' => Hash::make(Input::get('password')),
-        //     'token' => uniqid()
-        // );
-
-        $customer = new CustomerUser();
-        $customer->customer_name_first = Input::get('name');
-        $customer->customer_email = Input::get('email');
-        $customer->customer_password = Hash::make(Input::get('password'));
-        $customer->token = uniquid();
-        $customer->save();
-
-        Mail::send('emails.reminder', ['user' => $entry], function ($m) use ($entry) {
-            $m->from('noreply@aidiot.xyz', 'Laravel');
-
-            $m->to($entry['customer_email'])->subject('Your Reminder!');
-        });
-
-        return "Registered successfully, Please check your mail to verify account";
-    }
-
-    public function signverify(){
-        $email = $_GET['mail'];
-        $token = $_GET['token'];
-        $res = Customers::signverify($email, $token);
-        if($res)
-            return Redirect::to('user/profile');
-    }
-
-    public function signinpost(){
-        $username = Input::get('username');
-        $password = Input::get('password');
-        $redirect = Input::get('redirect');
-
-        $logincheck = Customers::check_login($username, $password);
-        if($logincheck == 1){
-            if(isset($redirect)){
-                return Redirect::to($redirect);
-            }
-            return Redirect::to('/');
-        } else {
-            $status = Customers::customer_status($username, $password);
-            return Redirect::to('/');
-        }
     }
 
     public function profile(){
@@ -761,15 +670,8 @@ class CustomerController extends Controller
             return Redirect::to($redirect);
         }
         $customerid = Session::get('customerid');
-        $topcategorys = Categorys::getTopCategorys();
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get();
-        $tcategory = $topcategorys[0];
-        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
 
-        $cartitems = Cart::getItems($customerid);
-        
+        $cartitems = Cart::getItems($customerid);        
         $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
             $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
@@ -1032,7 +934,7 @@ class CustomerController extends Controller
             $subitems[$group->history_group] = $items;
             foreach($items as $item){
                 $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
-                $colorname[$item->id] = Colors::get_color($sku_color->sku_type_id);
+                $colorname[$item->id] = Colors::find($sku_color->sku_type_id);
     
                 $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
                 $sizename[$item->id] = Sizes::get_size($sku_color->sku_type_id);

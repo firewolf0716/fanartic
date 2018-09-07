@@ -44,7 +44,7 @@ class MerchantproductController extends Controller
         }
         $sizeCategorys = Sizes::get_sizecategorys();
         $events = Events::get_events();
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         $productstates = ProductStates::get_productstates();
         $topCategorys = Categorys::getTopCategorys();
         $shippings = MerchantShipping::get_merchant_shippings($merchant_id);
@@ -72,7 +72,7 @@ class MerchantproductController extends Controller
             $brands = Brands::get();
         }
         $events = Events::get_events();
-        $colors = Colors::get_colors();
+        $colors = Colors::get();
         $productstates = ProductStates::get_productstates();
         $sizeCategorys = Sizes::get_sizecategorys();
         $categoryinfo = Categorys::find($id);

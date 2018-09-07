@@ -8,7 +8,7 @@ use Session;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 
-use App\Categorys;
+use App\Models\Categorys;
 
 class Products extends AppModel
 {
