@@ -33,7 +33,7 @@ class MerchantController extends Controller
             $merchants = Merchants::find($id);
             $merchant = $merchants[0];
             $plans = Plans::get_plans();
-            $states = States::get_states();
+            $states = States::get();
             $brands = Brands::get();
             $selbrands = MerchantBrands::get_brands($merchant->merchant_id);
             return view('merchant.setting')->with('merchant', $merchant)

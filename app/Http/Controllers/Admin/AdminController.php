@@ -98,7 +98,7 @@ class AdminController extends Controller
 
         $merchant = Merchants::find($id);
         $plans = Plans::get_plans();
-        $states = States::get_states();
+        $states = States::get();
         $brands = Brands::get();
         $selbrands = MerchantBrands::get_brands($merchant->merchant_id);
         return view('admin.merchant.merchant_detail')->with('merchant', $merchant)
@@ -114,7 +114,7 @@ class AdminController extends Controller
         }
 
         $plans = Plans::get_plans();
-        $states = States::get_states();
+        $states = States::get();
         $brands = Brands::get();
         return view('admin.merchant.merchant_add')->with('plans', $plans)->with('states', $states)->with('brands', $brands);
     }
