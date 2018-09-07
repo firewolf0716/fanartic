@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Models\Customers;
 use App\Models\CustomerUser;
 use App\Services\CustomerUserService;
 
@@ -47,7 +46,7 @@ class CustomerUserController extends Controller
     public function signverify(){
         $email = $_GET['mail'];
         $token = $_GET['token'];
-        $res = Customers::signverify($email, $token);
+        $res = CustomerUserService::signverify($email, $token);
         if($res)
             return Redirect::to('user/profile');
     }
