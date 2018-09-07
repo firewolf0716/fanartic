@@ -10,39 +10,12 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
+use App\Models\Customers;
+use App\Models\CustomerUser;
+use App\Services\CustomerUserService;
+
 class CustomerUserController extends Controller
 {
-    public function signup(){
-        $topcategorys = Categorys::getTopCategorys();
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $brands = Brands::get();
-        $tcategory = $topcategorys[0];
-        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        
-        return view('customer.user.signup')
-            ->with('mencategories', $mencategories)
-            ->with('womencategories', $womencategories)
-            ->with('brands', $brands)
-            ->with('maincategorys', $maincategorys)
-            ->with('tcategory', $tcategory);
-    }
-
-    public function user(){
-        if (Session::has('customerid')) {
-            return Redirect::to('user/profile');
-        } else {
-            return Redirect::to('user/signin');
-        }
-    }
-
-    public function login(){
-        $malls = Malls::get();
-        return $this->layout_init(view('customer.user.login'), 1)
-            ->with('malls', $malls)
-            ->with('listtype', "malls");
-    }
-
     public function signout(){
         Session::forget('site');
         Session::forget('customerid');
@@ -51,7 +24,7 @@ class CustomerUserController extends Controller
     }
 
     public function signuppost(){
-        if(Customers::is_customer_email_exists(Input::get('email'))){
+        if(CustomerUserService::is_customer_email_exists(Input::get('email'))){
             return "Email already registered";
         }
 
@@ -84,15 +57,59 @@ class CustomerUserController extends Controller
         $password = Input::get('password');
         $redirect = Input::get('redirect');
 
-        $logincheck = Customers::check_login($username, $password);
+        $logincheck = CustomerUserService::check_login($username, $password);
         if($logincheck == 1){
             if(isset($redirect)){
                 return Redirect::to($redirect);
             }
             return Redirect::to('/');
         } else {
-            $status = Customers::customer_status($username, $password);
+            $status = CustomerUserService::customer_status($username, $password);
             return Redirect::to('/');
         }
+    }
+
+    public function profile(){
+        $customerid = Session::get('customerid');
+        $customer = CustomerUser::find($customerid);
+        $birth = $customer->customer_birthday;
+        $births = array('', '', '');
+        if($birth != '' || isset($birth)){
+            $births = explode('/', $birth);
+        }
+        
+        $phone = $customer->customer_phone;
+        $tel = array('', '', '');
+        if($phone != '' || isset($phone)){
+            $tel = explode('-', $phone);
+        }
+        $view = view('customer.user.profile');
+
+        return $this->layout_init($view, 1)->with('customer', $customer)->with('birth', $births)->with('phone', $tel);
+    }
+
+    public function profilepost(){
+        $customerid = Session::get('customerid');
+
+        $customer = CustomerUser::find($customerid);
+        $customer->customer_name_first = Input::get('first_name');
+        $customer->customer_name_second = Input::get('second_name');
+        $customer->customer_name_kana_first = Input::get('first_name_kana');
+        $customer->customer_name_kana_second = Input::get('second_name_kana');
+        $customer->customer_gender = Input::get('sex');
+        $customer->customer_birthday = Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day');
+        $customer->customer_postalcode = Input::get('zipcode');
+        $customer->customer_province = Input::get('province');
+        $customer->customer_county = Input::get('county');
+        $customer->customer_address_jp = Input::get('address');
+        $customer->customer_phone = Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3');
+        $customer->customer_status = $customer->customer_status;
+        $customer->save();
+
+        $password = Input::get('password');
+        if(isset($password)){
+            $entry['customer_password'] = $password;
+        }
+        return Redirect::to('user/profile');
     }
 }

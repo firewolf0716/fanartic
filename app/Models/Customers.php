@@ -12,13 +12,10 @@ class Customers extends AppModel
 {
     public static function check_login($uname, $pwd){
         $customer = DB::table('customers')->where('customer_email', '=', $uname)->where('verified', 1)->get()->first();
-        // dd($customer);
         if($customer == null){
             return -1;
         }
-        // dd(Hash::make($pwd));
         if(Hash::check($pwd, $customer->customer_password)){
-            // dd('success');
             Session::put('site','customer');
             Session::put('customerid', $customer->customer_id);
             Session::put('customermail', $customer->customer_email);
@@ -30,7 +27,6 @@ class Customers extends AppModel
 
     public static function signverify($email, $token){
         $prevmail = DB::table('customers')->where('customer_email', '=', $email)->get()->first();
-        // dd($prevmail);
         if(isset($prevmail)){
             if($token == $prevmail->token){
                 DB::table('customers')->where('customer_email', '=', $email)->update(array('verified' => 1));

@@ -209,21 +209,18 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('merchant/product/product_import_csv', 'Merchant\MerchantproductController@product_import_csv');
 
 	//sign
-	Route::get('user/login', 'Customer\CustomerUserController@login');
-    Route::get('user/signup', 'Customer\CustomerUserController@signup');
 	Route::post('user/signuppost', 'Customer\CustomerUserController@signuppost');
-	Route::get('user', 'Customer\CustomerUserController@user');
 	Route::get('user/signverify', 'Customer\CustomerUserController@signverify');
 	Route::post('user/signinpost', 'Customer\CustomerUserController@signinpost');
 	Route::get('user/signout', 'Customer\CustomerUserController@signout');
 	//profile
-	Route::get('user/profile', 'Customer\CustomerController@profile');
-	Route::post('user/profilepost', 'Customer\CustomerController@profilepost');
+	Route::get('user/profile', 'Customer\CustomerUserController@profile');
+	Route::post('user/profilepost', 'Customer\CustomerUserController@profilepost');
 	//favourite
-	Route::get('user/favourite', 'Customer\CustomerController@favourite');
-	Route::post('user/addFavourite', 'Customer\CustomerController@addFavourite');
-	Route::get('user/favourite', 'Customer\CustomerController@favourite');
-	Route::post('user/favitem_action', 'Customer\CustomerController@favitem_action');
+	Route::get('user/favourite', 'Customer\CustomerFavController@favourite');
+	Route::post('user/addFavourite', 'Customer\CustomerFavController@addFavourite');
+	Route::get('user/favourite', 'Customer\CustomerFavController@favourite');
+	Route::post('user/favitem_action', 'Customer\CustomerFavController@favitem_action');
 	//cart
 	Route::get('user/cart', 'Customer\CustomerController@cart');	
 	Route::post('user/addtocart', 'Customer\CustomerController@addtocart');
