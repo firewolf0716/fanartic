@@ -11,6 +11,8 @@ use App\Models\Malls;
 use App\Models\Categorys;
 use App\Models\Sizes;
 use App\Models\MallCategorys;
+use App\Services\CategoryService;
+use App\Services\MatchService;
 
 class CategoryController extends Controller
 {
@@ -73,14 +75,6 @@ class CategoryController extends Controller
         } else {
             $parentid = $maincategoryid;
         }
-        // $entry =  array(
-        //     'category_parent_id' => $parentid,
-        //     'category_size_id' => Input::get('select_sizecategory'),
-        //     'category_name' => Input::get('category_name'),
-        //     'category_name_en' => Input::get('category_name_en'),
-        //     'created_at' => Input::get('create_date'),
-        //     'updated_at' => Input::get('update_date')
-        // );
 
         $category = new Categorys();
         $category->category_parent_id = $parentid;
@@ -89,16 +83,6 @@ class CategoryController extends Controller
         $category->category_name_en = Input::get('category_name_en');
         $category->save();
 
-        // if(Input::has('category_mall')){
-        //     $malls = Input::get('category_mall');
-        //     foreach($malls as $mall){
-        //         $mentry = array(
-        //             'mall_id' => $mall,
-        //             'category_id' => $id
-        //         );
-        //         MallCategorys::insert_match($mentry);
-        //     }
-        // }
         if ($topcategoryid == 0) {
             return Redirect::to('admin/category/add');
         } else if ($maincategoryid == 0) {
@@ -113,7 +97,7 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $categorys = Categorys::getTopCategorys();
+        $categorys = CategoryService::getTopCategorys();
         return view('admin.category.list')->with('categorys', $categorys)
                                         ->with('categorylevel', 1)
                                         ->with('topcategoryid', 0)
@@ -127,7 +111,7 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $categorys = Categorys::getMainCategorys($topid);
+        $categorys = CategoryService::getMainCategorys($topid);
         $topcategory = Categorys::find($topid);
         return view('admin.category.list')->with('categorys', $categorys)
                                         ->with('categorylevel', 2)
@@ -142,7 +126,7 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $categorys = Categorys::getSubCategorys($mainid);
+        $categorys = CategoryService::getSubCategorys($mainid);
         $topcategory = Categorys::find($topid);
         $maincategory = Categorys::find($mainid);
         return view('admin.category.list')->with('categorys', $categorys)
@@ -154,17 +138,17 @@ class CategoryController extends Controller
     }
 
     public function getTopCategorys() {
-        $topCategorys = Categorys::getTopCategorys();
+        $topCategorys = CategoryService::getTopCategorys();
         return $topCategorys;
     }
 
     public function getMainCategorys($topCategoryId) {
-        $mainCategorys = Categorys::getMainCategorys($topCategoryId);
+        $mainCategorys = CategoryService::getMainCategorys($topCategoryId);
         return $mainCategorys;
     }
     
     public function getSubCategorys($mainCategoryId) {
-        $mainCategorys = Categorys::getSubCategorys($mainCategoryId);
+        $mainCategorys = CategoryService::getSubCategorys($mainCategoryId);
         return $mainCategorys;
     }
 
@@ -195,7 +179,7 @@ class CategoryController extends Controller
         $category = Categorys::find($mainid);
         $malls = Malls::get();
         $sizecategorys = Sizes::get_sizecategorys();
-        $linkedMalls = MallCategorys::get_malls($mainid);
+        $linkedMalls = MatchService::get_malls_bycategory($mainid);
         $topCategorys = $this->getTopCategorys();
         $topcategory = Categorys::find($topid);
 
@@ -268,17 +252,17 @@ class CategoryController extends Controller
         }
 
         if ($parent_category_id == 0) {
-            $subCategorys = Categorys::getMainCategorys($id);
+            $subCategorys = CategoryService::getMainCategorys($id);
             foreach ($subCategorys as $subCategory) {
                 Categorys::find($subCategory->category_id)->delete();
-                MallCategorys::remove_malls($subCategory->category_id);
+                MatchService::remove_malls($subCategory->category_id);
             }
 
             Categorys::find($id)->delete();
-            MallCategorys::remove_malls($id);
+            MatchService::remove_malls($id);
         } else {
             Categorys::find($id)->delete();
-            MallCategorys::remove_malls($id);
+            MatchService::remove_malls($id);
         }
 
         if ($parent_category_id == 0) {
@@ -306,14 +290,7 @@ class CategoryController extends Controller
         } else {
             $parentid = $maincategoryid;
         }
-        // $entry =  array(
-        //     'category_parent_id' => $parentid,
-        //     'category_size_id' => Input::get('select_sizecategory'),
-        //     'category_name' => Input::get('category_name'),
-        //     'category_name_en' => Input::get('category_name_en'),
-        //     'created_at' => Input::get('create_date'),
-        //     'updated_at' => Input::get('update_date')
-        // );
+
         $id = Input::get('category_id');
         $category = Categorys::find($id);
         $category->category_parent_id = $parentid;
@@ -321,18 +298,6 @@ class CategoryController extends Controller
         $category->category_name = Input::get('category_name');
         $category->category_name_en = Input::get('category_name_en');
         $category->save();
-
-        // MallCategorys::remove_malls($id);
-        // if(Input::has('category_mall')){
-        //     $malls = Input::get('category_mall');
-        //     foreach($malls as $mall){
-        //         $mentry = array(
-        //             'mall_id' => $mall,
-        //             'category_id' => $id
-        //         );
-        //         MallCategorys::insert_match($mentry);
-        //     }
-        // }
 
         if ($topcategoryid == 0) {
             return Redirect::to('admin/category/list');

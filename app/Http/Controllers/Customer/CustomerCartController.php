@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+
 use Illuminate\Http\Request;
+
+use App\Models\Cart;
+use App\Services\CartService;
 
 class CustomerCartController extends Controller
 {
@@ -16,10 +21,10 @@ class CustomerCartController extends Controller
         $cartitems = Cart::getItems($customerid);        
         $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
-            $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
+            $sku_color = ProductSku::find($item->product_sku_color_id);
             $colorname[$item->cart_id] = Colors::get_color($sku_color->sku_type_id);
 
-            $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
+            $sku_size = ProductSku::find($item->product_sku_size_id);
             $sizename[$item->cart_id] = Sizes::get_size($sku_color->sku_type_id);
 
             $image = Products::get_cart_image($item->cart_productid, $colorname[$item->cart_id]->color_id)->image_name;
@@ -46,13 +51,15 @@ class CustomerCartController extends Controller
         if(!isset($customerid)){
             return 'Login';
         }
-        $prodid = Input::get('product');
-        $color = Input::get('color');
-        $size = Input::get('size');
-        $count = Input::get('count');
-        // $price = Input::get('price');
+        $cartentry = array(
+            "customer" => $customerid,
+            "product" => Input::get('product'),
+            "color" => Input::get('color'),
+            "size" => Input::get('size'),
+            "count" => Input::get('count')
+        );
         try{
-            Cart::addCart($customerid, $prodid, $color, $size, $count);
+            CartService::addCart($cartentry);
             return 'Successed';
         }catch(\Exception $ex){
             return 'Failed';

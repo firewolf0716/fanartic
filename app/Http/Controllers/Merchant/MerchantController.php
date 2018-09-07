@@ -16,6 +16,7 @@ use App\Models\States;
 use App\Models\Citys;
 use App\Models\Brands;
 use App\Models\MerchantBrands;
+use App\Services\LocationService;
 
 class MerchantController extends Controller
 {
@@ -47,7 +48,7 @@ class MerchantController extends Controller
     }
     public function getcity(){
         $stateid = Input::get('state');
-        $citys = Citys::getCitys($stateid);
+        $citys = LocationService::getCitys($stateid);
         return $citys;
     }
     

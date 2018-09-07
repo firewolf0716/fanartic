@@ -11,6 +11,7 @@ use App\Models\Malls;
 use App\Models\Brands;
 use App\Models\Genres;
 use App\Models\MallBrands;
+use App\Services\MatchService;
 
 class BrandController extends Controller
 {
@@ -67,7 +68,7 @@ class BrandController extends Controller
         $malls = Malls::get();
         $genres = Genres::get();
         $brand = Brands::find($id);
-        $selmalls = MallBrands::get_malls($brand->brand_id);
+        $selmalls = MatchService::get_malls($brand->brand_id);
         return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls)->with('genres', $genres)->with('selmalls', $selmalls);
     }
 
@@ -109,18 +110,7 @@ class BrandController extends Controller
         $brand->brand_image = Input::get('brand_image');
         $brand->brand_description = Input::get('brand_description');
         $brand->save();
-
-        // MallBrands::remove_malls($id);
-        // if(Input::has('brand_mall')){
-        //     $malls = Input::get('brand_mall');
-        //     foreach($malls as $mall){
-        //         $mentry = array(
-        //             'mall_id' => $mall,
-        //             'brand_id' => $id
-        //         );
-        //         MallBrands::insert_match($mentry);
-        //     }
-        // }
+        
         return Redirect::to('admin/brand/list');
     }
 }

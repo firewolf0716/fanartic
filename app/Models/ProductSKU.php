@@ -7,15 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductSKU extends AppModel
 {
-    public static function insert_sku($entry)
-    {
-        $check_insert = DB::table('fan_product_sku')->insert($entry);
-        if ($check_insert) {
-            return DB::getPdo()->lastInsertId();
-        } else {
-            return 0;
-        }
-    }
+    protected $table = 'fan_product_sku';
+    protected $primaryKey = 'sku_id';
 
     public static function get_product_sku($product_id, $sku_type, $merchant_id)
     {
@@ -47,36 +40,5 @@ class ProductSKU extends AppModel
         return DB::table('fan_product_sku')->where('product_id', $product_id)
             ->where('sku_type', $type)
             ->where('sku_type_id', $type_id)->delete();
-    }
-
-    public static function update_sku_info($product_id, $sku_type, $sku_type_id, $new_sku_type_id, $update_date)
-    {
-        return DB::table('fan_product_sku')
-            ->where('product_id', $product_id)
-            ->where('sku_type', $sku_type)
-            ->where('sku_type_id', $sku_type_id)
-            ->update(['sku_type_id' => $new_sku_type_id,
-                'updated_at' => $update_date]);
-    }
-
-    public static function remove_all_size_SKU($product_id)
-    {
-        return DB::table('fan_product_sku')->where('product_id', $product_id)
-            ->where('sku_type', 2)->delete();
-    }
-
-    public static function get_sku($product_sku_id)
-    {
-        return DB::table('fan_product_sku')->where('sku_id', $product_sku_id)
-            ->get();
-    }
-
-    public static function get_sku_info($product_id, $sku_type, $sku_type_id)
-    {
-        return DB::table('fan_product_sku')
-            ->where('product_id', $product_id)
-            ->where('sku_type', $sku_type)
-            ->where('sku_type_id', $sku_type_id)
-            ->get();
     }
 }

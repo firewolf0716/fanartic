@@ -14,7 +14,7 @@ use App\Models\Brands;
 use App\Models\Customers;
 use App\Models\Products;
 use App\Models\CustomerUser;
-
+use App\Services\CategoryService;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -44,14 +44,14 @@ class Controller extends BaseController
         return "🅛🅔🅥🅔🅛➊". $this->get_special_number($level);
     }
     public function layout_init($view, $gender){
-        $topcategorys = Categorys::getTopCategorys();
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
-        $maincategorys = Categorys::getMainCategorys($topcategorys[0]->category_id);
+        $topcategorys = CategoryService::getTopCategorys();
+        $mencategories = CategoryService::getMainCategorys($topcategorys[0]->category_id);
+        $womencategories = CategoryService::getMainCategorys($topcategorys[1]->category_id);
+        $maincategorys = CategoryService::getMainCategorys($topcategorys[0]->category_id);
         $tcategory = $topcategorys[0];
         if($gender == 2){
             $tcategory = $topcategorys[1];
-            $maincategorys = Categorys::getMainCategorys($topcategorys[1]->category_id);
+            $maincategorys = CategoryService::getMainCategorys($topcategorys[1]->category_id);
         }
 
         $brands = Brands::get();

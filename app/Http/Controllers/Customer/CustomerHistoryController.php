@@ -20,10 +20,10 @@ class CustomerHistoryController extends Controller
             // dd($items);
             $subitems[$group->history_group] = $items;
             foreach($items as $item){
-                $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
+                $sku_color = ProductSku::find($item->product_sku_color_id);
                 $colorname[$item->id] = Colors::find($sku_color->sku_type_id);
     
-                $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
+                $sku_size = ProductSku::find($item->product_sku_size_id);
                 $sizename[$item->id] = Sizes::get_size($sku_color->sku_type_id);
     
                 $image = Products::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
@@ -52,10 +52,10 @@ class CustomerHistoryController extends Controller
         $images = array(); $colorname = array(); $sizename = array();
         $items = Customers::get_items_bygroup($group->history_group);
         foreach($items as $item){
-            $sku_color = ProductSku::get_sku($item->product_sku_color_id)->first();
+            $sku_color = ProductSku::find($item->product_sku_color_id);
             $colorname[$item->id] = Colors::get_color($sku_color->sku_type_id);
 
-            $sku_size = ProductSku::get_sku($item->product_sku_size_id)->first();
+            $sku_size = ProductSku::find($item->product_sku_size_id);
             $sizename[$item->id] = Sizes::get_size($sku_color->sku_type_id);
 
             $image = Products::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;

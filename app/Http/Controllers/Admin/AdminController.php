@@ -16,6 +16,9 @@ use App\Models\States;
 use App\Models\Brands;
 use App\Models\MerchantBrands;
 
+use App\Services\AdminUserService;
+use App\Services\MatchService;
+
 class AdminController extends Controller
 {
     public function dashboard() {
@@ -42,7 +45,7 @@ class AdminController extends Controller
         $password = Input::get('password');
         $redirect = Input::get('redirect');
 
-        $logincheck = Admins::check_login($username, $password);
+        $logincheck = AdminUserService::check_login($username, $password);
         if($logincheck == 1){
             if(isset($redirect)){
                 return Redirect::to($redirect);
@@ -100,7 +103,7 @@ class AdminController extends Controller
         $plans = Plans::get_plans();
         $states = States::get();
         $brands = Brands::get();
-        $selbrands = MerchantBrands::get_brands($merchant->merchant_id);
+        $selbrands = MatchService::get_brands($merchant->merchant_id);
         return view('admin.merchant.merchant_detail')->with('merchant', $merchant)
                                     ->with('plans', $plans)
                                     ->with('states', $states)
@@ -224,7 +227,7 @@ class AdminController extends Controller
         }
 
         $merchant->save();
-        MerchantBrands::remove_brands($id);
+        MatchService::remove_brands($id);
         if(Input::has('merchant_brands')){
             $brands = Input::get('merchant_brands');
             foreach($brands as $brand){

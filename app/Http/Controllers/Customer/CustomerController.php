@@ -31,6 +31,9 @@ use App\Models\MallBrands;
 use App\Models\States;
 use App\Models\CustomerUser;
 use App\Models\CustomerAddress;
+use App\Services\BrandService;
+use App\Services\CategoryService;
+use App\Services\MatchService;
 
 class CustomerController extends Controller
 {
@@ -54,7 +57,7 @@ class CustomerController extends Controller
         }
         else {
             if($mall != null){
-                $brands = MallBrands::get_brands($mall->mall_id);
+                $brands = MatchService::get_brands($mall->mall_id);
                 return $this->layout_init(view('customer.mall_brand'), 1)
                     ->with('brands', $brands)
                     ->with('mallname', $mallname)
@@ -72,7 +75,7 @@ class CustomerController extends Controller
     }
 
     public function brand($brandid){
-        $brand = Brands::get_brand_byname($brandid);
+        $brand = BrandService::get_brand_byname($brandid);
         if (Session::has('customerid')) {
             $customerid = Session::get('customerid');
             date_default_timezone_set('Asia/Tokyo');
@@ -110,7 +113,7 @@ class CustomerController extends Controller
 
     public function product_list_mall($mallname, $topid = null, $mainid = null, $categoryid = null){
         $mall = Malls::get_mall_byname($mallname);
-        $topcategorys = Categorys::getTopCategorys();
+        $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
@@ -119,23 +122,23 @@ class CustomerController extends Controller
             if($topid == "men"){ $topcategory = Categorys::find(1);}
             else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
-        $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
+        $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
         foreach($maincategorys as $maincategory){
-            $result = Categorys::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
+            $result = CategoryService::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
+            $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
@@ -165,10 +168,10 @@ class CustomerController extends Controller
             $images[$product->product_id] = $imagerec;
         }
 
-        $mencategories = Categorys::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
+        $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
+        $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
 
-        $brands = MallBrands::get_brands($mall->mall_id);
+        $brands = MatchService::get_brands($mall->mall_id);
 
         $customerid = null;
         if (Session::has('customerid')) {
@@ -197,8 +200,8 @@ class CustomerController extends Controller
     public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null){
         // dd($mall);
         $mall = Malls::get_mall_byname($mallname);
-        $brand = Brands::get_brand_byname($brandname);
-        $topcategorys = Categorys::getTopCategorys();
+        $brand = BrandService::get_brand_byname($brandname);
+        $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
@@ -207,23 +210,23 @@ class CustomerController extends Controller
             if($topid == "men"){ $topcategory = Categorys::find(1);}
             else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
-        $maincategorys = Categorys::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
+        $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
         foreach($maincategorys as $maincategory){
-            $result = Categorys::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
+            $result = CategoryService::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
+            $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
@@ -254,10 +257,10 @@ class CustomerController extends Controller
             $images[$product->product_id] = $imagerec;
         }
 
-        $mencategories = Categorys::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
+        $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
+        $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
 
-        $brands = MallBrands::get_brands($mall->mall_id);
+        $brands = MatchService::get_brands($mall->mall_id);
 
         $customerid = null;
         if (Session::has('customerid')) {
@@ -285,7 +288,7 @@ class CustomerController extends Controller
     }
 
     public function product_list_category($topid = null, $mainid = null, $categoryid = null){
-        $topcategorys = Categorys::getTopCategorys();
+        $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
@@ -294,23 +297,23 @@ class CustomerController extends Controller
             if($topid == "men"){ $topcategory = Categorys::find(1);}
             else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
-        $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
+        $maincategorys = CategoryService::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
         foreach($maincategorys as $maincategory){
-            $result = Categorys::getSubCategorys($maincategory->category_id);
+            $result = CategoryService::getSubCategorys($maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
+            $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
         $products = null;
         $filtercategory = $topcategory->category_id;
@@ -340,8 +343,8 @@ class CustomerController extends Controller
             $images[$product->product_id] = $imagerec;
         }
 
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
+        $mencategories = CategoryService::getMainCategorys($topcategorys[0]->category_id);
+        $womencategories = CategoryService::getMainCategorys($topcategorys[1]->category_id);
 
         $brands = Brands::get();
 
@@ -369,8 +372,8 @@ class CustomerController extends Controller
     }
 
     public function product_list_brand($brandid ,$topid = null, $mainid = null, $categoryid = null){
-        $brand = Brands::get_brand_byname($brandid);
-        $topcategorys = Categorys::getTopCategorys();
+        $brand = BrandService::get_brand_byname($brandid);
+        $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
         if($topid == null){
             $topcategory = $topcategorys[0];
@@ -379,24 +382,24 @@ class CustomerController extends Controller
             if($topid == "men"){ $topcategory = Categorys::find(1);}
             else if($topid == "women"){$topcategory = Categorys::find(2);}
         }
-        $maincategorys = Categorys::getMainCategorys($topcategory->category_id);
+        $maincategorys = CategoryService::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
         foreach($maincategorys as $maincategory){
-            $result = Categorys::getSubCategorys($maincategory->category_id);
+            $result = CategoryService::getSubCategorys($maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
         if($mainid != null){
-            $mcategory = Categorys::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+            $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = Sizes::get_sizes_with_category($sizecategory_id);
         }
         
         $scategory = null;
         if($categoryid != null){
-            $scategory = Categorys::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
+            $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
@@ -427,8 +430,8 @@ class CustomerController extends Controller
             $images[$product->product_id] = $imagerec;
         }
 
-        $mencategories = Categorys::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = Categorys::getMainCategorys($topcategorys[1]->category_id);
+        $mencategories = CategoryService::getMainCategorys($topcategorys[0]->category_id);
+        $womencategories = CategoryService::getMainCategorys($topcategorys[1]->category_id);
 
         $brands = Brands::get();
 
@@ -481,11 +484,11 @@ class CustomerController extends Controller
     }
 
     public function product_detail($brandname, $productid){
-        $brand = Brands::get_brand_byname($brandname);
+        $brand = BrandService::get_brand_byname($brandname);
         $product = Products::get_product_detail($productid)->first();
-        $tcategoryid = Categorys::getTopCategoryID($product->product_category_id);
+        $tcategoryid = CategoryService::getTopCategoryID($product->product_category_id);
 
-        $mcategoryid = Categorys::getMainCategoryID($product->product_category_id);
+        $mcategoryid = CategoryService::getMainCategoryID($product->product_category_id);
         $mcategory = Categorys::find($mcategoryid);
 
         $scategory = Categorys::find($product->product_category_id);
@@ -514,7 +517,7 @@ class CustomerController extends Controller
         // dd($skuinfo);
 
         $price = ProductStock::get_price_range($product->product_id);
-        // dd(Categorys::getSubCategoryIDs(5));
+        // dd(CategoryService::getSubCategoryIDs(5));
         $imagerec = Products::get_master_images($product->product_id);
         // dd($imagerec);
         $skuimages = array();

@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Redirect;
 
 use Session;
 
+use App\Models\Cart;
+use App\Models\ProductSKU;
+use App\Services\CartService;
+
 class CustomerFavController extends Controller
 {
     public function favourite(){
@@ -21,10 +25,10 @@ class CustomerFavController extends Controller
 
         $images = array(); $colorname = array(); $sizename = array();
         foreach($favs as $fav){
-            $sku_color = ProductSku::get_sku($fav->product_sku_color_id)->first();
+            $sku_color = ProductSku::find($fav->product_sku_color_id);
             $colorname[$fav->id] = Colors::get_color($sku_color->sku_type_id);
 
-            $sku_size = ProductSku::get_sku($fav->product_sku_size_id)->first();
+            $sku_size = ProductSku::find($fav->product_sku_size_id);
             $sizename[$fav->id] = Sizes::get_size($sku_color->sku_type_id);
 
             $image = Products::get_cart_image($fav->fav_pro_id, $colorname[$fav->id]->color_id)->image_name;
@@ -70,12 +74,14 @@ class CustomerFavController extends Controller
         $type = Input::get('action_type');
         if($type == 'cart'){
             $fav = Customers::get_fav($id);
-
-            $prodid = $fav->fav_pro_id;
-            $color = $fav->fav_sku_color;
-            $size = $fav->fav_sku_size;
-            $count = $fav->fav_amt;
-            Cart::addCart($customerid, $prodid, $color, $size, $count);
+            $cartentry = array(
+                "customer" => $customerid,
+                "product" => $fav->fav_pro_id,
+                "color" => $fav->fav_sku_color,
+                "size" => $fav->fav_sku_size,
+                "count" => $fav->fav_amt
+            );
+            CartService::addCart($cartentry);
         } else if($type == 'remove'){
             Customers::remove_fav($id);
         }

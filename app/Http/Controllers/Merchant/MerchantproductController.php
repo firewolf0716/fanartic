@@ -20,7 +20,9 @@ use App\Models\ProductStates;
 use App\Models\ProductSKU;
 use App\Models\ProductStock;
 use App\Models\MerchantShipping;
-
+use App\Services\BrandService;
+use App\Services\CategoryService;
+use App\Services\SkuService;
 use DB;
 use Session;
 
@@ -46,7 +48,7 @@ class MerchantproductController extends Controller
         $events = Events::get_events();
         $colors = Colors::get();
         $productstates = ProductStates::get_productstates();
-        $topCategorys = Categorys::getTopCategorys();
+        $topCategorys = CategoryService::getTopCategorys();
         $shippings = MerchantShipping::get_merchant_shippings($merchant_id);
 
         return view('merchant.product.product_add')->with('merchant_id', $merchant_id)
@@ -80,14 +82,14 @@ class MerchantproductController extends Controller
         $selectedColors = explode("/**/", $product->product_color);
         $selectedSizes = explode("/**/", $product->product_size);
 
-        $main_category_id = Categorys::getMainCategoryID($product->product_category_id);
-        $top_category_id = Categorys::getTopCategoryID($product->product_category_id);
+        $main_category_id = CategoryService::getMainCategoryID($product->product_category_id);
+        $top_category_id = CategoryService::getTopCategoryID($product->product_category_id);
         $master_images = Products::get_master_images($product->product_id);
 
         // $product_sizes = Sizes::get_sizes_with_category(Input::get('product_sizeCategory'));
         $product_size_id = Products::get_product_size_id($id);
         $product_stock_info = Products::get_product_stock_info($id)->first();
-        $topCategorys = Categorys::getTopCategorys();
+        $topCategorys = CategoryService::getTopCategorys();
 
         $size_category = Sizes::get_size($selectedSizes[0])->size_category_id;
         $sizes = Sizes::get_sizes_with_category($size_category);
@@ -181,32 +183,26 @@ class MerchantproductController extends Controller
         if(Input::has('product_color')) {
             $product_colors = Input::get('product_color');
             foreach($product_colors as $product_color_id) {
-                $sku_info = array (
-                    'product_id' => $productid,
-                    'sku_type' => '1',
-                    'sku_type_id' => $product_color_id,
-                    'sku_status' => '1',
-                    'created_at' => Input::get('create_date'),
-                    'updated_at' => Input::get('update_date'),
-                    'product_merchant_id' => $merchant_id
-                );
-                ProductSKU::insert_sku($sku_info);
+                $sku = new ProductSKU();
+                $sku->product_id = $productid;
+                $sku->sku_type = '1';
+                $sku->sku_type_id = $product_color_id;
+                $sku->sku_status = '1';
+                $sku->product_merchant_id = $merchant_id;
+                $sku->save();
             }
         }        
         // SKU Size 2
         if(Input::has('product_size')) {
             $product_sizes = Input::get('product_size');
             foreach($product_sizes as $product_size_id) {
-                $sku_info = array (
-                    'product_id' => $productid,
-                    'sku_type' => '2',
-                    'sku_type_id' => $product_size_id,
-                    'sku_status' => '1',
-                    'created_at' => Input::get('create_date'),
-                    'updated_at' => Input::get('update_date'),
-                    'product_merchant_id' => $merchant_id
-                );
-                ProductSKU::insert_sku($sku_info);
+                $sku = new ProductSKU();
+                $sku->product_id = $productid;
+                $sku->sku_type = '2';
+                $sku->sku_type_id = $product_size_id;
+                $sku->sku_status = '1';
+                $sku->product_merchant_id = $merchant_id;
+                $sku->save();
             }
         }
 
@@ -458,16 +454,13 @@ class MerchantproductController extends Controller
         }
         // add SKU Color 
         foreach($added_colors as $product_color_id) {
-            $sku_info = array (
-                'product_id' => $productid,
-                'sku_type' => '1',
-                'sku_type_id' => $product_color_id,
-                'sku_status' => '1',
-                'created_at' => Input::get('create_date'),
-                'updated_at' => Input::get('update_date'),
-                'product_merchant_id' => $merchant_id
-            );
-            ProductSKU::insert_sku($sku_info);
+            $sku = new ProductSKU();
+            $sku->product_id = $productid;
+            $sku->sku_type = '1';
+            $sku->sku_type_id = $product_color_id;
+            $sku->sku_status = '1';
+            $sku->product_merchant_id = $merchant_id;
+            $sku->save();
         }
         // remove sku color
         foreach($removed_colors as $product_color_id) {
@@ -501,16 +494,13 @@ class MerchantproductController extends Controller
         $added_sizes = array_diff($product_sizes, $current_product_sizes);
         $removed_sizes = array_diff($current_product_sizes, $product_sizes);
         foreach($added_sizes as $added_size) {
-            $sku_info = array (
-                'product_id' => $productid,
-                'sku_type' => '2',
-                'sku_type_id' => $added_size,
-                'sku_status' => '1',
-                'created_at' => Input::get('create_date'),
-                'updated_at' => Input::get('update_date'),
-                'product_merchant_id' => $merchant_id
-            );
-            ProductSKU::insert_sku($sku_info);
+            $sku = new ProductSKU();
+            $sku->product_id = $productid;
+            $sku->sku_type = '2';
+            $sku->sku_type_id = $added_size;
+            $sku->sku_status = '1';
+            $sku->product_merchant_id = $merchant_id;
+            $sku->save();
         }
         foreach($removed_sizes as $removed_size) {
             ProductSKU::remove_SKU($productid, 2, $removed_size);
@@ -570,8 +560,8 @@ class MerchantproductController extends Controller
         $stock_all_items = ProductStock::get_product_sku_id($productid);
         
         foreach ($stock_all_items as $stock_all_item) {
-            $temp_product_sku_color = ProductSKU::get_sku($stock_all_item->product_sku_color_id);
-            $temp_product_sku_size = ProductSKU::get_sku($stock_all_item->product_sku_size_id);
+            $temp_product_sku_color = ProductSKU::find($stock_all_item->product_sku_color_id);
+            $temp_product_sku_size = ProductSKU::find($stock_all_item->product_sku_size_id);
             
             if (count($temp_product_sku_color) == 0 || count($temp_product_sku_size) == 0) {
                 ProductStock::remove_stock($productid, $stock_all_item->product_sku_color_id, $stock_all_item->product_sku_size_id);
@@ -755,7 +745,7 @@ class MerchantproductController extends Controller
                     if ($strProductColors != '') {
                         $strProductColors .= '/**/';
                     }
-                    $tmpColor = Colors::get_color_with_name($tmpColor);
+                    $tmpColor = SkuService::get_color_with_name($tmpColor);
                     if (count($tmpColor) == 0) {
                         continue;
                     }
@@ -784,8 +774,8 @@ class MerchantproductController extends Controller
                     $product_salemethod = 1;
                 }
                 $product_salerange = $data[1];
-                $product_brand_id = Brands::get_brand_id($data[2]);
-                $product_category_id = Categorys::get_category_id($data[3], $data[4], $data[5]);
+                $product_brand_id = BrandService::get_brand_id($data[2]);
+                $product_category_id = CategoryService::get_category_id($data[3], $data[4], $data[5]);
 
                 $product_event = '';
                 $product_old_status = 0;
@@ -839,30 +829,24 @@ class MerchantproductController extends Controller
 
                 // SKU Color 1
                 foreach($product_colors as $product_color_id) {
-                    $sku_info = array (
-                        'product_id' => $productid,
-                        'sku_type' => '1',
-                        'sku_type_id' => $product_color_id,
-                        'sku_status' => '1',
-                        'created_at' => $current_date,
-                        'updated_at' => $current_date,
-                        'product_merchant_id' => $merchant_id
-                    );
-                    ProductSKU::insert_sku($sku_info);
+                    $sku = new ProductSKU();
+                    $sku->product_id = $productid;
+                    $sku->sku_type = '1';
+                    $sku->sku_type_id = $product_color_id;
+                    $sku->sku_status = '1';
+                    $sku->product_merchant_id = $merchant_id;
+                    $sku->save();
                 }
 
                 // SKU Size 2
                 foreach($product_sizes as $product_size_id) {
-                    $sku_info = array (
-                        'product_id' => $productid,
-                        'sku_type' => '2',
-                        'sku_type_id' => $product_size_id,
-                        'sku_status' => '1',
-                        'created_at' => $current_date,
-                        'updated_at' => $current_date,
-                        'product_merchant_id' => $merchant_id
-                    );
-                    ProductSKU::insert_sku($sku_info);
+                    $sku = new ProductSKU();
+                    $sku->product_id = $productid;
+                    $sku->sku_type = '2';
+                    $sku->sku_type_id = $product_size_id;
+                    $sku->sku_status = '1';
+                    $sku->product_merchant_id = $merchant_id;
+                    $sku->save();
                 }
 
                 $product_sku_colors = ProductSKU::get_product_sku($productid, 1, $merchant_id);

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 
 use App\Models\Categorys;
+use App\Services\CategoryService;
 
 class Products extends AppModel
 {
@@ -124,14 +125,14 @@ class Products extends AppModel
             $sql = $sql->where('fan_product.product_brand_id', $brandid);
         }
         if ($categorylevel == 1) {
-            $categories = Categorys::getSubCategorys_mall_fromtop($mallid, $category_id);
+            $categories = CategoryService::getSubCategorys_mall_fromtop($mallid, $category_id);
             $arrCategories = array();
             foreach ($categories as $category) {
                 array_push($arrCategories, $category->category_id);
             }
             $sql = $sql->whereIn('product_category_id', $arrCategories);
         } else if ($categorylevel == 2) {
-            $categories = Categorys::getSubCategorys_mall_frommain($mallid, $category_id);
+            $categories = CategoryService::getSubCategorys_mall_frommain($mallid, $category_id);
             $arrCategories = array();
             foreach ($categories as $category) {
                 array_push($arrCategories, $category->category_id);
@@ -177,10 +178,10 @@ class Products extends AppModel
                 'fan_product_stock_management.product_price_sale',
                 'master_brand.brand_name');
         if ($categorylevel == 1) {
-            $arrCategories = Categorys::getSubCategoryIDs($category_id);
+            $arrCategories = CategoryService::getSubCategoryIDs($category_id);
             $sql = $sql->whereIn('product_category_id', $arrCategories);
         } else if ($categorylevel == 2) {
-            $arrCategories = Categorys::getSubCategoryIDs($category_id);
+            $arrCategories = CategoryService::getSubCategoryIDs($category_id);
             $sql = $sql->whereIn('product_category_id', $arrCategories);
         } else if ($categorylevel == 3)
             $sql = $sql->where('product_category_id', $category_id);
@@ -221,10 +222,10 @@ class Products extends AppModel
                 'fan_product_stock_management.product_price_sale',
                 'master_brand.brand_name');
         if ($categorylevel == 1) {
-            $arrCategories = Categorys::getSubCategoryIDs($category_id);
+            $arrCategories = CategoryService::getSubCategoryIDs($category_id);
             $sql = $sql->whereIn('product_category_id', $arrCategories);
         } else if ($categorylevel == 2) {
-            $arrCategories = Categorys::getSubCategoryIDs($category_id);
+            $arrCategories = CategoryService::getSubCategoryIDs($category_id);
             $sql = $sql->whereIn('product_category_id', $arrCategories);
         } else if ($categorylevel == 3)
             $sql = $sql->where('product_category_id', $category_id);
