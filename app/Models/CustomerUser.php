@@ -15,4 +15,7 @@ class CustomerUser extends AppModel
     public function card(){
         return $this->hasMany(CustomerCard::class, 'customer_id');
     }
+    public function magazine(){
+        return $this->hasOne(CustomerMagazine::class, 'customer_id');
+    }
 }

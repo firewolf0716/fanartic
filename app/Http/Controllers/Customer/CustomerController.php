@@ -1083,34 +1083,6 @@ class CustomerController extends Controller
             ->with('images', $images);
     }
 
-    public function magazine(){
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-
-        $customer = CustomerUser::find($customerid);
-        $email = $customer->customer_email;
-
-        $mmg = Customers::is_magazine_info_exists($customerid);
-
-        return $this->layout_init(view('customer.user.magazine'), 1)
-                ->with('email', $email)
-                ->with('customerid', $customerid)
-                ->with('mmg', $mmg);
-    }
-
-    public function magazine_post(){
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-
-        Customers::change_magazine_info($customerid, Input::get('status'));
-
-        return Redirect::to('user/magazine');
-    }
-
     public function score(){
         if(!Session::has('customerid')){
             return Redirect::to('/');

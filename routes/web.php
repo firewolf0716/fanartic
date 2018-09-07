@@ -253,8 +253,8 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('user/historydetail/{group}', 'Customer\CustomerController@historydetail');
 	Route::get('user/history/receive/{item}', 'Customer\CustomerController@receiveitem');
 	//magazine
-	Route::get('user/magazine', 'Customer\CustomerController@magazine');
-	Route::post('user/magazine_post', 'Customer\CustomerController@magazine_post');
+	Route::get('user/magazine', 'Customer\CustomerMagazineController@magazine');
+	Route::post('user/magazine_post', 'Customer\CustomerMagazineController@magazine_post');
 	//score
 	Route::get('user/score', 'Customer\CustomerController@score');
 //all
