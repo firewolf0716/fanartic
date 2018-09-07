@@ -238,12 +238,11 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('user/address_edit_post', 'Customer\CustomerAddressController@address_edit_post');
 	Route::get('user/address_delete/{addr_id}', 'Customer\CustomerAddressController@address_delete');
 	//payment
-	Route::get('user/credit', 'Customer\CustomerController@credit');
-	Route::get('user/credit_add', 'Customer\CustomerController@credit_add');
-	Route::post('user/credit_add_post', 'Customer\CustomerController@credit_add_post');
-	Route::get('user/credit_edit/{addr_id}', 'Customer\CustomerController@credit_edit');
-	Route::post('user/credit_edit_post', 'Customer\CustomerController@credit_edit_post');
-	Route::get('user/credit_delete/{addr_id}', 'Customer\CustomerController@credit_delete');
+	Route::get('user/credit', 'Customer\CustomerCardController@credit');
+	//credit js post
+	Route::get('user/removecard', 'Customer\CustomerCardController@delete_card');
+	Route::post('user/add_card_post', 'Customer\CustomerCardController@add_card_post');
+	Route::post('user/edit_card_post', 'Customer\CustomerCardController@edit_card_post');
 	//order flow
 	Route::get('user/checkflowinfo', 'Customer\CustomerController@checkflowinfo');
 	Route::post('user/flow_post_ac', 'Customer\CustomerController@flow_post_ac');
@@ -258,10 +257,6 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('user/magazine_post', 'Customer\CustomerController@magazine_post');
 	//score
 	Route::get('user/score', 'Customer\CustomerController@score');
-	//credit js post
-	Route::get('user/removecard', 'Customer\CustomerController@delete_card');
-	Route::post('user/add_card_post', 'Customer\CustomerController@add_card_post');
-	Route::post('user/edit_card_post', 'Customer\CustomerController@edit_card_post');
 //all
 	Route::get('product/list', 'Customer\CustomerController@product_list');
 	Route::get('product/list/{topid}', 'Customer\CustomerController@product_list');

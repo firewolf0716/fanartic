@@ -12,4 +12,7 @@ class CustomerUser extends AppModel
     public function address(){
         return $this->hasMany(CustomerAddress::class, 'customer_id');
     }
+    public function card(){
+        return $this->hasMany(CustomerCard::class, 'customer_id');
+    }
 }

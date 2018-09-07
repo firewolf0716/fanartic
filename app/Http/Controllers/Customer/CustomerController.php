@@ -661,21 +661,6 @@ class CustomerController extends Controller
     public function profilepost(){
         $customerid = Session::get('customerid');
         $customer = CustomerUser::find($customerid);
-        // $entry = array(
-        //     'customer_name_first' => Input::get('first_name'),
-        //     'customer_name_second' => Input::get('second_name'),
-        //     'customer_name_kana_first' => Input::get('first_name_kana'),
-        //     'customer_name_kana_second' => Input::get('second_name_kana'),
-        //     'customer_gender' => Input::get('sex'),
-        //     'customer_birthday' => Input::get('birthday_year').'/'.Input::get('birthday_month').'/'.Input::get('birthday_day'),
-        //     'customer_postalcode' => Input::get('zipcode'),
-        //     'customer_province' => Input::get('province'),
-        //     'customer_county' => Input::get('county'),
-        //     'customer_address_jp' => Input::get('address'),
-        //     'customer_phone' => Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3'),
-        //     'customer_email' => Input::get('email'),
-        //     'customer_status' => $customer->customer_status
-        // );
         $customer->customer_name_first = Input::get('first_name');
         $customer->customer_name_second = Input::get('second_name');
         $customer->customer_name_kana_first = Input::get('first_name_kana');
@@ -687,7 +672,7 @@ class CustomerController extends Controller
         $customer->customer_county = Input::get('county');
         $customer->customer_address_jp = Input::get('address');
         $customer->customer_phone = Input::get('tel1').'-'.Input::get('tel2').'-'.Input::get('tel3');
-        $customer->customer_email = Input::get('email');
+        // $customer->customer_email = Input::get('email');
         $customer->customer_status = $customer->customer_status;
         $customer->save();
 
@@ -834,75 +819,6 @@ class CustomerController extends Controller
         $id = Input::get('remove_id');
         Cart::removeitem($id);
         return Redirect::to('user/cart');
-    }
-
-    public function credit(){
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        $customer_email = CustomerUser::find($customerid)->customer_email;
-        $cards = Customers::get_cards($customerid);
-        
-        return $this->layout_init(view('customer.user.credit'), 1)
-                ->with('cards', $cards)
-                ->with('email', $customer_email);
-    }
-
-    public function credit_add(){
-        if(!Session::has('customerid')){
-            return;
-        }
-        $customerid = Session::get('customerid');
-        $customer_email = CustomerUser::find($customerid)->customer_email;
-        return $this->layout_init(view('customer.user.credit_add'), 1)
-                    ->with('email', $customer_email);
-    }
-
-    public function credit_add_post(){
-        // dd(Input::all());
-        if(!Session::has('customerid')){
-            return;
-        }
-        $customerid = Session::get('customerid');
-        $entry = array(
-            'customer_id' => $customerid,
-            'card_no' => Input::get('no'),
-            'card_token' => Input::get('token'),
-            'card_owner' => Input::get('owner'),
-            'card_validdate' => Input::get('year').'/'.Input::get('month')
-        );
-        $id = Customers::add_card($entry);
-        return Redirect::to('user/credit');
-    }
-
-    public function credit_edit($id){
-        $card = Customers::get_card($id)->first();
-        return $this->layout_init(view('customer.user.credit_edit'), 1)
-            ->with('card', $card);
-    }
-
-    public function credit_edit_post(){
-        if(!Session::has('customerid')){
-            return;
-        }
-        // dd(Input::all());
-        $customerid = Session::get('customerid');
-        $cardid = Input::get('card_id');
-        $entry = array(
-            'customer_id' => $customerid,
-            'card_no' => Input::get('no'),
-            'card_token' => Input::get('token'),
-            'card_owner' => Input::get('owner'),
-            'card_validdate' => Input::get('year').'/'.Input::get('month')
-        );
-        $id = Customers::edit_card($entry, $cardid);
-        return Redirect::to('user/credit');
-    }
-
-    public function credit_delete($id){
-        Customers::delete_card($id);
-        return Redirect::to('user/credit');
     }
 
     public function checkflowinfo(){
@@ -1210,74 +1126,5 @@ class CustomerController extends Controller
     public function receiveitem($itemid){
         Customers::receive_item($itemid);
         return Redirect::to('user/history');
-    }
-
-    public function add_card_post(Request $request){
-        if(!Session::has('customerid')){
-            return;
-        }
-        $userid = Session::get('customerid');
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $customer = Customer::create(array(
-            'email' => $request->stripeEmail,
-            'source' => $request->stripeToken
-        ));
-        $cus_token = $customer->id;
-        $last4 = $customer->sources->data['0']->last4;
-        $expiredt = $customer->sources->data['0']->exp_year.'/'.$customer->sources->data['0']->exp_month;
-        $name = $customer->sources->data['0']->name;
-        $entry = array(
-            'customer_id' => $userid,
-            'card_no' => $last4,
-            'card_token' => $cus_token,
-            'card_owner' => $name,
-            'card_validdate' => $expiredt
-        );
-        $id = Customers::add_card($entry);
-        return Redirect::to('user/credit');
-    }
-
-    public function edit_card_post(Request $request){
-        $userid = Session::get('customerid');
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        if(isset($request->stripeToken)){
-            try{
-                $cu = Customer::retrieve($request->customer_token);
-                $cu->source = $request->stripeToken;
-                $cu->save();
-                $last4 = $cu->sources->data['0']->last4;
-                $expiredt = $cu->sources->data['0']->exp_year.'/'.$cu->sources->data['0']->exp_month;
-                $name = $cu->sources->data['0']->name;
-                $cus_token = $cu->id;
-                $entry = array(
-                    'customer_id' => $userid,
-                    'card_no' => $last4,
-                    'card_token' => $cus_token,
-                    'card_owner' => $name,
-                    'card_validdate' => $expiredt
-                );
-                Customers::edit_card_bytoken($entry, $cus_token);
-            }catch(Card $e){
-                $body = $e->getJsonBody();
-                $err  = $body['error'];
-                $error = $err['message'];
-            }
-        }
-        return Redirect::to('user/credit');
-    }
-
-    public function delete_card(Request $request){
-        $token = $request->token;
-        if(!Session::has('customerid')){
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        // dd($token);
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-        $cu = Customer::retrieve($token);
-        $cu->delete();
-
-        Customers::delete_card_bytoken($token);
-        return Redirect::to('user/credit');
     }
 }
