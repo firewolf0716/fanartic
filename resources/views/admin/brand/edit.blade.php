@@ -59,13 +59,16 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select id="select_design" name="select_design" class="form-control" required>
                             <option value="">--デザインタイプを選択--</option>
+                            <option value="1"
                             @if($brand->brand_design == 1)
-                                <option value="1" selected>カバー写真と説明のみ</option>
-                                <option value="2">オリジナルTOPページ</option>
-                            @elseif($brand->brand_design == 2)
-                                <option value="1">カバー写真と説明のみ</option>
-                                <option value="2" selected>オリジナルTOPページ</option>
+                                selected
                             @endif
+                                >カバー写真と説明のみ</option>
+                            <option value="2" 
+                            @if($brand->brand_design == 2)
+                                selected
+                            @endif
+                                >オリジナルTOPページ</option>
                         </select>
                     </div>
                 </div>

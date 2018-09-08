@@ -19,6 +19,7 @@ use Stripe\Error\Card;
 
 use App\Models\Categorys;
 use App\Models\Sizes;
+use App\Models\SizeCategory;
 use App\Models\Colors;
 use App\Models\Products;
 use App\Models\Customers;
@@ -34,6 +35,7 @@ use App\Models\CustomerAddress;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\MatchService;
+use App\Services\MallService;
 
 class CustomerController extends Controller
 {
@@ -46,7 +48,7 @@ class CustomerController extends Controller
     }
 
     public function mall($mallname){
-        $mall = Malls::get_mall_byname($mallname);
+        $mall = MallService::get_mall_byname($mallname);
         // dd($mallname);
         if($mallname == 'admin'){
             return Redirect::to('admin/login');
@@ -112,7 +114,7 @@ class CustomerController extends Controller
     }
 
     public function product_list_mall($mallname, $topid = null, $mainid = null, $categoryid = null){
-        $mall = Malls::get_mall_byname($mallname);
+        $mall = MallService::get_mall_byname($mallname);
         $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
         if($topid == null){
@@ -134,7 +136,7 @@ class CustomerController extends Controller
         if($mainid != null){
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
+            $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
         $scategory = null;
         if($categoryid != null){
@@ -199,7 +201,7 @@ class CustomerController extends Controller
 
     public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null){
         // dd($mall);
-        $mall = Malls::get_mall_byname($mallname);
+        $mall = MallService::get_mall_byname($mallname);
         $brand = BrandService::get_brand_byname($brandname);
         $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
@@ -222,7 +224,7 @@ class CustomerController extends Controller
         if($mainid != null){
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
+            $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
         $scategory = null;
         if($categoryid != null){
@@ -309,7 +311,7 @@ class CustomerController extends Controller
         if($mainid != null){
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
+            $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
         $scategory = null;
         if($categoryid != null){
@@ -394,7 +396,7 @@ class CustomerController extends Controller
         if($mainid != null){
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
-            $sizes = Sizes::get_sizes_with_category($sizecategory_id);
+            $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
         
         $scategory = null;
@@ -494,7 +496,7 @@ class CustomerController extends Controller
         $scategory = Categorys::find($product->product_category_id);
 
         $colors = Colors::get();
-        $sizes = Sizes::get_sizes_with_category($mcategoryid);
+        $sizes = SizeCategory::find($mcategoryid)->sizes;
 
         $skucolor = ProductSKU::get_for_product($productid, 1);
         $skusize = ProductSKU::get_for_product($productid, 2);

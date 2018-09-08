@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Categorys;
-
+use DB;
 class CategoryService
 {
     public static function getTopCategorys() {

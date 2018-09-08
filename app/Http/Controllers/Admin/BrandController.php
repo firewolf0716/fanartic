@@ -44,7 +44,7 @@ class BrandController extends Controller
         $brand->brand_name_en = Input::get('brand_name_en');
         $brand->brand_design = Input::get('brand_design');
         $brand->brand_status = Input::get('brand_status');
-        $brand->brand_image = Input::get('brand_image');
+        $brand->brand_image = $filename_new;
         $brand->brand_description = Input::get('brand_description');
         $brand->save();
         
@@ -68,6 +68,7 @@ class BrandController extends Controller
         $malls = Malls::get();
         $genres = Genres::get();
         $brand = Brands::find($id);
+        // dd($brand);
         $selmalls = MatchService::get_malls($brand->brand_id);
         return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls)->with('genres', $genres)->with('selmalls', $selmalls);
     }
@@ -83,7 +84,7 @@ class BrandController extends Controller
             unlink($imgPath);
         }
         Brands::find($id)->delete();
-        MallBrands::remove_malls($id);
+        MatchService::remove_malls($id);
         return Redirect::to('admin/brand/list');
     }
 
@@ -105,9 +106,8 @@ class BrandController extends Controller
         $brand = Brands::find($id);
         $brand->brand_name = Input::get('brand_name');
         $brand->brand_name_en = Input::get('brand_name_en');
-        $brand->brand_design = Input::get('brand_design');
+        $brand->brand_design = Input::get('select_design');
         $brand->brand_status = Input::get('brand_status');
-        $brand->brand_image = Input::get('brand_image');
         $brand->brand_description = Input::get('brand_description');
         $brand->save();
         

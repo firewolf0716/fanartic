@@ -12,6 +12,8 @@ use App\Models\MerchantProducts;
 use App\Models\Brands;
 use App\Models\Categorys;
 use App\Models\Sizes;
+use App\Services\SizeService;
+use App\Models\SizeCategory;
 use App\Models\Colors;
 use App\Models\Events;
 use App\Models\Merchants;
@@ -44,7 +46,7 @@ class MerchantproductController extends Controller
         } else {
             $brands = Brands::get();
         }
-        $sizeCategorys = Sizes::get_sizecategorys();
+        $sizeCategorys = Sizes::get();
         $events = Events::get_events();
         $colors = Colors::get();
         $productstates = ProductStates::get_productstates();
@@ -76,7 +78,7 @@ class MerchantproductController extends Controller
         $events = Events::get_events();
         $colors = Colors::get();
         $productstates = ProductStates::get_productstates();
-        $sizeCategorys = Sizes::get_sizecategorys();
+        $sizeCategorys = Sizes::get();
         $categoryinfo = Categorys::find($id);
         $product_parents = $this->merchant_getparentprefers($product->product_category_id, $product->product_brand_id);
         $selectedColors = explode("/**/", $product->product_color);
@@ -86,13 +88,13 @@ class MerchantproductController extends Controller
         $top_category_id = CategoryService::getTopCategoryID($product->product_category_id);
         $master_images = Products::get_master_images($product->product_id);
 
-        // $product_sizes = Sizes::get_sizes_with_category(Input::get('product_sizeCategory'));
         $product_size_id = Products::get_product_size_id($id);
         $product_stock_info = Products::get_product_stock_info($id)->first();
         $topCategorys = CategoryService::getTopCategorys();
 
         $size_category = Sizes::get_size($selectedSizes[0])->size_category_id;
-        $sizes = Sizes::get_sizes_with_category($size_category);
+        $sizes = SizeCategory::find($size_category)->sizes;
+        
         $shippings = MerchantShipping::get_merchant_shippings($merchant_id);
 
         return view('merchant.product.product_edit')->with('merchant_id', $merchant_id)
@@ -622,15 +624,7 @@ class MerchantproductController extends Controller
     }
     
     public function merchant_getsizecategory($categoryid){
-        // $categorys = Categorys::get_categorys($categoryid);
-        // if(isset($categorys)){
-        //     $category = $categorys[0];
-        //     $sizeid = $category->category_size;
-        //     $sizes = Sizes::get_sizes_with_category($sizeid);
-        //     return $sizes;
-        // }
-        
-        $sizes = Sizes::get_sizes_with_category($categoryid);
+        $sizes = SizeCategory::find($categoryid)->sizes;
         return $sizes;
     }
     public function merchant_getparentprefers($categoryid, $brandid) {
@@ -764,7 +758,7 @@ class MerchantproductController extends Controller
                     if ($strProductSizes != '') {
                         $strProductSizes .= '/**/';
                     }
-                    $tmpSizeId = Sizes::get_size_id($tmpSize);
+                    $tmpSizeId = SizeService::get_size_id($tmpSize);
                     array_push($product_sizes, $tmpSizeId);
                     $strProductSizes .= $tmpSizeId;
                 }

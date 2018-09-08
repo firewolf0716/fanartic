@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Malls;
 use App\Models\Categorys;
 use App\Models\Sizes;
+use App\Models\SizeCategory;
 use App\Models\MallCategorys;
 use App\Services\CategoryService;
 use App\Services\MatchService;
@@ -34,7 +35,7 @@ class CategoryController extends Controller
         }
 
         $topcategory = Categorys::find($topid);
-        $sizecategorys = Sizes::get_sizecategorys();
+        $sizecategorys = SizeCategory::get();
 
         return view('admin.category.add')->with('toptitle', 'メインカテゴリを追加')
                                         ->with('title', 'メインカテゴリを追加 ('.$topcategory->category_name.')')
@@ -178,7 +179,7 @@ class CategoryController extends Controller
 
         $category = Categorys::find($mainid);
         $malls = Malls::get();
-        $sizecategorys = Sizes::get_sizecategorys();
+        $sizecategorys = Sizes::get();
         $linkedMalls = MatchService::get_malls_bycategory($mainid);
         $topCategorys = $this->getTopCategorys();
         $topcategory = Categorys::find($topid);

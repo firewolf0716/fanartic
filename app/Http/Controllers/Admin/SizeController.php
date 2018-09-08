@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Sizes;
+use App\Models\SizeCategory;
 
 class SizeController extends Controller
 {
@@ -24,13 +25,17 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'sizecategory_name_en' => Input::get('sizecategory_name_en'),
-            'sizecategory_name' => Input::get('sizecategory_name'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
-        Sizes::insert_sizecategory($entry);
+        // $entry =  array(
+        //     'sizecategory_name_en' => Input::get('sizecategory_name_en'),
+        //     'sizecategory_name' => Input::get('sizecategory_name'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
+        $sizecategory = new SizeCategory();
+        $sizecategory->sizecategory_name = Input::get('sizecategory_name');
+        $sizecategory->sizecategory_name_en = Input::get('sizecategory_name_en');
+        $sizecategory->save();
+
         return Redirect::to('admin/size/listcategory');   
     }
 
@@ -39,7 +44,7 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $sizecategorys = Sizes::get_sizecategorys();
+        $sizecategorys = SizeCategory::get();
         return view('admin.size.listcategory')->with('sizecategorys', $sizecategorys);
     }
 
@@ -48,27 +53,25 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Sizes::get_sizecategory($id);
-        if(isset($search)){
-            $sizecategory = $search[0];
-            return view('admin.size.editcategory')->with('sizecategory', $sizecategory);
-        } else{
-            return Redirect::to('admin/size/listcategory');
-        }
+        $sizecategory = SizeCategory::find($id);
+        return view('admin.size.editcategory')->with('sizecategory', $sizecategory);
     }
     public function editcategorypost() {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'sizecategory_name_en' => Input::get('sizecategory_name_en'),
-            'sizecategory_name' => Input::get('sizecategory_name'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
+        // $entry =  array(
+        //     'sizecategory_name_en' => Input::get('sizecategory_name_en'),
+        //     'sizecategory_name' => Input::get('sizecategory_name'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
         $id = Input::get('sizecategory_id');
-        Sizes::edit_sizecategory($entry, $id);
+        $sizecategory = SizeCategory::find($id);
+        $sizecategory->sizecategory_name = Input::get('sizecategory_name');
+        $sizecategory->sizecategory_name_en = Input::get('sizecategory_name_en');
+        $sizecategory->save();
         return Redirect::to('admin/size/listcategory');
     }
 
@@ -77,7 +80,7 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $categorys = Sizes::get_sizecategorys();
+        $categorys = Sizes::get();
         return view('admin.size.add')->with('categorys', $categorys);
     }
 
@@ -86,14 +89,20 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'size_category_id' => Input::get('select_category'),
-            'size_name' => Input::get('size_name'),
-            'size_name_en' => Input::get('size_name_en'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
-        Sizes::insert_size($entry);
+        // $entry =  array(
+        //     'size_category_id' => Input::get('select_category'),
+        //     'size_name' => Input::get('size_name'),
+        //     'size_name_en' => Input::get('size_name_en'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
+
+        $size = new Sizes();
+        $size->size_category_id = Input::get('select_category');
+        $size->size_name = Input::get('size_name');
+        $size->size_name_en = Input::get('size_name_en');
+        $size->save();
+
         return Redirect::to('admin/size/list'); 
     }
 
@@ -102,7 +111,7 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $sizes = Sizes::get_sizes();
+        $sizes = Sizes::get();
         return view('admin.size.list')->with('sizes', $sizes);
     }
 
@@ -112,7 +121,7 @@ class SizeController extends Controller
         }
 
         $search = Sizes::get_size($id);
-        $categorys = Sizes::get_sizecategorys();
+        $categorys = Sizes::get();
         if(isset($search)){
             $size = $search;
             return view('admin.size.edit')->with('size', $size)->with('categorys', $categorys);
@@ -126,15 +135,19 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $entry =  array(
-            'size_category_id' => Input::get('select_category'),
-            'size_name' => Input::get('size_name'),
-            'size_name_en' => Input::get('size_name_en'),
-            'created_at' => Input::get('create_date'),
-            'updated_at' => Input::get('update_date')
-        );
+        // $entry =  array(
+        //     'size_category_id' => Input::get('select_category'),
+        //     'size_name' => Input::get('size_name'),
+        //     'size_name_en' => Input::get('size_name_en'),
+        //     'created_at' => Input::get('create_date'),
+        //     'updated_at' => Input::get('update_date')
+        // );
         $id = Input::get('size_id');
-        Sizes::edit_size($entry, $id);
+        $size = Sizes::find($id);
+        $size->size_category_id = Input::get('select_category');
+        $size->size_name = Input::get('size_name');
+        $size->size_name_en = Input::get('size_name_en');
+        $size->save();
         return Redirect::to('admin/size/list');
     }
 }

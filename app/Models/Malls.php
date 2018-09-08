@@ -13,9 +13,4 @@ class Malls extends AppModel
     protected $guarded = array('mall_id');
     protected $table = 'master_mall';
     protected $primaryKey = 'mall_id';
-
-    public static function get_mall_byname($name)
-    {
-        return DB::table('master_mall')->where('mall_name_en', $name)->get()->first();
-    }
 }

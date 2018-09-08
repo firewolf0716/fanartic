@@ -10,12 +10,12 @@ use App\Models\Admins;
 class AdminUserService
 {
     public static function check_login($uname, $pwd) {
-        $admins = DB::table('master_admin')->where('admin_name', '=', $uname)->get();
+        $admins = Admins::where('admin_name', '=', $uname)->get();
         $check_password = 0;
         if(count($admins) > 0) { 
             foreach($admins as $admin) {
                 if($admin->admin_name == $uname) {
-                    $check_password = DB::table('master_admin')->where('admin_name', '=', $uname)->where('admin_password', '=', $pwd)->get();
+                    $check_password = Admins::where('admin_name', '=', $uname)->where('admin_password', '=', $pwd)->get();
                 } else {
                     return -1;
                 }
