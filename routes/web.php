@@ -131,12 +131,12 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('admin/notifymerchant/editpost','Admin\MerchantNotifyController@editpost');
 
 	// Customer Notify
-	Route::get('admin/notifycustomer/add','CustomerNotifyController@add');
-	Route::post('admin/notifycustomer/addpost','CustomerNotifyController@addpost');
-	Route::get('admin/notifycustomer/list','CustomerNotifyController@list');
-	Route::get('admin/notifycustomer/edit/{id}','CustomerNotifyController@edit');
-	Route::get('admin/notifycustomer/delete/{id}','CustomerNotifyController@delete');
-	Route::post('admin/notifycustomer/editpost','CustomerNotifyController@editpost');
+	Route::get('admin/notifycustomer/add','Admin\CustomerNotifyController@add');
+	Route::post('admin/notifycustomer/addpost','Admin\CustomerNotifyController@addpost');
+	Route::get('admin/notifycustomer/list','Admin\CustomerNotifyController@list');
+	Route::get('admin/notifycustomer/edit/{id}','Admin\CustomerNotifyController@edit');
+	Route::get('admin/notifycustomer/delete/{id}','Admin\CustomerNotifyController@delete');
+	Route::post('admin/notifycustomer/editpost','Admin\CustomerNotifyController@editpost');
 
 	// Admin Manage Merchant
 	Route::get('admin/merchant_detaill/{id}','Admin\AdminController@detail_merchant_live');

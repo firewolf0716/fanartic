@@ -25,6 +25,7 @@ use App\Models\MerchantShipping;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\SkuService;
+use App\Services\MatchService;
 use DB;
 use Session;
 
@@ -42,7 +43,7 @@ class MerchantproductController extends Controller
         $merchants = Merchants::find($merchant_id);
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
-            $brands = MerchantBrands::get_brands($merchant_id);
+            $brands = MatchService::get_brands_merchant($merchant_id);
         } else {
             $brands = Brands::get();
         }
@@ -71,7 +72,7 @@ class MerchantproductController extends Controller
         $merchants = Merchants::find($merchant_id);
         $merchant = $merchants[0];
         if($merchant->merchant_type == 1 || $merchant->merchant_type == 2){
-            $brands = MerchantBrands::get_brands($merchant_id);
+            $brands = MatchService::get_brands_merchant($merchant_id);
         } else {
             $brands = Brands::get();
         }

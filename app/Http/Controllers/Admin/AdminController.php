@@ -116,7 +116,7 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $plans = Plans::get_plans();
+        $plans = Plans::get();
         $states = States::get();
         $brands = Brands::get();
         return view('admin.merchant.merchant_add')->with('plans', $plans)->with('states', $states)->with('brands', $brands);
@@ -166,11 +166,14 @@ class AdminController extends Controller
         if(Input::has('merchant_brands')){
             $brands = Input::get('merchant_brands');
             foreach($brands as $brand){
-                $mentry = array(
-                    'merchant_id' => $merchant->merchant_id,
-                    'brand_id' => $brand
-                );
-                MerchantBrands::insert_match($mentry);
+                // $mentry = array(
+                //     'merchant_id' => $merchant->merchant_id,
+                //     'brand_id' => $brand
+                // );
+                $match = new MerchantBrands();
+                $match->merchant_id = $merchant->merchant_id;
+                $match->brand_id = $brand;
+                $match->save();
             }
         }
         return Redirect::to('admin/merchants/list');
@@ -181,7 +184,7 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $plan = Plans::get_plan($planid);
+        $plan = Plans::find($planid);
         return $plan;
     }
 
@@ -227,7 +230,7 @@ class AdminController extends Controller
         }
 
         $merchant->save();
-        MatchService::remove_brands($id);
+        MatchService::remove_brands_merchant($id);
         if(Input::has('merchant_brands')){
             $brands = Input::get('merchant_brands');
             foreach($brands as $brand){
@@ -235,7 +238,10 @@ class AdminController extends Controller
                     'merchant_id' => $id,
                     'brand_id' => $brand
                 );
-                MerchantBrands::insert_match($mentry);
+                $match = new MerchantBrands();
+                $match->merchant_id = $id;
+                $match->brand_id = $brand;
+                $match->save();
             }
         }
         return Redirect::to('admin/merchants/list');

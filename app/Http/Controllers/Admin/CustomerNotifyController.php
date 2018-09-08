@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Input;
 
 use App\Models\CustomerNotifys;
-use App\Models\Merchants;
+use App\Models\CustomerUser;
 use Session;
 
 use App\Services\NotifyService;
@@ -19,7 +19,7 @@ class CustomerNotifyController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $customers = Merchants::get();
+        $customers = CustomerUser::get();
         return view('admin.notifyc.add')->with('customers', $customers);
     }
 
@@ -78,7 +78,7 @@ class CustomerNotifyController extends Controller
         }
 
         $adminid = Session::get('adminid');
-        $customers = Merchants::get();
+        $customers = CustomerUser::get();
         $notifys = NotifyService::getNotifysByAdminAndID_Customer($adminid, $id);
         if (count($notifys) == 0) {
             return Redirect::to('admin/notifycustomer/list');
