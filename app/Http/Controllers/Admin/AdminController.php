@@ -100,7 +100,7 @@ class AdminController extends Controller
         }
 
         $merchant = Merchants::find($id);
-        $plans = Plans::get_plans();
+        $plans = Plans::get();
         $states = States::get();
         $brands = Brands::get();
         $selbrands = MatchService::get_brands($merchant->merchant_id);

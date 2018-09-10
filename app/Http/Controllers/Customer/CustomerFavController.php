@@ -12,6 +12,7 @@ use Session;
 use App\Models\Cart;
 use App\Models\ProductSKU;
 use App\Services\CartService;
+use App\Models\Customers;
 
 class CustomerFavController extends Controller
 {
@@ -26,10 +27,10 @@ class CustomerFavController extends Controller
         $images = array(); $colorname = array(); $sizename = array();
         foreach($favs as $fav){
             $sku_color = ProductSku::find($fav->product_sku_color_id);
-            $colorname[$fav->id] = Colors::get_color($sku_color->sku_type_id);
+            $colorname[$fav->id] = Colors::find($sku_color->sku_type_id);
 
             $sku_size = ProductSku::find($fav->product_sku_size_id);
-            $sizename[$fav->id] = Sizes::get_size($sku_color->sku_type_id);
+            $sizename[$fav->id] = Sizes::find($sku_color->sku_type_id);
 
             $image = Products::get_cart_image($fav->fav_pro_id, $colorname[$fav->id]->color_id)->image_name;
             $images[$fav->id] = $image;

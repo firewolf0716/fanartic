@@ -7,6 +7,8 @@ use Session;
 use Illuminate\Http\Request;
 
 use App\Models\Cart;
+use App\Models\Colors;
+use App\Models\Sizes;
 use App\Services\CartService;
 
 class CustomerCartController extends Controller
@@ -22,10 +24,10 @@ class CustomerCartController extends Controller
         $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
             $sku_color = ProductSku::find($item->product_sku_color_id);
-            $colorname[$item->cart_id] = Colors::get_color($sku_color->sku_type_id);
+            $colorname[$item->cart_id] = Colors::find($sku_color->sku_type_id);
 
             $sku_size = ProductSku::find($item->product_sku_size_id);
-            $sizename[$item->cart_id] = Sizes::get_size($sku_color->sku_type_id);
+            $sizename[$item->cart_id] = Sizes::find($sku_color->sku_type_id);
 
             $image = Products::get_cart_image($item->cart_productid, $colorname[$item->cart_id]->color_id)->image_name;
             $images[$item->cart_id] = $image;

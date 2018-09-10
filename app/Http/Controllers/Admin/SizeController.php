@@ -120,14 +120,10 @@ class SizeController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $search = Sizes::get_size($id);
+        
         $categorys = Sizes::get();
-        if(isset($search)){
-            $size = $search;
-            return view('admin.size.edit')->with('size', $size)->with('categorys', $categorys);
-        } else {
-            return Redirect::to('admin/size/list');
-        }
+        $size = Sizes::find($id);
+        return view('admin.size.edit')->with('size', $size)->with('categorys', $categorys);
     }
 
     public function editpost() {

@@ -36,6 +36,7 @@ use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\MatchService;
 use App\Services\MallService;
+use App\Services\StockService;
 
 class CustomerController extends Controller
 {
@@ -163,7 +164,7 @@ class CustomerController extends Controller
 
         $prices = array(); $images = array();
         foreach($products as $product){
-            $price = ProductStock::get_price_range($product->product_id);
+            $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
             $imagerec = Products::get_master_images($product->product_id);
@@ -251,7 +252,7 @@ class CustomerController extends Controller
 
         $prices = array(); $images = array();
         foreach($products as $product){
-            $price = ProductStock::get_price_range($product->product_id);
+            $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
             $imagerec = Products::get_master_images($product->product_id);
@@ -337,7 +338,7 @@ class CustomerController extends Controller
 
         $prices = array(); $images = array();
         foreach($products as $product){
-            $price = ProductStock::get_price_range($product->product_id);
+            $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
             $imagerec = Products::get_master_images($product->product_id);
@@ -424,7 +425,7 @@ class CustomerController extends Controller
 
         $prices = array(); $images = array();
         foreach($products as $product){
-            $price = ProductStock::get_price_range($product->product_id);
+            $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
             $imagerec = Products::get_master_images($product->product_id);
@@ -498,8 +499,8 @@ class CustomerController extends Controller
         $colors = Colors::get();
         $sizes = SizeCategory::find($mcategoryid)->sizes;
 
-        $skucolor = ProductSKU::get_for_product($productid, 1);
-        $skusize = ProductSKU::get_for_product($productid, 2);
+        $skucolor = SKUService::get_for_product($productid, 1);
+        $skusize = SKUService::get_for_product($productid, 2);
 
         // dd($skucolor);
 
@@ -508,8 +509,8 @@ class CustomerController extends Controller
         foreach($skucolor as $skucolor_id){
             $info = array();
             foreach($skusize as $skusize_id){
-                $skuvalue = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count;
-                $skuprice = ProductStock::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_price_sale;
+                $skuvalue = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count;
+                $skuprice = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_price_sale;
                 $info[$skusize_id->sku_id]['count'] = $skuvalue;
                 $info[$skusize_id->sku_id]['price'] = $skuprice;
             }
@@ -518,7 +519,7 @@ class CustomerController extends Controller
 
         // dd($skuinfo);
 
-        $price = ProductStock::get_price_range($product->product_id);
+        $price = StockService::get_price_range($product->product_id);
         // dd(CategoryService::getSubCategoryIDs(5));
         $imagerec = Products::get_master_images($product->product_id);
         // dd($imagerec);

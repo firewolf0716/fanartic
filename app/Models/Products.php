@@ -8,7 +8,6 @@ use Session;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 
-use App\Models\Categorys;
 use App\Services\CategoryService;
 
 class Products extends AppModel
@@ -16,6 +15,18 @@ class Products extends AppModel
     protected $guarded = array('id');
     protected $table = 'fan_product';
     protected $primaryKey = 'product_id';
+
+    public function brand(){
+        return $this->belongsTo(Brands::class, "brand_id");
+    }
+
+    public function category(){
+        return $this->belongsTo(Categorys::class, "product_category_id");
+    }
+
+    public function stocks(){
+        return $this->hasMany(ProductStock::class, "product_id");
+    }
 
     public static function insert_product($entry)
     {

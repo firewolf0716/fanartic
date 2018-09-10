@@ -18,6 +18,7 @@ use App\Models\Brands;
 use App\Models\MerchantBrands;
 use App\Services\LocationService;
 use App\Services\MatchService;
+use App\Models\Products;
 
 class MerchantController extends Controller
 {
@@ -34,7 +35,7 @@ class MerchantController extends Controller
             $id = Session::get('merchantid');
             $merchants = Merchants::find($id);
             $merchant = $merchants[0];
-            $plans = Plans::get_plans();
+            $plans = Plans::get();
             $states = States::get();
             $brands = Brands::get();
             $selbrands = MatchService::get_brands_merchant($merchant->merchant_id);

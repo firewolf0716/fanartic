@@ -7,6 +7,7 @@ use Hash;
 
 use App\Models\MallBrands;
 use App\Models\MallCategorys;
+use App\Models\MerchantBrands;
 
 class MatchService
 {
@@ -39,17 +40,17 @@ class MatchService
     }
 
     public static function get_brands_merchant($merchant){
-        return DB::table('merchant_brand_match')->where('merchant_id', $merchant)
+        return MerchantBrands::where('merchant_id', $merchant)
             ->leftJoin('master_brand', 'merchant_brand_match.brand_id', '=', 'master_brand.brand_id')
             ->get();
     }
     public static function get_malls_merchant($brand){
-        return DB::table('merchant_brand_match')->where('brand_id', $brand)->get();
+        return MerchantBrands::where('brand_id', $brand)->get();
     }
     public static function remove_brands_merchant($merchant){
-        return DB::table('merchant_brand_match')->where('merchant_id', $merchant)->delete();
+        return MerchantBrands::where('merchant_id', $merchant)->delete();
     }
     public static function remove_malls_merchant($brand){
-        return DB::table('merchant_brand_match')->where('brand_id', $brand)->delete();
+        return MerchantBrands::where('brand_id', $brand)->delete();
     }
 }

@@ -49,7 +49,7 @@
                                     <div class="controls">
                                         <div class="input-prepend input-group">
                                             <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
-                                            <input type="text" name="product_salerange" id="reservation" class="form-control" value="01/01/2018 - 12/25/2018" disabled/>
+                                            <input type="text" name="product_salerange" id="reservation" class="form-control" value="2018/01/01 - 2018/12/25" disabled/>
                                         </div>
                                     </div>
                                 </div>
