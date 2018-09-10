@@ -24,7 +24,7 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select class="form-control" name="notify_customers[]" id="customers" multiple="multiple" required>
                         @foreach($customers as $customer)
-                            <option value="{{$customer->merchant_id}}">{{$customer->merchant_name}}</option>
+                            <option value="{{$customer->customer_id}}">{{$customer->customer_email}}</option>
                         @endforeach
                         </select>
                     </div>

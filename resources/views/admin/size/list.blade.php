@@ -36,7 +36,7 @@
                             <tr>
                                 <td>{{$index}}</td>
                                 <td hidden>{{$size->size_id}}</td>
-                                <td style="text-align:center">{{$size->sizecategory_name}}</td>
+                                <td style="text-align:center">{{$size->sizecategory->sizecategory_name}}</td>
                                 <td style="text-align:center">{{$size->size_name}}</td>
                                 <td style="text-align:center">{{$size->size_name_en}}</td>
                                 <td style="text-align:center">
