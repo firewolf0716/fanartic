@@ -83,4 +83,7 @@ class Controller extends BaseController
                 ->with('listtype', "malls")
                 ->with('email', $customer_email);
     }
+    public function setMainCategory($view){
+        
+    }
 }

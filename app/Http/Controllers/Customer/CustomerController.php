@@ -37,6 +37,7 @@ use App\Services\CategoryService;
 use App\Services\MatchService;
 use App\Services\MallService;
 use App\Services\StockService;
+use App\Services\ProductService;
 
 class CustomerController extends Controller
 {
@@ -61,8 +62,7 @@ class CustomerController extends Controller
         else {
             if($mall != null){
                 $brands = MatchService::get_brands($mall->mall_id);
-                return $this->layout_init(view('customer.mall_brand'), 1)
-                    ->with('brands', $brands)
+                return $this->layout_init(view('customer.mall_brand'), 1)->with('brands', $brands)
                     ->with('mallname', $mallname)
                     ->with('listtype', "mall_brands");
             }
@@ -73,8 +73,7 @@ class CustomerController extends Controller
 
     public function brands(){
         $brands = Brands::get();
-        return $this->layout_init(view('customer.brand'), 1)
-                ->with('brands', $brands)->with('listtype', "malls");
+        return $this->layout_init(view('customer.brand'), 1)->with('brands', $brands)->with('listtype', "malls");
     }
 
     public function brand($brandid){
@@ -110,8 +109,7 @@ class CustomerController extends Controller
                 $images[$product->product_id] = $imagerec;
             }
         }
-        return $view->with('recent', $recent)
-                    ->with('recentimages', $images);
+        return $view->with('recent', $recent)->with('recentimages', $images);
     }
 
     public function product_list_mall($mallname, $topid = null, $mainid = null, $categoryid = null){
@@ -160,7 +158,7 @@ class CustomerController extends Controller
         if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
         if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
         if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = Products::get_product_filter_mall($mall->mall_id, null, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $products = ProductService::get_product_filter_mall($mall->mall_id, null, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
         $prices = array(); $images = array();
         foreach($products as $product){
@@ -248,17 +246,7 @@ class CustomerController extends Controller
         if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
         if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
         if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = Products::get_product_filter_mall($mall->mall_id, $brand->brand_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
-
-        $prices = array(); $images = array();
-        foreach($products as $product){
-            $price = StockService::get_price_range($product->product_id);
-            $prices[$product->product_id] = $price;
-
-            $imagerec = Products::get_master_images($product->product_id);
-            // dd($imagerec);
-            $images[$product->product_id] = $imagerec;
-        }
+        $products = ProductService::get_product_filter_mall($mall->mall_id, $brand->brand_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
         $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
         $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
@@ -281,8 +269,6 @@ class CustomerController extends Controller
             ->with('mencategories', $mencategories)
             ->with('womencategories', $womencategories)
             ->with('brands', $brands)
-            ->with('prices', $prices)
-            ->with('images', $images)
             ->with('mallname', $mallname)
             ->with('customerid', $customerid)
             ->with('brandname', $brandname)
