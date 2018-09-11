@@ -228,8 +228,9 @@
                         alert('郵便番号が間違っている.');
                         return;
                     }
-                    $('#province').val(result.resourceSets[0].resources[0].address.adminDistrict);
-                    $('#county').val(res.substring($('#zipcode').val().length + $('#province').val().length + 1));
+                    var address = result.resourceSets[0].resources[0].address;
+                    $('#province').val(address.adminDistrict);
+                    $('#county').val(res.substring(address.postalCode.length + address.adminDistrict.length + 1));
                     $('#address').val('');
                 }
             });
