@@ -10,4 +10,9 @@ class AppModel extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
+
+    public function getById($id)
+    {
+        return static::where($this->primaryKey, $id)->find(1);
+    }
 }

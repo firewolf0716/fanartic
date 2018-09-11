@@ -48,6 +48,7 @@
         <section class="c-box">
         <h3 class="c-box__hd">配送先住所</h3>
         <div class="c-box__content">
+            @if ($addrobj)
             <div class="l-column l-column--list l-column--top">
             <div class="l-column--list__name">{{$addrobj->address_name}}</div>
             <!--/.l-column--list__name-->
@@ -62,6 +63,7 @@
             <!--/.l-column--list__data-->
             </div>
             <!--/.l-column l-column--list-->
+            @endif
         </div>
         <!--/.c-box__content-->
         </section>
@@ -73,7 +75,7 @@
             <div class="l-column--list__data">
                 @if($creditobj == 'paypal')
                     <div id="paypal-button-container"></div>
-                @else
+                @elseif ($creditobj)
                     カード番号：{{str_repeat('*', 12).$creditobj->card_no}}<br>有効期限：{{$creditobj->card_validdate}}
                 @endif
             </div>

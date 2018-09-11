@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Customer;
 use Session;
 
 use App\Models\Cart;
+use App\Models\Colors;
 use App\Models\Customers;
+use App\Models\Products;
+use App\Models\ProductSKU;
+use App\Models\Sizes;
 
 use Illuminate\Http\Request;
 
@@ -96,11 +100,11 @@ class CustomerMFlowController extends Controller
         
         $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
-            $sku_color = ProductSku::find($item->product_sku_color_id);
-            $colorname[$item->cart_id] = Colors::get_color($sku_color->sku_type_id);
+            $sku_color = ProductSKU::find($item->product_sku_color_id);
+            $colorname[$item->cart_id] = (new Colors())->getById($sku_color->sku_type_id);
 
-            $sku_size = ProductSku::find($item->product_sku_size_id);
-            $sizename[$item->cart_id] = Sizes::get_size($sku_color->sku_type_id);
+            $sku_size = ProductSKU::find($item->product_sku_size_id);
+            $sizename[$item->cart_id] = (new Sizes())->getById($sku_color->sku_type_id);
 
             $image = Products::get_cart_image($item->cart_productid, $colorname[$item->cart_id]->color_id)->image_name;
             $images[$item->cart_id] = $image;
