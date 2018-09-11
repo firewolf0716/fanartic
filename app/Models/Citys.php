@@ -7,8 +7,6 @@ use DB;
 
 class Citys extends AppModel
 {
-    //
-    public static function getCitys($stateid){
-        return DB::table('master_city')->where('city_state', $stateid)->get();
-    }
+    protected $table = 'master_city';
+    protected $primaryKey = 'city_id';
 }

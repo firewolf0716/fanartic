@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class MerchantShipping extends AppModel
 {
-
+    protected $table = 'merchant_shipping';
+    protected $primaryKey = 'shipping_id';
     public static function updateMerchantShipping($entry, $shipping_id)
     {
         if ($shipping_id == 0) {

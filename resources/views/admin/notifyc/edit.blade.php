@@ -27,15 +27,15 @@
                         @foreach($customers as $customer)
                             <?php $selected = false; ?>
                             @foreach($linkedCustomers as $linkedCustomer)
-                                @if($customer->merchant_id == $linkedCustomer)
+                                @if($customer->customer_id == $linkedCustomer)
                                     <?php $selected = true; ?>
                                     @break
                                 @endif
                             @endforeach
                             @if($selected == true)
-                                <option value="{{$customer->merchant_id}}" selected>{{$customer->merchant_name}}</option>
+                                <option value="{{$customer->customer_id}}" selected>{{$customer->customer_email}}</option>
                             @else
-                                <option value="{{$customer->merchant_id}}">{{$customer->merchant_name}}</option>
+                                <option value="{{$customer->customer_id}}">{{$customer->customer_email}}</option>
                             @endif
                         @endforeach
                         </select>

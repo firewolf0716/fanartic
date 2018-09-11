@@ -9,28 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cart extends AppModel
 {
-    //
-    public static function addCart($customer, $proid, $color, $size, $count){
-        $entry = array(
-            'cart_customerid' => $customer,
-            'cart_productid' => $proid,
-            'cart_skucolorid' => $color,
-            'cart_skusizeid' => $size,
-            'cart_amount' => $count
-        );
-        $previousRec = DB::table('customer_cart')->where('cart_customerid', $customer)
-            ->where('cart_productid', $proid)
-            ->where('cart_skucolorid', $color)
-            ->where('cart_skusizeid', $size)
-            ->get();
-        if(count($previousRec) > 0){
-            $id = $previousRec->first()->cart_id;
-            return DB::table('customer_cart')->where('cart_id', $id)->update($entry);
-        } else {
-            DB::table('customer_cart')->insert($entry);
-        }
-    }
-
+    protected $table = 'customer_cart';
+    protected $primaryKey = 'id';
+    
     public static function getItems($customer){
         return DB::table('customer_cart')
             ->where('cart_customerid', $customer)

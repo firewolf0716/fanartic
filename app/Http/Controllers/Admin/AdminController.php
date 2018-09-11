@@ -16,6 +16,9 @@ use App\Models\States;
 use App\Models\Brands;
 use App\Models\MerchantBrands;
 
+use App\Services\AdminUserService;
+use App\Services\MatchService;
+
 class AdminController extends Controller
 {
     public function dashboard() {
@@ -42,7 +45,7 @@ class AdminController extends Controller
         $password = Input::get('password');
         $redirect = Input::get('redirect');
 
-        $logincheck = Admins::check_login($username, $password);
+        $logincheck = AdminUserService::check_login($username, $password);
         if($logincheck == 1){
             if(isset($redirect)){
                 return Redirect::to($redirect);
@@ -97,10 +100,10 @@ class AdminController extends Controller
         }
 
         $merchant = Merchants::find($id);
-        $plans = Plans::get_plans();
-        $states = States::get_states();
+        $plans = Plans::get();
+        $states = States::get();
         $brands = Brands::get();
-        $selbrands = MerchantBrands::get_brands($merchant->merchant_id);
+        $selbrands = MatchService::get_brands($merchant->merchant_id);
         return view('admin.merchant.merchant_detail')->with('merchant', $merchant)
                                     ->with('plans', $plans)
                                     ->with('states', $states)
@@ -113,8 +116,8 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $plans = Plans::get_plans();
-        $states = States::get_states();
+        $plans = Plans::get();
+        $states = States::get();
         $brands = Brands::get();
         return view('admin.merchant.merchant_add')->with('plans', $plans)->with('states', $states)->with('brands', $brands);
     }
@@ -163,11 +166,14 @@ class AdminController extends Controller
         if(Input::has('merchant_brands')){
             $brands = Input::get('merchant_brands');
             foreach($brands as $brand){
-                $mentry = array(
-                    'merchant_id' => $merchant->merchant_id,
-                    'brand_id' => $brand
-                );
-                MerchantBrands::insert_match($mentry);
+                // $mentry = array(
+                //     'merchant_id' => $merchant->merchant_id,
+                //     'brand_id' => $brand
+                // );
+                $match = new MerchantBrands();
+                $match->merchant_id = $merchant->merchant_id;
+                $match->brand_id = $brand;
+                $match->save();
             }
         }
         return Redirect::to('admin/merchants/list');
@@ -178,7 +184,7 @@ class AdminController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $plan = Plans::get_plan($planid);
+        $plan = Plans::find($planid);
         return $plan;
     }
 
@@ -224,7 +230,7 @@ class AdminController extends Controller
         }
 
         $merchant->save();
-        MerchantBrands::remove_brands($id);
+        MatchService::remove_brands_merchant($id);
         if(Input::has('merchant_brands')){
             $brands = Input::get('merchant_brands');
             foreach($brands as $brand){
@@ -232,7 +238,10 @@ class AdminController extends Controller
                     'merchant_id' => $id,
                     'brand_id' => $brand
                 );
-                MerchantBrands::insert_match($mentry);
+                $match = new MerchantBrands();
+                $match->merchant_id = $id;
+                $match->brand_id = $brand;
+                $match->save();
             }
         }
         return Redirect::to('admin/merchants/list');

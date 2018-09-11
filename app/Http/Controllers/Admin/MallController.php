@@ -12,6 +12,8 @@ use App\Models\Brands;
 use App\Models\MallBrands;
 use App\Models\MallCategorys;
 use App\Models\Categorys;
+use App\Services\CategoryService;
+use App\Services\MatchService;
 
 class MallController extends Controller
 {
@@ -47,11 +49,10 @@ class MallController extends Controller
             $brands = explode(',', $brandString);
             foreach($brands as $brand) {
                 if ($brand != '') {
-                    $mentry = array(
-                        'mall_id' => $mallid,
-                        'brand_id' => $brand
-                    );
-                    MallBrands::insert_match($mentry);
+                    $match = new MallBrands();
+                    $match->mall_id = $mallid;
+                    $match->brand_id = $brand;
+                    $match->save();
                 }
             }
         }
@@ -60,11 +61,10 @@ class MallController extends Controller
         $categorys = explode(",", $mallCategoryInfo);
         if ($mallCategoryInfo[0] != "") {
             foreach($categorys as $category){
-                $mentry = array(
-                    'mall_id' => $mallid,
-                    'category_id' => $category
-                );
-                MallCategorys::insert_match($mentry);
+                $match = new MallCategorys();
+                $match->mall_id = $mallid;
+                $match->category_id = $category;
+                $match->save();
             }
     
         }
@@ -89,7 +89,7 @@ class MallController extends Controller
         
         $mall = Malls::find($id);
         $brands = Brands::get();
-        $selBrands = MallBrands::get_brands($mall->mall_id);
+        $selBrands = MatchService::get_brands($mall->mall_id);
         $selBrandsString = '';
         for ($i = 0; $i < count($selBrands); $i++) {
             if ($i != 0) {
@@ -100,7 +100,7 @@ class MallController extends Controller
 
         $mall_brands = explode(',', $selBrandsString);
         
-        $selcategorys = Categorys::get_categorys_for_mall($mall->mall_id);
+        $selcategorys = CategoryService::get_categorys_for_mall($mall->mall_id);
         return view('admin.mall.edit')->with('mall', $mall)
                                     ->with('brands', $brands)
                                     ->with('selBrands', $selBrandsString)
@@ -120,31 +120,29 @@ class MallController extends Controller
         $mall->mall_status = Input::get('mall_status');
         $mall->save();
 
-        MallBrands::remove_brands($mallid);
+        MatchService::remove_brands($mallid);
         if(Input::has('mall_brands')){
             $brandString = Input::get('mall_brands');
             $brands = explode(',', $brandString);
             foreach($brands as $brand) {
                 if ($brand != '') {
-                    $mentry = array(
-                        'mall_id' => $mallid,
-                        'brand_id' => $brand
-                    );
-                    MallBrands::insert_match($mentry);
+                    $match = new MallBrands();
+                    $match->mall_id = $mallid;
+                    $match->brand_id = $brand;
+                    $match->save();
                 }
             }
         }
 
         $mallCategoryInfo = Input::get('mall_category');
         $categorys = explode(",", $mallCategoryInfo);
-        MallCategorys::remove_categorys($mallid);
+        MatchService::remove_categorys($mallid);
         if ($mallCategoryInfo[0] != "") {
             foreach($categorys as $category){
-                $mentry = array(
-                    'mall_id' => $mallid,
-                    'category_id' => $category
-                );
-                MallCategorys::insert_match($mentry);
+                $match = new MallCategorys();
+                $match->mall_id = $mallid;
+                $match->category_id = $category;
+                $match->save();
             }
         }
 
@@ -157,8 +155,8 @@ class MallController extends Controller
         }
         
         Malls::find($id)->delete();
-        MallBrands::remove_brands($id);
-        MallCategorys::remove_categorys($id);
+        MatchService::remove_brands($id);
+        MatchService::remove_categorys($id);
         return Redirect::to('admin/mall/list');
     }
 }

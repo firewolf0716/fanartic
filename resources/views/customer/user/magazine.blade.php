@@ -25,11 +25,11 @@
             </div>
             <div class="l-column--row__content">
                 <label class="c-form__radio"><input type="radio" name="status" value="1" 
-                    @if($mmg == 1) 
+                    @if($mmg->magazine_status == 1) 
                         checked
                     @endif><i></i>購読</label> 
                 <label class="c-form__radio c-text--attention"><input type="radio" name="status" value="0" 
-                    @if($mmg == 0) 
+                    @if($mmg->magazine_status == 0) 
                         checked
                     @endif><i></i>未購読</label></div>
             </div>
