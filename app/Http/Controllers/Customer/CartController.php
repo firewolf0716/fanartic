@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Cart;
 use App\Models\Colors;
+use App\Models\Customers;
 use App\Models\Sizes;
 use App\Models\Products;
 use App\Models\ProductSKU;
@@ -18,16 +19,19 @@ use Illuminate\Support\Facades\Input;
 
 class CartController extends Controller
 {
-    public function cart(){
-        if(!Session::has('customerid')){
+    public function cart()
+    {
+        if (!Session::has('customerid')) {
             $redirect = $_GET['redirect'];
             return Redirect::to($redirect);
         }
         $customerid = Session::get('customerid');
 
-        $cartitems = Cart::getItems($customerid);        
-        $images = array(); $colorname = array(); $sizename = array();
-        foreach($cartitems as $item){
+        $cartitems = Cart::getItems($customerid);
+        $images = array();
+        $colorname = array();
+        $sizename = array();
+        foreach ($cartitems as $item) {
             $sku_color = ProductSKU::find($item->product_sku_color_id);
             $colorname[$item->cart_id] = Colors::find($sku_color->sku_type_id);
 
@@ -42,8 +46,6 @@ class CartController extends Controller
         $sum = $total['sum'];
         $count = $total['count'];
 
-        // dd($cartitems);
-
         return $this->layout_init(view('customer.user.cart'), 1)
             ->with('cartitems', $cartitems)
             ->with('sum', $sum)
@@ -53,35 +55,39 @@ class CartController extends Controller
             ->with('sizename', $sizename);
     }
 
-    public function addtocart(){
-        $customerid = Session::get('customerid');
-        if(!isset($customerid)){
+    public function addtocart()
+    {
+        $customerId = Session::get('customerid');
+        if (!isset($customerId)) {
             return 'Login';
         }
-        $cartentry = array(
-            "customer" => $customerid,
+        $cartEntry = array(
+            "customer" => $customerId,
             "product" => Input::get('product'),
             "color" => Input::get('color'),
             "size" => Input::get('size'),
             "count" => Input::get('count')
         );
-        try{
-            CartService::addCart($cartentry);
+
+        try {
+            CartService::addCart($cartEntry);
             return 'Successed';
-        }catch(\Exception $ex){
-            return $ex->getMessage();
+        } catch (\Exception $ex) {
             return 'Failed';
         }
     }
 
-    public function cart_remove_item(){
+    public function cart_remove_item()
+    {
         $id = Input::get('remove_id');
         Cart::removeitem($id);
+
         return Redirect::to('user/cart');
     }
 
-    public function receiveitem($itemid){
-        Customers::receive_item($itemid);
+    public function receiveitem($itemId)
+    {
+        Customers::receive_item($itemId);
         return Redirect::to('user/history');
     }
 }
