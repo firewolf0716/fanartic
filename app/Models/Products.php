@@ -18,7 +18,7 @@ class Products extends AppModel
     protected $primaryKey = 'product_id';
 
     public function brand(){
-        return $this->belongsTo(Brands::class, "brand_id");
+        return $this->belongsTo(Brands::class, "product_brand_id");
     }
 
     public function category(){

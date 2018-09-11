@@ -38,6 +38,7 @@ use App\Services\MatchService;
 use App\Services\MallService;
 use App\Services\StockService;
 use App\Services\ProductService;
+use App\Services\SkuService;
 
 class CustomerController extends Controller
 {
@@ -474,7 +475,8 @@ class CustomerController extends Controller
 
     public function product_detail($brandname, $productid){
         $brand = BrandService::get_brand_byname($brandname);
-        $product = Products::get_product_detail($productid)->first();
+        $product = Products::find($productid);
+        
         $tcategoryid = CategoryService::getTopCategoryID($product->product_category_id);
 
         $mcategoryid = CategoryService::getMainCategoryID($product->product_category_id);
@@ -482,7 +484,6 @@ class CustomerController extends Controller
 
         $scategory = Categorys::find($product->product_category_id);
 
-        $colors = Colors::get();
         $sizes = SizeCategory::find($mcategoryid)->sizes;
 
         $skucolor = SKUService::get_for_product($productid, 1);

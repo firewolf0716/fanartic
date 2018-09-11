@@ -22,7 +22,7 @@
         </div>
         <!--/.product-detail__figure-->
         <div class="product-detail__data">
-            <h2 class="product-detail__data__brand">ブランド：<a href="#">{{$product->brand_name}}</a></h2>
+            <h2 class="product-detail__data__brand">ブランド：<a href="#">{{$product->brand->brand_name}}</a></h2>
             <h1 class="product-detail__data__name">{{$product->product_name}}</h1>
             <div class="product-detail__data__price">
                 @if($price['min'] < $price['max'])
