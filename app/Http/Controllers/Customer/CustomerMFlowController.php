@@ -1,8 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
+
+use Session;
+
+use App\Models\Cart;
+use App\Models\Customers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
 
 class CustomerMFlowController extends Controller
 {

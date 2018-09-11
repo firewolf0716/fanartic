@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
 
 use Session;
 
@@ -9,9 +9,14 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Colors;
 use App\Models\Sizes;
+use App\Models\Products;
+use App\Models\ProductSKU;
 use App\Services\CartService;
 
-class CustomerCartController extends Controller
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Input;
+
+class CartController extends Controller
 {
     public function cart(){
         if(!Session::has('customerid')){
@@ -23,10 +28,10 @@ class CustomerCartController extends Controller
         $cartitems = Cart::getItems($customerid);        
         $images = array(); $colorname = array(); $sizename = array();
         foreach($cartitems as $item){
-            $sku_color = ProductSku::find($item->product_sku_color_id);
+            $sku_color = ProductSKU::find($item->product_sku_color_id);
             $colorname[$item->cart_id] = Colors::find($sku_color->sku_type_id);
 
-            $sku_size = ProductSku::find($item->product_sku_size_id);
+            $sku_size = ProductSKU::find($item->product_sku_size_id);
             $sizename[$item->cart_id] = Sizes::find($sku_color->sku_type_id);
 
             $image = Products::get_cart_image($item->cart_productid, $colorname[$item->cart_id]->color_id)->image_name;
@@ -64,6 +69,7 @@ class CustomerCartController extends Controller
             CartService::addCart($cartentry);
             return 'Successed';
         }catch(\Exception $ex){
+            return $ex->getMessage();
             return 'Failed';
         }
     }

@@ -484,12 +484,10 @@ class CustomerController extends Controller
 
         $scategory = Categorys::find($product->product_category_id);
 
-        $sizes = SizeCategory::find($mcategoryid)->sizes;
+        // $sizes = SizeCategory::find($mcategoryid)->sizes;
 
         $skucolor = SKUService::get_for_product($productid, 1);
         $skusize = SKUService::get_for_product($productid, 2);
-
-        // dd($skucolor);
 
         $skuinfo = array();
 
@@ -504,12 +502,8 @@ class CustomerController extends Controller
             $skuinfo[$skucolor_id->sku_id] = $info;
         }
 
-        // dd($skuinfo);
-
         $price = StockService::get_price_range($product->product_id);
-        // dd(CategoryService::getSubCategoryIDs(5));
         $imagerec = Products::get_master_images($product->product_id);
-        // dd($imagerec);
         $skuimages = array();
         foreach($imagerec as $image){
             $each = array();

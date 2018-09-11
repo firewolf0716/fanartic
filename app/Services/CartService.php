@@ -6,19 +6,23 @@ use App\Models\Cart;
 class CartService
 {
     public static function addCart($param){
-        $previousRec = Cart::where('cart_customerid', $customer)->where('cart_productid', $proid)->where('cart_skucolorid', $color)
-            ->where('cart_skusizeid', $size)->get();
+        $previousRec = Cart::where('cart_customerid', $param['customer'])
+            ->where('cart_productid', $param['product'])
+            ->where('cart_skucolorid', $param['color'])
+            ->where('cart_skusizeid', $param['size'])->get();
+
         if(count($previousRec) > 0){
             $id = $previousRec->first()->cart_id;
-            $cartitem = Cart::find($id);
+            $cardItem = Cart::find($id);
         } else {
-            $cartitem = new Cart();            
+            $cardItem = new Cart();
         }
-        $cartitem->cart_customerid = $param['customer'];
-        $cartitem->cart_customerid = $param['product'];
-        $cartitem->cart_customerid = $param['color'];
-        $cartitem->cart_customerid = $param['size'];
-        $cartitem->cart_customerid = $param['count'];
-        $cartitem->save();
+
+        $cardItem->cart_customerid = $param['customer'];
+        $cardItem->cart_productid = $param['product'];
+        $cardItem->cart_skucolorid = $param['color'];
+        $cardItem->cart_skusizeid = $param['size'];
+        $cardItem->cart_amount = $param['count'];
+        $cardItem->save();
     }
 }

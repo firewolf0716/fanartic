@@ -134,7 +134,7 @@ class Products extends AppModel
 
     public static function get_product_filter_brand($brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax)
     {
-        $sql = DB::table('fan_product')
+        $sql = (new self())
             ->leftJoin('master_brand', 'master_brand.brand_id', '=', 'fan_product.product_brand_id')
             ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
             ->leftJoin('fan_product_sku AS color', 'fan_product_stock_management.product_sku_color_id', '=', 'color.sku_id')

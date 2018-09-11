@@ -222,9 +222,9 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::get('user/favourite', 'Customer\CustomerFavController@favourite');
 	Route::post('user/favitem_action', 'Customer\CustomerFavController@favitem_action');
 	//cart
-	Route::get('user/cart', 'Customer\CustomerController@cart');	
-	Route::post('user/addtocart', 'Customer\CustomerController@addtocart');
-	Route::post('user/cart_remove_item', 'Customer\CustomerController@cart_remove_item');
+	Route::get('user/cart', 'Customer\CartController@cart');
+	Route::post('user/addtocart', 'Customer\CartController@addtocart');
+	Route::post('user/cart_remove_item', 'Customer\CartController@cart_remove_item');
 	//address
 	Route::get('user/address', 'Customer\CustomerAddressController@address');
 	Route::get('user/addressadd', 'Customer\CustomerAddressController@addressadd');
@@ -240,10 +240,10 @@ Route::middleware(['basicAuth'])->group(function () {
 	Route::post('user/add_card_post', 'Customer\CustomerCardController@add_card_post');
 	Route::post('user/edit_card_post', 'Customer\CustomerCardController@edit_card_post');
 	//order flow
-	Route::get('user/checkflowinfo', 'Customer\CustomerController@checkflowinfo');
-	Route::post('user/flow_post_ac', 'Customer\CustomerController@flow_post_ac');
-	Route::get('user/checkflowconfirm', 'Customer\CustomerController@checkflowconfirm');
-	Route::get('user/confirm_order', 'Customer\CustomerController@confirm_order');
+	Route::get('user/checkflowinfo', 'Customer\CustomerMFlowController@checkflowinfo');
+	Route::post('user/flow_post_ac', 'Customer\CustomerMFlowController@flow_post_ac');
+	Route::get('user/checkflowconfirm', 'Customer\CustomerMFlowController@checkflowconfirm');
+	Route::get('user/confirm_order', 'Customer\CustomerMFlowController@confirm_order');
 	//order history
 	Route::get('user/history', 'Customer\CustomerController@history');
 	Route::get('user/historydetail/{group}', 'Customer\CustomerController@historydetail');
