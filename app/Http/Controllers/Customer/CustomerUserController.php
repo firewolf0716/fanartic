@@ -31,13 +31,13 @@ class CustomerUserController extends Controller
         $customer->customer_name_first = Input::get('name');
         $customer->customer_email = Input::get('email');
         $customer->customer_password = Hash::make(Input::get('password'));
-        $customer->token = uniquid();
+        $customer->token = uniqid();
         $customer->save();
 
-        Mail::send('emails.reminder', ['user' => $entry], function ($m) use ($entry) {
+        Mail::send('emails.reminder', ['user' => $customer], function ($m) use ($customer) {
             $m->from('noreply@aidiot.xyz', 'Laravel');
 
-            $m->to($entry['customer_email'])->subject('Your Reminder!');
+            $m->to($customer->customer_email)->subject('Your Reminder!');
         });
 
         return "Registered successfully, Please check your mail to verify account";
