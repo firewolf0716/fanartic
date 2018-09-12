@@ -15,6 +15,8 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], funct
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 
+Route::get('currency/{currency}', 'Common\CurrencyController@switchCurrency')->name('currency.switch');
+
 Route::middleware(['basicAuth'])->group(function () {
     //All the routes are placed in here
     // Route::get('/', function() {
