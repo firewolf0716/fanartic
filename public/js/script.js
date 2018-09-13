@@ -162,7 +162,9 @@ $(function () {
         return $(searchInput).bind("focus", function () {
             $(dropdownArea).show();
         }).blur(function () {
-            $(dropdownArea).hide();
+            setTimeout(function(){
+                $(dropdownArea).hide();
+            },200);
         });
     };
 
