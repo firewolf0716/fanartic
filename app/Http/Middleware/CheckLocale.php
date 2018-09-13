@@ -20,7 +20,6 @@ class CheckLocale
      */
     public function handle($request, Closure $next)
     {
-        dd(Session::get('applocale'));
         if (Auth::user()) {
             $user = Auth::user();
             if ($user->locale != null) {
