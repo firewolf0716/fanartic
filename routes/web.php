@@ -16,6 +16,7 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], funct
 });
 
 Route::get('lang/{lang}', 'Common\LanguageController@switchLang')->name('lang.switch');
+Route::get('currency/{currency}', 'Common\CurrencyController@switchCurrency')->name('currency.switch');
 
 Route::middleware(['basicAuth'])->group(function () {
     Route::group(['namespace' => 'Customer'], function () {

@@ -33,24 +33,24 @@
                                 <li><a href="{{url('brands')}}">BRAND</a></li>
                                 @php $i=0; @endphp
                                 @foreach($womencategories as $key => $womencategory)
-                                @if($i < 5)
-                                @php
-                                    $url = '/';
-                                    if(isset($listtype)){
-                                        if($listtype == 'malls'){
-                                            $url = url('').'/category/fanartic/women/'.str_replace('/', '-', $womencategory->category_name_en);
-                                        } else if($listtype == 'mall_brands'){
-                                            $url = url('').'/category/'.$mallname.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
-                                        } else if($listtype == 'mall_brand_products'){
-                                            $url = url('').'/'.$mallname.'/'.$brandname.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
-                                        } else if($listtype == 'brand_products'){
-                                            $url = url('').'/brands/'.$brandid.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
-                                        }
-                                    }
-                                    $i++;
-                                @endphp
-                                <li><a href="{{$url}}">{{$womencategory->category_name}}</a></li>
-                                @endif
+                                    @if($i < 5)
+                                        @php
+                                            $url = '/';
+                                            if(isset($listtype)){
+                                                if($listtype == 'malls'){
+                                                    $url = url('').'/category/fanartic/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                                } else if($listtype == 'mall_brands'){
+                                                    $url = url('').'/category/'.$mallname.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                                } else if($listtype == 'mall_brand_products'){
+                                                    $url = url('').'/'.$mallname.'/'.$brandname.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                                } else if($listtype == 'brand_products'){
+                                                    $url = url('').'/brands/'.$brandid.'/women/'.str_replace('/', '-', $womencategory->category_name_en);
+                                                }
+                                            }
+                                            $i++;
+                                        @endphp
+                                        <li><a href="{{$url}}">{{$womencategory->category_name}}</a></li>
+                                    @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
@@ -66,22 +66,22 @@
                                 @php $i=0; @endphp
                                 @foreach($mencategories as $key => $mencategory)
                                     @if($i < 5)
-                                    @php
-                                        $url = '/';
-                                        if(isset($listtype)){
-                                            if($listtype == 'malls'){
-                                                $url = url('').'/category/fanartic/men/'.str_replace('/', '-', $mencategory->category_name_en);
-                                            } else if($listtype == 'mall_brands'){
-                                                $url = url('').'/category/'.$mallname.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
-                                            } else if($listtype == 'mall_brand_products'){
-                                                $url = url('').'/'.$mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
-                                            } else if($listtype == 'brand_products'){
-                                                $url = url('').'/brands/'.$brandid.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                        @php
+                                            $url = '/';
+                                            if(isset($listtype)){
+                                                if($listtype == 'malls'){
+                                                    $url = url('').'/category/fanartic/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                                } else if($listtype == 'mall_brands'){
+                                                    $url = url('').'/category/'.$mallname.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                                } else if($listtype == 'mall_brand_products'){
+                                                    $url = url('').'/'.$mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                                } else if($listtype == 'brand_products'){
+                                                    $url = url('').'/brands/'.$brandid.'/men/'.str_replace('/', '-', $mencategory->category_name_en);
+                                                }
                                             }
-                                        }
-                                        $i++;
-                                    @endphp
-                                    <li><a href="{{$url}}">{{$mencategory->category_name}}</a></li>
+                                            $i++;
+                                        @endphp
+                                        <li><a href="{{$url}}">{{$mencategory->category_name}}</a></li>
                                     @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
@@ -97,7 +97,6 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         {{ Config::get('languages')[App::getLocale()] }}
                         <span class="caret"></span></a>
-
                     <div class="dropdown-wrapper">
                         <div class="dropdown-content">
                             <ul>
@@ -112,58 +111,80 @@
                         </div>
                     </div>
                 </li>
-                @if(!isset($customerid))
-                {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
-                <li><a href="#modal-user-signin" class="modal-sm">ログイン</a></li>
-                @else
-                <li data-header-dropdown>
-                    <a href="{{url('user/profile')}}">アカウント</a>
-                    <div class="dropdown-wrapper">
-                        <div class="dropdown-content">
+                <ul class="header__nav-secondary">
+                    <li data-header-dropdown>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            {{ Config::get('currency')[Session::get('cur_currency')] }}
+                            <span class="caret"></span></a>
+
+                        <div class="dropdown-wrapper">
+                            <div class="dropdown-content">
+                                <ul>
+                                    @foreach (Config::get('currency') as $cur => $currency)
+                                        @if ($cur != Session::get('cur_currency'))
+                                            <li>
+                                                <a href="{{ route('currency.switch', $cur) }}">{{$currency}}</a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    @if(!isset($customerid))
+                        {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
+                        <li><a href="#modal-user-signin" class="modal-sm">ログイン</a></li>
+                    @else
+                        <li data-header-dropdown>
+                            <a href="{{url('user/profile')}}">アカウント</a>
+                            <div class="dropdown-wrapper">
+                                <div class="dropdown-content">
+                                    <ul>
+                                        <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
+                                        <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
+                                        <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
+                                        <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
+                                        <li><a href="{{url('user/signout')}}">ログアウト</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    @endif
+                    <li><a href="{{url('')}}/user/favourite"><i
+                                    class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
+                    <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i
+                                    class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                </ul>
+
+                <div class="header__search" data-header-search><span class="header__search__close"
+                                                                     data-header-search__close></span>
+                    <div class="header__search__input-wrapper">
+                        <form action="post"><input type="text" class="header__search__input"
+                                                   placeholder="商品名・ブランド名・フリーワードで検索">
+                            <button class="header__search__submit"><i></i></button>
+                        </form>
+                        <div class="header__search__dropdown" data-dropdown="" style="display: none;">
+                            <div class="ttl">ブランド</div>
                             <ul>
-                                <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
-                                <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
-                                <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
-                                <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
-                                <li><a href="{{url('user/signout')}}">ログアウト</a></li>
+                                <li><a href="">PRADA</a></li>
+                                <li><a href="">Vutton</a></li>
+                                <li><a href="">Barenciaga</a></li>
+                                <li><a href="">Gucci</a></li>
+                                <li><a href="">Visvim</a></li>
+                            </ul>
+                            <div class="ttl">検索履歴</div>
+                            <ul>
+                                <li><a href="">PRADA</a></li>
+                                <li><a href="">Vutton</a></li>
+                                <li><a href="">Barenciaga</a></li>
+                                <li><a href="">Gucci</a></li>
+                                <li><a href="">Visvim</a></li>
                             </ul>
                         </div>
+                        <!--/.header__search__input-wrapper-->
                     </div>
-                </li>
-                @endif
-                <li><a href="{{url('')}}/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
-            </ul>
-
-            <div class="header__search" data-header-search><span class="header__search__close"
-                                                                 data-header-search__close></span>
-                <div class="header__search__input-wrapper">
-                    <form action="post"><input type="text" class="header__search__input"
-                                               placeholder="商品名・ブランド名・フリーワードで検索">
-                        <button class="header__search__submit"><i></i></button>
-                    </form>
-                    <div class="header__search__dropdown" data-dropdown="" style="display: none;">
-                        <div class="ttl">ブランド</div>
-                        <ul>
-                            <li><a href="">PRADA</a></li>
-                            <li><a href="">Vutton</a></li>
-                            <li><a href="">Barenciaga</a></li>
-                            <li><a href="">Gucci</a></li>
-                            <li><a href="">Visvim</a></li>
-                        </ul>
-                        <div class="ttl">検索履歴</div>
-                        <ul>
-                            <li><a href="">PRADA</a></li>
-                            <li><a href="">Vutton</a></li>
-                            <li><a href="">Barenciaga</a></li>
-                            <li><a href="">Gucci</a></li>
-                            <li><a href="">Visvim</a></li>
-                        </ul>
-                    </div>
-                    <!--/.header__search__input-wrapper-->
+                    <!--/.header__search-->
                 </div>
-                <!--/.header__search-->
-            </div>
         </div>
         <!--/.header__inner-->
     </header>
@@ -171,43 +192,46 @@
     <div class="l-content">
         @yield('content')
         @if(isset($customerid))
-        <div class="l-column--sub">
-            <h2 class="c-hd">最近チェックしたアイテム</h2>
-            <div class="c-items c-items--03">
-                @if(isset($recent))
-                @foreach($recent as $recentitem)
-                <div class="c-item c-item--03">
-                    <div class="c-item__column">
-                    <div class="c-item__column__figure">
-                        @php
-                            $imageset = $recentimages[$recentitem->product_id];
-                            
-                            $file_get_path_0 = $imageset[0]->master_image_name;                                    
-                            $prod_path = url('').'/images/products/'.$file_get_path_0;
-                            
-                            $prod_path02 = NULL;
-                            $file_get_path_1 = '';
-                            try{
-                                $file_get_path_1 = $imageset[1]->master_image_name;                                    
-                                if (isset($file_get_path_1)) {
-                                    $prod_path02 = url('').'/images/products/'.$file_get_path_1;
-                                }
-                            } catch(\Exception $ex){
-                                
-                            }
-                        @endphp
-                        <figure class="c-item__figure"><a href="{{url('brands/'.$recentitem->brand_name_en.'/goods/'.$recentitem->product_id)}}"><img style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a></figure>
-                    </div>
-                    <!--/.c-item__column__figure-->
-                    </div>
-                    <!--/.c-item__column-->
-                </div>
-                @endforeach
+            <div class="l-column--sub">
+                <h2 class="c-hd">最近チェックしたアイテム</h2>
+                <div class="c-items c-items--03">
+                    @if(isset($recent))
+                        @foreach($recent as $recentitem)
+                            <div class="c-item c-item--03">
+                                <div class="c-item__column">
+                                    <div class="c-item__column__figure">
+                                        @php
+                                            $imageset = $recentimages[$recentitem->product_id];
+
+                                            $file_get_path_0 = $imageset[0]->master_image_name;
+                                            $prod_path = url('').'/images/products/'.$file_get_path_0;
+
+                                            $prod_path02 = NULL;
+                                            $file_get_path_1 = '';
+                                            try{
+                                                $file_get_path_1 = $imageset[1]->master_image_name;
+                                                if (isset($file_get_path_1)) {
+                                                    $prod_path02 = url('').'/images/products/'.$file_get_path_1;
+                                                }
+                                            } catch(\Exception $ex){
+
+                                            }
+                                        @endphp
+                                        <figure class="c-item__figure"><a
+                                                    href="{{url('brands/'.$recentitem->brand_name_en.'/goods/'.$recentitem->product_id)}}"><img
+                                                        style="width:440px; height:150px;" src="{{$prod_path}}" alt=""></a>
+                                        </figure>
+                                    </div>
+                                    <!--/.c-item__column__figure-->
+                                </div>
+                                <!--/.c-item__column-->
+                            </div>
+                    @endforeach
                 @endif
                 <!--/.c-item-->
+                </div>
+                <!--/.c-items c-items--03-->
             </div>
-            <!--/.c-items c-items--03-->
-        </div>
         @endif
     </div>
     <!--/.l-content-->
@@ -216,7 +240,8 @@
             <div class="l-wrapper">
                 <ul class="footer__banner__list">
                     <li><a href="#"><img src="{{url('')}}/images/footer__banner-01@2x.png" alt="" width="254"></a></li>
-                    <li><a href="#modal-user-signup" class="modal-sm"><img src="{{url('')}}/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
+                    <li><a href="#modal-user-signup" class="modal-sm"><img
+                                    src="{{url('')}}/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
                     <li><a href="#"><img src="{{url('')}}/images/footer__banner-03@2x.png" alt="" width="254"></a></li>
                 </ul>
             </div>
@@ -316,7 +341,8 @@
                                         <div class="c-form__label">メールアドレス</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="email" class="c-form__input" name="username" value=""></div>
+                                                <div class="c-form__colum"><input type="email" class="c-form__input"
+                                                                                  name="username" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -326,7 +352,8 @@
                                         <div class="c-form__label">パスワード</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input"
+                                                                                  name="password" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -361,7 +388,7 @@
                 <div class="login__column__content">
                     <section class="c-box">
                         <h3 class="c-box__hd">新規登録</h3>
-                        
+
                         <h5 class="c-box__hd" id="errordiv_up" style="display:none"></h5>
                         <div class="c-box__content">
                             <div class="c-form__row c-form__row--min">
@@ -370,7 +397,9 @@
                                         <div class="c-form__label">お名前</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="text" class="c-form__input" name="name" id="username_up" value=""></div>
+                                                <div class="c-form__colum"><input type="text" class="c-form__input"
+                                                                                  name="name" id="username_up" value="">
+                                                </div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -380,7 +409,9 @@
                                         <div class="c-form__label">メールアドレス</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="email" class="c-form__input" name="email" id="email_up" value=""></div>
+                                                <div class="c-form__colum"><input type="email" class="c-form__input"
+                                                                                  name="email" id="email_up" value="">
+                                                </div>
                                             </div>
                                             <!--/.c-form__row-->
                                         </div>
@@ -397,7 +428,9 @@
                                         <div class="c-form__label">パスワード</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" id="password_up" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input"
+                                                                                  name="password" id="password_up"
+                                                                                  value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -407,7 +440,9 @@
                                         <div class="c-form__label">パスワード（確認）</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password_confirm" id="password_confirm" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input"
+                                                                                  name="password_confirm"
+                                                                                  id="password_confirm" value=""></div>
                                             </div>
                                             <!--/.c-form__row-->
                                         </div>
@@ -422,7 +457,8 @@
                             <div class="c-form__row c-form__row--min">
                                 <div class="c-form__checkswitch">
                                     <label class="c-form__checkbox">
-                                        <input type="checkbox" name="checkagree1" id="checkagree1" value="check_rule"><i></i>登録することで以下に同意したものとみなされます。
+                                        <input type="checkbox" name="checkagree1" id="checkagree1"
+                                               value="check_rule"><i></i>登録することで以下に同意したものとみなされます。
                                         <a href="">利用規約</a>&emsp;<a href="">プライバシー＆クッキーポリシー</a>
                                     </label>
                                 </div>
@@ -432,7 +468,8 @@
                             <div class="c-form__row c-form__row--min">
                                 <div class="c-form__checkswitch">
                                     <label class="c-form__checkbox">
-                                        <input type="checkbox" name="checkagree2" id="checkagree2" value="check_rule"><i></i>セールへの先行アクセスや、お客様にぴったりの新着アイテム、トレンド情報や特別オファーをメールでお届けいたします。
+                                        <input type="checkbox" name="checkagree2" id="checkagree2"
+                                               value="check_rule"><i></i>セールへの先行アクセスや、お客様にぴったりの新着アイテム、トレンド情報や特別オファーをメールでお届けいたします。
                                         <a href="">詳細を見る</a>
                                     </label>
                                 </div>
@@ -440,7 +477,8 @@
                             <!--/.c-form__row-->
 
                             <div class="l-button">
-                                <button type="button" class="c-button c-button--submit" onClick="onSignup()">新規登録する</button>
+                                <button type="button" class="c-button c-button--submit" onClick="onSignup()">新規登録する
+                                </button>
                             </div>
 
                             <hr class="c-hr">
@@ -448,7 +486,7 @@
                             <div class="l-button">
                                 <button type="button" class="c-button c-button--submit">Facebookで登録する</button>
                             </div>
-                            
+
                         </div>
                         <!--/.c-box__content-->
                     </section>
@@ -464,7 +502,7 @@
     <script src="{{url('')}}/js/plugins.js"></script>
     <script src="{{url('')}}/js/script.js"></script>
     <script>
-        $(function(){
+        $(function () {
             var topcategory = "{{$tcategory->category_id}}";
             if (topcategory == '1') {
                 $('#top_women').removeClass('is-current');
@@ -475,34 +513,35 @@
                 $('#top_women').addClass('is-current');
             }
         });
-        function onSignup(){
-            if($('#username_up').val() == '' || $('#email_up').val() == ''){
+
+        function onSignup() {
+            if ($('#username_up').val() == '' || $('#email_up').val() == '') {
                 return;
             }
-            if(!$('#checkagree1').is(':checked')){
+            if (!$('#checkagree1').is(':checked')) {
                 return;
             }
-            if(!$('#checkagree2').is(':checked')){
+            if (!$('#checkagree2').is(':checked')) {
                 return;
             }
-            if($('#password_up').val() != $('#password_confirm').val()){
+            if ($('#password_up').val() != $('#password_confirm').val()) {
                 alert('Please confirm your password');
                 return;
             }
-            if($('#password_up').val().length < 8){
+            if ($('#password_up').val().length < 8) {
                 alert('Please input password more than 8 characters');
                 return;
             }
-            $.ajax( {
+            $.ajax({
                 type: 'post',
                 data: {
-                    name        : $('#username_up').val(),
-                    password    : $('#password_up').val(),
-                    email       : $('#email_up').val(),
-                    _token      : $('#token_layout').val()
+                    name: $('#username_up').val(),
+                    password: $('#password_up').val(),
+                    email: $('#email_up').val(),
+                    _token: $('#token_layout').val()
                 },
                 url: "{{url('user/signuppost')}}",
-                success: function(data){
+                success: function (data) {
                     alert(data);
                 }
             });
