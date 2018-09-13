@@ -37,10 +37,13 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
-        $this->mapWebRoutes();
+        $this->mapAdminRoutes();
 
-        //
+        $this->mapMerchantRoutes();
+
+        $this->mapWebRoutes();
     }
+
     function isMobileApi()
     {
         // if (in_array('mobile', explode('/', strtolower($_SERVER['REQUEST_URI']))))
@@ -50,8 +53,9 @@ class RouteServiceProvider extends ServiceProvider
         //     return true;
         return false;
     }
+
     /**
-     * Define the "web" routes for the application.
+     * Define the "web(Customer)" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
      *
@@ -59,15 +63,37 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        if ($this->isMobileApi()) {
-            Route::middleware('web')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/web_mobile.php'));
-        } else {
-            Route::middleware('web')
+        Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
-        }
+    }
+
+    /**
+     * Define the "Merchant" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapMerchantRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/merchant.php'));
+    }
+
+    /**
+     * Define the "Admin" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
     }
 
     /**
@@ -86,9 +112,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/api_mobile.php'));
         } else {
             Route::prefix('api')
-            ->middleware('api')
-            ->namespace($this->namespace)
-            ->group(base_path('routes/api.php'));
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
         }
     }
 }

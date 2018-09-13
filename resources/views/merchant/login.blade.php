@@ -47,7 +47,6 @@
               @endif
             </h3>
             {!! Form::open(array('id' => 'form_signin','url'=>'merchant/signinpost')) !!}
-            {{ Form::hidden('redirect', $redirect)}}
               <h1>Login(Merchant)</h1>
               <div>
                 <input type="text" name="username" class="form-control" placeholder="Username" required="" />
@@ -57,7 +56,6 @@
               </div>
               <div>
                 <button class="btn btn-default submit">Log in</button>
-                <a class="reset_pass" href="#">Lost your password?</a>
               </div>
 
               <div class="clearfix"></div>
