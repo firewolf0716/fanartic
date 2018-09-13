@@ -43,41 +43,43 @@ use App\Services\SkuService;
 class CustomerController extends Controller
 {
     //
-    public function index(){
+    public function index()
+    {
         $malls = Malls::get();
         return $this->layout_init(view('customer.top'), 1)
-                ->with('malls', $malls)
-                ->with('listtype', "malls");
+            ->with('malls', $malls)
+            ->with('listtype', "malls");
     }
 
-    public function mall($mallname){
+    public function mall($mallname)
+    {
         $mall = MallService::get_mall_byname($mallname);
         // dd($mallname);
-        if($mallname == 'admin'){
+        if ($mallname == 'admin') {
             return Redirect::to('admin/login');
-        } else if($mallname == 'merchant'){
+        } else if ($mallname == 'merchant') {
             return Redirect::to('merchant/signin');
-        } else if($mallname == 'brands'){
+        } else if ($mallname == 'brands') {
             return $this->brands();
-        }
-        else {
-            if($mall != null){
+        } else {
+            if ($mall != null) {
                 $brands = MatchService::get_brands($mall->mall_id);
                 return $this->layout_init(view('customer.mall_brand'), 1)->with('brands', $brands)
                     ->with('mallname', $mallname)
                     ->with('listtype', "mall_brands");
-            }
-            else
+            } else
                 return Redirect::to('');
         }
     }
 
-    public function brands(){
+    public function brands()
+    {
         $brands = Brands::get();
         return $this->layout_init(view('customer.brand'), 1)->with('brands', $brands)->with('listtype', "malls");
     }
 
-    public function brand($brandid){
+    public function brand($brandid)
+    {
         $brand = BrandService::get_brand_byname($brandid);
         if (Session::has('customerid')) {
             $customerid = Session::get('customerid');
@@ -97,14 +99,15 @@ class CustomerController extends Controller
         return $this->product_list_brand($brandid);
     }
 
-    public function set_recent($view){
+    public function set_recent($view)
+    {
         $recent = null;
         $images = null;
         if (Session::has('customerid')) {
             $customerid = Session::get('customerid');
             $recent = Customers::get_recent($customerid);
             $images = array();
-            foreach($recent as $product){
+            foreach ($recent as $product) {
                 $imagerec = Products::get_master_images($product->product_id);
                 // dd($imagerec);
                 $images[$product->product_id] = $imagerec;
@@ -113,56 +116,71 @@ class CustomerController extends Controller
         return $view->with('recent', $recent)->with('recentimages', $images);
     }
 
-    public function product_list_mall($mallname, $topid = null, $mainid = null, $categoryid = null){
+    public function product_list_mall($mallname, $topid = null, $mainid = null, $categoryid = null)
+    {
         $mall = MallService::get_mall_byname($mallname);
         $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
-        if($topid == null){
+        if ($topid == null) {
             $topcategory = $topcategorys[0];
-        }
-        else {
-            if($topid == "men"){ $topcategory = Categorys::find(1);}
-            else if($topid == "women"){$topcategory = Categorys::find(2);}
+        } else {
+            if ($topid == "men") {
+                $topcategory = Categorys::find(1);
+            } else if ($topid == "women") {
+                $topcategory = Categorys::find(2);
+            }
         }
         $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
-        foreach($maincategorys as $maincategory){
+        foreach ($maincategorys as $maincategory) {
             $result = CategoryService::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
-        if($mainid != null){
+        if ($mainid != null) {
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
         $scategory = null;
-        if($categoryid != null){
+        if ($categoryid != null) {
             $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
         $filtercategory = $topcategory->category_id;
         $categorylevel = 1;
-        if($mcategory != null){
+        if ($mcategory != null) {
             $filtercategory = $mcategory->category_id;
             $categorylevel = 2;
         }
-        if($scategory != null){
+        if ($scategory != null) {
             $filtercategory = $scategory->category_id;
             $categorylevel = 3;
         }
-        $filtersize = null; $filtercolor = null; $rangemin = null; $rangemax = null;
-        if(isset($_GET['sizeid']) && $_GET['sizeid'] != ''){ $filtersize = $_GET['sizeid']; }
-        if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
-        if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
-        if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = ProductService::get_product_filter_mall($mall->mall_id, null, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $filtersize = null;
+        $filtercolor = null;
+        $rangemin = null;
+        $rangemax = null;
+        if (isset($_GET['sizeid']) && $_GET['sizeid'] != '') {
+            $filtersize = $_GET['sizeid'];
+        }
+        if (isset($_GET['colorid']) && $_GET['colorid'] != '') {
+            $filtercolor = $_GET['colorid'];
+        }
+        if (isset($_GET['rangemin']) && $_GET['rangemin'] != '') {
+            $rangemin = $_GET['rangemin'];
+        }
+        if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
+            $rangemax = $_GET['rangemax'];
+        }
+        $products = ProductService::get_product_filter_mall($mall->mall_id, null, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
-        $prices = array(); $images = array();
-        foreach($products as $product){
+        $prices = array();
+        $images = array();
+        foreach ($products as $product) {
             $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
@@ -199,55 +217,69 @@ class CustomerController extends Controller
         return $this->set_recent($view);
     }
 
-    public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null){
+    public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null)
+    {
         // dd($mall);
         $mall = MallService::get_mall_byname($mallname);
         $brand = BrandService::get_brand_byname($brandname);
         $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
-        if($topid == null){
+        if ($topid == null) {
             $topcategory = $topcategorys[0];
-        }
-        else {
-            if($topid == "men"){ $topcategory = Categorys::find(1);}
-            else if($topid == "women"){$topcategory = Categorys::find(2);}
+        } else {
+            if ($topid == "men") {
+                $topcategory = Categorys::find(1);
+            } else if ($topid == "women") {
+                $topcategory = Categorys::find(2);
+            }
         }
         $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $subcategorys = array();
-        foreach($maincategorys as $maincategory){
+        foreach ($maincategorys as $maincategory) {
             $result = CategoryService::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
-        if($mainid != null){
+        if ($mainid != null) {
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
         $scategory = null;
-        if($categoryid != null){
+        if ($categoryid != null) {
             $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
         $filtercategory = $topcategory->category_id;
         $categorylevel = 1;
-        if($mcategory != null){
+        if ($mcategory != null) {
             $filtercategory = $mcategory->category_id;
             $categorylevel = 2;
         }
-        if($scategory != null){
+        if ($scategory != null) {
             $filtercategory = $scategory->category_id;
             $categorylevel = 3;
         }
-        $filtersize = null; $filtercolor = null; $rangemin = null; $rangemax = null;
-        if(isset($_GET['sizeid']) && $_GET['sizeid'] != ''){ $filtersize = $_GET['sizeid']; }
-        if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
-        if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
-        if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = ProductService::get_product_filter_mall($mall->mall_id, $brand->brand_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $filtersize = null;
+        $filtercolor = null;
+        $rangemin = null;
+        $rangemax = null;
+        if (isset($_GET['sizeid']) && $_GET['sizeid'] != '') {
+            $filtersize = $_GET['sizeid'];
+        }
+        if (isset($_GET['colorid']) && $_GET['colorid'] != '') {
+            $filtercolor = $_GET['colorid'];
+        }
+        if (isset($_GET['rangemin']) && $_GET['rangemin'] != '') {
+            $rangemin = $_GET['rangemin'];
+        }
+        if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
+            $rangemax = $_GET['rangemax'];
+        }
+        $products = ProductService::get_product_filter_mall($mall->mall_id, $brand->brand_id, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
         $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
         $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
@@ -277,54 +309,69 @@ class CustomerController extends Controller
         return $this->set_recent($view);
     }
 
-    public function product_list_category($topid = null, $mainid = null, $categoryid = null){
+    public function product_list_category($topid = null, $mainid = null, $categoryid = null)
+    {
         $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
-        if($topid == null){
+        if ($topid == null) {
             $topcategory = $topcategorys[0];
-        }
-        else {
-            if($topid == "men"){ $topcategory = Categorys::find(1);}
-            else if($topid == "women"){$topcategory = Categorys::find(2);}
+        } else {
+            if ($topid == "men") {
+                $topcategory = Categorys::find(1);
+            } else if ($topid == "women") {
+                $topcategory = Categorys::find(2);
+            }
         }
         $maincategorys = CategoryService::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
-        foreach($maincategorys as $maincategory){
+        foreach ($maincategorys as $maincategory) {
             $result = CategoryService::getSubCategorys($maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
-        if($mainid != null){
+        if ($mainid != null) {
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
         $scategory = null;
-        if($categoryid != null){
+        if ($categoryid != null) {
             $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
         $products = null;
         $filtercategory = $topcategory->category_id;
         $categorylevel = 1;
-        if($mcategory != null){
+        if ($mcategory != null) {
             $filtercategory = $mcategory->category_id;
             $categorylevel = 2;
         }
-        if($scategory != null){
+        if ($scategory != null) {
             $filtercategory = $scategory->category_id;
             $categorylevel = 3;
         }
-        $filtersize = null; $filtercolor = null; $rangemin = null; $rangemax = null;
-        if(isset($_GET['sizeid']) && $_GET['sizeid'] != ''){ $filtersize = $_GET['sizeid']; }
-        if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
-        if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
-        if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = Products::get_product_filter($categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $filtersize = null;
+        $filtercolor = null;
+        $rangemin = null;
+        $rangemax = null;
+        if (isset($_GET['sizeid']) && $_GET['sizeid'] != '') {
+            $filtersize = $_GET['sizeid'];
+        }
+        if (isset($_GET['colorid']) && $_GET['colorid'] != '') {
+            $filtercolor = $_GET['colorid'];
+        }
+        if (isset($_GET['rangemin']) && $_GET['rangemin'] != '') {
+            $rangemin = $_GET['rangemin'];
+        }
+        if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
+            $rangemax = $_GET['rangemax'];
+        }
+        $products = Products::get_product_filter($categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
-        $prices = array(); $images = array();
-        foreach($products as $product){
+        $prices = array();
+        $images = array();
+        foreach ($products as $product) {
             $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
@@ -361,57 +408,72 @@ class CustomerController extends Controller
         return $this->set_recent($view);
     }
 
-    public function product_list_brand($brandid ,$topid = null, $mainid = null, $categoryid = null){
+    public function product_list_brand($brandid, $topid = null, $mainid = null, $categoryid = null)
+    {
         $brand = BrandService::get_brand_byname($brandid);
         $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
-        if($topid == null){
+        if ($topid == null) {
             $topcategory = $topcategorys[0];
-        }
-        else {
-            if($topid == "men"){ $topcategory = Categorys::find(1);}
-            else if($topid == "women"){$topcategory = Categorys::find(2);}
+        } else {
+            if ($topid == "men") {
+                $topcategory = Categorys::find(1);
+            } else if ($topid == "women") {
+                $topcategory = Categorys::find(2);
+            }
         }
         $maincategorys = CategoryService::getMainCategorys($topcategory->category_id);
         $subcategorys = array();
-        foreach($maincategorys as $maincategory){
+        foreach ($maincategorys as $maincategory) {
             $result = CategoryService::getSubCategorys($maincategory->category_id);
             $subcategorys[$maincategory->category_id] = $result;
         }
         $colors = Colors::get();
         $sizes = null;
         $mcategory = null;
-        if($mainid != null){
+        if ($mainid != null) {
             $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
             $sizecategory_id = $mcategory->category_size_id;
             $sizes = SizeCategory::find($sizecategory_id)->sizes;
         }
-        
+
         $scategory = null;
-        if($categoryid != null){
+        if ($categoryid != null) {
             $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
         }
 
         $products = null;
         $filtercategory = $topcategory->category_id;
         $categorylevel = 1;
-        if($mcategory != null){
+        if ($mcategory != null) {
             $filtercategory = $mcategory->category_id;
             $categorylevel = 2;
         }
-        if($scategory != null){
+        if ($scategory != null) {
             $filtercategory = $scategory->category_id;
             $categorylevel = 3;
         }
-        $filtersize = null; $filtercolor = null; $rangemin = null; $rangemax = null;
-        if(isset($_GET['sizeid']) && $_GET['sizeid'] != ''){ $filtersize = $_GET['sizeid']; }
-        if(isset($_GET['colorid']) && $_GET['colorid'] != ''){ $filtercolor = $_GET['colorid']; }
-        if(isset($_GET['rangemin']) && $_GET['rangemin'] != ''){ $rangemin = $_GET['rangemin']; }
-        if(isset($_GET['rangemax']) && $_GET['rangemax'] != ''){ $rangemax = $_GET['rangemax']; }
-        $products = Products::get_product_filter_brand($brand->brand_id, $categorylevel ,$filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $filtersize = null;
+        $filtercolor = null;
+        $rangemin = null;
+        $rangemax = null;
+        if (isset($_GET['sizeid']) && $_GET['sizeid'] != '') {
+            $filtersize = $_GET['sizeid'];
+        }
+        if (isset($_GET['colorid']) && $_GET['colorid'] != '') {
+            $filtercolor = $_GET['colorid'];
+        }
+        if (isset($_GET['rangemin']) && $_GET['rangemin'] != '') {
+            $rangemin = $_GET['rangemin'];
+        }
+        if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
+            $rangemax = $_GET['rangemax'];
+        }
+        $products = Products::get_product_filter_brand($brand->brand_id, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
-        $prices = array(); $images = array();
-        foreach($products as $product){
+        $prices = array();
+        $images = array();
+        foreach ($products as $product) {
             $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
@@ -449,34 +511,36 @@ class CustomerController extends Controller
         return $this->set_recent($view);
     }
 
-    public function product_list_post(){
+    public function product_list_post()
+    {
         $url = Input::get('cururl');
-        if(Input::has('mcategory_id')){
-            $url .= '/'. Input::get('mcategory_id');
+        if (Input::has('mcategory_id')) {
+            $url .= '/' . Input::get('mcategory_id');
         }
-        if(Input::has('scategory_id')){
-            $url .= '/'. Input::get('scategory_id');
+        if (Input::has('scategory_id')) {
+            $url .= '/' . Input::get('scategory_id');
         }
         $url .= '?filter=true';
         $size_id = Input::get('size_id');
         $color_id = Input::get('color_id');
         $rangemin = Input::get('range_min');
         $rangemax = Input::get('range_max');
-        if(isset($size_id))
-            $url .= '&sizeid='. $size_id;
-        if(isset($color_id))
-            $url .= '&colorid='. $color_id;
-        if(isset($rangemin))
-            $url .= '&rangemin='. $rangemin;
-        if(isset($rangemax))
-            $url .= '&rangemax='. $rangemax;
+        if (isset($size_id))
+            $url .= '&sizeid=' . $size_id;
+        if (isset($color_id))
+            $url .= '&colorid=' . $color_id;
+        if (isset($rangemin))
+            $url .= '&rangemin=' . $rangemin;
+        if (isset($rangemax))
+            $url .= '&rangemax=' . $rangemax;
         return Redirect::to($url);
     }
 
-    public function product_detail($brandname, $productid){
+    public function product_detail($brandname, $productid)
+    {
         $brand = BrandService::get_brand_byname($brandname);
         $product = Products::find($productid);
-        
+
         $tcategoryid = CategoryService::getTopCategoryID($product->product_category_id);
 
         $mcategoryid = CategoryService::getMainCategoryID($product->product_category_id);
@@ -491,9 +555,9 @@ class CustomerController extends Controller
 
         $skuinfo = array();
 
-        foreach($skucolor as $skucolor_id){
+        foreach ($skucolor as $skucolor_id) {
             $info = array();
-            foreach($skusize as $skusize_id){
+            foreach ($skusize as $skusize_id) {
                 $skuvalue = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count;
                 $skuprice = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_price_sale;
                 $info[$skusize_id->sku_id]['count'] = $skuvalue;
@@ -505,14 +569,14 @@ class CustomerController extends Controller
         $price = StockService::get_price_range($product->product_id);
         $imagerec = Products::get_master_images($product->product_id);
         $skuimages = array();
-        foreach($imagerec as $image){
+        foreach ($imagerec as $image) {
             $each = array();
-            foreach($skucolor as $skucolor_id){
+            foreach ($skucolor as $skucolor_id) {
                 $each[$skucolor_id->sku_id] = Products::get_image($productid, $skucolor_id->sku_type_id);
             }
             $skuimages[$image->master_image_id] = $each;
         }
-        
+
         if (Session::has('customerid')) {
             $customerid = Session::get('customerid');
             Customers::add_recent($customerid, $productid);

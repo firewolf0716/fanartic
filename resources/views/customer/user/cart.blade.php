@@ -14,7 +14,7 @@
                     <div class="c-item__column">
                         <div class="c-item__column__figure">
                             @php 
-                                $pro_img  = $images[$item->cart_id];
+                                $pro_img  = $images[$item->id];
                                 $prod_path = url('').'/images/products/'.$pro_img;
                             @endphp
                             <figure class="c-item__figure"><a href=""><img src="{{$prod_path}}" alt=""></a></figure>
@@ -24,8 +24,8 @@
                             <h3 class="c-item__name">{{$item->brand_name}}</h3>
                             <ul class="c-item__data">
                                 <li>{{$item->product_name}}</li>
-                                <li>カラー：{{$colorname[$item->cart_id]->color_name}}</li>
-                                <li>サイズ：{{$sizename[$item->cart_id]->size_name}}</li>
+                                <li>カラー：{{$colorname[$item->id]->color_name}}</li>
+                                <li>サイズ：{{$sizename[$item->id]->size_name}}</li>
                             </ul>
                             <div class="c-item__price u-sp"><strong>&yen;{{number_format($item->product_price_sale)}}</strong></div>
                         </div>
@@ -40,7 +40,7 @@
                 <input type="number" style="width:70px; margin-left:20px" class="c-form__input" value='{{$item->cart_amount}}' min='0' max='{{$item->product_count}}'
                     onChange="onChangeCount(this, {{$item->product_count}})"/>
             </div>
-            <div class="l-column--cart__button"><a class="c-button c-button--secondary" onClick="onRemove('{{$item->cart_id}}')">削除</a></div>
+            <div class="l-column--cart__button"><a class="c-button c-button--secondary" onClick="onRemove('{{$item->id}}')">削除</a></div>
         </div>
         <!--/.l-column l-column--cart-->
         <hr class="c-hr">

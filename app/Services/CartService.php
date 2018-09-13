@@ -1,18 +1,20 @@
 <?php
+
 namespace App\Services;
 
 use App\Models\Cart;
 
 class CartService
 {
-    public static function addCart($param){
+    public static function addCart($param)
+    {
         $previousRec = Cart::where('cart_customerid', $param['customer'])
             ->where('cart_productid', $param['product'])
             ->where('cart_skucolorid', $param['color'])
             ->where('cart_skusizeid', $param['size'])->get();
 
-        if(count($previousRec) > 0){
-            $id = $previousRec->first()->cart_id;
+        if (count($previousRec) > 0) {
+            $id = $previousRec->first()->id;
             $cardItem = Cart::find($id);
         } else {
             $cardItem = new Cart();

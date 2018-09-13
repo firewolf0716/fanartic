@@ -33,13 +33,13 @@ class CartController extends Controller
         $sizename = array();
         foreach ($cartitems as $item) {
             $sku_color = ProductSKU::find($item->product_sku_color_id);
-            $colorname[$item->cart_id] = Colors::find($sku_color->sku_type_id);
+            $colorname[$item->id] = Colors::find($sku_color->sku_type_id);
 
             $sku_size = ProductSKU::find($item->product_sku_size_id);
-            $sizename[$item->cart_id] = Sizes::find($sku_color->sku_type_id);
+            $sizename[$item->id] = Sizes::find($sku_color->sku_type_id);
 
-            $image = Products::get_cart_image($item->cart_productid, $colorname[$item->cart_id]->color_id)->image_name;
-            $images[$item->cart_id] = $image;
+            $image = Products::get_cart_image($item->cart_productid, $colorname[$item->id]->color_id)->image_name;
+            $images[$item->id] = $image;
         }
 
         $total = Cart::getSum($customerid);

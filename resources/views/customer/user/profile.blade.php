@@ -9,24 +9,7 @@
     {!! Form::open(array('id' => 'form_user','url'=>'user/profilepost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
     <div class="members">
         <div class="members__column">
-            <div class="members__column__nav">
-                <ul class="members__nav">
-                    <li><a href="{{url('user/favourite')}}">お気に入りアイテム</a></li>
-                    <li><a href="{{url('user/wish')}}">探しているアイテム</a></li>
-                    <li><a href="{{url('user/history')}}">注文履歴</a></li>
-                    <li><a href="{{url('user/score')}}">ポイント</a></li>
-                    <li><a>会員情報</a>
-                        <ul class="members__nav__sub">
-                            <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
-                            <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
-                            <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
-                            <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
-                            <li><a href="{{url('user/signout')}}">ログアウト</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <!--/.members__column__nav-->
+            @include('customer.include.sidebar')
             <div class="members__column__content">
                 <section class="c-box">
                     <h3 class="c-box__hd" style="margin-Left:1px">会員登録情報</h3>

@@ -3,7 +3,8 @@
 @section('content')
     <ul class="c-breadcrumbs">
         <li><a href="/">HOME</a></li>
-        <li>アイテム詳細</li>
+        <li><a href="#">{{$product->brand->brand_name}}</a></li>
+        <li>{{$product->product_name}}</li>
     </ul>
     <!--/.c-breadcrumbs-->
     <div class="product-detail">
@@ -15,7 +16,7 @@
                     $pro_img = $image->master_image_name;
                     $prod_path = url('').'/images/products/'.$pro_img;
                 @endphp
-                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" style="width:1200px; height:600px"></figure>
+                <figure data-thumb="{{$prod_path}}"><img src="{{$prod_path}}" alt="" width="100%"></figure>
             @endforeach
             </div>
             <!--/.product-detail__figure__slider-->
@@ -26,16 +27,16 @@
             <h1 class="product-detail__data__name">{{$product->product_name}}</h1>
             <div class="product-detail__data__price">
                 @if($price['min'] < $price['max'])
-                    <strong>&yen;{{$price['min']}}-&yen;{{$price['max']}}</strong>
+                    <strong>&yen;{{number_format($price['min'])}}-&yen;{{number_format($price['max'])}}</strong>
                 @else
-                    <strong>&yen;{{$price['min']}}</strong>
+                    <strong>&yen;{{number_format($price['min'])}}</strong>
                 @endif
                 @if($product->product_taxflag == 0)
                     税込
                 @endif
             </div>
             <ul class="product-detail__data__list">
-            <li><i class="c-icon product-detail__data__list__icon--point"></i>獲得ポイント：1000ポイント</li>
+            <li><i class="c-icon product-detail__data__list__icon--point"></i>獲得スコア：1000ポイント</li>
             <li><i class="c-icon product-detail__data__list__icon--wish"></i>お気に入りアイテム登録数：2877人</li>
             </ul>
             <div class="u-sp"><span class="c-item__addcart product-detail__data__cart__item__list__addcart__button" data-productdetail__button=""><i class="c-icon"></i>カートへ入れる</span></div>
@@ -62,7 +63,7 @@
                                 <input id='{{$color->sku_id.'_'.$size->sku_id}}_price' type="hidden" value="{{$skuinfo[$color->sku_id][$size->sku_id]['price']}}"/>
                             </div>
                             <div class="product-detail__data__cart__item__list__addcart">
-                                <button id='{{$color->sku_id.'_'.$size->sku_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button" 
+                                <button id='{{$color->sku_id.'_'.$size->sku_id}}_btn' class="c-item__addcart product-detail__data__cart__item__list__addcart__button"
                                     onClick="onCart('{{$color->sku_id.'_'.$size->sku_id}}', '{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}')">
                                     <i class="c-icon u-pc"></i>カートへ入れる
                                 </button>
@@ -75,7 +76,7 @@
                                 <br class="u-sp">在庫なし
                             </div>
                             <div class="product-detail__data__cart__item__list__size">
-                                
+
                             </div>
                             <div class="product-detail__data__cart__item__list__addcart">完売しました</div>
                             <div class="product-detail__data__cart__item__list__wish"><i class="c-icon"></i>
@@ -197,6 +198,7 @@
                 },
                 url: "{{url('user/addtocart')}}",
                 success: function(data){
+                    console.log(data);
                     if(data == "Successed"){
                         window.location = "{{url('user/cart')}}";
                     } else if(data == "Login"){

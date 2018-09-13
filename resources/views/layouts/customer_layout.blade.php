@@ -140,7 +140,7 @@
                             <div class="dropdown-content">
                                 <ul>
                                     <li><a href="{{url('user/cart')}}?redirect={{url()->current()}}">カート</a></li>
-                                    <li><a href="{{url('user/favourite')}}">お気に入り</a></li>
+                                    <li><a href="{{url('user/favorite')}}">お気に入り</a></li>
                                     <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
                                     <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
                                     <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>

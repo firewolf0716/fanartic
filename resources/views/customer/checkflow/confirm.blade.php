@@ -19,7 +19,7 @@
                 <div class="c-item__column">
                     <div class="c-item__column__figure">
                             @php 
-                                $pro_img  = $images[$item->cart_id];
+                                $pro_img  = $images[$item->id];
                                 $prod_path = url('').'/images/products/'.$pro_img;
                             @endphp
                     <figure class="c-item__figure"><a href="{{url('product/detail/'.$item->product_id)}}"><img src="{{$prod_path}}" alt=""></a></figure>
@@ -29,8 +29,8 @@
                     <h3 class="c-item__name">{{$item->brand_name}}</h3>
                     <ul class="c-item__data">
                         <li>{{$item->product_name}}</li>
-                        <li>カラー：{{$colorname[$item->cart_id]->color_name}}</li>
-                        <li>サイズ：{{$sizename[$item->cart_id]->size_name}}</li>
+                        <li>カラー：{{$colorname[$item->id]->color_name}}</li>
+                        <li>サイズ：{{$sizename[$item->id]->size_name}}</li>
                     </ul>
                     <div class="c-item__price u-sp"><strong>&yen;{{number_format($item->product_price_sale)}}</strong></div>
                     </div>
@@ -74,7 +74,6 @@
             <div class="l-column l-column--list l-column--top">
             <div class="l-column--list__data">
                 @if($creditobj == 'paypal')
-                    <div id="paypal-button-container"></div>
                 @elseif ($creditobj)
                     カード番号：{{str_repeat('*', 12).$creditobj->card_no}}<br>有効期限：{{$creditobj->card_validdate}}
                 @endif
@@ -88,7 +87,7 @@
         <!--/.c-box-->
     </div>
     <!--/.cart__column__content-->
-    <div class="cart__column__shipping" data-js-sticky="">
+    <div class="cart__column__shipping">
         <div class="cart__shipping">
         <table class="cart__shipping__data">
             <tr>
@@ -99,10 +98,6 @@
             <td>送料</td>
             <td class="cart__shipping__data__price">￥0</td>
             </tr>
-            <tr>
-            <td>支払い手数料</td>
-            <td class="cart__shipping__data__price">￥0</td>
-            </tr>
         </table>
         <table class="cart__shipping__data cart__shipping__data--total">
             <tr>
@@ -110,13 +105,14 @@
             <td class="cart__shipping__data__price cart__shipping__price"><strong>￥{{number_format($total['sum'])}}</strong></td>
             </tr>
         </table>
-        <div class="cart__shipping__button"><a id="a_next"
+        <div class="cart__shipping__button">
             @if($creditobj == 'paypal')
-
-            @else
-            href="{{url('user/confirm_order')}}"
+                <div id="paypal-button-container"></div>
+            @elseif ($creditobj)
+                <a id="a_next" href="{{url('user/confirm_order')}}"
+                   class="c-button c-button--submit c-button--full">注文を確定する</a>
             @endif
-         class="c-button c-button--submit c-button--full">注文を確定する</a></div>
+        </div>
         <p class="cart__shipping__back"><a href="{{url('user/checkflowinfo')}}">戻る</a></p>
         </div>
         <!--/.cart__shipping-->
@@ -127,9 +123,7 @@
 </div>
 <script>
     paypal.Button.render({
-
         env: 'sandbox', // sandbox | production
-
         style: {
             label: 'paypal',
             size:  'medium',    // small | medium | large | responsive
