@@ -111,80 +111,77 @@
                         </div>
                     </div>
                 </li>
-                <ul class="header__nav-secondary">
-                    <li data-header-dropdown>
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            {{ Config::get('currency')[Session::get('cur_currency')] }}
-                            <span class="caret"></span></a>
+                <li data-header-dropdown>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        {{ Config::get('currency')[Session::get('cur_currency')] }}
+                        <span class="caret"></span></a>
 
+                    <div class="dropdown-wrapper">
+                        <div class="dropdown-content">
+                            <ul>
+                                @foreach (Config::get('currency') as $cur => $currency)
+                                    @if ($cur != Session::get('cur_currency'))
+                                        <li>
+                                            <a href="{{ route('currency.switch', $cur) }}">{{$currency}}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                @if(!isset($customerid))
+                    {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
+                    <li><a href="#modal-user-signin" class="modal-sm">ログイン</a></li>
+                @else
+                    <li data-header-dropdown>
+                        <a href="{{url('user/profile')}}">アカウント</a>
                         <div class="dropdown-wrapper">
                             <div class="dropdown-content">
                                 <ul>
-                                    @foreach (Config::get('currency') as $cur => $currency)
-                                        @if ($cur != Session::get('cur_currency'))
-                                            <li>
-                                                <a href="{{ route('currency.switch', $cur) }}">{{$currency}}</a>
-                                            </li>
-                                        @endif
-                                    @endforeach
+                                    <li><a href="{{url('user/cart')}}?redirect={{url()->current()}}">カート</a></li>
+                                    <li><a href="{{url('user/favourite')}}">お気に入り</a></li>
+                                    <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
+                                    <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
+                                    <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
+                                    <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
+                                    <li><a href="{{url('user/signout')}}">ログアウト</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
-                    @if(!isset($customerid))
-                        {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
-                        <li><a href="#modal-user-signin" class="modal-sm">ログイン</a></li>
-                    @else
-                        <li data-header-dropdown>
-                            <a href="{{url('user/profile')}}">アカウント</a>
-                            <div class="dropdown-wrapper">
-                                <div class="dropdown-content">
-                                    <ul>
-                                        <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
-                                        <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
-                                        <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
-                                        <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
-                                        <li><a href="{{url('user/signout')}}">ログアウト</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </li>
-                    @endif
-                    <li><a href="{{url('')}}/user/favourite"><i
-                                    class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                    <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i
-                                    class="c-icon header__nav-secondary__icon--wish"></i></a></li>
-                </ul>
+                @endif
+            </ul>
 
-                <div class="header__search" data-header-search><span class="header__search__close"
-                                                                     data-header-search__close></span>
-                    <div class="header__search__input-wrapper">
-                        <form action="post"><input type="text" class="header__search__input"
-                                                   placeholder="商品名・ブランド名・フリーワードで検索">
-                            <button class="header__search__submit"><i></i></button>
-                        </form>
-                        <div class="header__search__dropdown" data-dropdown="" style="display: none;">
-                            <div class="ttl">ブランド</div>
-                            <ul>
-                                <li><a href="">PRADA</a></li>
-                                <li><a href="">Vutton</a></li>
-                                <li><a href="">Barenciaga</a></li>
-                                <li><a href="">Gucci</a></li>
-                                <li><a href="">Visvim</a></li>
-                            </ul>
-                            <div class="ttl">検索履歴</div>
-                            <ul>
-                                <li><a href="">PRADA</a></li>
-                                <li><a href="">Vutton</a></li>
-                                <li><a href="">Barenciaga</a></li>
-                                <li><a href="">Gucci</a></li>
-                                <li><a href="">Visvim</a></li>
-                            </ul>
-                        </div>
-                        <!--/.header__search__input-wrapper-->
+            <div class="header__search" data-header-search><span class="header__search__close"
+                                                                 data-header-search__close></span>
+                <div class="header__search__input-wrapper">
+                    <form action="post"><input type="text" class="header__search__input"
+                                               placeholder="商品名・ブランド名・フリーワードで検索">
+                        <button class="header__search__submit"><i></i></button>
+                    </form>
+                    <div class="header__search__dropdown" data-dropdown="" style="display: none;">
+                        <div class="ttl">ブランド</div>
+                        <ul>
+                            <li><a href="">PRADA</a></li>
+                            <li><a href="">Vutton</a></li>
+                            <li><a href="">Barenciaga</a></li>
+                            <li><a href="">Gucci</a></li>
+                            <li><a href="">Visvim</a></li>
+                        </ul>
+                        <div class="ttl">検索履歴</div>
+                        <ul>
+                            <li><a href="">PRADA</a></li>
+                            <li><a href="">Vutton</a></li>
+                            <li><a href="">Barenciaga</a></li>
+                            <li><a href="">Gucci</a></li>
+                            <li><a href="">Visvim</a></li>
+                        </ul>
                     </div>
-                    <!--/.header__search-->
+                    <!--/.header__search__input-wrapper-->
                 </div>
+                <!--/.header__search-->
+            </div>
         </div>
         <!--/.header__inner-->
     </header>
