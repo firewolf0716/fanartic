@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Session;
+use Session;
 
 class CheckLocale
 {
@@ -20,8 +20,8 @@ class CheckLocale
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::user()) {
-            $user = Auth::user();
+        if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web');
             if ($user->locale != null) {
                 App::setLocale($user->locale);
             }
