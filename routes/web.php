@@ -11,6 +11,12 @@
 |
 */
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
+});
+
+Route::get('lang/{lang}', 'Common\LanguageController@switchLang')->name('lang.switch');
+
 Route::middleware(['basicAuth'])->group(function () {
     Route::group(['namespace' => 'Customer'], function () {
         Route::get('/', 'CustomerController@index');

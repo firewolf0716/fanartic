@@ -94,14 +94,20 @@
             </div>
             <ul class="header__nav-secondary">
                 <li data-header-dropdown>
-                    <a href="{{url('user/profile')}}">日</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        {{ Config::get('languages')[App::getLocale()] }}
+                        <span class="caret"></span></a>
+
                     <div class="dropdown-wrapper">
                         <div class="dropdown-content">
                             <ul>
-                                <li><a href="">英語</a></li>
-                                <li><a href="">繁体</a></li>
-                                <li><a href="">簡体</a></li>
-                                <li><a href="">韓国</a></li>
+                                @foreach (Config::get('languages') as $lang => $language)
+                                    @if ($lang != App::getLocale())
+                                        <li>
+                                            <a href="{{ route('lang.switch', $lang) }}">{{$language}}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
                             </ul>
                         </div>
                     </div>
