@@ -3,8 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\User;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Session;
+
 
 class CheckCurrency
 {
@@ -20,43 +23,16 @@ class CheckCurrency
      */
     public function handle($request, Closure $next)
     {
-        if (isset($_GET['currency']) && in_array($_GET['currency'], $this->currencies)) {
-            // Get currency from GET parameter.
-            $currency = $_GET['currency'];
-        } elseif (Auth::user()) {
-            $user = Auth::user();
+        if (Auth::guard('web')->check()) {
+            $user = Auth::guard('web');
             if ($user->currency != null) {
-                $currency = $user->currency;
+                session(['cur_currency' => $user->currency]);
             }
+        } elseif (Session::has('cur_currency') && array_key_exists(Session::get('cur_currency'), Config::get('currency'))) {
+            session(['cur_currency' => Session::get('cur_currency')]);
         } else {
-            // Get currency from session.
-            $currency = session('cur_currency');
+            session(['cur_currency' => Config::get('app.currency')]);
         }
-        if (!$currency) {
-            $currency = config('app.currency');
-        }
-
-        if (Auth::user()) {
-            $user = Auth::user();
-            if ($user->currency !== null && $user->currency != $currency) {
-                $user->currency = $currency;
-                $user->save();
-            }
-        }
-
-        // Save locale to session.
-//        var_dump($currency); exit;
-        session(['cur_currency' => $currency]);
-
-        if (Auth::user()) {
-            $user = Auth::user();
-            if ($user->currency !== null && $user->currency != $currency) {
-                $user->currency = $currency;
-                $user->save();
-            }
-
-        }
-
         return $next($request);
     }
 }

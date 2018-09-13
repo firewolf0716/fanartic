@@ -13,6 +13,10 @@ return [
     |
     */
 
-    'default' => 'JPY',
+    'JPY' => 'JPY',
+    'USD' => 'USD',
+    'KRW' => 'KRW',
+    'RMB' => 'CNY',
+
 
 ];
