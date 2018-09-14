@@ -42,7 +42,6 @@
               </div>
               <div>
                 <button class="btn btn-default submit">Log in</button>
-                <a class="reset_pass" href="#">Lost your password?</a>
               </div>
 
               <div class="clearfix"></div>
