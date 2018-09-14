@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 use Illuminate\Http\Request;
@@ -21,13 +22,7 @@ class CartController extends Controller
 {
     public function cart()
     {
-        if (!Session::has('customerid')) {
-            $redirect = $_GET['redirect'];
-            return Redirect::to($redirect);
-        }
-        $customerid = Session::get('customerid');
-
-        $cartitems = Cart::getItems($customerid);
+        $cartitems = Cart::getItems(Auth::id());
         $images = array();
         $colorname = array();
         $sizename = array();
@@ -42,7 +37,7 @@ class CartController extends Controller
             $images[$item->id] = $image;
         }
 
-        $total = Cart::getSum($customerid);
+        $total = Cart::getSum(Auth::id());
         $sum = $total['sum'];
         $count = $total['count'];
 
@@ -57,12 +52,8 @@ class CartController extends Controller
 
     public function addtocart()
     {
-        $customerId = Session::get('customerid');
-        if (!isset($customerId)) {
-            return 'Login';
-        }
         $cartEntry = array(
-            "customer" => $customerId,
+            "customer" => Auth::id(),
             "product" => Input::get('product'),
             "color" => Input::get('color'),
             "size" => Input::get('size'),

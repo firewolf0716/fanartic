@@ -55,11 +55,10 @@ class CustomerController extends Controller
     public function mall($mallname)
     {
         $mall = MallService::get_mall_byname($mallname);
-        // dd($mallname);
         if ($mallname == 'admin') {
             return Redirect::to('admin/login');
         } else if ($mallname == 'merchant') {
-            return Redirect::to('merchant/signin');
+            return Redirect::to('merchant/login');
         } else if ($mallname == 'brands') {
             return $this->brands();
         } else {
@@ -82,11 +81,10 @@ class CustomerController extends Controller
     public function brand($brandid)
     {
         $brand = BrandService::get_brand_byname($brandid);
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
+        if (Auth::check()) {
             date_default_timezone_set('Asia/Tokyo');
             $entry = array(
-                'customer_id' => $customerid,
+                'customer_id' => Auth::id(),
                 'brand_id' => $brand->brand_id,
                 'score_value' => 100,
                 'score_action' => 0,
@@ -104,9 +102,8 @@ class CustomerController extends Controller
     {
         $recent = null;
         $images = null;
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
-            $recent = Customers::get_recent($customerid);
+        if (Auth::check()) {
+            $recent = Customers::get_recent(Auth::id());
             $images = array();
             foreach ($recent as $product) {
                 $imagerec = Products::get_master_images($product->product_id);
@@ -195,8 +192,8 @@ class CustomerController extends Controller
         $brands = MatchService::get_brands($mall->mall_id);
 
         $customerid = null;
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
+        if (Auth::check()) {
+            $customerid = Auth::id();
         }
 
         $view = view('customer.products.product_list')->with('tcategory', $topcategory)
@@ -288,8 +285,8 @@ class CustomerController extends Controller
         $brands = MatchService::get_brands($mall->mall_id);
 
         $customerid = null;
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
+        if (Auth::check()) {
+            $customerid = Auth::id();
         }
 
         $view = view('customer.products.product_list')->with('tcategory', $topcategory)
@@ -387,8 +384,8 @@ class CustomerController extends Controller
         $brands = Brands::get();
 
         $customerid = null;
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
+        if (Auth::check()) {
+            $customerid = Auth::id();
         }
 
         $view = view('customer.products.product_list')->with('tcategory', $topcategory)
@@ -489,8 +486,8 @@ class CustomerController extends Controller
         $brands = Brands::get();
 
         $customerid = null;
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
+        if (Auth::check()) {
+            $customerid = Auth::id();
         }
 
         $view = view('customer.products.product_list')->with('tcategory', $topcategory)
@@ -578,8 +575,9 @@ class CustomerController extends Controller
             $skuimages[$image->master_image_id] = $each;
         }
 
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
+        $customerid = null;
+        if (Auth::check()) {
+            $customerid = Auth::id();
             Customers::add_recent($customerid, $productid);
         }
 

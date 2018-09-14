@@ -8,6 +8,7 @@ use App\Models\Products;
 use App\Models\ProductSKU;
 use App\Models\Sizes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
@@ -15,12 +16,7 @@ class HistoryController extends Controller
 {
     public function history()
     {
-        if (!Session::has('customerid')) {
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-
-        $groups = Customers::get_history_groups($customerid);
+        $groups = Customers::get_history_groups(Auth::id());
         $subitems = array();
         $total = array();
         $images = array();
@@ -54,12 +50,7 @@ class HistoryController extends Controller
 
     public function historydetail($group)
     {
-        if (!Session::has('customerid')) {
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        $group = Customers::get_history_group($customerid, $group);
-        // dd($group);
+        $group = Customers::get_history_group(Auth::id(), $group);
 
         $images = array();
         $colorname = array();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Models\CustomerUser;
+use Illuminate\Support\Facades\Auth;
 use Session;
 
 use App\Models\Cart;
@@ -24,21 +25,16 @@ class MFlowController extends Controller
 {
     public function checkflowinfo()
     {
-        if (!Session::has('customerid')) {
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-
-        $cartCt = Cart::getCartItemCt($customerid);
+        $cartCt = Cart::getCartItemCt(Auth::id());
         if ($cartCt == 0) {
             return Redirect::to('user/cart');
         }
 
-        $addresses = Customers::get_addresses($customerid);
+        $addresses = Customers::get_addresses(Auth::id());
 
-        $cards = Customers::get_cards($customerid);
+        $cards = Customers::get_cards(Auth::id());
 
-        $total = Cart::getSum($customerid);
+        $total = Cart::getSum(Auth::id());
 
         return $this->layout_init(view('customer.checkflow.input'), 1)
             ->with('addresses', $addresses)
@@ -48,12 +44,10 @@ class MFlowController extends Controller
 
     public function checkflowinfoPost()
     {
-        $customerid = Session::get('customerid');
-        // dd(Input::all());
         $address = Input::get('address');
         if ($address == 'addressNew') {
             $entry = array(
-                'customer_id' => $customerid,
+                'customer_id' => Auth::id(),
                 'address_name' => Input::get('address_name'),
                 'address_phone' => Input::get('tel1') . '-' . Input::get('tel2') . '-' . Input::get('tel3'),
                 'address_postalcode' => Input::get('zipcode'),
@@ -72,7 +66,7 @@ class MFlowController extends Controller
             Session::put('calc_credit', 'paypal');
         } else {
             if ($credit == 'creditnew') {
-                $email = CustomerUser::find($customerid)->customer_email;
+                $email = CustomerUser::find(Auth::id())->customer_email;
                 Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
                 $customer = Customer::create(array(
                     'email' => $email,
@@ -83,7 +77,7 @@ class MFlowController extends Controller
                 $expiredt = $customer->sources->data['0']->exp_year . '/' . $customer->sources->data['0']->exp_month;
                 $name = $customer->sources->data['0']->name;
                 $entry = array(
-                    'customer_id' => $customerid,
+                    'customer_id' => Auth::id(),
                     'card_no' => $last4,
                     'card_token' => $cus_token,
                     'card_owner' => $name,
@@ -101,9 +95,7 @@ class MFlowController extends Controller
 
     public function checkflowconfirm()
     {
-        $customerid = Session::get('customerid');
-
-        $cartitems = Cart::getItems($customerid);
+        $cartitems = Cart::getItems(Auth::id());
 
         $images = array();
         $colorname = array();
@@ -129,7 +121,7 @@ class MFlowController extends Controller
             $creditobj = Customers::get_card($credit)->first();
         }
 
-        $total = Cart::getSum($customerid);
+        $total = Cart::getSum(Auth::id());
         return $this->layout_init(view('customer.checkflow.confirm'), 1)
             ->with('cartitems', $cartitems)
             ->with('addrobj', $addrobj)
@@ -163,16 +155,11 @@ class MFlowController extends Controller
 
     public function confirm_order()
     {
-        if (!Session::has('customerid')) {
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        //add to history
         $maxgroup = Customers::max_history_group() + 1;
-        $cartitems = Cart::getItems($customerid);
+        $cartitems = Cart::getItems(Auth::id());
         $address = Session::get('calc_address');
         $credit = Session::get('calc_credit');
-        $total = Cart::getSum($customerid);
+        $total = Cart::getSum(Auth::id());
         $payresult = $this->process_payment($credit, $total['sum']);
         if ($payresult) {
             foreach ($cartitems as $item) {
@@ -197,7 +184,7 @@ class MFlowController extends Controller
 
                 $product = Products::get_product($item->cart_productid);
                 $scoreentry = array(
-                    'customer_id' => $customerid,
+                    'customer_id' => Auth::id(),
                     'brand_id' => $product->product_brand_id,
                     'score_value' => 1000,
                     'score_action' => 1,
@@ -207,7 +194,7 @@ class MFlowController extends Controller
                 Customers::record_score($scoreentry);
             }
             //remove from cart
-            Cart::clear_cart($customerid);
+            Cart::clear_cart(Auth::id());
             //remove from stock
             foreach ($cartitems as $item) {
                 $remain = $item->product_count - $item->cart_amount;

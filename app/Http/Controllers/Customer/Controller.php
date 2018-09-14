@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 use Session;
@@ -69,18 +70,17 @@ class Controller extends BaseController
         $customerid = null;
         $recent = null;
         $images = null;
-        $customer_email = null;
-        if (Session::has('customerid')) {
-            $customerid = Session::get('customerid');
-            $recent = Customers::get_recent($customerid);
+        $email = null;
+        if (Auth::check()) {
+            $recent = Customers::get_recent(Auth::id());
             $images = array();
             foreach ($recent as $product) {
                 $imagerec = Products::get_master_images($product->product_id);
                 // dd($imagerec);
                 $images[$product->product_id] = $imagerec;
             }
-            $customer_email = CustomerUser::find($customerid)->customer_email;
-            // dd($customer_email);
+            $email = CustomerUser::find(Auth::id())->email;
+            // dd($email);
         }
         return $view->with('mencategories', $mencategories)
             ->with('womencategories', $womencategories)
@@ -91,7 +91,7 @@ class Controller extends BaseController
             ->with('recent', $recent)
             ->with('recentimages', $images)
             ->with('listtype', "malls")
-            ->with('email', $customer_email);
+            ->with('email', $email);
     }
 
     public function setMainCategory($view)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Customer;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -23,11 +24,7 @@ class CardController extends Controller
 {
     public function credit()
     {
-        if (!Session::has('customerid')) {
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        $customer = CustomerUser::find($customerid);
+        $customer = CustomerUser::find(Auth::id());
         $customer_email = $customer->customer_email;
         $cards = $customer->card;
 
@@ -38,10 +35,6 @@ class CardController extends Controller
 
     public function add_card_post(Request $request)
     {
-        if (!Session::has('customerid')) {
-            return;
-        }
-        $userid = Session::get('customerid');
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $customer = Customer::create(array(
             'email' => $request->stripeEmail,
@@ -53,7 +46,7 @@ class CardController extends Controller
         $name = $customer->sources->data['0']->name;
 
         $card = new CustomerCard();
-        $card->customer_id = $userid;
+        $card->customer_id = Auth::id();
         $card->card_no = $last4;
         $card->card_token = $cus_token;
         $card->card_owner = $name;
@@ -65,7 +58,6 @@ class CardController extends Controller
 
     public function edit_card_post(Request $request)
     {
-        $userid = Session::get('customerid');
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         if (isset($request->stripeToken)) {
             try {
@@ -78,7 +70,7 @@ class CardController extends Controller
                 $cus_token = $cu->id;
 
                 $card = CustomerCard::where('card_token', $cus_token)->first();
-                $card->customer_id = $userid;
+                $card->customer_id = Auth::id();
                 $card->card_no = $last4;
                 $card->card_token = $cus_token;
                 $card->card_owner = $name;
@@ -96,11 +88,6 @@ class CardController extends Controller
     public function delete_card(Request $request)
     {
         $token = $request->token;
-        if (!Session::has('customerid')) {
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
-        // dd($token);
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $cu = Customer::retrieve($token);
         $cu->delete();

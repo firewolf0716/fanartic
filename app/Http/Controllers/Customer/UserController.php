@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use Illuminate\Support\Facades\Auth;
 use Session;
 use Hash;
 use Mail;
@@ -86,18 +87,15 @@ class UserController extends Controller
 
     public function profile()
     {
-        $customerid = Session::get('customerid');
-        $customer = CustomerUser::find($customerid);
-        $birth = $customer->customer_birthday;
+        $customer = CustomerUser::find(Auth::id());
         $births = array('', '', '');
-        if ($birth != '' || isset($birth)) {
-            $births = explode('/', $birth);
+        if (!empty($customer->customer_birthda)) {
+            $births = explode('-', $customer->customer_birthday);
         }
 
-        $phone = $customer->customer_phone;
         $tel = array('', '', '');
-        if ($phone != '' || isset($phone)) {
-            $tel = explode('-', $phone);
+        if (!empty($customer->customer_phone)) {
+            $tel = explode('-', $customer->customer_phone);
         }
         $view = view('customer.user.profile');
 
@@ -106,9 +104,7 @@ class UserController extends Controller
 
     public function profilepost()
     {
-        $customerid = Session::get('customerid');
-
-        $customer = CustomerUser::find($customerid);
+        $customer = CustomerUser::find(Auth::id());
         $customer->customer_name_first = Input::get('first_name');
         $customer->customer_name_second = Input::get('second_name');
         $customer->customer_name_kana_first = Input::get('first_name_kana');

@@ -6,6 +6,7 @@ use App\Models\Colors;
 use App\Models\Products;
 use App\Models\Sizes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 
@@ -21,11 +22,7 @@ class FavoriteController extends Controller
 {
     public function favorite()
     {
-        if (!Session::has('customerid')) {
-            return redirect('/');
-        }
-        $customerid = Session::get('customerid');
-        $favs = Customers::get_favs($customerid);
+        $favs = Customers::get_favs(Auth::id());
 
         $images = array();
         $colorname = array();
@@ -56,12 +53,8 @@ class FavoriteController extends Controller
         $brand = Input::get('brand');
         $amt = Input::get('count');
 
-        if (!Session::has('customerid')) {
-            return Redirect::to('/');
-        }
-        $customerid = Session::get('customerid');
         $entry = array(
-            'customer_id' => $customerid,
+            'customer_id' => Auth::id(),
             'fav_brand_id' => $brand,
             'fav_pro_id' => $productid,
             'fav_sku_color' => $colorid,
@@ -74,16 +67,12 @@ class FavoriteController extends Controller
 
     public function favitem_action()
     {
-        $customerid = Session::get('customerid');
-        if (!isset($customerid)) {
-            return 'Please log in first';
-        }
         $id = Input::get('action_id');
         $type = Input::get('action_type');
         if ($type == 'cart') {
             $fav = Customers::get_fav($id);
             $cartentry = array(
-                "customer" => $customerid,
+                "customer" => Auth::id(),
                 "product" => $fav->fav_pro_id,
                 "color" => $fav->fav_sku_color,
                 "size" => $fav->fav_sku_size,
