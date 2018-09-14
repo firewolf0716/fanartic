@@ -24,7 +24,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 
 /*
 |--------------------------------------------------------------------------
-| 2) Merchant ログイン後
+| 2) Admin ログイン後
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'auth:admin'*/], function () {

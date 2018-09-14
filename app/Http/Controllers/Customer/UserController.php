@@ -45,13 +45,25 @@ class UserController extends Controller
         return "Registered successfully, Please check your mail to verify account";
     }
 
-    public function signverify()
+    public function signverify($token)
     {
-        $email = $_GET['mail'];
-        $token = $_GET['token'];
-        $res = CustomerUserService::signverify($email, $token);
-        if ($res)
-            return Redirect::to('user/profile');
+        // 使用可能なトークンか
+        if (!CustomerUser::where('token', $token)->exists()) {
+            return redirect('login');
+        } else {
+            $user = CustomerUser::where('token', $token)->first();
+            // 本登録済みユーザーか
+            if ($user->verified == 1) {
+                return Redirect::to('login');
+            }
+            // ユーザーステータス更新
+            $user->verified = 1;
+            if ($user->save()) {
+                return Redirect::to('user/profile');
+            } else {
+                return Redirect::to('login');
+            }
+        }
     }
 
     public function signinpost()

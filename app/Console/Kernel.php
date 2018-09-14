@@ -26,6 +26,13 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+        // watch queue
+        $schedule->command('queue:work --daemon')
+            ->appendOutputTo(storage_path() . '/queue.log')
+            ->everyMinute()
+            ->withoutOverlapping();
+
     }
 
     /**

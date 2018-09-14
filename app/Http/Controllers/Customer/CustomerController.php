@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use Illuminate\Support\Facades\Auth;
 use Session;
 use Hash;
 use Mail;

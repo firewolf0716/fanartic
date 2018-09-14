@@ -1,4 +1,16 @@
 @charset "UTF-8";
+.has-error .c-form__input {
+    border: 1px solid #a94442;
+}
+.help-block {
+    color:#737373;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.has-error .help-block {
+    color: #a94442;
+}
 /* ----------------------------------------------------------------
 base
 -------------------------------------------------------------------*/

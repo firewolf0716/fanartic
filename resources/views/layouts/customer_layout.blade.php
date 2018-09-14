@@ -63,10 +63,7 @@
                         </div>
                     </div>
                 </li>
-                @if(!isset($customerid))
-                    {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
-                    <li><a href="#modal-user-signin" class="modal-sm">ログイン</a></li>
-                @else
+                @if(Auth::check())
                     <li data-header-dropdown>
                         <a href="{{url('user/profile')}}">アカウント</a>
                         <div class="dropdown-wrapper">
@@ -78,11 +75,15 @@
                                     <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
                                     <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
                                     <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
-                                    <li><a href="{{url('user/signout')}}">ログアウト</a></li>
+                                    <li><a href="{{route('logout')}}">ログアウト</a></li>
                                 </ul>
                             </div>
                         </div>
                     </li>
+                @else
+                    {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
+                    <li><a href="{{ route('login') }}">ログイン</a></li>
+                    <li><a href="{{ route('register') }}">登録</a></li>
                 @endif
             </ul>
 
@@ -120,6 +121,7 @@
     </header>
     <!--/.header-->
     <div class="l-content">
+        @include('include.session_message')
         @yield('content')
         @include('include.checked_item')
     </div>
@@ -314,39 +316,6 @@
                 $('#top_women').addClass('is-current');
             }
         });
-
-        function onSignup() {
-            if ($('#username_up').val() == '' || $('#email_up').val() == '') {
-                return;
-            }
-            if (!$('#checkagree1').is(':checked')) {
-                return;
-            }
-            if (!$('#checkagree2').is(':checked')) {
-                return;
-            }
-            if ($('#password_up').val() != $('#password_confirm').val()) {
-                alert('Please confirm your password');
-                return;
-            }
-            if ($('#password_up').val().length < 8) {
-                alert('Please input password more than 8 characters');
-                return;
-            }
-            $.ajax({
-                type: 'post',
-                data: {
-                    name: $('#username_up').val(),
-                    password: $('#password_up').val(),
-                    email: $('#email_up').val(),
-                    _token: $('#token_layout').val()
-                },
-                url: "{{url('user/signuppost')}}",
-                success: function (data) {
-                    alert(data);
-                }
-            });
-        }
     </script>
 </div>
 </body>

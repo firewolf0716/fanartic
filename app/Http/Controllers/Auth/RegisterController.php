@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-use App\Http\Controllers\Controller;
+use App\Jobs\SendMailJob;
+use App\Mail\EmailVerification;
+use App\Models\CustomerUser;
+use App\Http\Controllers\Customer\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -28,7 +34,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -41,9 +47,19 @@ class RegisterController extends Controller
     }
 
     /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showRegistrationForm()
+    {
+        return $this->layout_init(view('auth.register'), 1);
+    }
+
+    /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -52,21 +68,38 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'checkagree1' => 'required',
         ]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param  $request
+     * @return \App\Models\CustomerUser
      */
-    protected function create(array $data)
+    protected function register(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        $user = CustomerUser::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'token' => base64_encode($request->input('email')),
         ]);
+
+        $options = [
+            'subject' => '仮登録が完了しました',
+            'template' => 'emails.auth.verify'
+        ];
+        $body = ['token' => $user->token];
+        Queue::push(new SendMailJob($user->email, $options, $body), null, env('SQS_QUEUE'));
+
+        // $email = new EmailVerification($user);
+        // Mail::to($user->email)->send($email);
+        // Queue::push(new EmailVerification($user), $email, env('SQS_QUEUE'));
+
+        $this->guard()->logout();
+        return redirect('/login')->withSuccess('メールドアレスを認証して登録を完了させてください');
     }
+
 }
