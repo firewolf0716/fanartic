@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Merchant;
 
+use Illuminate\Support\Facades\Auth;
 use Session;
 use DB;
 
@@ -23,41 +24,34 @@ use App\Models\Products;
 class MerchantController extends Controller
 {
     //
-    public function merchant_dashboard(){
-        if (Session::has('merchantid')) {
-            return view('merchant.dashboard');
-        } else {
-            return Redirect::to('merchant/signin?redirect=merchant_dashboard');
-        }
+    public function dashboard()
+    {
+        return view('merchant.dashboard');
     }
-    public function merchant_setting(){
-        if (Session::has('merchantid')) {
-            $id = Session::get('merchantid');
-            $merchant = Merchants::find($id);
-            $plans = Plans::get();
-            $states = States::get();
-            $brands = Brands::get();
-            $selbrands = MatchService::get_brands_merchant($merchant->merchant_id);
-            return view('merchant.setting')->with('merchant', $merchant)
-                                        ->with('plans', $plans)
-                                        ->with('states', $states)
-                                        ->with('brands', $brands)
-                                        ->with('selbrands', $selbrands);
-        } else {
-            return Redirect::to('merchant/signin?redirect=merchant_dashboard');
-        }                           
+
+    public function setting()
+    {
+        $merchant = Merchants::find(Auth::id());
+        $plans = Plans::get();
+        $states = States::get();
+        $brands = Brands::get();
+        $selbrands = MatchService::get_brands_merchant($merchant->merchant_id);
+        return view('merchant.setting')->with('merchant', $merchant)
+            ->with('plans', $plans)
+            ->with('states', $states)
+            ->with('brands', $brands)
+            ->with('selbrands', $selbrands);
     }
-    public function getcity(){
+
+    public function getcity()
+    {
         $stateid = Input::get('state');
         $citys = LocationService::getCitys($stateid);
         return $citys;
     }
-    
-    public function merchant_editsetting(){
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
 
+    public function editsetting()
+    {
         $id = Input::get('merchant_id');
         $id = Input::get('merchant_id');
         $merchant = Merchants::find($id);
@@ -81,13 +75,13 @@ class MerchantController extends Controller
         $merchant->merchant_phone = Input::get('merchant_phone');
 
         $state = Input::get('merchant_state');
-        if($state == 1){
+        if ($state == 1) {
             $merchant->merchant_city = '';
             $merchant->merchant_address_ex = '';
             $merchant->merchant_province = Input::get('merchant_province');
             $merchant->merchant_county = Input::get('merchant_county');
             $merchant->merchant_address_jp = Input::get('merchant_address_jp');
-        } else if($state > 1){
+        } else if ($state > 1) {
             $merchant->merchant_city = Input::get('merchant_city');
             $merchant->merchant_address_ex = Input::get('merchant_address_ex');
             $merchant->merchant_province = '';
@@ -96,9 +90,9 @@ class MerchantController extends Controller
         }
         $merchant->save();
         MatchService::remove_brands_merchant($id);
-        if(Input::has('merchant_brands')){
+        if (Input::has('merchant_brands')) {
             $brands = Input::get('merchant_brands');
-            foreach($brands as $brand){
+            foreach ($brands as $brand) {
                 $mentry = array(
                     'merchant_id' => $id,
                     'brand_id' => $brand

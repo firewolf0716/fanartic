@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Fanartic</title>
+    <title>or Not__</title>
 
     <!-- Bootstrap -->
     <link href="{{ url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

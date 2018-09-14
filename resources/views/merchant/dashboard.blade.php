@@ -1,6 +1,6 @@
-@extends('layouts.admindefault')
+@extends('layouts.merchant_layout')
 
-@section('title', 'Dashboard|fanaRtic')
+@section('title', 'Dashboard|or Not__')
 
 @section('content')
     <div class="">

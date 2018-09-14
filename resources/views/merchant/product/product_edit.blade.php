@@ -1,4 +1,4 @@
-@extends('layouts.admindefault')
+@extends('layouts.merchant_layout')
 
 @section('title', 'Merchant Product Edit|fanaRtic')
 

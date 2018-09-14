@@ -7,33 +7,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title></title>
+    <title>or Not__ backend</title>
 
     <!-- Bootstrap -->
-    <link href="{{ url('')}}/gvendor/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('gvendor/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ url('')}}/gvendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ asset('gvendor/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
     <!-- NProgress -->
-    <link href="{{ url('')}}/gvendor/nprogress/nprogress.css" rel="stylesheet">
+    <link href="{{ asset('gvendor/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-    <link href="{{ url('')}}/gvendor/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <link href="{{ asset('gvendor/bootstrap-daterangepicker/daterangepicker.css')}}/" rel="stylesheet">
 
     <!-- bootstrap-datetimepicker -->
-    <link href="{{ url('')}}/gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <link href="{{ asset('gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}/"
+          rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="{{ url('')}}/css/custom.css" rel="stylesheet">
+    <link href="{{ asset('css/custom.css')}}" rel="stylesheet">
 
     <!-- Datatables -->
-    <link href="{{ url('')}}/gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url('')}}/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="{{ asset('gvendor/datatables.net-bs/css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('gvendor/datatables.net-buttons-bs/css/buttons.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 
     <!-- Bootstrap Colorpicker -->
-    <link href="{{ url('')}}/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url('') }}/css/multi-select.css" />
+    <link href="{{ asset('gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}"
+          rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/multi-select.css') }}"/>
 </head>
 
 <body class="nav-md">
@@ -42,23 +44,20 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="{{url('merchant/dashboard')}}" class="site_title">fanaRtic backend</a>
+                    <a href="{{url('merchant/dashboard')}}" class="site_title">or Not__ merchant</a>
                 </div>
 
                 <div class="clearfix"></div>
                 <!-- menu profile quick info -->
                 <div class="profile clearfix">
-                    <div class="profile_pic">
-                        <img src="{{ URL::asset('images/img.jpg') }}" alt="..." class="img-circle profile_img">
-                    </div>
                     <div class="profile_info">
-                        <span>ようこそ!</span>
-                        <h2>{{Session::get('merchantname')}}</h2>
+                        <span>こんにちは!</span>
+                        <h2>{{ Auth::user()->name }}さん</h2>
                     </div>
                 </div>
                 <!-- /menu profile quick info -->
 
-                <br />
+                <br/>
 
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -67,7 +66,8 @@
                         <ul class="nav side-menu">
                             <li><a href="{{ url('merchant/dashboard') }}"><i class="fa fa-home"></i> ダッシュボード</a>
                             </li>
-                            <li class="navproduct"><a><i class="fa fa-table"></i> 商品管理 <span class="fa fa-chevron-down"></span></a>
+                            <li class="navproduct"><a><i class="fa fa-table"></i> 商品管理 <span
+                                            class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ url('merchant/product/manage') }}">商品一覧（販売中）</a></li>
                                     <li><a href="{{ url('merchant/product/sold') }}">商品一覧（売切）</a></li>
@@ -166,81 +166,39 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <img src="{{ URL::asset('images/img.jpg') }}" alt="">{{Session::get('merchantname')}}
+                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                               aria-expanded="false">
+                                {{ Auth::user()->name }}さん
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;"> Profile</a></li>
                                 <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
-                                    </a>
+                                    <a href="{{ route('merchant.logout') }}">
+                                        <i class="fa fa-sign-out pull-right"></i> ログアウト</a>
                                 </li>
-                                <li><a href="javascript:;">Help</a></li>
-                                <li><a href="{{url('merchant/signout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                             </ul>
                         </li>
 
                         <li role="presentation" class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                               aria-expanded="false">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="badge bg-green">6</span>
+                                <span class="badge bg-green">1</span>
                             </a>
                             <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                                 <li>
                                     <a>
-                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
+                                        <span>タイトルが入ります</span>
+                                        <span class="time">2018年9月1日</span>
                                         <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a>
-                                        <span class="image"><img src="{{ URL::asset('images/img.jpg') }}" alt="Profile Image" /></span>
-                                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
+                                            メッセージが入ります(60文字くらい？)メッセージが入ります(60文字くらい？)メッセージが入ります(60文字くらい？)
+                                        </span>
                                     </a>
                                 </li>
                                 <li>
                                     <div class="text-center">
                                         <a>
-                                            <strong>See All Alerts</strong>
+                                            <strong>すべてのお知らせをみる</strong>
                                             <i class="fa fa-angle-right"></i>
                                         </a>
                                     </div>

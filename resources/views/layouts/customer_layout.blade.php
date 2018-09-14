@@ -23,7 +23,11 @@
             <div class="header__button-search" data-header-search-button>
                 <i class="c-icon header__button-search__icon"></i>
             </div>
-            <div class="header__sitename"><a href="/">or Not__</a></div>
+            <div class="header__sitename">
+                <a href="/">
+                    <img src="{{asset('images/logo.png')}}" alt="" width="150">
+                </a>
+            </div>
             @include('include.header_brand')
             <ul class="header__nav-secondary">
                 <li data-header-dropdown>
