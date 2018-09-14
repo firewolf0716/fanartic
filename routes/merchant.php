@@ -24,6 +24,7 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web']], funct
 Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant'], function () {
     Route::get('/', 'MerchantloginController@merchant_signin')->name('merchant.top');
     Route::get('login', 'MerchantloginController@merchant_signin')->name('merchant.login');
+    Route::get('signin', 'MerchantloginController@merchant_signin')->name('merchant.signin');
     Route::post('signinpost', 'MerchantloginController@merchant_signinpost');
     Route::get('signup', 'MerchantloginController@merchant_signup');
     Route::post('signuppost', 'MerchantloginController@merchant_signuppost');

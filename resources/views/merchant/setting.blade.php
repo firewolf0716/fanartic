@@ -1,4 +1,4 @@
-@extends('layouts.adminlayout')
+@extends('layouts.admindefault')
 
 @section('title', 'Dashboard|fanaRtic')
 

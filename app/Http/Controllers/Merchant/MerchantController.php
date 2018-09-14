@@ -33,8 +33,7 @@ class MerchantController extends Controller
     public function merchant_setting(){
         if (Session::has('merchantid')) {
             $id = Session::get('merchantid');
-            $merchants = Merchants::find($id);
-            $merchant = $merchants[0];
+            $merchant = Merchants::find($id);
             $plans = Plans::get();
             $states = States::get();
             $brands = Brands::get();

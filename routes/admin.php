@@ -16,7 +16,7 @@
 | 1) Admin 認証不要
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'merchant', 'namespace' => 'Admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('login', 'AdminController@login')->name('admin.login');
     Route::get('signout', 'AdminController@signout');
     Route::post('signin', 'AdminController@signin');
@@ -27,7 +27,7 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Admin'], function () {
 | 2) Merchant ログイン後
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'merchant', 'namespace' => 'Admin'/*,'middleware' => 'auth:admin'*/], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'auth:admin'*/], function () {
 	// Admin
 	Route::get('admin','AdminController@login');
 	Route::get('dashboard','AdminController@dashboard');
