@@ -82,6 +82,6 @@ class FavoriteController extends Controller
         } else if ($type == 'remove') {
             Customers::remove_fav($id);
         }
-        return Redirect::to('user/favourite');
+        return redirect(route('user.favorite'));
     }
 }

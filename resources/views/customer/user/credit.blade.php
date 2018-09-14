@@ -33,7 +33,7 @@
                         @csrf
                         {{ Form::hidden('customer_token', $card->card_token)}}
                     </form>
-                    <a href="{{url('user/removecard?token='.$card->card_token)}}" class="c-button c-button--secondary">削除</a>
+                    <a href="{{url('user/delete_card?token='.$card->card_token)}}" class="c-button c-button--secondary">削除</a>
                 </div>
                 <!--/.l-column--list__button-->
             </div>

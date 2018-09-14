@@ -4020,6 +4020,7 @@ themes
         -webkit-box-pack: justify;
         -ms-flex-pack: justify;
         justify-content: space-between;
+        margin-bottom: 40px;
     }
 }
 
@@ -4329,7 +4330,8 @@ themes
 }
 
 .product-detail__data__cart__item__figure img {
-    margin-bottom: 10px;
+    height: 60px;
+    margin-bottom: 5px;
 }
 
 .product-detail__data__cart__item__list {
@@ -4354,7 +4356,7 @@ themes
 
 @media (min-width: 769px) {
     .product-detail__data__cart__item__list > li {
-        padding: 20px 16px 20px 0;
+        padding: 20px 0;
     }
 }
 
@@ -4371,8 +4373,13 @@ themes
 @media (min-width: 769px) {
     .product-detail__data__cart__item__list__size {
         font-size: 13px;
-        -ms-flex-preferred-size: 130px;
-        flex-basis: 130px;
+        -ms-flex-preferred-size: 100px;
+        flex-basis: 100px;
+        text-align: center;
+    }
+    .product-detail__data__cart__item__list__size select {
+        padding: 10px;
+        min-width: 70px;
     }
 }
 
@@ -4401,8 +4408,8 @@ themes
     .product-detail__data__cart__item__list__addcart {
         min-height: 52px;
         font-size: 15px;
-        -ms-flex-preferred-size: 224px;
-        flex-basis: 224px;
+        -ms-flex-preferred-size: 180px;
+        flex-basis: 180px;
     }
 }
 
@@ -4475,7 +4482,8 @@ themes
     background-position: -187px -99px;
 }
 
-.product-detail__data__cart__item__list__wish .c-icon.is-wished {
+.product-detail__data__cart__item__list__wish .c-icon.is-wished,
+.product-detail__data__cart__item__list__wish .c-icon:hover {
     width: 27px;
     height: 23px;
     background-image: url("../images/sprite@2x.png");
