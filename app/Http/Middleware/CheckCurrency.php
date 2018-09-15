@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Currency;
 use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -23,12 +24,13 @@ class CheckCurrency
      */
     public function handle($request, Closure $next)
     {
+        $currencies = Currency::getCurrencies();
         if (Auth::guard('web')->check()) {
             $user = Auth::guard('web');
             if ($user->currency != null) {
                 session(['cur_currency' => $user->currency]);
             }
-        } elseif (Session::has('cur_currency') && array_key_exists(Session::get('cur_currency'), Config::get('currency'))) {
+        } elseif (Session::has('cur_currency') && array_key_exists(Session::get('cur_currency'), $currencies)) {
             session(['cur_currency' => Session::get('cur_currency')]);
         } else {
             session(['cur_currency' => Config::get('app.currency')]);
