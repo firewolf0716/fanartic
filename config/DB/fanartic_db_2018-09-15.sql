@@ -7,7 +7,7 @@
 #
 # ホスト: 127.0.0.1 (MySQL 5.7.22-0ubuntu18.04.1)
 # データベース: fanartic_db
-# 作成時刻: 2018-09-15 10:11:39 +0000
+# 作成時刻: 2018-09-15 11:53:46 +0000
 # ************************************************************
 
 
@@ -18,6 +18,40 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# テーブルのダンプ currencies
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `currencies`;
+
+CREATE TABLE `currencies` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `symbol` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `format` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `rate` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `valid_flag` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `currencies_code_index` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+LOCK TABLES `currencies` WRITE;
+/*!40000 ALTER TABLE `currencies` DISABLE KEYS */;
+
+INSERT INTO `currencies` (`id`, `name`, `code`, `symbol`, `format`, `rate`, `valid_flag`, `created_at`, `updated_at`, `deleted_at`)
+VALUES
+	(8,'RMB','CNY','R','','0.061315',1,'2018-09-09 22:00:05','2018-09-15 20:34:11',NULL),
+	(9,'JPY','JPY','¥','','1',1,'2018-09-09 22:00:05','2018-09-15 20:34:11',NULL),
+	(10,'KRW','KRW','K','','10.009995',1,'2018-09-09 22:00:05','2018-09-15 20:34:11',NULL),
+	(11,'USD','USD','$','','0.008924',1,'2018-09-09 22:00:05','2018-09-15 20:34:11',NULL);
+
+/*!40000 ALTER TABLE `currencies` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # テーブルのダンプ customer_address
@@ -3234,7 +3268,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`)
 VALUES
 	(1,'2014_04_02_193005_create_translations_table',1),
 	(2,'2014_10_12_000000_create_users_table',1),
-	(3,'2014_10_12_100000_create_password_resets_table',1);
+	(3,'2014_10_12_100000_create_password_resets_table',1),
+	(4,'2018_09_15_192940_create_currencies_table',2);
 
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
