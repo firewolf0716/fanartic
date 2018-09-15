@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 */
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'auth:admin'*/], function () {
 	// Admin
-	Route::get('admin','AdminController@login');
+	Route::get('/','AdminController@login');
 	Route::get('dashboard','AdminController@dashboard');
 	Route::get('admins/add','AdminController@addadmin');
 	Route::post('admins/addpost','AdminController@addadminpost');

@@ -24,102 +24,11 @@
                 <i class="c-icon header__button-search__icon"></i>
             </div>
             <div class="header__sitename">
-                <a href="{{ route('mall', $mallname) }}">
+                <a href="/">
                     <img src="{{asset('images/logo.png')}}" alt="" width="150">
                 </a>
             </div>
-            @include('include.header_brand')
-            <ul class="header__nav-secondary">
-                <li data-header-dropdown>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        {{ Config::get('languages')[App::getLocale()] }}
-                        <span class="caret"></span></a>
-                    <div class="dropdown-wrapper">
-                        <div class="dropdown-content">
-                            <ul>
-                                @foreach (Config::get('languages') as $lang => $language)
-                                    @if ($lang != App::getLocale())
-                                        <li>
-                                            <a href="{{ route('lang.switch', $lang) }}">{{$language}}</a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li data-header-dropdown>
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        {{ Config::get('currency')[Session::get('cur_currency')] }}
-                        <span class="caret"></span></a>
 
-                    <div class="dropdown-wrapper">
-                        <div class="dropdown-content">
-                            <ul>
-                                @foreach (Config::get('currency') as $cur => $currency)
-                                    @if ($cur != Session::get('cur_currency'))
-                                        <li>
-                                            <a href="{{ route('currency.switch', $cur) }}">{{$currency}}</a>
-                                        </li>
-                                    @endif
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                @if(Auth::check())
-                    <li data-header-dropdown>
-                        <a href="{{url('user/profile')}}">アカウント</a>
-                        <div class="dropdown-wrapper">
-                            <div class="dropdown-content">
-                                <ul>
-                                    <li><a href="{{url('user/cart')}}?redirect={{url()->current()}}">カート</a></li>
-                                    <li><a href="{{url('user/favorite')}}">お気に入り</a></li>
-                                    <li><a href="{{url('user/profile')}}">会員情報変更</a></li>
-                                    <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
-                                    <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
-                                    <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
-                                    <li><a href="{{route('logout')}}">ログアウト</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
-                @else
-                    {{--<a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>--}}
-                    <li><a href="{{ route('login') }}">ログイン</a></li>
-                    <li><a href="{{ route('register') }}">登録</a></li>
-                @endif
-            </ul>
-
-            <div class="header__search" data-header-search><span class="header__search__close"
-                                                                 data-header-search__close></span>
-                <div class="header__search__input-wrapper">
-                    <form action="post"><input type="text" class="header__search__input"
-                                               placeholder="商品名・ブランド名・フリーワードで検索">
-                        <button class="header__search__submit"><i></i></button>
-                    </form>
-                    <div class="header__search__dropdown" data-dropdown="" style="display: none;">
-                        <div class="ttl">ブランド</div>
-                        <ul>
-                            <li><a href="http://dev.fanartic.com/category/fanartic/men/L.OUTER">PRADA</a></li>
-                            <li><a href="">Vutton</a></li>
-                            <li><a href="">Barenciaga</a></li>
-                            <li><a href="">Gucci</a></li>
-                            <li><a href="">Visvim</a></li>
-                        </ul>
-                        <div class="ttl">検索履歴</div>
-                        <ul>
-                            <li><a href="">PRADA</a></li>
-                            <li><a href="">Vutton</a></li>
-                            <li><a href="">Barenciaga</a></li>
-                            <li><a href="">Gucci</a></li>
-                            <li><a href="">Visvim</a></li>
-                        </ul>
-                    </div>
-                    <!--/.header__search__input-wrapper-->
-                </div>
-                <!--/.header__search-->
-            </div>
         </div>
         <!--/.header__inner-->
     </header>

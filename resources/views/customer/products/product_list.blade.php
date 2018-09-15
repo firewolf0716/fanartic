@@ -26,9 +26,9 @@
             </div>
             <!--/.l-column l-column--control-->
             <div class="c-items c-items--04">
-                @foreach($products as $product)
-                    @include("parts.product.list_item")
-                @endforeach
+            @foreach($products as $product)
+                @include("parts.product.list_item")
+            @endforeach
             <!--/.c-item-->
 
             </div>
@@ -56,10 +56,11 @@
                                     @php
                                         $url = '/';
                                         if(isset($listtype)){
-                                            if($listtype == 'malls'){
-                                                $url = url('').'/category/fanartic/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                            if($listtype == 'mall_category'){
+                                                $url = url('').'/'.$mallname.'/'.$top_id.'/'.str_replace('/', '-',
+                                                $maincategory->category_name_en);
                                             } else if($listtype == 'mall_brands'){
-                                                $url = url('').'/category/'.$mallname.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                                $url = url('').'/'.$mallname.'/'.$top_id.'/'.str_replace('/', '-', $maincategory->category_name_en);
                                             } else if($listtype == 'mall_brand_products'){
                                                 $url = url('').'/'.$mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
                                             } else if($listtype == 'brand_products'){
@@ -100,9 +101,9 @@
                         </ul>
                     </div>
                     <!--/.product-list__nav__item-->
-                    
-                        {{ Form::hidden('size_id', '' ,array('id' => 'size_val'))}}
-                    
+
+                    {{ Form::hidden('size_id', '' ,array('id' => 'size_val'))}}
+
                 </li>
                 <li data-productfiltermodal="">
                     @if(isset($_GET['colorid']) && $_GET['colorid'] != '')
@@ -116,10 +117,10 @@
                             @foreach($colors as $color)
                                 <li>
                                     <a
-                                       class="product-list__nav__button_color colorbutton"
-                                       onClick="onColorChange(this, {{$color->color_id}})"
-                                       style="background-color:{{$color->color_value}};"
-                                       value='{{$color->color_id}}'>
+                                            class="product-list__nav__button_color colorbutton"
+                                            onClick="onColorChange(this, {{$color->color_id}})"
+                                            style="background-color:{{$color->color_value}};"
+                                            value='{{$color->color_id}}'>
                                         {{$color->color_name}}
                                     </a>
                                     <label class="product-list__nav__button product-list__nav__button--color product-list__nav__button--color--yellow u-sp">
@@ -132,9 +133,9 @@
                             <li><a class="product-list__nav__button product-list__nav__button--size"
                                    onClick="onColorChange('')">すべて</a></li>
                         </ul>
-                    
-                        {{ Form::hidden('color_id', '' ,array('id' => 'color_val'))}}
-                    
+
+                    {{ Form::hidden('color_id', '' ,array('id' => 'color_val'))}}
+
                     <!--/.l-column l-column--half-->
                     </div>
                     <!--/.product-list__nav__item-->
@@ -159,10 +160,10 @@
                                     $rangemax = $_GET['rangemax'];
                             @endphp
                             <input type="range" name="rangemin" id="rangemin" min="0" max="50000" value="{{$rangemin}}"
-                                    data-productlistprice__min="">
-                        
+                                   data-productlistprice__min="">
+
                             <input type="range" name="rangemax" id="rangemax" min="0" max="50000" value="{{$rangemax}}"
-                                    data-productlistprice__max="">
+                                   data-productlistprice__max="">
                             <!--/.product-list__nav__price__buttons-->
                             <script src="{{url('')}}/js/vendor/mm-jsr.js"></script>
                             <script>
@@ -180,7 +181,7 @@
                                     labels: {
                                         minMax: false,
                                         formatter: function (value) {
-                                            if(value == "500000")
+                                            if (value == "500000")
                                                 return '<span class="jsr_label__yen">￥</span>' + value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,') + "+";
                                             else
                                                 return '<span class="jsr_label__yen">￥</span>' + value.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1,');
@@ -231,7 +232,7 @@
     <!--/.product-list-->
     <!--/.l-content-->
     <script>
-        var hexDigits = new Array("0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f");
+        var hexDigits = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
 
         //Function to convert rgb color to hex format
         function rgb2hex(rgb) {
@@ -248,40 +249,40 @@
             @if(isset($_GET['colorid']))
                 colors = '{{$_GET['colorid']}}'.split(',');
             @endif
-            $('.colorbutton').each(function(i, obj){
+            $('.colorbutton').each(function (i, obj) {
                 var backcolor = rgb2hex($(obj).css('background-color'));
                 // alert(backcolor);
                 var color = invertColor(backcolor, true);
                 $(obj).css('color', color);
                 var colorid = $(obj).attr('value');
-                for(var i = 0; i < colors.length; i++){
-                    if(colors[i] == colorid){
+                for (var i = 0; i < colors.length; i++) {
+                    if (colors[i] == colorid) {
                         $(obj).removeClass('product-list__nav__button_color');
                         $(obj).addClass('product-list__nav__button_color-selected');
                     }
                 }
             });
             var sizes = Array();
-            @if(isset($_GET['sizeid']))
-                var sizestr = '{{$_GET['sizeid']}}';
-                sizes = sizestr.split(',');
+                    @if(isset($_GET['sizeid']))
+            var sizestr = '{{$_GET['sizeid']}}';
+            sizes = sizestr.split(',');
             @endif
-            $('.sizebutton').each(function(i, obj){
+            $('.sizebutton').each(function (i, obj) {
                 var sizeid = $(obj).attr('value');
-                for(var i = 0; i < sizes.length; i++){
-                    if(sizes[i] == sizeid){
+                for (var i = 0; i < sizes.length; i++) {
+                    if (sizes[i] == sizeid) {
                         $(obj).removeClass('product-list__nav__button');
                         $(obj).addClass('product-list__nav__button-selected');
                     }
                 }
             });
             @if(isset($_GET['rangemin']) && $_GET['rangemin'] != '')
-                $('#cash_range').addClass('is-open');
+            $('#cash_range').addClass('is-open');
             @endif
         });
 
         function onSizeChange(obj, sizeid) {
-            if($(obj).hasClass('product-list__nav__button')){
+            if ($(obj).hasClass('product-list__nav__button')) {
                 $(obj).removeClass('product-list__nav__button');
                 $(obj).addClass('product-list__nav__button-selected');
             } else {
@@ -291,7 +292,7 @@
         }
 
         function onColorChange(obj, colorid) {
-            if($(obj).hasClass('product-list__nav__button_color')){
+            if ($(obj).hasClass('product-list__nav__button_color')) {
                 $(obj).removeClass('product-list__nav__button_color');
                 $(obj).addClass('product-list__nav__button_color-selected');
             } else {
@@ -302,16 +303,16 @@
 
         function onFilter() {
             var colors = '';
-            $('.colorbutton').each(function(i, obj){
-                if($(obj).hasClass('product-list__nav__button_color-selected')){
+            $('.colorbutton').each(function (i, obj) {
+                if ($(obj).hasClass('product-list__nav__button_color-selected')) {
                     colors = colors + $(obj).attr('value') + ',';
                 }
             });
             // alert(colors);
             $('#color_val').val(colors);
             var sizes = '';
-            $('.sizebutton').each(function(i, obj){
-                if($(obj).hasClass('product-list__nav__button-selected')){
+            $('.sizebutton').each(function (i, obj) {
+                if ($(obj).hasClass('product-list__nav__button-selected')) {
                     sizes = sizes + $(obj).attr('value') + ',';
                 }
             });
@@ -322,12 +323,13 @@
             // alert($('#rangemin').attr('value'));
             $('#form_product_list').submit();
         }
-        function onClear(){
-            $('.colorbutton').each(function(i, obj){
+
+        function onClear() {
+            $('.colorbutton').each(function (i, obj) {
                 $(obj).addClass('product-list__nav__button_color');
                 $(obj).removeClass('product-list__nav__button_color-selected');
             });
-            $('.sizebutton').each(function(i, obj){
+            $('.sizebutton').each(function (i, obj) {
                 $(obj).addClass('product-list__nav__button');
                 $(obj).removeClass('product-list__nav__button-selected');
             });
@@ -335,11 +337,13 @@
                 values: [0, 1000000]
             });
         }
+
         function padZero(str, len) {
             len = len || 2;
             var zeros = new Array(len).join('0');
             return (zeros + str).slice(-len);
         }
+
         function invertColor(hex, bw) {
             if (hex.indexOf('#') === 0) {
                 hex = hex.slice(1);

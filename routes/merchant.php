@@ -26,6 +26,7 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant'], function () {
     Route::post('register', 'Auth\RegisterController@register')->name('merchant.register'); // 応募フォーム
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('merchant.login');
     Route::post('login', 'Auth\LoginController@login')->name('merchant.loginPost');
+    Route::get('logout', 'Auth\LoginController@logout')->name('merchant.logout');
 });
 
 /*
@@ -34,8 +35,7 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant'], function () {
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' => 'auth:merchant'], function () {
-    Route::get('logout', 'Auth\LoginController@logout')->name('merchant.logout');
-
+    Route::get('/','AdminController@login');
     Route::get('dashboard', 'MerchantController@dashboard')->name('merchant.dashboard');
     Route::get('setting', 'MerchantController@setting');
     Route::get('getcity', 'MerchantController@getcity');

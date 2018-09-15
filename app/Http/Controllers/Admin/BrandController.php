@@ -15,7 +15,8 @@ use App\Services\MatchService;
 
 class BrandController extends Controller
 {
-    public function add() {
+    public function add()
+    {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
@@ -25,7 +26,8 @@ class BrandController extends Controller
         return view('admin.brand.add')->with('malls', $malls)->with('genres', $genres);
     }
 
-    public function addpost() {
+    public function addpost()
+    {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
@@ -47,11 +49,12 @@ class BrandController extends Controller
         $brand->brand_image = $filename_new;
         $brand->brand_description = Input::get('brand_description');
         $brand->save();
-        
+
         return Redirect::to('admin/brand/list');
     }
 
-    public function list() {
+    public function list()
+    {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
@@ -60,7 +63,8 @@ class BrandController extends Controller
         return view('admin.brand.list')->with('brands', $brands);
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
@@ -73,13 +77,14 @@ class BrandController extends Controller
         return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls)->with('genres', $genres)->with('selmalls', $selmalls);
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
 
         $brand = Brands::find($id);
-        $imgPath = "./images/brands/".$brand->brand_image;
+        $imgPath = "./images/brands/" . $brand->brand_image;
         if (file_exists($imgPath)) {
             unlink($imgPath);
         }
@@ -88,20 +93,21 @@ class BrandController extends Controller
         return Redirect::to('admin/brand/list');
     }
 
-    public function editpost() {
+    public function editpost()
+    {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
 
         $brand_image_file = Input::file('brand_image_file');
         if ($brand_image_file == null || $brand_image_file == "") {
-            
+
         } else {
             $filename = Input::get('brand_image');
             $newdestinationPath = './images/brands/';
             $uploadSuccess_new = $brand_image_file->move($newdestinationPath, $filename);
         }
-        
+
         $id = Input::get('brand_id');
         $brand = Brands::find($id);
         $brand->brand_name = Input::get('brand_name');
@@ -110,7 +116,7 @@ class BrandController extends Controller
         $brand->brand_status = Input::get('brand_status');
         $brand->brand_description = Input::get('brand_description');
         $brand->save();
-        
+
         return Redirect::to('admin/brand/list');
     }
 }

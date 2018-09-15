@@ -3,16 +3,16 @@
 
 <head>
     <meta charset="utf-8">
-    <title>fanaRtic | 探しているアイテム</title>
+    <title>SERVICE NAME</title>
     <meta name="viewport" content="width=device-width">
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="{{url('')}}/css/hiraku.min.css" rel="stylesheet">
-    <link href="{{url('')}}/css/modaal.min.css" rel="stylesheet">
-    <link href="{{url('')}}/css/style.css" rel="stylesheet">
-    <script src="{{url('')}}/js/vendor/jquery-2.1.4.min.js"></script>
-    <script src="{{url('')}}/gvendor/parsleyjs/dist/parsley.min.js"></script>
+    <link href="{{ asset('css/hiraku.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/modaal.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/vendor/jquery-2.1.4.min.js') }}/"></script>
+    <script src="{{ asset('gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
 </head>
 
 <body>
@@ -32,16 +32,16 @@
                                 <li><a href="#">NEW</a></li>
                                 <li><a href="{{url('brands')}}">BRAND</a></li>
                                 @foreach($womencategories as $key => $womencategory)
-                                @if($key < 5)
-                                @php
-                                    $url = url('product/list').'/2/'.$womencategory->category_id;
-                                    if(isset($mallname)){
-                                        $url = url($mallname.'/good/list/2/'.$womencategory->category_id);
-                                    }
-                                @endphp
-                                <li><a href="{{$url}}">{{$womencategory->category_name}}</a>
-                                </li>
-                                @endif
+                                    @if($key < 5)
+                                        @php
+                                            $url = url('product/list').'/2/'.$womencategory->category_id;
+                                            if(isset($mallname)){
+                                                $url = url($mallname.'/good/list/2/'.$womencategory->category_id);
+                                            }
+                                        @endphp
+                                        <li><a href="{{$url}}">{{$womencategory->category_name}}</a>
+                                        </li>
+                                    @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
@@ -53,17 +53,17 @@
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
                                 <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('brands')}}">BRAND</a></li>   
+                                <li><a href="{{url('brands')}}">BRAND</a></li>
                                 @foreach($mencategories as $key => $mencategory)
-                                @if($key < 5)
-                                    @php
-                                        $url = url('product/list').'/1/'.$mencategory->category_id;
-                                        if(isset($mallname)){
-                                            $url = url($mallname.'/good/list/1/'.$mencategory->category_id);
-                                        }
-                                    @endphp
-                                    <li><a href="{{$url}}">{{$mencategory->category_name}}</a>
-                                @endif
+                                    @if($key < 5)
+                                        @php
+                                            $url = url('product/list').'/1/'.$mencategory->category_id;
+                                            if(isset($mallname)){
+                                                $url = url($mallname.'/good/list/1/'.$mencategory->category_id);
+                                            }
+                                        @endphp
+                                        <li><a href="{{$url}}">{{$mencategory->category_name}}</a>
+                                    @endif
                                 @endforeach
                                 <li><a href="#">EDITORIAL</a></li>
                                 <li><a href="#">SALE</a></li>
@@ -75,13 +75,16 @@
             </div>
             <ul class="header__nav-secondary">
                 <li>
-                @if(!isset($customerid))
-                <a href="#modal-user-signin" class="modal-sm"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                    @if(!isset($customerid))
+                        <a href="#modal-user-signin" class="modal-sm"><i
+                                    class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @else
-                <a href="{{url('user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
+                    <a href="{{url('user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @endif
-                <li><a href="{{url('')}}/user/favourite"><i class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/user/favourite"><i
+                                class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
+                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i
+                                class="c-icon header__nav-secondary__icon--wish"></i></a></li>
             </ul>
 
             <div class="header__search" data-header-search><span class="header__search__close"
@@ -120,122 +123,133 @@
     <div class="l-content">
         @yield('content')
         @if(isset($customerid))
-        <div class="l-column--sub">
-            <h2 class="c-hd">最近チェックしたアイテム</h2>
-            <div class="c-items c-items--03">
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
+            <div class="l-column--sub">
+                <h2 class="c-hd">最近チェックしたアイテム</h2>
+                <div class="c-items c-items--03">
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
+                    <div class="c-item c-item--03">
+                        <div class="c-item__column">
+                            <div class="c-item__column__figure">
+                                <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png"
+                                                                                alt=""></a></figure>
+                            </div>
+                            <!--/.c-item__column__figure-->
+                        </div>
+                        <!--/.c-item__column-->
+                    </div>
+                    <!--/.c-item-->
                 </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
+                <!--/.c-items c-items--03-->
             </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            <div class="c-item c-item--03">
-                <div class="c-item__column">
-                <div class="c-item__column__figure">
-                    <figure class="c-item__figure"><a href="#"><img src="http://placehold.jp/340x440.png" alt=""></a></figure>
-                </div>
-                <!--/.c-item__column__figure-->
-                </div>
-                <!--/.c-item__column-->
-            </div>
-            <!--/.c-item-->
-            </div>
-            <!--/.c-items c-items--03-->
-        </div>
         @endif
     </div>
     <!--/.l-content-->
@@ -244,7 +258,8 @@
             <div class="l-wrapper">
                 <ul class="footer__banner__list">
                     <li><a href="#"><img src="{{url('')}}/images/footer__banner-01@2x.png" alt="" width="254"></a></li>
-                    <li><a href="#modal-user-signup" class="modal-sm"><img src="{{url('')}}/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
+                    <li><a href="#modal-user-signup" class="modal-sm"><img
+                                    src="{{url('')}}/images/footer__banner-02@2x.png" alt="" width="254"></a></li>
                     <li><a href="#"><img src="{{url('')}}/images/footer__banner-03@2x.png" alt="" width="254"></a></li>
                 </ul>
             </div>
@@ -337,7 +352,8 @@
                                         <div class="c-form__label">メールアドレス</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="email" class="c-form__input" name="username" value=""></div>
+                                                <div class="c-form__colum"><input type="email" class="c-form__input"
+                                                                                  name="username" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -347,7 +363,8 @@
                                         <div class="c-form__label">パスワード</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input"
+                                                                                  name="password" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -391,7 +408,8 @@
                                         <div class="c-form__label">お名前</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="text" class="c-form__input" name="name" value=""></div>
+                                                <div class="c-form__colum"><input type="text" class="c-form__input"
+                                                                                  name="name" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -401,7 +419,8 @@
                                         <div class="c-form__label">メールアドレス</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="email" class="c-form__input" name="email" value=""></div>
+                                                <div class="c-form__colum"><input type="email" class="c-form__input"
+                                                                                  name="email" value=""></div>
                                             </div>
                                             <!--/.c-form__row-->
                                         </div>
@@ -418,7 +437,8 @@
                                         <div class="c-form__label">パスワード</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input"
+                                                                                  name="password" value=""></div>
                                             </div>
                                         </div>
                                         <!--/.c-form__row-->
@@ -428,7 +448,8 @@
                                         <div class="c-form__label">パスワード（確認）</div>
                                         <div class="c-form__row">
                                             <div class="c-form__row__input">
-                                                <div class="c-form__colum"><input type="password" class="c-form__input" name="password" value=""></div>
+                                                <div class="c-form__colum"><input type="password" class="c-form__input"
+                                                                                  name="password" value=""></div>
                                             </div>
                                             <!--/.c-form__row-->
                                         </div>
@@ -480,12 +501,12 @@
         </div>
     </div>
 
-    <script src="{{url('')}}/js/vendor/hiraku.min.js"></script>
-    <script src="{{url('')}}/js/vendor/modaal.min.js"></script>
-    <script src="{{url('')}}/js/plugins.js"></script>
-    <script src="{{url('')}}/js/script.js"></script>
+    <script src="{{ asset('js/vendor/hiraku.min.js') }}"></script>
+    <script src="{{ asset('js/vendor/modaal.min.js') }}"></script>
+    <script src="{{ asset('js/plugins.js') }}"></script>
+    <script src="{{ asset('js/script.js') }}"></script>
     <script>
-        $(function(){
+        $(function () {
             var topcategory = "{{$tcategory->category_id}}";
             if (topcategory == '1') {
                 $('#top_women').removeClass('is-current');

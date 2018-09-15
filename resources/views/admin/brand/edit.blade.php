@@ -54,6 +54,23 @@
                         <input type="text" id="brand_name_en" name="brand_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$brand->brand_name_en}}" placeholder="モール名を英語で入力してください">
                     </div>
                 </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">メンズ</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <label><input type="radio" value="1" name="is_men" @if($brand->is_men == 1) checked @endif>アクティブ</label>
+                            <label><input type="radio" value="0" name="is_men" @if($brand->is_men == 0) checked
+                                        @endif>非アクティブ</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">レディース</label>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <label><input type="radio" value="1" name="is_women" @if($brand->is_women == 1) checked
+                                        @endif>アクティブ</label>
+                            <label><input type="radio" value="0" name="is_women" @if($brand->is_women == 0) checked
+                                        @endif>非アクティブ</label>
+                        </div>
+                    </div>
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">デザイン種類<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
@@ -84,16 +101,6 @@
                         <label><input type="radio" value="1" name="optionStatus" checked>アクティブ</label>
                         @else
                         <label><input type="radio" value="1" name="optionStatus">アクティブ</label>
-                        @endif
-                        @if($brand->brand_status == 2)
-                        <label><input type="radio" value="2" name="optionStatus" checked>凍結</label>
-                        @else
-                        <label><input type="radio" value="2" name="optionStatus">凍結</label>
-                        @endif
-                        @if($brand->brand_status == 3)
-                        <label><input type="radio" value="3" name="optionStatus" checked>退会</label>
-                        @else
-                        <label><input type="radio" value="3" name="optionStatus">退会</label>
                         @endif
                     </div>
                 </div>

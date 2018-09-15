@@ -16,6 +16,12 @@ class MatchService
             ->leftJoin('master_brand', 'mall_brand_match.brand_id', '=', 'master_brand.brand_id')
             ->get();
     }
+    public static function get_brands_gender($mall, $gender){
+        return MallBrands::where('mall_id', $mall)
+            ->where($gender, 1)
+            ->leftJoin('master_brand', 'mall_brand_match.brand_id', '=', 'master_brand.brand_id')
+            ->get();
+    }
     public static function get_malls($brand){
         return MallBrands::where('brand_id', $brand)->get();
     }

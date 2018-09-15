@@ -2827,6 +2827,10 @@ header
     line-height: 45px;
 }
 
+.header__nav-primary__list__menu li.active a {
+    color: #8d785a;
+}
+
 @media (max-width: 768px) {
     .header__nav-primary__list__menu a {
         display: block;
