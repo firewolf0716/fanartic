@@ -16,20 +16,12 @@ use App\Services\MatchService;
 class BrandController extends Controller
 {
     public function add() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $malls = Malls::get();
         $genres = Genres::get();
         return view('admin.brand.add')->with('malls', $malls)->with('genres', $genres);
     }
 
     public function addpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $brand_image_file = Input::file('brand_image');
         if ($brand_image_file == null || $brand_image_file == "") {
             return Redirect::to('admin/brand/list');
@@ -52,19 +44,11 @@ class BrandController extends Controller
     }
 
     public function list() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $brands = Brands::get();
         return view('admin.brand.list')->with('brands', $brands);
     }
 
     public function edit($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $malls = Malls::get();
         $genres = Genres::get();
         $brand = Brands::find($id);
@@ -74,10 +58,6 @@ class BrandController extends Controller
     }
 
     public function delete($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $brand = Brands::find($id);
         $imgPath = "./images/brands/".$brand->brand_image;
         if (file_exists($imgPath)) {
@@ -89,10 +69,6 @@ class BrandController extends Controller
     }
 
     public function editpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $brand_image_file = Input::file('brand_image_file');
         if ($brand_image_file == null || $brand_image_file == "") {
             

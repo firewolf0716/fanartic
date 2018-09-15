@@ -18,22 +18,11 @@ use App\Services\MatchService;
 class CategoryController extends Controller
 {
     public function addtop() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
-        return view('admin.category.add')->with('toptitle', 'トップカテゴリを追加')
-                                        ->with('title', 'トップカテゴリを追加')
-                                        ->with('categorylevel', 1)
-                                        ->with('topcategoryid', 0)
-                                        ->with('maincategoryid', 0);
+        return view('admin.category.add')->with('toptitle', 'トップカテゴリを追加')->with('title', 'トップカテゴリを追加')
+                                        ->with('categorylevel', 1)->with('topcategoryid', 0)->with('maincategoryid', 0);
     }
 
     public function addmain($topid) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $topcategory = Categorys::find($topid);
         $sizecategorys = SizeCategory::get();
 
@@ -46,10 +35,6 @@ class CategoryController extends Controller
     }
 
     public function add($topid, $mainid) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $topcategory = Categorys::find($topid);
         $maincategory = Categorys::find($mainid);
 
@@ -61,10 +46,6 @@ class CategoryController extends Controller
     }
 
     public function addpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $topcategoryid = Input::get('topcategoryid');
         $maincategoryid = Input::get('maincategoryid');
         $categorylevel = Input::get('categorylevel');
@@ -94,10 +75,6 @@ class CategoryController extends Controller
     }
 
     public function listtop() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $categorys = CategoryService::getTopCategorys();
         return view('admin.category.list')->with('categorys', $categorys)
                                         ->with('categorylevel', 1)
@@ -108,10 +85,6 @@ class CategoryController extends Controller
     }
     
     public function listmain($topid) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $categorys = CategoryService::getMainCategorys($topid);
         $topcategory = Categorys::find($topid);
         return view('admin.category.list')->with('categorys', $categorys)
@@ -123,10 +96,6 @@ class CategoryController extends Controller
     }
 
     public function list($topid, $mainid) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $categorys = CategoryService::getSubCategorys($mainid);
         $topcategory = Categorys::find($topid);
         $maincategory = Categorys::find($mainid);
@@ -154,10 +123,6 @@ class CategoryController extends Controller
     }
 
     public function edittop($topid) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $category = Categorys::find($topid);
       
         if(isset($category)){
@@ -173,10 +138,6 @@ class CategoryController extends Controller
     }
 
     public function editmain($topid, $mainid) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $category = Categorys::find($mainid);
         $malls = Malls::get();
         $sizecategorys = Sizes::get();
@@ -201,10 +162,6 @@ class CategoryController extends Controller
     }
 
     public function edit($topid, $mainid, $id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $category = Categorys::find($id);
         $malls = Malls::get();
         
@@ -229,10 +186,6 @@ class CategoryController extends Controller
     }
 
     public function delete($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $category = Categorys::find($id);
         if ($category == null) {
             return Redirect::to('admin/category/list');
@@ -275,11 +228,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function editpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-                
+    public function editpost() { 
         $topcategoryid = Input::get('topcategoryid');
         $maincategoryid = Input::get('maincategoryid');
         $categorylevel = Input::get('categorylevel');

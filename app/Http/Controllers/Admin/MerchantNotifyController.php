@@ -15,19 +15,11 @@ use App\Services\NotifyService;
 class MerchantNotifyController extends Controller
 {
     public function add() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchants = Merchants::get();
         return view('admin.notifym.add')->with('merchants', $merchants);
     }
 
     public function addpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/add');
-        }
-
         $adminid = Session::get('adminid');
         $strNotifyMerchants = '';
         if(Input::has('notify_merchants')) {
@@ -53,30 +45,18 @@ class MerchantNotifyController extends Controller
     }
 
     public function list() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
-
         $adminid = Session::get('adminid');
         $notifys = NotifyService::getNotifysByAdmin_Merchant($adminid);
         return view('admin.notifym.list')->with('notifys', $notifys);
     }
 
     public function delete($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
-
         $adminid = Session::get('adminid');
         $notifys = NotifyService::remove_Merchant($adminid, $id);
         return Redirect::to('admin/notifymerchant/list');
     }
 
     public function edit($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
-
         $adminid = Session::get('adminid');
         $merchants = Merchants::get();
         $notifys = NotifyService::getNotifysByAdminAndID_Merchant($adminid, $id);
@@ -89,10 +69,6 @@ class MerchantNotifyController extends Controller
                                         ->with('linkedMerchants', $linkedMerchants);
     }
     public function editpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
-        
         $adminid = Session::get('adminid');
         $strNotifyMerchants = '';
         if(Input::has('notify_merchants')) {

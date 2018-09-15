@@ -15,19 +15,11 @@ use App\Services\NotifyService;
 class CustomerNotifyController extends Controller
 {
     public function add() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $customers = CustomerUser::get();
         return view('admin.notifyc.add')->with('customers', $customers);
     }
 
     public function addpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifycustomer/add');
-        }
-
         $adminid = Session::get('adminid');
         $strNotifyCustomers = '';
         if(Input::has('notify_customers')) {
@@ -53,30 +45,18 @@ class CustomerNotifyController extends Controller
     }
 
     public function list() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $adminid = Session::get('adminid');
         $notifys = NotifyService::getNotifysByAdmin_Customer($adminid);
         return view('admin.notifyc.list')->with('notifys', $notifys);
     }
 
     public function delete($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifycustomer/list');
-        }
-
         $adminid = Session::get('adminid');
         $notifys = NotifyService::remove_Customer($adminid, $id);
         return Redirect::to('admin/notifycustomer/list');
     }
 
     public function edit($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifycustomer/list');
-        }
-
         $adminid = Session::get('adminid');
         $customers = CustomerUser::get();
         $notifys = NotifyService::getNotifysByAdminAndID_Customer($adminid, $id);
@@ -89,10 +69,6 @@ class CustomerNotifyController extends Controller
                                         ->with('linkedCustomers', $linkedCustomers);
     }
     public function editpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifycustomer/list');
-        }
-
         $adminid = Session::get('adminid');
         $strNotifyCustomers = '';
         if(Input::has('notify_customers')) {

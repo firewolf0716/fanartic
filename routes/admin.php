@@ -17,9 +17,10 @@
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
-    Route::get('login', 'AdminController@login')->name('admin.login');
+	//Route::get('login', 'AdminController@login')->name('admin.login');
+	Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
     Route::get('signout', 'AdminController@signout');
-    Route::post('signin', 'AdminController@signin');
+    Route::post('login', 'Auth\LoginController@login')->name('admin.loginPost');
 });
 
 /*
@@ -27,9 +28,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 | 2) Admin ログイン後
 |--------------------------------------------------------------------------
 */
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'auth:admin'*/], function () {
-	// Admin
-	Route::get('admin','AdminController@login');
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:admin'], function () {
+	Route::get('logout', 'Auth\LoginController@logout')->name('admin.logout');
+	// Admin	
 	Route::get('dashboard','AdminController@dashboard');
 	Route::get('admins/add','AdminController@addadmin');
 	Route::post('admins/addpost','AdminController@addadminpost');

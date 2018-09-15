@@ -19,16 +19,9 @@ use App\Services\CategoryService;
 class ImportController extends Controller
 {
     public function importFromCsv() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         return view('admin.import.csv');
     }
     public function updateFromCsv() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
         $csv_file = Input::file('csv_file');
         if ($csv_file == null || $csv_file == "") {
             return Redirect::to('admin/brand/list');

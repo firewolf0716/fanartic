@@ -22,61 +22,15 @@ use App\Services\MatchService;
 class AdminController extends Controller
 {
     public function dashboard() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         return view('admin.dashboard');
     }
 
-    public function login() {
-        if ($this->check_admin_session() == true) {
-            return redirect::to('admin/dashboard');
-        } else {
-            if(isset($_GET['redirect'])){
-                return view('admin.login')->with('redirect', $_GET['redirect']);
-            }
-            return view('admin.login')->with('redirect', 'admin');
-        }
-    }
-
-    public function signin() {
-        $username = Input::get('username');
-        $password = Input::get('password');
-        $redirect = Input::get('redirect');
-
-        $logincheck = AdminUserService::check_login($username, $password);
-        if($logincheck == 1){
-            if(isset($redirect)){
-                return Redirect::to($redirect);
-            }
-            return Redirect::to('admin');
-        } else {
-            return Redirect::to('admin/login');
-        }
-    }
-
-    public function signout() {
-        Session::forget('adminid');
-        Session::forget('adminname');
-        Session::flush();
-        return Redirect::to('admin/login');
-    }
-
     public function manage_merchants() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchants_live = Merchants::get();
         return view("admin.merchant.merchants")->with('merchants_live', $merchants_live);
     }
 
     public function merchant_open($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $ml = Merchants::find($id);
         $ml->merchant_status = 1;
         $ml->save();
@@ -84,10 +38,6 @@ class AdminController extends Controller
     }
 
     public function merchant_close($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $ml = Merchants::find($id);
         $ml->merchant_status = '0';
         $ml->save();
@@ -95,10 +45,6 @@ class AdminController extends Controller
     }
 
     public function detail_merchant_live($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchant = Merchants::find($id);
         $plans = Plans::get();
         $states = States::get();
@@ -112,10 +58,6 @@ class AdminController extends Controller
     }
 
     public function merchant_add() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $plans = Plans::get();
         $states = States::get();
         $brands = Brands::get();
@@ -123,21 +65,17 @@ class AdminController extends Controller
     }
 
     public function merchant_addpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchant = new Merchants();
         $merchant->merchant_type = Input::get('merchant_type');
         $merchant->merchant_plan = Input::get('merchant_plan');
         $merchant->merchant_taxflag = Input::get('merchant_taxflag');
         $merchant->merchant_companyname = Input::get('merchant_companyname');
-        $merchant->merchant_name = Input::get('merchant_name');
+        $merchant->name = Input::get('merchant_name');
         $merchant->merchant_rep = Input::get('merchant_rep');
         $merchant->merchant_admin = Input::get('merchant_admin');
         $merchant->merchant_permit = Input::get('merchant_permit');
-        $merchant->merchant_email = Input::get('merchant_email');
-        $merchant->merchant_password = Input::get('merchant_password');
+        $merchant->email = Input::get('merchant_email');
+        $merchant->password = Input::get('merchant_password');
         $merchant->merchant_postalcode = Input::get('merchant_postalcode');
         $merchant->merchant_state = Input::get('merchant_state');
         $merchant->merchant_commission_jp = Input::get('merchant_commission_jp');
@@ -180,31 +118,23 @@ class AdminController extends Controller
     }
 
     public function get_plan($planid) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $plan = Plans::find($planid);
         return $plan;
     }
 
     public function merchant_editpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $id = Input::get('merchant_id');
         $merchant = Merchants::find($id);
         $merchant->merchant_type = Input::get('merchant_type');
         $merchant->merchant_plan = Input::get('merchant_plan');
         $merchant->merchant_taxflag = Input::get('merchant_taxflag');
         $merchant->merchant_companyname = Input::get('merchant_companyname');
-        $merchant->merchant_name = Input::get('merchant_name');
+        $merchant->name = Input::get('merchant_name');
         $merchant->merchant_rep = Input::get('merchant_rep');
         $merchant->merchant_admin = Input::get('merchant_admin');
         $merchant->merchant_permit = Input::get('merchant_permit');
-        $merchant->merchant_email = Input::get('merchant_email');
-        $merchant->merchant_password = Input::get('merchant_password');
+        $merchant->email = Input::get('merchant_email');
+        $merchant->password = Input::get('merchant_password');
         $merchant->merchant_postalcode = Input::get('merchant_postalcode');
         $merchant->merchant_state = Input::get('merchant_state');
         $merchant->merchant_commission_jp = Input::get('merchant_commission_jp');
@@ -248,18 +178,10 @@ class AdminController extends Controller
     }
 
     public function addadmin() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         return view('admin.admin.add');
     }
 
     public function addadminpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $admin = new Admins();
         $admin->admin_name = Input::get('admin_name');
         $admin->admin_email = Input::get('admin_email');
@@ -271,28 +193,16 @@ class AdminController extends Controller
     }
 
     public function editadmin($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $admin = Admins::find($id);
         return view('admin.admin.edit')->with('admin', $admin);
     }
 
     public function listadmin() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $admins = Admins::where('admin_permission', '!=', 1)->orderBy('admin_id', 'ASC')->get();
         return view('admin.admin.list')->with('admins', $admins);
     }
 
     public function editadminpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $admin = Admins::find(Input::get('admin_id'));
         $admin->admin_name = Input::get('admin_name');
         $admin->admin_email = Input::get('admin_email');
