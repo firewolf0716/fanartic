@@ -17,19 +17,23 @@ class Products extends AppModel
     protected $table = 'fan_product';
     protected $primaryKey = 'product_id';
 
-    public function brand(){
+    public function brand()
+    {
         return $this->belongsTo(Brands::class, "product_brand_id");
     }
 
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(Categorys::class, "product_category_id");
     }
 
-    public function stocks(){
+    public function stocks()
+    {
         return $this->hasMany(ProductStock::class, "product_id");
     }
-    
-    public function priceRange(){
+
+    public function priceRange()
+    {
         $min = ProductStock::where('product_id', $this->product_id)->min('product_price_sale');
         $max = ProductStock::where('product_id', $this->product_id)->max('product_price_sale');
         $result = array();
@@ -38,10 +42,11 @@ class Products extends AppModel
         return $result;
     }
 
-    public function masterImages(){
+    public function masterImages()
+    {
         return $this->hasMany(ProductMasterImage::class, "product_id");
     }
-    
+
     //old code
     public static function insert_product($entry)
     {
