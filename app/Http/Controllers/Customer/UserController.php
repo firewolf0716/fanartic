@@ -119,6 +119,21 @@ class UserController extends Controller
         $customer->customer_status = $customer->customer_status;
         $customer->save();
 
+        if($customer->customer_postalcode != $postalCode_org){
+            $address = new CustomerAddress();
+            $address->customer_id = Auth::id();
+            $address->address_name = '既定の住所';
+            $address->address_phone = '--';
+            $address->address_postalcode = $customer->customer_postalcode;
+            $address->address_state = 1; //Japan
+            $address->address_city = '';
+            $address->address_address_ex = '';
+            $address->address_province = Input::get('province');
+            $address->address_county = Input::get('county');
+            $address->address_address_jp = Input::get('address');
+            $address->save();
+        }
+
         $password = Input::get('password');
         if (isset($password)) {
             $entry['customer_password'] = $password;
