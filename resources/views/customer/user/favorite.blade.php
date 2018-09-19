@@ -1,4 +1,4 @@
-@extends('layouts.customer_layout')
+@extends('layouts.customer_top')
 @section('content')
     <ul class="c-breadcrumbs">
         <li><a href="/">HOME</a></li>

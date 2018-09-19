@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Models\CustomerUser;
 use App\Services\CustomerUserService;
+use App\Models\CustomerAddress;
 
 class UserController extends Controller
 {
@@ -105,6 +106,11 @@ class UserController extends Controller
     public function profilepost()
     {
         $customer = CustomerUser::find(Auth::id());
+
+        $p_address_province = $customer->customer_province;
+        $p_address_county = $customer->customer_county;
+        $p_address_ex = $customer->customer_address_jp;
+        
         $customer->customer_name_first = Input::get('first_name');
         $customer->customer_name_second = Input::get('second_name');
         $customer->customer_name_kana_first = Input::get('first_name_kana');
@@ -119,7 +125,9 @@ class UserController extends Controller
         $customer->customer_status = $customer->customer_status;
         $customer->save();
 
-        if($customer->customer_postalcode != $postalCode_org){
+        if($customer->customer_province != $p_address_province || 
+            $customer->customer_county != $p_address_county ||
+            $customer->customer_address_jp != $p_address_ex){
             $address = new CustomerAddress();
             $address->customer_id = Auth::id();
             $address->address_name = '既定の住所';
