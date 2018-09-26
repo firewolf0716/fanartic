@@ -13,6 +13,7 @@ use Session;
 
 class CheckMall
 {
+
 //    /** @var array Langueges this app deal with. */
     /**
      * Set locale from session or config.
