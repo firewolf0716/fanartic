@@ -28,9 +28,6 @@ class AppServiceProvider extends ServiceProvider
                 // お知らせ
                 // $notices = NoticeService::getLists(Auth::id());
                 // View::share(compact('authUser', 'notices'));
-
-                $mallname = Malls::where('is_default', 1)->first()->mall_name_en;
-                View::share(compact('mallname'));
             }
         });
 
