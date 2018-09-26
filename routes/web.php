@@ -85,35 +85,37 @@ Route::group(['prefix' => 'user', 'namespace' => 'Customer', 'middleware' => 'au
     Route::post('magazine_post', 'MagazineController@magazine_post')->name('magazine.post');
 
     //score
-    Route::get('score', 'CustomerController@score')->name('score');
+    Route::get('score', 'ScoreController@score')->name('score');
 });
 
 // フロント
 Route::group(['namespace' => 'Common'], function () {
     // Top
     Route::get('/', 'MallController@index')->name('top');
+});
 
+
+Route::group(['prefix' => '{mallname}', 'namespace' => 'Common'], function () {
     // Product
-    Route::get('product/{productid}', 'ProductController@product_detail');
+    Route::get('product/{productid}', 'ProductController@product_detail')->name('product.detail');
 
     // Mall Top
-    Route::get('{mallname}', 'MallController@mall')->name('mall');
+    Route::get('', 'MallController@mall')->name('mall');
 
     // Category first
-    Route::get('{mallname}/men', 'CategoryController@product_list_men');
-    Route::get('{mallname}/men/{mainid}', 'CategoryController@product_list_men');
-    Route::get('{mallname}/men/{mainid}/{categoryid}', 'CategoryController@product_list_men');
-    Route::get('{mallname}/women', 'CategoryController@product_list_women');
-    Route::get('{mallname}/women/{mainid}', 'CategoryController@product_list_women');
-    Route::get('{mallname}/women/{mainid}/{categoryid}', 'CategoryController@product_list_women');
+    Route::get('men', 'CategoryController@product_list_men');
+    Route::get('men/{mainid}', 'CategoryController@product_list_men');
+    Route::get('men/{mainid}/{categoryid}', 'CategoryController@product_list_men');
+    Route::get('women', 'CategoryController@product_list_women');
+    Route::get('women/{mainid}', 'CategoryController@product_list_women');
+    Route::get('women/{mainid}/{categoryid}', 'CategoryController@product_list_women');
 
     // Brand first
-    Route::get('{mallname}/brand/men', 'BrandController@brand_list_men');
-    Route::get('{mallname}/brand/women', 'BrandController@brand_list_women');
+    Route::get('brand/men', 'BrandController@brand_list_men');
+    Route::get('brand/women', 'BrandController@brand_list_women');
 
-    Route::get('{mallname}/{brandid}', 'MallController@mall_product_list')->name('brand');
-    Route::get('{mallname}/{brandid}/{topid}', 'MallController@mall_product_list');
-    Route::get('{mallname}/{brandid}/{topid}/{mainid}', 'MallController@mall_product_list');
-    Route::get('{mallname}/{brandid}/{topid}/{mainid}/{categoryid}', 'MallController@mall_product_list');
-
+    Route::get('{brandid}', 'MallController@mall_product_list')->name('brand');
+    Route::get('{brandid}/{topid}', 'MallController@mall_product_list');
+    Route::get('{brandid}/{topid}/{mainid}', 'MallController@mall_product_list');
+    Route::get('{brandid}/{topid}/{mainid}/{categoryid}', 'MallController@mall_product_list');
 });

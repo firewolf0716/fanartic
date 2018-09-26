@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <!--/.l-column l-column--control-->
-                {!! Form::open(array('id' => 'form_fav_list','route'=>'user.favorite.action')) !!}
+                {!! Form::open(array('id' => 'form_fav_list','route'=>'favorite.action')) !!}
                 {{ Form::hidden('action_id', '',array('id' => 'action_id'))}}
                 {{ Form::hidden('action_type', '',array('id' => 'action_type'))}}
                 <div class="c-items c-items--02">

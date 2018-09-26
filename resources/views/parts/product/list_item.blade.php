@@ -20,7 +20,7 @@
                 
             @endphp
             <figure class="c-item__figure">
-                <a href="{{url('')}}/brands/{{$product->brand_name}}/goods/{{$product->product_id}}"
+                <a href="{{ route('product.detail', [$mallname, $product->product_id]) }}"
                    class="image-block">
                     @if (empty($file_get_path_0))
                         <img src="http://placehold.jp/340x440.png" alt="No Image">

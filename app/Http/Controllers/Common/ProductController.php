@@ -536,9 +536,8 @@ class ProductController extends Controller
         return Redirect::to($url);
     }
 
-    public function product_detail($brandname, $productid)
+    public function product_detail($mallname, $productid)
     {
-        $brand = BrandService::get_brand_byname($brandname);
         $product = Products::find($productid);
 
         $tcategoryid = CategoryService::getTopCategoryID($product->product_category_id);
@@ -593,6 +592,6 @@ class ProductController extends Controller
             ->with('price', $price)
             ->with('imagerec', $imagerec)
             ->with('skuimages', $skuimages)
-            ->with('brand', $brand);
+            ->with('mallname', $mallname);
     }
 }
