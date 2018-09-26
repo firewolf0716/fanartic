@@ -5505,3 +5505,4 @@ Killed
 Killed
 [2018-09-18 22:02:39][a39d5f93-ff43-49b1-91cb-8a654da3fabc] Processing: App\Jobs\SendMailJob
 SQSにプッシュしました[2018-09-18 22:02:43][a39d5f93-ff43-49b1-91cb-8a654da3fabc] Processed:  App\Jobs\SendMailJob
+Killed

@@ -38,12 +38,11 @@
                     <h2 class="footer__nav__hd" data-accordion="">SUPPORT</h2>
                     <div class="footer__nav__list-wrap">
                         <ul class="footer__nav__list">
-                            <li><a href="#">ご利用規約</a></li>
-                            <li><a href="#">特定商取引法に基づく表記</a></li>
-                            <li><a href="#">プライバシーポリシー</a></li>
-                            <li><a href="#">ご利用ガイド</a></li>
-                            <li><a href="#">サイズガイド</a></li>
-                            <li><a href="#">お問い合わせ</a></li>
+                            <li><a href="{{ route('page.terms') }}">ご利用規約</a></li>
+                            <li><a href="{{ route('page.tokusho') }}">特定商取引法に基づく表記</a></li>
+                            <li><a href="{{ route('page.privacy') }}">プライバシーポリシー</a></li>
+                            <li><a href="{{ route('page.cancel') }}">返金ポリシー</a></li>
+                            <li><a href="{{ route('page.help') }}">ヘルプ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -52,7 +51,10 @@
                     <h2 class="footer__nav__hd" data-accordion="">CONTACT</h2>
                     <div class="footer__nav__list-wrap">
                         <ul class="footer__nav__list">
-                            <li><a href="#">お問合わせ</a></li>
+                            <li><a href="{{ route('page.company') }}">運営会社情報</a></li>
+                            <li><a href="{{ route('page.recruit') }}">採用情報</a></li>
+                            <li><a href="{{ route('page.sitemap') }}">サイトマップ</a></li>
+                            <li><a href="{{ route('page.contact') }}">お問合わせ</a></li>
                         </ul>
                     </div>
                     <h2 class="footer__nav__hd">FOLLOW</h2>

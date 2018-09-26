@@ -94,6 +94,25 @@ Route::group(['namespace' => 'Common'], function () {
     Route::get('/', 'MallController@index')->name('top');
 });
 
+// 静的ページ
+Route::group(['prefix' => 'page', 'namespace' => 'Common'], function() {
+    Route::get('company', 'PageController@company')->name('page.company');
+    Route::get('terms', 'PageController@terms')->name('page.terms');
+    Route::get('tokusho', 'PageController@tokusho')->name('page.tokusho');
+    Route::get('privacy', 'PageController@privacy')->name('page.privacy');
+    Route::get('cancel', 'PageController@cancel')->name('page.cancel');
+    Route::get('recruit', 'PageController@recruit')->name('page.recruit');
+    Route::get('sitemap', 'PageController@sitemap')->name('page.sitemap');
+    Route::get('contact', 'PageController@contact')->name('page.contact');
+    Route::post('contact', 'PageController@contactPost')->name('page.contactPost');
+    Route::get('help', 'PageController@help')->name('page.help');
+    Route::get('help/product', 'PageController@helpProduct')->name('page.help.product');
+    Route::get('help/payment', 'PageController@helpPayment')->name('page.help.payment');
+    Route::get('help/order', 'PageController@helpOrder')->name('page.help.order');
+    Route::get('help/shipping', 'PageController@helpShipping')->name('page.help.shipping');
+    Route::get('help/return', 'PageController@helpReturn')->name('page.help.return');
+    Route::get('help/protection', 'PageController@helpProtection')->name('page.help.protection');
+});
 
 Route::group(['prefix' => '{mallname}', 'namespace' => 'Common'], function () {
     // Product
@@ -119,3 +138,4 @@ Route::group(['prefix' => '{mallname}', 'namespace' => 'Common'], function () {
     Route::get('{brandid}/{topid}/{mainid}', 'MallController@mall_product_list');
     Route::get('{brandid}/{topid}/{mainid}/{categoryid}', 'MallController@mall_product_list');
 });
+
