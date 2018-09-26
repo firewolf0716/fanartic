@@ -24,14 +24,13 @@ class HistoryController extends Controller
         $sizename = array();
         foreach ($groups as $group) {
             $items = Customers::get_items_bygroup($group->history_group);
-            // dd($items);
             $subitems[$group->history_group] = $items;
             foreach ($items as $item) {
                 $sku_color = ProductSku::find($item->product_sku_color_id);
                 $colorname[$item->id] = Colors::find($sku_color->sku_type_id);
 
                 $sku_size = ProductSku::find($item->product_sku_size_id);
-                $sizename[$item->id] = Sizes::get_size($sku_color->sku_type_id);
+                $sizename[$item->id] = Sizes::find($sku_size->sku_type_id);
 
                 $image = Products::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
                 $images[$item->id] = $image;

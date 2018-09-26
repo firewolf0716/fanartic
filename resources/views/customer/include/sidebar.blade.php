@@ -11,7 +11,7 @@
         <li><a href="{{url('user/address')}}">お届け先の変更・追加</a></li>
         <li><a href="{{url('user/credit')}}">クレジットカード情報</a></li>
         <li><a href="{{url('user/magazine')}}">メールマガジン</a></li>
-        <li><a href="{{url('user/signout')}}">ログアウト</a></li>
+        <li><a href="{{url('logout')}}">ログアウト</a></li>
       </ul>
     </li>
   </ul>
