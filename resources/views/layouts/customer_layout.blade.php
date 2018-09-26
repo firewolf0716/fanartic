@@ -50,13 +50,13 @@
                 </li>
                 <li data-header-dropdown>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        {{ Config::get('currency')[Session::get('cur_currency')] }}
+                        {{ $currencies[Session::get('cur_currency')] }}
                         <span class="caret"></span></a>
 
                     <div class="dropdown-wrapper">
                         <div class="dropdown-content">
                             <ul>
-                                @foreach (Config::get('currency') as $cur => $currency)
+                                @foreach ($currencies as $cur => $currency)
                                     @if ($cur != Session::get('cur_currency'))
                                         <li>
                                             <a href="{{ route('currency.switch', $cur) }}">{{$currency}}</a>

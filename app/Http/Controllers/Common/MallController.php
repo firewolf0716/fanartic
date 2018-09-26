@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\Components\CurrencyComponent;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Facades\Auth;

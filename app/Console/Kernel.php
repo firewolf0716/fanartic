@@ -33,6 +33,8 @@ class Kernel extends ConsoleKernel
             ->everyMinute()
             ->withoutOverlapping();
 
+        $schedule->command('set:currency')
+            ->hourly();
     }
 
     /**

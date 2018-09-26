@@ -5487,3 +5487,21 @@ SQSにプッシュしました[2018-09-14 15:15:41][51b66683-4ecb-481c-98a2-8f29
 SQSにプッシュしました[2018-09-14 15:15:41][51b66683-4ecb-481c-98a2-8f294ba68b1e] Processing: App\Jobs\SendMailJob
 SQSにプッシュしました[2018-09-14 15:24:14][1b9e80c1-196c-4704-92e6-55c2bfff4c9b] Processing: App\Jobs\SendMailJob
 SQSにプッシュしました[2018-09-14 15:24:18][1b9e80c1-196c-4704-92e6-55c2bfff4c9b] Processed:  App\Jobs\SendMailJob
+Killed
+Killed
+Killed
+Killed
+[2018-09-18 00:55:24][b61a04f2-107b-4b23-a14a-da3a9ceab237] Processing: App\Jobs\SendMailJob
+SQSにプッシュしました[2018-09-18 00:55:28][b61a04f2-107b-4b23-a14a-da3a9ceab237] Processed:  App\Jobs\SendMailJob
+Killed
+Killed
+Killed
+Killed
+Killed
+Killed
+Killed
+Killed
+Killed
+Killed
+[2018-09-18 22:02:39][a39d5f93-ff43-49b1-91cb-8a654da3fabc] Processing: App\Jobs\SendMailJob
+SQSにプッシュしました[2018-09-18 22:02:43][a39d5f93-ff43-49b1-91cb-8a654da3fabc] Processed:  App\Jobs\SendMailJob
