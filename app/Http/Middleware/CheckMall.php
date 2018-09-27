@@ -4,11 +4,14 @@ namespace App\Http\Middleware;
 
 use App\Models\Currency;
 use App\Models\Malls;
+use App\Services\BrandService;
+use App\Services\CategoryService;
 use App\Services\MallService;
 use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\View;
 use Session;
 
 class CheckMall
@@ -43,6 +46,18 @@ class CheckMall
         } else {
             session(['cur_mall' => $default_mall]);
         }
+
+        $mallname = Session::get('cur_mall');
+        $brands = BrandService::getByMall($mallname);
+
+        $top_categories = CategoryService::getTopCategorys(); // men or women
+        $top_category = $top_categories[0]; // men or women
+        $men_categories = CategoryService::getMainCategorys($top_categories[0]->category_id);
+        $women_categories = CategoryService::getMainCategorys($top_categories[1]->category_id);
+        $main_categorys = CategoryService::getMainCategorys($top_categories[0]->category_id);
+
+        View::share(compact('mallname', 'brands', 'top_category','men_categories', 'women_categories', 'main_categorys'));
+
         return $next($request);
     }
 }

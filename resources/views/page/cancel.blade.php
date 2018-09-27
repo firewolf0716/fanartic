@@ -1,4 +1,4 @@
-@extends('layouts.customer_top')
+@extends('layouts.customer_layout')
 
 @section('content')
     <div class="product-list__column">

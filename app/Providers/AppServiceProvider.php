@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Currency;
 use App\Models\Malls;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
