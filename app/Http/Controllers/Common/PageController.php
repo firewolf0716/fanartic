@@ -19,9 +19,19 @@ class PageController extends Controller
     }
 
     // 利用規約
-    public function terms()
+    public function termsCustomer()
     {
-        return view('page.terms');
+        return view('page.terms_customer');
+    }
+
+    public function termsCustomerCommunity()
+    {
+        return view('page.terms_customer_community');
+    }
+
+    public function termsMerchant()
+    {
+        return view('page.terms_merchant');
     }
 
     // 特商法

@@ -69,33 +69,33 @@
                     <div class="header__modal header__modal--lang" id="header-lang">
                         <div class="header__modal__hd">言語・通貨を選択</div>
                         <form action="{{ route('switch') }}" method="post">
-                        @csrf
-                        <div class="header__modal__column">
-                            <label class="c-form__select">
-                                <div class="c-form__select__box">
-                                    <select name="language" id="language">
-                                        @foreach (Config::get('languages') as $lang => $language)
-                                            <option value="{{ $lang }}" @if($lang == Config::get('languages')
+                            @csrf
+                            <div class="header__modal__column">
+                                <label class="c-form__select">
+                                    <div class="c-form__select__box">
+                                        <select name="language" id="language">
+                                            @foreach (Config::get('languages') as $lang => $language)
+                                                <option value="{{ $lang }}" @if($lang == Config::get('languages')
                                             [App::getLocale()]) selected @endif>{{ $language }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </label>
-                            <label class="c-form__select">
-                                <div class="c-form__select__box">
-                                    <select name="currency" id="currency">
-                                        @foreach ($currencies as $cur => $currency)
-                                            <option value="{{ $cur }}"
-                                                    @if($cur == $currencies[Session::get('cur_currency')]) selected @endif>{{ $currency }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </label>
-                        </div>
-                        <!--/.header__modal__column-->
-                        <div class="header__modal__button">
-                            <button class="c-button c-button--primary">選択する</button>
-                        </div>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </label>
+                                <label class="c-form__select">
+                                    <div class="c-form__select__box">
+                                        <select name="currency" id="currency">
+                                            @foreach ($currencies as $cur => $currency)
+                                                <option value="{{ $cur }}"
+                                                        @if($cur == $currencies[Session::get('cur_currency')]) selected @endif>{{ $currency }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+                            <!--/.header__modal__column-->
+                            <div class="header__modal__button">
+                                <button class="c-button c-button--primary">選択する</button>
+                            </div>
                         </form>
                         <!--/.header__modal__button-->
                         <div class="header__modal__close"><i class="c-icon"></i></div>
@@ -105,6 +105,32 @@
                 <li><a href="{{ route('favorite') }}"><i class="c-icon
                 header__nav-secondary__icon--favorite"></i></a></li>
                 <li><a href="{{ route('cart') }}"><i class="c-icon header__nav-secondary__icon--wish"></i>(0)</a></li>
+                @if(!empty($authUser))
+                    <li class="header__nav-secondary__user">
+                        <a href="{{url('user/cart')}}" class="u-sp">
+                            <i class="c-icon header__nav-secondary__icon--user"></i></a>
+                        <div js-data-header-modal="header-user" class="u-pc">
+                            <i class="c-icon header__nav-secondary__icon--user"></i>
+                            <span class="header__nav-secondary__user__name">{{ $authUser->customer_name_first
+                            }}</span>
+                        </div>
+                        <div class="header__modal header__modal--user" id="header-user">
+                            <ul class="header__modal__nav">
+                                <li><a href="{{url('user/cart')}}">カート</a></li>
+                                <li><a href="{{url('user/favorite')}}">お気に入り</a></li>
+                                <li><a href="{{url('user/wish')}}">探しているアイテム</a></li>
+                                <li><a href="{{url('user/history')}}">注文履歴</a></li>
+                                <li><a href="{{url('user/score')}}">ポイント</a></li>
+                                <li><a href="{{url('user/profile')}}">会員情報</a></li>
+                            </ul>
+                            <div class="header__modal__close"><i class="c-icon"></i></div>
+                        </div>
+                        <!--/.header__modal-->
+                    </li>
+                @else
+                    <li><a href="{{ route('login') }}">ログイン</a></li>
+                    <li><a href="{{ route('register') }}">新規登録</a></li>
+                @endif
             </ul>
         </div>
         <!--/.header__inner-->

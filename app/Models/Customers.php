@@ -12,6 +12,8 @@ use App\Services\StockService;
 
 class Customers extends AppModel
 {
+    protected $primaryKey = 'customer_id';
+
     public static function get_addresses($id)
     {
         return DB::table('customer_address')->where('customer_id', $id)

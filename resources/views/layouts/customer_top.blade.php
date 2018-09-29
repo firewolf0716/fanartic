@@ -20,28 +20,102 @@
     <header class="header">
         <div class="header__inner">
             <div class="header__button" data-header-button></div>
-            <div class="header__button-search" data-header-search-button>
-                <i class="c-icon header__button-search__icon"></i>
-            </div>
+            <div class="header__button-search" data-header-search-button><i
+                        class="c-icon header__button-search__icon"></i></div>
             <div class="header__sitename">
-                <a href="/">
+                <a href="{{ route('mall', $mallname) }}">
                     <img src="{{asset('images/logo.png')}}" alt="" width="150">
                 </a>
             </div>
-
+            @include('include.header_brand')
+            <ul class="header__nav-secondary">
+                <li class="header__nav-secondary__search">
+                    <div class="header__search" data-header-search><span class="header__search__close"
+                                                                         data-header-search__close></span>
+                        <div class="header__search__input-wrapper">
+                            <form action="post"><input type="text" class="header__search__input"
+                                                       placeholder="商品名・ブランド名で検索">
+                                <button class="header__search__submit"><i></i></button>
+                            </form>
+                            <div class="header__search__dropdown" data-dropdown="" style="display: none;">
+                                <div class="ttl">ブランド</div>
+                                <ul>
+                                    <li><a href="http://dev.fanartic.com/category/fanartic/men/L.OUTER">PRADA</a></li>
+                                    <li><a href="">Vutton</a></li>
+                                    <li><a href="">Barenciaga</a></li>
+                                    <li><a href="">Gucci</a></li>
+                                    <li><a href="">Visvim</a></li>
+                                </ul>
+                                <div class="ttl">検索履歴</div>
+                                <ul>
+                                    <li><a href="">PRADA</a></li>
+                                    <li><a href="">Vutton</a></li>
+                                    <li><a href="">Barenciaga</a></li>
+                                    <li><a href="">Gucci</a></li>
+                                    <li><a href="">Visvim</a></li>
+                                </ul>
+                            </div>
+                            <!--/.header__search__input-wrapper-->
+                        </div>
+                        <!--/.header__search__input-wrapper-->
+                    </div>
+                    <!--/.header__search-->
+                </li>
+                <li class="header__nav-secondary__lang">
+                    <div class="header__nav-secondary__lang__button" js-data-header-modal="header-lang">
+                        {{ Config::get('languages')[App::getLocale()] }}
+                        &nbsp;/&nbsp;
+                        {{ $currencies[Session::get('cur_currency')] }}<i></i></div>
+                    <div class="header__modal header__modal--lang" id="header-lang">
+                        <div class="header__modal__hd">言語・通貨を選択</div>
+                        <form action="{{ route('switch') }}" method="post">
+                            @csrf
+                            <div class="header__modal__column">
+                                <label class="c-form__select">
+                                    <div class="c-form__select__box">
+                                        <select name="language" id="language">
+                                            @foreach (Config::get('languages') as $lang => $language)
+                                                <option value="{{ $lang }}" @if($lang == Config::get('languages')
+                                            [App::getLocale()]) selected @endif>{{ $language }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </label>
+                                <label class="c-form__select">
+                                    <div class="c-form__select__box">
+                                        <select name="currency" id="currency">
+                                            @foreach ($currencies as $cur => $currency)
+                                                <option value="{{ $cur }}"
+                                                        @if($cur == $currencies[Session::get('cur_currency')]) selected @endif>{{ $currency }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </label>
+                            </div>
+                            <!--/.header__modal__column-->
+                            <div class="header__modal__button">
+                                <button class="c-button c-button--primary">選択する</button>
+                            </div>
+                        </form>
+                        <!--/.header__modal__button-->
+                        <div class="header__modal__close"><i class="c-icon"></i></div>
+                    </div>
+                    <!--/.header__modal-->
+                </li>
+                <li><a href="{{ route('favorite') }}"><i class="c-icon
+                header__nav-secondary__icon--favorite"></i></a></li>
+                <li><a href="{{ route('cart') }}"><i class="c-icon header__nav-secondary__icon--wish"></i>(0)</a></li>
+            </ul>
         </div>
         <!--/.header__inner-->
     </header>
     <!--/.header-->
-    <div class="l-content">
-        @include('include.session_message')
-        @yield('content')
-        @include('include.checked_item')
-    </div>
+    @yield('content')
     <!--/.l-content-->
     @include('include.footer')
 
     <input type="hidden" name="_token" id="token_layout" value="{{ csrf_token() }}">
+    <script src="{{asset('js/vendor/in-view.min.js')}}"></script>
     <script src="{{asset('js/vendor/hiraku.min.js')}}"></script>
     <script src="{{asset('js/vendor/modaal.min.js')}}"></script>
     <script src="{{asset('js/plugins.js')}}"></script>

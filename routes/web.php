@@ -98,7 +98,9 @@ Route::group(['namespace' => 'Common'], function () {
 // 静的ページ
 Route::group(['prefix' => 'page', 'namespace' => 'Common'], function() {
     Route::get('company', 'PageController@company')->name('page.company');
-    Route::get('terms', 'PageController@terms')->name('page.terms');
+    Route::get('terms_customer', 'PageController@termsCustomer')->name('page.terms_customer');
+    Route::get('terms_customer_community', 'PageController@termsCustomerCommunity')->name('page.terms_customer_community');
+    Route::get('terms_merchant', 'PageController@termsMerchant')->name('page.terms_merchant');
     Route::get('tokusho', 'PageController@tokusho')->name('page.tokusho');
     Route::get('privacy', 'PageController@privacy')->name('page.privacy');
     Route::get('cancel', 'PageController@cancel')->name('page.cancel');

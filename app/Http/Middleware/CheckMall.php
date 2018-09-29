@@ -56,7 +56,7 @@ class CheckMall
         $women_categories = CategoryService::getMainCategorys($top_categories[1]->category_id);
         $main_categorys = CategoryService::getMainCategorys($top_categories[0]->category_id);
 
-        View::share(compact('mallname', 'brands', 'top_category','men_categories', 'women_categories', 'main_categorys'));
+        View::share(compact('mallname', 'brands', 'top_category', 'men_categories', 'women_categories', 'main_categorys'));
 
         return $next($request);
     }

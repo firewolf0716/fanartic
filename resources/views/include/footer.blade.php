@@ -14,10 +14,10 @@
                     <h2 class="footer__nav__hd" data-accordion="">SUPPORT</h2>
                     <div class="footer__nav__list-wrap">
                         <ul class="footer__nav__list">
-                            <li><a href="{{ route('page.terms') }}">ご利用規約</a></li>
+                            <li><a href="{{ route('page.terms_customer') }}">ユーザーご利用規約</a></li>
+                            <li><a href="{{ route('page.terms_merchant') }}">出店者ご利用規約</a></li>
                             <li><a href="{{ route('page.tokusho') }}">特定商取引法に基づく表記</a></li>
                             <li><a href="{{ route('page.privacy') }}">プライバシーポリシー</a></li>
-                            <li><a href="{{ route('page.cancel') }}">返金ポリシー</a></li>
                             <li><a href="{{ route('page.help') }}">ヘルプ</a></li>
                         </ul>
                     </div>

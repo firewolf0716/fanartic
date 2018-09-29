@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Currency;
+use App\Models\Customers;
 use App\Models\Malls;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
@@ -21,14 +23,14 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             if (Auth::guard('user')->check()) {
                 // ログイン中ユーザー
-                // $authUser = UserService::getDetail(User::find(Auth::guard('user')->id()));
+                $authUser = Customers::find(Auth::guard('user')->id());
 
                 // アクセス日時
                 // event(new AccessDetection($authUser));
 
                 // お知らせ
                 // $notices = NoticeService::getLists(Auth::id());
-                // View::share(compact('authUser', 'notices'));
+                View::share(compact('authUser'));
             }
         });
 

@@ -1,14 +1,23 @@
 @extends('layouts.customer_layout')
 
 @section('content')
-    <div class="product-list__column">
-        <div class="product-list__column__content" style="flex-basis:1920px">
-            <!--/.l-column l-column--control-->
-            <div class="c-items c-items--04">
+    <ul class="c-breadcrumbs">
+        <li><a href="/">HOME</a></li>
+        <li>返金ポリシー</li>
+    </ul>
+    <!--/.c-breadcrumbs-->
+    <h1 class="c-pagetitle">返金ポリシー</h1>
+    <div class="pages">
+        <div class="pages__column">
+            <div class="pages__column__content">
+                <h3 class="c-hd-03">お届け先住所</h3>
+                <p>Hello</p>
+                <p>Hello</p>
             </div>
-            <!--/.c-items c-items--04-->
+            <!--/.pages__column__content-->
+            @include('include.page_sidebar')
         </div>
-        <!--/.product-list__column-->
+        <!--/.pages__column-->
     </div>
-    <!--/.product-list-->
+    <!--/.pages-->
 @endsection
