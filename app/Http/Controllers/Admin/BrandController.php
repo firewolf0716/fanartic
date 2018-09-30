@@ -15,6 +15,9 @@ use App\Services\MatchService;
 
 class BrandController extends Controller
 {
+    // ToDo: modify directory to storage.
+    const IMAGE_PATH = './images/brands/';
+
     public function add()
     {
         if ($this->check_admin_session() == false) {
@@ -38,8 +41,8 @@ class BrandController extends Controller
         }
 
         $filename_new = "brand_" . time() . "." . strtolower($brand_image_file->getClientOriginalExtension());
-        $newdestinationPath = './images/brands/';
-        $uploadSuccess_new = Input::file('brand_image')->move($newdestinationPath, $filename_new);
+        $uploadSuccess_new = Input::file('brand_image')->move(self::IMAGE_PATH, $filename_new);
+        // ToDo: handling upload error
 
         $brand = new Brands();
         $brand->brand_name = Input::get('brand_name');
@@ -72,7 +75,6 @@ class BrandController extends Controller
         $malls = Malls::get();
         $genres = Genres::get();
         $brand = Brands::find($id);
-        // dd($brand);
         $selmalls = MatchService::get_malls($brand->brand_id);
         return view('admin.brand.edit')->with('brand', $brand)->with('malls', $malls)->with('genres', $genres)->with('selmalls', $selmalls);
     }
@@ -100,15 +102,14 @@ class BrandController extends Controller
         }
 
         $brand_image_file = Input::file('brand_image_file');
-        if ($brand_image_file == null || $brand_image_file == "") {
-
-        } else {
+        if (null !== $brand_image_file && $brand_image_file != "") {
             $filename = Input::get('brand_image');
-            $newdestinationPath = './images/brands/';
-            $uploadSuccess_new = $brand_image_file->move($newdestinationPath, $filename);
+            $uploadSuccess_new = $brand_image_file->move(self::IMAGE_PATH, $filename);
+            // ToDo: handling upload error
         }
 
         $id = Input::get('brand_id');
+        /** @var Brands $brand */
         $brand = Brands::find($id);
         $brand->brand_name = Input::get('brand_name');
         $brand->brand_name_en = Input::get('brand_name_en');
