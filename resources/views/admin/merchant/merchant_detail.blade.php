@@ -153,7 +153,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">店舗名<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="text" id="merchant_name" name="merchant_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_name}}">
+                            <input type="text" id="name" name="name" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->name}}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -177,13 +177,13 @@
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">メールアドレス<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="email" id="merchant_email" name="merchant_email" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_email}}">
+                            <input type="email" id="merchant_email" name="email" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->email}}">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">パスワード<span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">パスワード</label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <input type="password" id="merchant_password" name="merchant_password" required="required" class="form-control col-md-7 col-xs-12" value="{{$merchant->merchant_password}}">
+                            <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
                     <div class="form-group">

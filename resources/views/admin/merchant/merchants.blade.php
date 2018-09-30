@@ -32,7 +32,7 @@
                         @foreach($merchants_live as $ml)
                         <tr>
                             <td width="10%" style="text-align:center">{{$ml->merchant_id}}</td>
-                            <td width="20%" style="text-align:center">{{$ml->merchant_name}}</td>
+                            <td width="20%" style="text-align:center">{{$ml->name}}</td>
                             <td width="20%" style="text-align:center">{{$ml->merchant_admin}}</td>
                             <td width="10%" style="text-align:center">
                                 <a href="{{ url('admin/merchant_detaill/'.$ml->merchant_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>

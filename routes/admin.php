@@ -136,14 +136,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	Route::post('notifycustomer/editpost','CustomerNotifyController@editpost');
 
 	// Admin Manage Merchant
-	Route::get('merchant_detaill/{id}','AdminController@detail_merchant_live');
-	Route::get('merchant_close/{id}','AdminController@merchant_close');
-	Route::get('merchant_open/{id}','AdminController@merchant_open');
-	Route::get('merchants/list','AdminController@manage_merchants');
-	Route::get('merchants/add','AdminController@merchant_add');
-	Route::post('merchants/addpost','AdminController@merchant_addpost');
-	Route::post('merchants/editpost','AdminController@merchant_editpost');
-	Route::get('merchant/getplan/{id}','AdminController@get_plan');
+	Route::get('merchant_detaill/{id}','MerchantController@detail_live');
+	Route::get('merchant_close/{id}','MerchantController@close');
+	Route::get('merchant_open/{id}','MerchantController@open');
+	Route::get('merchants/list','MerchantController@manage');
+	Route::get('merchants/add','MerchantController@add');
+	Route::post('merchants/addpost','MerchantController@add_post');
+	Route::post('merchants/editpost','MerchantController@edit_post');
+	Route::get('merchant/getplan/{id}','MerchantController@get_plan');
 	// Route::get('merchants','AdminController@manage_merchants');
 	// Route::get('merchant_approvew/{id}','AdminController@approve_merchant');
 	// Route::get('merchant_detailw/{id}','AdminController@detail_merchant_wait');
