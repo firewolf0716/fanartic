@@ -332,21 +332,9 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required disabled>
-                                    <option value="">--Select Size Category--</option>
-                                    @foreach($sizeCategorys as $sizeCategory)
-                                        <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_size[]" id="product_size" multiple="multiple" required>
+                                <select class="form-control" name="product_size[]" id="product_size" multiple required>
                                     @foreach($sizes as $size)
                                         <?php $selected = false; ?>
                                         @foreach($selectedSizes as $selectedSize)
@@ -399,11 +387,11 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                             <div class="radio col-md-4 col-sm-6 col-xs-12">
                                 @if($product->product_status == 0)
-                                <label><input type="radio" value="0" name="product_status" checked>有効</label>
-                                <label><input type="radio" value="1" name="product_status">無効</label>
+                                    <label><input type="radio" value="1" name="product_status">有効</label>
+                                    <label><input type="radio" value="0" name="product_status" checked>無効</label>
                                 @else
-                                <label><input type="radio" value="0" name="product_status">有効</label>
-                                <label><input type="radio" value="1" name="product_status" checked>無効</label>
+                                    <label><input type="radio" value="1" name="product_status" checked>有効</label>
+                                    <label><input type="radio" value="0" name="product_status">無効</label>
                                 @endif
                             </div>
                         </div>
@@ -497,7 +485,6 @@
         $('#product_old_status').val("{{$product->product_old_status}}");
         // $('#product_color').val("{{$product->product_color}}");
         $('#product_parent').val("{{$product->product_parent_id}}");
-        $('#product_sizeCategory').val("{{$size_category}}");
         $('#stock_type').val("{{$product->stock_type}}");
         $('#product_color_1').val("{{$product->product_color_1}}");
         $('#shipping_id').val("{{$product->shipping_id}}");
@@ -510,7 +497,6 @@
         }
 
         addMainCategorys(true);
-       // addSizes(true);
         updateUI();
     });
     function addMainCategorys(isInit) {
@@ -534,7 +520,6 @@
                     if (isInit) {
                         $('#main_category').val("{{$main_category_id}}");
                         addSubCategorys(isInit);
-                     //   updateSizeCategory();
                     }
                 }
             });
@@ -570,7 +555,7 @@
     });
     $('#main_category').change(function() {
         addSubCategorys(false);
-        updateSizeCategory();
+        updateSizes();
     });
     $('#sub_category').change(function() {
         updateParentProduct();
@@ -578,10 +563,7 @@
     $('#product_brand').change(function() {
         updateParentProduct();
     });
-    // $('#product_sizeCategory').change(function(){
-    //     addSizes(false);
-    //     updateSizeCategory();
-    // });
+
     $('#btnProductImage').click(function(){
         var imgct = parseInt($('#proimg_ct').val()) + 1;
         alert(imgct);
@@ -594,57 +576,7 @@
     $('#btnSubmit').click(function(){
         $('#form_product_add').parsley();
     });
-    // function onRemoveImg(id){
-    //     $('#existing_img_' + id).remove();
-    //     $('#existing_btn_' + id).remove();
-    // }
-    function addSizes(isInit) {
-        $('#product_size').find('option').remove();
-        var stock_type = $('#stock_type').val();
 
-        var sizeCategory = $('#product_sizeCategory').val();
-        if(sizeCategory != "") {
-            $.ajax( {
-                type: 'get',
-                url: '{{url('merchant/product/getssizes')}}' + "/" + sizeCategory,
-                success: function(data) {
-                 
-                    for(var i = 0; i < data.length; i++){
-                        var item = data[i];
-                        var opt = document.createElement('option');
-                        opt.value = item.size_id;
-                        opt.innerHTML = item.size_name;
-                        document.getElementById('product_size').appendChild(opt);
-                    }
-
-                    // if (isInit && stock_type == 1) {
-                    //     $('#product_size').val("{{$product_size_id}}");
-                    // }
-
-                   updateUI();
-                }
-            });
-        }
-    }
-    function updateSizeCategory() {
-        $main_category = $('#main_category').val();
-        $('#product_sizeCategory').val('');
-        $('#product_size').find('option').remove();
-
-        if ($main_category == '') {
-            updateUI();
-            return;
-        }
-
-        $.ajax( {
-            type: 'get',
-            url: '{{url('admin/category/get-size-category')}}' + "/" + $main_category ,
-            success: function(data){
-                $('#product_sizeCategory').val(data);
-                addSizes(false);
-            }
-        });
-    }
     function updateParentProduct() {
         $('#product_parent').find('option').remove().end().append('<option value="">--Select Parent Product--</option>');
 
@@ -669,6 +601,7 @@
             });
         }
     }
+
     $('#product_color').multiselect({
         includeSelectAllOption: true
     });
@@ -685,6 +618,30 @@
     $('#stock_type').change(function(){
         updateUI();
     });
+    function updateSizes() {
+        $('#product_size').find('option').remove();
+        var mainCategoryId = $('#main_category').val();
+
+        if(mainCategoryId != ""){
+            $.ajax( {
+                type: 'get',
+                url: '{{url('merchant/product/get_size')}}' + "/" + mainCategoryId,
+                success: function(data) {
+                    for(var i = 0; i < data.length; i++){
+                        var item = data[i];
+                        var opt = document.createElement('option');
+                        opt.value = item.size_id;
+                        opt.innerHTML = item.size_name;
+                        $('#product_size').append(opt);
+                    }
+
+                    $('#product_size').multiselect('rebuild');
+
+                    updateUI();
+                }
+            });
+        }
+    }
     function updateUI() {
         $isEnable = false;
         if ($('#stock_type').val() == 1) {
@@ -714,6 +671,7 @@
         $('#product_price_sale').prop('required', $isEnable);
         $('#stock_count').prop('required', $isEnable);
     }
+
     $('#product_salemethod').change(function(){
         if ($('#product_salemethod').val() == 2 || $('#product_salemethod').val() == 4 || $('#product_salemethod').val() == 7) {
             $('#reservation').prop('disabled', false);

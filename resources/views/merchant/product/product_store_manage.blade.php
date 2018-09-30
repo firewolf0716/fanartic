@@ -248,39 +248,3 @@
 </script>
 
 @endsection
-
-
-//         @php
-//         start_date = "";
-//         end_date = "";
-//         current_date = date("YYYY/MM/DD H:i:s");
-//         if ($duration_setting == 0) {
-//             start_date = "";
-//             end_date = "";
-//         } else if ($duration_setting == 1) { // 本日
-//             start_date = date("YYYY/MM/DD 00:00:00");
-//             end_date = date("YYYY/MM/DD 23:59:59");
-//         } else if ($duration_setting == 2) { // 今週
-//             ts = strtotime(current_date);
-//             start = (date('w', $ts) == 0) ? $ts : strtotime('last sunday', $ts);
-//             start_date = date('YYYY/MM/DD 00:00:00', $start);
-//             end_date = date('YYYY/MM/DD 23:59:59', strtotime('next saturday', $start));
-//         } else if ($duration_setting == 3) { // 今月
-//             start_date = date('YYYY/MM/01 H:i:s', strtotime(current_date));
-//             end_date =  date('YYYY/MM/t H:i:s', strtotime(current_date));
-//         } else if ($duration_setting == 4) { // 先月
-//             start_date = date('YYYY/MM/DD H:i:s', strtotime('-1 month', strtotime(current_date)));
-//             end_date =  date('YYYY/MM/DD H:i:s', strtotime('last day of -1 month', strtotime(current_date)));
-//         } else if ($duration_setting == 5) { // 今年
-//             start_date = date('YYYY/MM/DD H:i:s', strtotime('year', strtotime(current_date)));
-//             end_date =  date('YYYY/MM/DD H:i:s', strtotime('last day of year', strtotime(current_date)));
-//         } else if ($duration_setting == 6) { // 過去24時間
-
-//         } else if ($duration_setting == 7) { // 過去1週間
-
-//         } else if ($duration_setting == 8) { // 過去30日
-
-//         } else if ($duration_setting == 9) { // カスタム
-
-//         }
-// @endphp
