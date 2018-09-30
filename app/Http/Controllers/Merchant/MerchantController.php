@@ -23,12 +23,6 @@ use App\Models\Products;
 
 class MerchantController extends Controller
 {
-    //
-    public function dashboard()
-    {
-        return view('merchant.dashboard');
-    }
-
     public function setting()
     {
         $merchant = Merchants::find(Auth::id());

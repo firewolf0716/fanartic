@@ -179,7 +179,7 @@ class CategoryController extends Controller
 
         $category = Categorys::find($mainid);
         $malls = Malls::get();
-        $sizeCategorys = Sizes::get();
+        $sizeCategorys = SizeCategory::get();
         $linkedMalls = MatchService::get_malls_bycategory($mainid);
         $topCategorys = $this->getTopCategorys();
         $topCategory = Categorys::find($topid);

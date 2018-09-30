@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>オープンプランを編集</h3>
+            <h3>出店プランを編集</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,7 +16,7 @@
         {{ Form::hidden('plan_id', $plan->plan_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>オープンプランを編集</h4>
+                <h4>出店プランを編集</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">

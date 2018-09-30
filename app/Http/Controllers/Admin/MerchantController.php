@@ -60,7 +60,8 @@ class MerchantController extends Controller
         $plans = Plans::get();
         $states = States::get();
         $brands = Brands::get();
-        $selbrands = MatchService::get_brands($merchant->merchant_id);
+        $selbrands = MatchService::get_brands_merchant($merchant->merchant_id);
+
         return view('admin.merchant.merchant_detail')->with('merchant', $merchant)
                                     ->with('plans', $plans)
                                     ->with('states', $states)

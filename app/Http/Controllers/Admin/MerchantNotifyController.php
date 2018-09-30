@@ -8,110 +8,63 @@ use Illuminate\Support\Facades\Input;
 
 use App\Models\MerchantNotifys;
 use App\Models\Merchants;
-use Session;
 
-use App\Services\NotifyService;
+use Session;
 
 class MerchantNotifyController extends Controller
 {
     public function add() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchants = Merchants::get();
-        return view('admin.notifym.add')->with('merchants', $merchants);
+
+        return view('admin.notifym.add')
+            ->with('merchants', $merchants);
     }
 
     public function addpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/add');
-        }
-
-        $adminid = Session::get('adminid');
-        $strNotifyMerchants = '';
-        if(Input::has('notify_merchants')) {
-            $notify_merchants = Input::get('notify_merchants');
-            foreach($notify_merchants as $notify_merchant) {
-                if ($strNotifyMerchants != '') {
-                    $strNotifyMerchants .= '/**/';
-                }
-                $strNotifyMerchants .= $notify_merchant;
-            }
-        }
-        
         $notify = new MerchantNotifys();
-        $notify->notify_merchant = $strNotifyMerchants;
+        $notify->notify_merchant = implode(MerchantNotifys::MERCHANT_SEPARATOR, Input::get('notify_merchants'));
         $notify->notify_name = Input::get('notify_name');
         $notify->notify_name_en = Input::get('notify_name_en');
         $notify->notify_memo = Input::get('notify_memo');
-        $notify->optionValid = Input::get('optionValid');
-        $notify->notify_merchant = $adminid;
+        $notify->notify_status = Input::get('notify_status');
+        $notify->admin_id = Session::get('adminid');
         $notify->save();
         
         return Redirect::to('admin/notifymerchant/list');
     }
 
     public function list() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
+        $notifys = MerchantNotifys::get();
 
-        $adminid = Session::get('adminid');
-        $notifys = NotifyService::getNotifysByAdmin_Merchant($adminid);
-        return view('admin.notifym.list')->with('notifys', $notifys);
+        return view('admin.notifym.list')
+            ->with('notifys', $notifys);
     }
 
     public function delete($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
+        MerchantNotifys::find($id)->delete();
 
-        $adminid = Session::get('adminid');
-        $notifys = NotifyService::remove_Merchant($adminid, $id);
         return Redirect::to('admin/notifymerchant/list');
     }
 
     public function edit($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
-
-        $adminid = Session::get('adminid');
         $merchants = Merchants::get();
-        $notifys = NotifyService::getNotifysByAdminAndID_Merchant($adminid, $id);
-        if (count($notifys) == 0) {
-            return Redirect::to('admin/notifymerchant/list');
-        }
-        $linkedMerchants = explode("/**/", $notifys[0]->notify_merchant); 
-        return view('admin.notifym.edit')->with('merchants', $merchants)
-                                        ->with('notify', $notifys[0])
-                                        ->with('linkedMerchants', $linkedMerchants);
+        $notify = MerchantNotifys::find($id);
+
+        $linkedMerchants = explode(MerchantNotifys::MERCHANT_SEPARATOR, $notify->notify_merchant);
+        return view('admin.notifym.edit')
+            ->with('merchants', $merchants)
+            ->with('notify', $notify)
+            ->with('linkedMerchants', $linkedMerchants);
     }
+
     public function editpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login?redirect=admin/notifymerchant/list');
-        }
-        
-        $adminid = Session::get('adminid');
-        $strNotifyMerchants = '';
-        if(Input::has('notify_merchants')) {
-            $notify_merchants = Input::get('notify_merchants');
-            foreach($notify_merchants as $notify_merchant) {
-                if ($strNotifyMerchants != '') {
-                    $strNotifyMerchants .= '/**/';
-                }
-                $strNotifyMerchants .= $notify_merchant;
-            }
-        }
-        
-        $notify = MerchantNotifys::find('notify_id');
-        $notify->notify_merchant = $strNotifyMerchants;
+        /** @var MerchantNotifys $notify */
+        $notify = MerchantNotifys::find(Input::get('notify_id'));
+        $notify->notify_merchant = implode(MerchantNotifys::MERCHANT_SEPARATOR, Input::get('notify_merchants'));
         $notify->notify_name = Input::get('notify_name');
         $notify->notify_name_en = Input::get('notify_name_en');
         $notify->notify_memo = Input::get('notify_memo');
-        $notify->optionValid = Input::get('optionValid');
-        $notify->notify_merchant = $adminid;
+        $notify->notify_status = Input::get('notify_status');
         $notify->save();
         
         return Redirect::to('admin/notifymerchant/list');

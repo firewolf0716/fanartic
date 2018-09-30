@@ -30,8 +30,8 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">インポートタイプ<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="1" name="optionValid" checked>加える</label>
-                        <label><input type="radio" value="0" name="optionValid">更新</label>
+                        <label><input type="radio" value="0" name="is_update" checked>加える</label>
+                        <label><input type="radio" value="1" name="is_update">更新</label>
                     </div>
                 </div>
                 <div class="form-group">

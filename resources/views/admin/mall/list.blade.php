@@ -6,17 +6,13 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>Admin / Manage Malls</h3>
+            <h3>モールを管理する</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
-                <div class="x_title">
-                    <h4>Manage Malls</h4>
-                    <div class="clearfix"></div>
-                </div>
                 <div class="x_content">
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>

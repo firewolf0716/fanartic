@@ -18,18 +18,11 @@ use App\Services\MatchService;
 class MallController extends Controller
 {
     public function add() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $brands = Brands::get();
         return view('admin.mall.add')->with('brands', $brands);
     }
-    public function addpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
 
+    public function addpost() {
         $entry =  array(
             'mall_name' => Input::get('mall_name'),
             'mall_name_en' => Input::get('mall_name_en'),
@@ -73,20 +66,11 @@ class MallController extends Controller
     }
 
     public function list() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $malls = Malls::get();
         return view('admin.mall.list')->with('malls', $malls);
     }
 
     public function edit($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
-        
         $mall = Malls::find($id);
         $brands = Brands::get();
         $selBrands = MatchService::get_brands($mall->mall_id);
@@ -109,10 +93,6 @@ class MallController extends Controller
     }
 
     public function editpost() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $mallid = Input::get('id');
         $mall = Malls::find($mallid);
         $mall->mall_name = Input::get('mall_name');
@@ -150,10 +130,6 @@ class MallController extends Controller
     }
 
     public function delete($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-        
         Malls::find($id)->delete();
         MatchService::remove_brands($id);
         MatchService::remove_categorys($id);
