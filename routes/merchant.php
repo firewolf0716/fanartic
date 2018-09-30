@@ -35,7 +35,7 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant'], function () {
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' => 'auth:merchant'], function () {
-    Route::get('/','AdminController@login');
+    Route::get('/','DashBoardController@index');
     Route::get('dashboard', 'DashBoardController@index')->name('merchant.dashboard');
     Route::get('setting', 'MerchantController@setting');
     Route::get('getcity', 'MerchantController@getcity');

@@ -31,6 +31,8 @@ Route::group(['namespace' => 'Customer'], function () {
     Route::get('widget', function () {
         return View('widget.index');
     });
+
+    Route::get('user/signverify/{token}', 'UserController@signverify');
 });
 
 /*
