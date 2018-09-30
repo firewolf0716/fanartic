@@ -148,5 +148,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	// Route::get('merchant_approvew/{id}','AdminController@approve_merchant');
 	// Route::get('merchant_detailw/{id}','AdminController@detail_merchant_wait');
 	// Route::get('merchant_reject/{id}','AdminController@merchant_reject');
+
+    Route::resource('tempostar','TempostarController',['names' => 'tempostar']);
+
 });
 
