@@ -20,12 +20,12 @@ class TempostarComponent
     // 受注管理　　出荷指示エクスポート(確定)　　/order/export/***/***/　　order***.[id].csv
     // 受注管理　　出荷確定インポート(配送)　　/order/import/　　ordership***.csv
 
-    public function __construct()
+    public function __construct($infomation)
     {
         $this->ftp = new Filesystem(new Adapter([
-            'host' => 'ftp.tempostar.net',
-            'username' => '4792_0',
-            'password' => 'fcAAq47920',
+            'host' => $infomation[0],
+            'username' => $infomation[1],
+            'password' => $infomation[2],
 
             /** optional config settings */
             'port' => 21,
@@ -54,8 +54,14 @@ class TempostarComponent
     public function setProduct()
     {
         // not do anything in here
+    }
 
-        // connection test
+    /**
+     * get Stock Information via FTP
+     *
+     */
+    public function getStock()
+    {
         foreach ($this->downloadFiles as $downloadFile) {
 
             // ファイル内容の読み込み
@@ -76,51 +82,44 @@ class TempostarComponent
     }
 
     /**
-     * get Stock Information via FTP
-     *
-     */
-    public function getStock()
-    {
-
-    }
-
-    /**
      * set Stock Information via FTP (在庫更新)
      *
      */
     public function setStock()
     {
         $header = [
-            '商品コード', // test-loop
-            '想定在庫数',
-            '保留在庫数',
-            '倉庫コード',
-            '良品在庫数',
-            '不良在庫数',
-            '更新モード', // 1 => 上書き, 2 => 追加
-            '更新対象' // 1 => 想定在庫数のみ更新, 2 => 実在庫数(想定在庫数も更新), 3 => 実在庫のみを更新(想定在庫は そのまま)
+            "商品コード", // test-loop
+            "想定在庫数",
+            // '保留在庫数',
+            // '倉庫コード',
+            // '良品在庫数',
+            // '不良在庫数',
+            "更新モード", // 1 => 上書き, 2 => 追加
+            "更新対象" // 1 => 想定在庫数のみ更新, 2 => 実在庫数(想定在庫数も更新), 3 => 実在庫のみを更新(想定在庫は そのまま)
         ];
 
         $data = [
-            'test-loop',
-            '10',
-            '',
-            '',
-            '',
-            '',
-            '1',
-            '1',
+            "test-loop",
+            "10",
+            // '',
+            // '',
+            // '',
+            // '',
+            "1",
+            "1",
         ];
 
         // 空のCSVオブジェクトを作成
         $csv = Writer::createFromFileObject(new \SplTempFileObject());
+
+        $csv->setEnclosure('"');
 
         // レコード追加
         $csv->insertOne($header);
         $csv->insertOne($data);
 
         // CSVで保存（時間でファイルを作っています）
-        $response = $this->ftp->write('stock/'.time().rand().'.csv', $csv->__toString());
+        $response = $this->ftp->write('stock/' . time() . rand() . 'utf8.csv', $csv->__toString());
 
         dd($response);
 
@@ -130,13 +129,21 @@ class TempostarComponent
      * set Sales Information via FTP
      *
      */
-    public function setSale()
+    public function getOrder()
     {
+        // 受注を取得
+        // loopで回す
+        // 商品があったら、在庫をゼロに
 
     }
 
-    public function getCsv()
+    /**
+     * set Sales Information via FTP
+     *
+     */
+    public function setOrder()
     {
-
+        // 受注があった商品を回す
+        // csvアップロード
     }
 }

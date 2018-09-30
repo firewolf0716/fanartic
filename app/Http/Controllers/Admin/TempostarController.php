@@ -16,7 +16,7 @@ class TempostarController extends Controller
      */
     public function show($id)
     {
-        $tempo_comp = new TempostarComponent();
+        $tempo_comp = new TempostarComponent(['ftp.tempostar.net', '1966_0', 'xrhyL19660']);
 
         dd($tempo_comp->setStock());
 
