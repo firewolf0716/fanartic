@@ -2971,6 +2971,18 @@ Component
     background-color: #f6f6f6;
 }
 
+/* error */
+.has-error input,
+.has-error select,
+.has-error textarea {
+    border: 1px solid #a94442;
+}
+
+.has-error .help-block {
+    display: block;
+    color: #a94442;
+}
+
 /* pagetitle
 -------------------------------------------*/
 .c-pagetitle {

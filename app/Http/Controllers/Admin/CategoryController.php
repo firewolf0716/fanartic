@@ -200,7 +200,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit($topid, $mainid, $id) {
+    public function editsub($topid, $mainid, $id) {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }

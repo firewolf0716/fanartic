@@ -75,7 +75,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	Route::get('category/list/{topcategoryid}/{maincategoryid}','CategoryController@list');
 	Route::get('category/edit/{topid}','CategoryController@edittop');
 	Route::get('category/edit/{topid}/{mainid}','CategoryController@editmain');
-	Route::get('category/edit/{topid}/{mainid}/{id}','CategoryController@edit');
+	Route::get('category/edit/{topid}/{mainid}/{id}','CategoryController@editsub');
 	Route::get('category/delete/{id}','CategoryController@delete');
 	Route::post('category/editpost','CategoryController@editpost');
 	Route::get('category/get-top-categorys','CategoryController@getTopCategorys');
@@ -149,7 +149,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	// Route::get('merchant_detailw/{id}','AdminController@detail_merchant_wait');
 	// Route::get('merchant_reject/{id}','AdminController@merchant_reject');
 
-    Route::resource('tempostar','TempostarController',['names' => 'tempostar']);
+    // duty
+    Route::resource('duty', 'DutyController', array('names' => 'duty'));
 
+    // zaiko
+    Route::resource('tempostar','TempostarController',['names' => 'tempostar']);
 });
 
