@@ -71,8 +71,7 @@ class MerchantproductController extends Controller
     public function product_edit($id)
     {
         $product = Products::get_product($id);
-        $merchants = Merchants::find(Auth::id());
-        $merchant = $merchants[0];
+        $merchant = Merchants::find(Auth::id());
         if ($merchant->merchant_type == 1 || $merchant->merchant_type == 2) {
             $brands = MatchService::get_brands_merchant(Auth::id());
         } else {
@@ -83,7 +82,7 @@ class MerchantproductController extends Controller
         $productstates = ProductStates::get();
         $sizeCategorys = Sizes::get();
         $categoryinfo = Categorys::find($id);
-        $product_parents = $this->merchant_getparentprefers($product->product_category_id, $product->product_brand_id);
+        $product_parents = $this->getparentprefers($product->product_category_id, $product->product_brand_id);
         $selectedColors = explode("/**/", $product->product_color);
         $selectedSizes = explode("/**/", $product->product_size);
 
@@ -95,7 +94,7 @@ class MerchantproductController extends Controller
         $product_stock_info = Products::get_product_stock_info($id)->first();
         $topCategorys = CategoryService::getTopCategorys();
 
-        $size_category = Sizes::get_size($selectedSizes[0])->size_category_id;
+        $size_category = Sizes::find($selectedSizes[0])->size_category_id;
         $sizes = SizeCategory::find($size_category)->sizes;
 
         $shippings = MerchantShipping::get_merchant_shippings(Auth::id());
