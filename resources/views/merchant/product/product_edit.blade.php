@@ -488,10 +488,7 @@
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
-    <script type="text/javascript">
-    <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
-    
-</script>
+
 <script>
     $(function(){
         $('#product_salemethod').val("{{$product->product_salemethod}}");

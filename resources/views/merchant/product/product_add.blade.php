@@ -436,7 +436,6 @@
     <script src="{{ URL::asset('gvendor/jQuery-Smart-Wizard/js/jquery.smartWizard.js') }}"></script>
     
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
-    <script type="text/javascript"></script>
 
 <script>
     $(function(){
@@ -620,7 +619,6 @@
 
 
     <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script>
         var route_prefix = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
     </script>
