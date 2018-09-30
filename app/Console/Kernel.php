@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
 
         // watch queue
         $schedule->command('queue:work --daemon')
-            ->appendOutputTo(storage_path() . '/queue.log')
+            // ->appendOutputTo(storage_path() . '/queue.log')
             ->everyMinute()
             ->withoutOverlapping();
 
