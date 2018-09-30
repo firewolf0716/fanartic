@@ -67,6 +67,18 @@ class TempostarComponent
             // ファイル内容の読み込み
             $content = mb_convert_encoding($this->ftp->read($downloadFile), 'UTF-8', 'SJIS');
 
+            // CSVファイルの読み込み
+            $csv = Reader::createFromPath($content);
+            // レコードを読み
+            $records = $csv->getRecords();
+            $line = 0;
+            foreach ($records as $index => $dataRow) {
+                $line++;
+                for($i = 0; $i < count( $dataRow ); ++$i ){
+                    //列、行指定
+                }
+            }
+
             // 前回ファイルをアーカイブ
             if ($this->ftp->has($downloadFile) === true) {
                 // $this->ftp->rename($downloadFile, $downloadFile);
