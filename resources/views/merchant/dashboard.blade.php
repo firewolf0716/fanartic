@@ -123,16 +123,22 @@
                         <div class="clearfix"></div>
                     </div>
                     <div class="x_content">
-                        <article class="media event">
-                            <a class="pull-left date">
-                                <p class="month">4月</p>
-                                <p class="day">23</p>
-                            </a>
-                            <div class="media-body">
-                                <a class="title" href="#">頑張りましょう！</a>
-                                <p>店長さんは死ぬ気で頑張ってください！！！</p>
-                            </div>
-                        </article>
+                        @foreach($notifyList as $notify)
+                            @if($notify->hasMerchantId(Auth::user()->merchant_id))
+                                <article class="media event">
+                                    <a class="pull-left date">
+                                        <p class="month">{{$notify->created_at->format('n')}}月</p>
+                                        <p class="day">{{$notify->created_at->format('j')}}</p>
+                                    </a>
+                                    <div class="media-body">
+                                        <a class="title" href="#">{{$notify->notify_name}}</a>
+                                        <p>
+                                            {{$notify->notify_memo}}
+                                        </p>
+                                    </div>
+                                </article>
+                            @endif
+                        @endforeach
                     </div>
                 </div>
             </div>

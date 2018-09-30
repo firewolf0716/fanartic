@@ -13,8 +13,6 @@ use Session;
 
 class MerchantNotifyController extends Controller
 {
-    const MERCHANT_SEPARATOR = '/**/';
-
     public function add() {
         $merchants = Merchants::get();
 
@@ -24,7 +22,7 @@ class MerchantNotifyController extends Controller
 
     public function addpost() {
         $notify = new MerchantNotifys();
-        $notify->notify_merchant = implode(self::MERCHANT_SEPARATOR, Input::get('notify_merchants'));
+        $notify->notify_merchant = implode(MerchantNotifys::MERCHANT_SEPARATOR, Input::get('notify_merchants'));
         $notify->notify_name = Input::get('notify_name');
         $notify->notify_name_en = Input::get('notify_name_en');
         $notify->notify_memo = Input::get('notify_memo');
@@ -52,7 +50,7 @@ class MerchantNotifyController extends Controller
         $merchants = Merchants::get();
         $notify = MerchantNotifys::find($id);
 
-        $linkedMerchants = explode(self::MERCHANT_SEPARATOR, $notify->notify_merchant);
+        $linkedMerchants = explode(MerchantNotifys::MERCHANT_SEPARATOR, $notify->notify_merchant);
         return view('admin.notifym.edit')
             ->with('merchants', $merchants)
             ->with('notify', $notify)
@@ -62,7 +60,7 @@ class MerchantNotifyController extends Controller
     public function editpost() {
         /** @var MerchantNotifys $notify */
         $notify = MerchantNotifys::find(Input::get('notify_id'));
-        $notify->notify_merchant = implode(self::MERCHANT_SEPARATOR, Input::get('notify_merchants'));
+        $notify->notify_merchant = implode(MerchantNotifys::MERCHANT_SEPARATOR, Input::get('notify_merchants'));
         $notify->notify_name = Input::get('notify_name');
         $notify->notify_name_en = Input::get('notify_name_en');
         $notify->notify_memo = Input::get('notify_memo');
