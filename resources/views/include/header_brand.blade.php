@@ -1,5 +1,5 @@
 @php
-$path = Request::path();
+    $path = Request::path();
 @endphp
 <div class="header__nav-primary-wrap" data-header-primary>
     <ul class="header__nav-primary">
