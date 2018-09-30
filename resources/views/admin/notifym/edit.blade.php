@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>通知を編集（商人)</h3>
+            <h3>お知らせを編集（店舗)</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,7 +16,7 @@
         {{ Form::hidden('notify_id', $notify->notify_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>通知を編集（商人)</h4>
+                <h4>お知らせを編集（店舗)</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -25,18 +25,15 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select class="form-control" name="notify_merchants[]" id="merchants" multiple="multiple" required>
                         @foreach($merchants as $merchant)
-                            <?php $selected = false; ?>
+                            <?php $selected = ''; ?>
                             @foreach($linkedMerchants as $linkedMerchant)
                                 @if($merchant->merchant_id == $linkedMerchant)
-                                    <?php $selected = true; ?>
+                                    <?php $selected = ' selected'; ?>
                                     @break
                                 @endif
                             @endforeach
-                            @if($selected == true)
-                                <option value="{{$merchant->merchant_id}}" selected>{{$merchant->merchant_name}}</option>
-                            @else
-                                <option value="{{$merchant->merchant_id}}">{{$merchant->merchant_name}}</option>
-                            @endif
+
+                            <option value="{{$merchant->merchant_id}}"{{$selected}}>{{$merchant->name}}</option>
                         @endforeach
                         </select>
                     </div>
@@ -64,11 +61,11 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
                         @if ($notify->notify_status == 1)
-                            <label><input type="radio" value="1" name="optionValid" checked>有効</label>
-                            <label><input type="radio" value="0" name="optionValid">無効</label>
+                            <label><input type="radio" value="1" name="notify_status" checked>有効</label>
+                            <label><input type="radio" value="0" name="notify_status">無効</label>
                         @else
-                            <label><input type="radio" value="1" name="optionValid">有効</label>
-                            <label><input type="radio" value="0" name="optionValid" checked>無効</label>
+                            <label><input type="radio" value="1" name="notify_status">有効</label>
+                            <label><input type="radio" value="0" name="notify_status" checked>無効</label>
                         @endif
                     </div>
                 </div>

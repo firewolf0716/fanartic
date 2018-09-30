@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>オープンプランを追加</h3>
+            <h3>出店プランを追加</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -15,7 +15,7 @@
         {!! Form::open(array('id' => 'form_add','url'=>'admin/plan/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>オープンプランを追加</h4>
+                <h4>出店プランを追加</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
