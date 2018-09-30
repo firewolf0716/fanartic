@@ -56,9 +56,10 @@ class Controller extends BaseController
     public function __construct()
     {
         $route = Route::currentRouteName();
-        if (explode(".", $route)[1] != 'sorting') {
-            $this->name = explode(".", $route)[1];
-            $model = 'App\\Models\\' . ucfirst(explode(".", $route)[1]);
+        $slag = explode(".", $route)[0];
+        if (!empty($slag) && $slag == 'duty') {
+            $this->name = $slag;
+            $model = 'App\\Models\\' . ucfirst($slag);
             $this->model = new $model();
         }
     }

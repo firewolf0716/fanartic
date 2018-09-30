@@ -134,6 +134,12 @@
                                             <li><a href="{{url('admin/plan/list')}}">出店プラン一覧</a></li>
                                         </ul>
                                     </li>
+                                    <li><a>関税マスタ<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/duty/create')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/duty')}}">プラン一覧</a></li>
+                                        </ul>
+                                    </li>
                                     <li><a>インポートデータ<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/import/csv')}}">csv からデータをインポートする</a></li>

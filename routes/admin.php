@@ -75,7 +75,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	Route::get('category/list/{topcategoryid}/{maincategoryid}','CategoryController@list');
 	Route::get('category/edit/{topid}','CategoryController@edittop');
 	Route::get('category/edit/{topid}/{mainid}','CategoryController@editmain');
-	Route::get('category/edit/{topid}/{mainid}/{id}','CategoryController@edit');
+	Route::get('category/edit/{topid}/{mainid}/{id}','CategoryController@editsub');
 	Route::get('category/delete/{id}','CategoryController@delete');
 	Route::post('category/editpost','CategoryController@editpost');
 	Route::get('category/get-top-categorys','CategoryController@getTopCategorys');
@@ -150,6 +150,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	// Route::get('merchant_reject/{id}','AdminController@merchant_reject');
 
     // duty
-    Route::resource('duty', 'DutiesController', array('names' => 'duties'));
+    Route::resource('duty', 'DutyController', array('names' => 'duty'));
 });
 
