@@ -5,7 +5,21 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Model;
 
-
+/**
+ * @property int product_stock_id
+ * @property int product_id
+ * @property int product_count
+ * @property int product_merchant_id
+ * @property int product_sku_color_id
+ * @property int product_sku_size_id
+ * @property double product_price_sale
+ * @property double product_price_ref
+ * @property double product_price_law
+ * @property int product_count_endless
+ * @property string created_at
+ * @property string updated_at
+ * @property string deleted_at
+ */
 class ProductStock extends AppModel
 {
     protected $table = 'fan_product_stock_management';
