@@ -62,10 +62,10 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="0" name="optionStatus" checked>非アクティブ</label>
-                        <label><input type="radio" value="1" name="optionStatus">アクティブ</label>
-                        <label><input type="radio" value="2" name="optionStatus">凍結</label>
-                        <label><input type="radio" value="3" name="optionStatus">退会</label>
+                        <label><input type="radio" value="0" name="brand_status" checked>非アクティブ</label>
+                        <label><input type="radio" value="1" name="brand_status">アクティブ</label>
+                        <label><input type="radio" value="2" name="brand_status">凍結</label>
+                        <label><input type="radio" value="3" name="brand_status">退会</label>
                     </div>
                 </div>
                 <div class="form-group">

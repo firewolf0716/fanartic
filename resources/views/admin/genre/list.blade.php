@@ -38,7 +38,7 @@
                             <tr>
                                 <td>{{$index}}</td>
                                 <td hidden>{{$genre->genre_id}}</td>
-                                <td style="text-align:center">{{$genre->mall_name}}</td>
+                                <td style="text-align:center">{{$genre->mall()->mall_name}}</td>
                                 <td style="text-align:center">{{$genre->genre_name}}</td>
                                 <td style="text-align:center">{{$genre->genre_name_en}}</td>
                                 <td style="text-align:center">

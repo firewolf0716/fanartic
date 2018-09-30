@@ -26,8 +26,8 @@
                                 <th style="text-align:center">名前</th>
                                 <th style="text-align:center">英名</th>
                                 <th style="text-align:center">デザイン種類</th>
-                                <th style="text-align:center">写真</th>
                                 <th style="text-align:center">ステータス</th>
+                                <th style="text-align:center">写真</th>
                                 <th></th>
                             </tr>
                         </thead>

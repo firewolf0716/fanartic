@@ -30,7 +30,7 @@ class GenreController extends Controller
         $genre->mall_id = Input::get('select_mall');
         $genre->genre_name = Input::get('genre_name');
         $genre->genre_name_en = Input::get('genre_name_en');
-        $genre->optionValid = Input::get('optionValid');
+        $genre->genre_status = Input::get('optionValid');
         $genre->save();
         return Redirect::to('admin/genre/list');
     }
@@ -60,11 +60,12 @@ class GenreController extends Controller
         }
 
         $id = Input::get('genre_id');
+        /** @var Genres $genre */
         $genre = Genres::find($id);
         $genre->mall_id = Input::get('select_mall');
         $genre->genre_name = Input::get('genre_name');
         $genre->genre_name_en = Input::get('genre_name_en');
-        $genre->optionValid = Input::get('optionValid');
+        $genre->genre_status = Input::get('optionValid');
         $genre->save();
         return Redirect::to('admin/genre/list');
     }

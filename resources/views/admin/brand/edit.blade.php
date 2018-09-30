@@ -92,16 +92,10 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        @if($brand->brand_status == 0)
-                            <label><input type="radio" value="0" name="optionStatus" checked>非アクティブ</label>
-                        @else
-                            <label><input type="radio" value="0" name="optionStatus">非アクティブ</label>
-                        @endif
-                        @if($brand->brand_status == 1)
-                        <label><input type="radio" value="1" name="optionStatus" checked>アクティブ</label>
-                        @else
-                        <label><input type="radio" value="1" name="optionStatus">アクティブ</label>
-                        @endif
+                        <label><input type="radio" value="1" name="brand_status"{{$brand->brand_status == 1 ? ' checked' : ''}}>アクティブ</label>
+                        <label><input type="radio" value="0" name="brand_status"{{$brand->brand_status == 0 ? ' checked' : ''}}>非アクティブ</label>
+                        <label><input type="radio" value="2" name="brand_status"{{$brand->brand_status == 2 ? ' checked' : ''}}>凍結</label>
+                        <label><input type="radio" value="3" name="brand_status"{{$brand->brand_status == 3 ? ' checked' : ''}}>退会</label>
                     </div>
                 </div>
                 <div id="div_images">
