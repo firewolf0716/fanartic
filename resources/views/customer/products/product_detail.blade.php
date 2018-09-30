@@ -151,7 +151,7 @@
                         <dt>カラー</dt>
                         <dd>&nbsp;{{$product->color_name}}</dd>
                         <dt>カテゴリ</dt>
-                        <dd>&nbsp;{{$tcategory->category_name}}･{{$mcategory->category_name}}
+                        <dd>&nbsp;{{$top_category->category_name}}･{{$mcategory->category_name}}
                             ･{{$scategory->category_name}}</dd>
                         <dt>素材</dt>
                         <dd>&nbsp;{{$product->product_material}}</dd>
