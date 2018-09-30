@@ -106,43 +106,6 @@
                         </div>
                         <!--/.c-form__row-->
                         <div class="c-form__row">
-                            <div class="c-form__row__label">郵便番号<span class="c-form__require">必須</span></div>
-                            <div class="c-form__row__input">
-                                <input id="zipcode" type="text" class="c-form__input c-form__input--address"
-                                       name="zipcode" value="{{$customer->customer_postalcode}}" required>
-                                <button type="button" class="c-button c-button--primary" onClick="getAddress()">住所自動入力
-                                </button>
-                            </div>
-                        </div>
-                        <!--/.c-form__row-->
-                        <div class="c-form__row">
-                            <div class="c-form__row__label">都道府県<span class="c-form__require">必須</span></div>
-                            <div class="c-form__row__input">
-                                <div class="c-form__colum">
-                                    <div class="c-form__colum__col"><input id="province" type="text"
-                                                                           class="c-form__input" name="province"
-                                                                           value="{{$customer->customer_province}}"
-                                                                           required></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/.c-form__row-->
-                        <div class="c-form__row">
-                            <div class="c-form__row__label">市町区村<span class="c-form__require">必須</span></div>
-                            <div class="c-form__row__input"><input id="county" type="text" class="c-form__input"
-                                                                   name="county" value="{{$customer->customer_county}}"
-                                                                   required></div>
-                        </div>
-                        <!--/.c-form__row-->
-                        <div class="c-form__row">
-                            <div class="c-form__row__label">番地<span class="c-form__require">必須</span></div>
-                            <div class="c-form__row__input"><input id="address" type="text" class="c-form__input"
-                                                                   name="address"
-                                                                   value="{{$customer->customer_address_jp}}" required>
-                            </div>
-                        </div>
-                        <!--/.c-form__row-->
-                        <div class="c-form__row">
                             <div class="c-form__row__label">TEL<span class="c-form__require">必須</span></div>
                             <div class="c-form__row__input">
                                 <input type="tel" class="c-form__input c-form__input--tel" name="tel1"

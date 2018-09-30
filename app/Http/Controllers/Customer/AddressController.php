@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
+use Monarobase\CountryList\CountryList;
 use Session;
 use Hash;
 use Mail;
@@ -20,83 +21,119 @@ use App\Models\CustomerAddress;
 
 class AddressController extends Controller
 {
-    public function address()
+    protected $_validates_jp = [
+        'zipcode'  => 'sometimes|required',
+        'province_jp'  => 'sometimes|required',
+        'city_jp'  => 'sometimes|required',
+        'address_jp'  => 'sometimes|required',
+    ];
+    protected $_validates_us = [
+        'city'  => 'sometimes|required',
+        'address_ex'  => 'sometimes|required',
+    ];
+
+    public function index()
     {
+        $locale = session('applocale');
+        $country = new CountryList();
+        $countries = (object)json_decode($country->getList($locale, 'json'));
+
         $customer = CustomerUser::find(Auth::id());
         $addresses = $customer->address;
-        return $this->layout_init(view('customer.user.address'), 1)->with('addresses', $addresses);
+        return $this->layout_init(view('customer.user.address'), 1)
+            ->with(compact('addresses', 'countries'));
     }
 
-    public function addressadd()
+    public function add()
     {
-        $states = States::get();
-        return $this->layout_init(view('customer.user.address_add'), 1)->with('states', $states);
+        $locale = session('applocale');
+        $country = new CountryList();
+        $countries = json_decode($country->getList($locale, 'json'));
+
+        // $states = States::get();
+        return $this->layout_init(view('customer.user.address_add'), 1)->with(compact('countries'));
     }
 
-    public function address_add_post()
+    public function addPost(Request $request)
     {
-        $state = Input::get('state');
+        $request->merge(['phone' => $request->input('tel1') . '-' . $request->input('tel2') . '-' . $request->input('tel3')]);
+        $request->merge(['customer_id' => Auth::id()]);
+        $this->address = new CustomerAddress();
+        if ($request->input('country') == 'JP') {
+            $validate_list = array_merge($this->address->getValidateList(), $this->_validates_jp);
+        } else {
+            $validate_list = array_merge($this->address->getValidateList(), $this->_validates_us);
+        }
+
+        $request->validate($validate_list);
 
         $address = new CustomerAddress();
         $address->customer_id = Auth::id();
-        $address->address_name = Input::get('name');
-        $address->address_phone = Input::get('tel1') . '-' . Input::get('tel2') . '-' . Input::get('tel3');
-        $address->address_postalcode = Input::get('zipcode');
-        $address->address_state = Input::get('state');
-        $address->address_city = Input::get('city');
-        $address->address_address_ex = Input::get('address_ex');
-        $address->address_province = Input::get('province');
-        $address->address_county = Input::get('county');
-        $address->address_address_jp = Input::get('address_jp');
+        $address->name = $request->input('name');
+        $address->phone = $request->input('phone');
+        $address->zipcode = $request->input('zipcode');
+        $address->country = $request->input('country');
+        $address->city = $request->input('city');
+        $address->address_ex = $request->input('address_ex');
+        $address->province_jp = $request->input('province_jp');
+        $address->city_jp = $request->input('city_jp');
+        $address->address_jp = $request->input('address_jp');
         $address->save();
 
         return Redirect::to('user/address');
     }
 
-    public function address_flag($id)
+    public function flag($id)
     {
-        Customers::unset_address_flag(Auth::id());
+        Customers::unset_flag(Auth::id());
         $address = CustomerAddress::find($id);
-        $address->address_default = 1;
+        $address->is_default = 1;
         $address->save();
         return Redirect::to('user/address');
     }
 
-    public function address_edit($id)
+    public function edit($id)
     {
+        $locale = session('applocale');
+        $country = new CountryList();
+        $countries = json_decode($country->getList($locale, 'json'));
+
         $address = CustomerAddress::find($id);
-        $states = States::get();
-        $phone = $address->address_phone;
-        $tel = array('', '', '');
-        if ($phone != '' || isset($phone)) {
-            $tel = explode('-', $phone);
+        return $this->layout_init(view('customer.user.address_edit'), 1)
+            ->with(compact('address', 'countries'));
+    }
+
+    public function editPost(Request $request)
+    {
+        $request->merge(['phone' => $request->input('tel1') . '-' . $request->input('tel2') . '-' . $request->input('tel3')]);
+        $request->merge(['customer_id' => Auth::id()]);
+        $this->address = new CustomerAddress();
+        if ($request->input('country') == 'JP') {
+            $validate_list = array_merge($this->address->getValidateList(), $this->_validates_jp);
+        } else {
+            $validate_list = array_merge($this->address->getValidateList(), $this->_validates_us);
         }
-        return $this->layout_init(view('customer.user.address_edit'), 1)->with('states', $states)->with('address', $address)
-            ->with('phone', $tel)->with('customerid', Auth::id());
-    }
 
-    public function address_edit_post()
-    {
-        $state = Input::get('state');
-        $id = Input::get('address_id');
+        $request->validate($validate_list);
+
+        $id = $request->input('address_id');
 
         $address = CustomerAddress::find($id);
-        $address->customer_id = Auth::id();
-        $address->address_name = Input::get('name');
-        $address->address_phone = Input::get('tel1') . '-' . Input::get('tel2') . '-' . Input::get('tel3');
-        $address->address_postalcode = Input::get('zipcode');
-        $address->address_state = Input::get('state');
-        $address->address_city = Input::get('city');
-        $address->address_address_ex = Input::get('address_ex');
-        $address->address_province = Input::get('province');
-        $address->address_county = Input::get('county');
-        $address->address_address_jp = Input::get('address_jp');
+        $address->name = $request->input('name');
+        $address->phone = $request->input('phone');
+        $address->zipcode = $request->input('zipcode');
+        $address->country = $request->input('country');
+        $address->city = $request->input('city');
+        $address->address_ex = $request->input('address_ex');
+        $address->province_jp = $request->input('province_jp');
+        $address->city_jp = $request->input('city_jp');
+        $address->address_jp = $request->input('address_jp');
         $address->save();
 
         return Redirect::to('user/address');
     }
 
-    public function address_delete($id)
+    public function delete($id)
     {
         CustomerAddress::find($id)->delete();
         return Redirect::to('user/address');

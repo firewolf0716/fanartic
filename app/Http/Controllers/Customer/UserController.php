@@ -117,30 +117,9 @@ class UserController extends Controller
         $customer->customer_name_kana_second = Input::get('second_name_kana');
         $customer->customer_gender = Input::get('sex');
         $customer->customer_birthday = Input::get('birthday_year') . '/' . Input::get('birthday_month') . '/' . Input::get('birthday_day');
-        $customer->customer_postalcode = Input::get('zipcode');
-        $customer->customer_province = Input::get('province');
-        $customer->customer_county = Input::get('county');
-        $customer->customer_address_jp = Input::get('address');
         $customer->customer_phone = Input::get('tel1') . '-' . Input::get('tel2') . '-' . Input::get('tel3');
         $customer->customer_status = $customer->customer_status;
         $customer->save();
-
-        if($customer->customer_province != $p_address_province || 
-            $customer->customer_county != $p_address_county ||
-            $customer->customer_address_jp != $p_address_ex){
-            $address = new CustomerAddress();
-            $address->customer_id = Auth::id();
-            $address->address_name = '既定の住所';
-            $address->address_phone = '--';
-            $address->address_postalcode = $customer->customer_postalcode;
-            $address->address_state = 1; //Japan
-            $address->address_city = '';
-            $address->address_address_ex = '';
-            $address->address_province = Input::get('province');
-            $address->address_county = Input::get('county');
-            $address->address_address_jp = Input::get('address');
-            $address->save();
-        }
 
         $password = Input::get('password');
         if (isset($password)) {

@@ -28,9 +28,9 @@ class Customers extends AppModel
             ->get();
     }
 
-    public static function unset_address_flag($customerid)
+    public static function unset_flag($customerid)
     {
-        DB::table('customer_address')->where('customer_id', $customerid)->update(['address_default' => 0]);
+        DB::table('customer_address')->where('customer_id', $customerid)->update(['is_default' => 0]);
     }
 
     public static function add_address($entry)
