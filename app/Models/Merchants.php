@@ -67,4 +67,9 @@ class Merchants extends Authenticatable
         'password',
     ];
 
+    public function tempostar()
+    {
+        return $this->hasOne(Tempostar::class, 'merchant_id', 'merchant_id');
+    }
+
 }
