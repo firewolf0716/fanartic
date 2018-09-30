@@ -29,20 +29,20 @@ class CategoryController extends Controller
                                         ->with('maincategoryid', 0);
     }
 
-    public function addmain($topid) {
+    public function addmain($topId) {
         if ($this->check_admin_session() == false) {
             return Redirect::to('admin/login');
         }
 
-        $topcategory = Categorys::find($topid);
-        $sizecategorys = SizeCategory::get();
+        $topCategory = Categorys::find($topId);
+        $sizeCategorys = SizeCategory::get();
 
         return view('admin.category.add')->with('toptitle', 'メインカテゴリを追加')
-                                        ->with('title', 'メインカテゴリを追加 ('.$topcategory->category_name.')')
+                                        ->with('title', 'メインカテゴリを追加 (' . $topCategory->category_name . ')')
                                         ->with('categorylevel', 2)
-                                        ->with('topcategoryid', $topid)
+                                        ->with('topcategoryid', $topId)
                                         ->with('maincategoryid', 0)
-                                        ->with('sizecategorys', $sizecategorys);
+                                        ->with('sizecategorys', $sizeCategorys);
     }
 
     public function add($topid, $mainid) {
@@ -65,31 +65,31 @@ class CategoryController extends Controller
             return Redirect::to('admin/login');
         }
 
-        $topcategoryid = Input::get('topcategoryid');
-        $maincategoryid = Input::get('maincategoryid');
-        $categorylevel = Input::get('categorylevel');
-        $parentid = 0;
-        if ($categorylevel == 1) {
-            $parentid = 0;
-        } else if ($categorylevel == 2) {
-            $parentid = $topcategoryid;
+        $categoryId = Input::get('topcategoryid');
+        $mainCategoryId = Input::get('maincategoryid');
+        $categoryLevel = Input::get('categorylevel');
+
+        if ($categoryLevel == 1) {
+            $parentId = 0;
+        } else if ($categoryLevel == 2) {
+            $parentId = $categoryId;
         } else {
-            $parentid = $maincategoryid;
+            $parentId = $mainCategoryId;
         }
 
         $category = new Categorys();
-        $category->category_parent_id = $parentid;
+        $category->category_parent_id = $parentId;
         $category->category_size_id = Input::get('select_sizecategory');
         $category->category_name = Input::get('category_name');
         $category->category_name_en = Input::get('category_name_en');
         $category->save();
 
-        if ($topcategoryid == 0) {
-            return Redirect::to('admin/category/add');
-        } else if ($maincategoryid == 0) {
-            return Redirect::to('admin/category/add/'.$topcategoryid);
+        if ($categoryId == 0) {
+            return Redirect::to('admin/category/list');
+        } else if ($mainCategoryId == 0) {
+            return Redirect::to('admin/category/add/' . $categoryId);
         } else {
-            return Redirect::to('admin/category/add/'.$topcategoryid.'/'.$maincategoryid);
+            return Redirect::to('admin/category/add/' . $categoryId . '/' . $mainCategoryId);
         }
     }
 
@@ -179,21 +179,21 @@ class CategoryController extends Controller
 
         $category = Categorys::find($mainid);
         $malls = Malls::get();
-        $sizecategorys = Sizes::get();
+        $sizeCategorys = Sizes::get();
         $linkedMalls = MatchService::get_malls_bycategory($mainid);
         $topCategorys = $this->getTopCategorys();
-        $topcategory = Categorys::find($topid);
+        $topCategory = Categorys::find($topid);
 
         if(isset($category)){
             return view('admin.category.edit')->with('category', $category)
                                             ->with('toptitle', 'メインカテゴリを編集')
-                                            ->with('title', 'メインカテゴリを編集 ('.$topcategory->category_name.')')
+                                            ->with('title', 'メインカテゴリを編集 (' . $topCategory->category_name . ')')
                                             ->with('categorylevel', 2)
                                             ->with('topcategoryid', $topid)
                                             ->with('maincategoryid', 0)
                                             ->with('malls', $malls)
                                             ->with('linkedMalls', $linkedMalls)
-                                            ->with('sizecategorys', $sizecategorys)
+                                            ->with('sizecategorys', $sizeCategorys)
                                             ->with('topCategorys', $topCategorys);
         } else {
             return Redirect::to('admin/category/list');
@@ -260,10 +260,10 @@ class CategoryController extends Controller
             }
 
             Categorys::find($id)->delete();
-            MatchService::remove_malls($id);
+            MatchService::remove_malls_bycategory($id);
         } else {
             Categorys::find($id)->delete();
-            MatchService::remove_malls($id);
+            MatchService::remove_malls_bycategory($id);
         }
 
         if ($parent_category_id == 0) {
