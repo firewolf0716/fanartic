@@ -7,7 +7,11 @@ use App\Models\Products;
 class ProductService
 {
 
-    public static function getProducts() {
+    /**
+     * @param $mall_id
+     */
+    public static function getNew($mall_id)
+    {
 
     }
 

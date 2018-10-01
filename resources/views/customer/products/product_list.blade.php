@@ -3,9 +3,9 @@
 @section('content')
     <ul class="c-breadcrumbs">
         <li><a href="/">HOME</a></li>
-        <li>{{$tcategory->category_name}}</li>
-        @if(isset($mcategory))
-            <li>{{$mcategory->category_name}}</li>
+        <li>{{$top_category->category_name}}</li>
+        @if(isset($main_category))
+            <li>{{$main_category->category_name}}</li>
         @endif
         @if(isset($scategory))
             <li>{{$scategory->category_name}}</li>
@@ -37,21 +37,15 @@
         <!--/.product-list__column__content-->
         <div class="product-list__column__nav" data-productfilter__content="">
             {!! Form::open(array('id' => 'form_product_list','url'=>'product/product_list_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-            {{ Form::hidden('tcategory_id', $tcategory->category_id)}}
+            {{ Form::hidden('tcategory_id', $top_category->category_id)}}
             {{ Form::hidden('cururl', Request::url())}}
-            @if(isset($mcategory))
-                {{ Form::hidden('mcategory_id', $mcategory->category_id)}}
-            @endif
-            @if(isset($scategory))
-                {{ Form::hidden('scategory_id', $scategory->category_id)}}
-            @endif
             <h2 class="product-list__column__nav__hd u-sp">絞り込む</h2>
             <ul class="product-list__nav">
                 <li>
                     <h3 class="product-list__nav__hd is-open" data-accordionproductlist="">カテゴリー</h3>
                     <div class="product-list__nav__item">
                         <ul class="product-list__nav__category u-pc">
-                            @foreach($maincategorys as $maincategory)
+                            @foreach($main_categorys as $maincategory)
                                 <li class="is-hassub">
                                     @php
                                         $url = '/';
@@ -70,7 +64,7 @@
                                     @endphp
                                     <a href="{{$url}}">{{$maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
-                                        @foreach($subcategorys[$maincategory->category_id] as $subcategory)
+                                        @foreach($maincategory->sub as $subcategory)
                                             <li>
                                                 <a href="{{$url.'/'.str_replace('/', '-', $subcategory->category_name_en)}}">{{$subcategory->category_name}}</a>
                                             </li>
@@ -212,8 +206,8 @@
                 </li>
                 <li>
                     <div class="product-list__nav__price__buttons u-pc">
-                        <a class="product-list__nav__price__button" onClick="onClear()">削除</a>
-                        <a class="product-list__nav__price__button" onClick="onFilter()">OK</a>
+                        <a class="product-list__nav__price__button" onClick="onClear()">リセット</a>
+                        <a class="product-list__nav__price__button" onClick="onFilter()">検索</a>
                     </div>
                 </li>
             </ul>
