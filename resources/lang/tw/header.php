@@ -5,8 +5,8 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Multi Language Lines
-    |--------------------------------------------------------------------------
     |
+    |--------------------------------------------------------------------------
     | The following language lines are used during multi languages for various
     | messages that we need to display to the user. You are free to modify
     | these language lines according to your application's requirements.
@@ -23,5 +23,7 @@ return [
     '探しているアイテム' => '尋找的項目',
     '注文履歴' => '點菜履歷',
     '会員情報' => '會員信息',
-    'ポイント' => '分數'
+    'ポイント' => '分數',
+	'男性' => '一個男人',
+	'女性' => '女子'
 ];

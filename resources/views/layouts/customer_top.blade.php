@@ -128,8 +128,8 @@
                         <!--/.header__modal-->
                     </li>
                 @else
-                    <li><a href="{{ route('login') }}">{{ __('header.ログイン') }}</a></li>
-                    <li><a href="{{ route('register') }}">{{ __('header.新規登録') }}</a></li>
+                    <li><a href="{{ route('login') }}">{{ __('auth.ログイン') }}</a></li>
+                    <li><a href="{{ route('register') }}">{{ __('auth.新規登録') }}</a></li>
                 @endif
             </ul>
         </div>
