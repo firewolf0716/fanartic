@@ -747,6 +747,26 @@ class MerchantproductController extends Controller
         $newdestinationPath = './csv/';
         $uploadSuccess_new = $csv_file->move($newdestinationPath, $filename_new);
 
+/*zip file upload*/
+        $zip_file = Input::file('zip_file');
+        if ($zip_file == null || $zip_file == "") {
+            return Redirect::to('merchant/product/manage');
+        }
+
+        $filename_zip_new = "merchant_product_zip_" . $merchant_id . "." . strtolower($zip_file->getClientOriginalExtension());  
+        $newdestinationZipPath = './zip/';
+        $uploadZipSuccess_new = $zip_file->move($newdestinationZipPath, $filename_zip_new);
+
+        $zip = new \ZipArchive;
+        if ($zip->open($uploadZipSuccess_new) === TRUE) {
+            $zip->extractTo('./images/products/');
+            $zip->close();
+            $ok = TRUE;
+        } else {
+            $ok = FALSE;
+        }
+/*zip file upload*/
+
         $importProductCount = 0;
         if (($handle = fopen($uploadSuccess_new, 'r')) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ',')) !== FALSE) {
