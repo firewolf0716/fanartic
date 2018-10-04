@@ -1,37 +1,89 @@
 @extends('layouts.merchant_layout')
 
-@section('title', 'Dashboard|or Not__')
+@section('title', 'Dashboard')
 
 @section('content')
     <div class="">
+        <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="x_panel">
+                    <div class="row x_title">
+                        <h2>or Not__からのお知らせ</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <ul>
+                            <li>2018.10.02&emsp;<a href="">お知らせのタイトルが入ります</a></li>
+                            <li>2018.10.02&emsp;<a href="">お知らせのタイトルが入ります</a></li>
+                            <li>2018.10.02&emsp;<a href="">お知らせのタイトルが入ります</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        </div>
         <div class="row top_tiles">
             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-home-o"></i></div>
-                    <div class="count">1,500</div>
-                    <h3>販売中商品</h3>
-                </div>
+                <a href="">
+                    <div class="tile-stats">
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;本日の注文</h3>
+                        <div class="count">150<span class="small">件</span></div>
+                    </div>
+                </a>
             </div>
             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-comments-o"></i></div>
-                    <div class="count">179</div>
-                    <h3>購入済</h3>
-                </div>
+                <a href="">
+                    <div class="tile-stats tile-alert">
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;未発送の注文</h3>
+                        <div class="count">30<span class="small">件</span></div>
+                    </div>
+                </a>
             </div>
             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
-                    <div class="count">179</div>
-                    <h3>未出荷</h3>
-                </div>
+                <a href="">
+                    <div class="tile-stats">
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;お問い合わせ（未対応）</h3>
+                        <div class="count">20<span class="small">件</span></div>
+                    </div>
+                </a>
             </div>
             <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                <div class="tile-stats">
-                    <div class="icon"><i class="fa fa-check-square-o"></i></div>
-                    <div class="count">179</div>
-                    <h3>販売済</h3>
-                </div>
+                <a href="">
+                    <div class="tile-stats">
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;本日の注文</h3>
+                        <div class="count">1,500 <span class="small">件</span></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row top_tiles">
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <a href="">
+                    <div class="tile-stats">
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;10月2日の売上</h3>
+                        <div class="count">15,000,000<span class="small">円</span></div>
+                        <p>&emsp;</p>
+                    </div>
+                </a>
+            </div>
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <a href="">
+                    <div class="tile-stats">
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;2018年10月の累計売上</h3>
+                        <div class="count">35,000,000<span class="small">円</span></div>
+                        <p>&emsp;</p>
+                    </div>
+                </a>
+            </div>
+            <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                <a href="">
+                    <div class="tile-stats">
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;本日の注文</h3>
+                        <div class="count">150<span class="small">件</span></div>
+                        <p>前年比 -30.3%</p>
+                    </div>
+                </a>
             </div>
         </div>
 
