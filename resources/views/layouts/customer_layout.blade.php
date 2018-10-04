@@ -104,7 +104,11 @@
                 </li>
                 <li><a href="{{ route('favorite') }}"><i class="c-icon
                 header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{ route('cart') }}"><i class="c-icon header__nav-secondary__icon--wish"></i>(0)</a></li>
+                <li><a href="{{ route('cart') }}/user/cart">
+                        <span class="c-badge"><span class="c-badge__num">99</span></span>
+                        <i class="c-icon header__nav-secondary__icon--wish"></i>
+                    </a>
+                </li>
                 @if(!empty($authUser))
                     <li class="header__nav-secondary__user">
                         <a href="{{url('user/cart')}}" class="u-sp">

@@ -594,11 +594,12 @@ class MerchantproductController extends Controller
             }
 
             $result[] = [
-                'product_id' => $product->product_id,
+                'product_code' => $product->product_code,
                 'product_name' => $product->product_name,
                 'product_price' => (count($stocks) > 0 ? $stocks[0]->product_price_sale : ''),
                 'product_images' => $images,
                 'stock_type' => $product->stock_type,
+                'sale_span' => $product->product_salerange,
                 'product_count' => $amount,
             ];
         }
@@ -933,13 +934,13 @@ class MerchantproductController extends Controller
         // }
     }
 
-    public function product_cash_on_delivery()
+    public function order()
     {
         $merchant_id = Auth::id();
         // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
         $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
 
-        return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
+        return view('merchant.product.order')->with('merchant_id', $merchant_id)
             ->with('cashProducts', $cashProducts)
             ->with('product_status', '2')
             ->with('free_word', '')

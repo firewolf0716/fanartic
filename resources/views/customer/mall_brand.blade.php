@@ -5,7 +5,7 @@
         <div class="top__visual__inner">
             <h1 class="top__visual__logo"><img src="/images/top/top__visual__logo.png" alt="or Not Fill in the Blank">
             </h1>
-            <div class="top__visual__text">熱狂的ファッション愛好家のための<br>ECプラットフォーム</div>
+            <div class="top__visual__text">熱狂的ファッション愛好家のための<br>ECサイト</div>
         </div>
         <!--/.top__visual__inner--><a href="#brand" class="top__visual__scroll"><span>scroll</span><i></i></a>
         <div class="top__visual__bg"

@@ -83,8 +83,12 @@
                 @endif
                 <li><a href="{{url('')}}/user/favourite"><i
                                 class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i
-                                class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/user/cart">
+                        <span class="c-badge"><span class="c-badge__num">99</span></span>
+                        <i class="c-icon header__nav-secondary__icon--wish"></i>
+                    </a>
+                </li>
+
             </ul>
 
             <div class="header__search" data-header-search><span class="header__search__close"
