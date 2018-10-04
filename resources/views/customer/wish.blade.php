@@ -25,12 +25,12 @@
               <li><span class="header__nav-primary__button" data-header-primary__button>WOMEN</span>
                 <div class="header__nav-primary__list">
                   <ul class="header__nav-primary__list__menu">
-                    <li><a href="#">NEW</a></li>
+                    <li><a href="#">{{ __('common.新規') }}</a></li>
                     <li><a href="#">BAG</a></li>
                     <li><a href="#">ACCESSORY</a></li>
-                    <li><a href="#">EDITORIAL</a></li>
-                    <li><a href="#">SALE</a></li>
-                    <li><a href="#">BRAND</a></li>
+                    <li><a href="#">{{ __('common.文学') }}</a></li>
+                    <li><a href="#">{{ __('common.販売') }}</a></li>
+                    <li><a href="#">{{ __('header.ブランド') }}</a></li>
                     <li><a href="#">APPAREL</a></li>
                     <li><a href="#">SHOES</a></li>
                     <li><a href="#">SNEAKER</a></li>
@@ -40,15 +40,15 @@
               <li><span class="header__nav-primary__button is-current" data-header-primary__button>MEN</span>
                 <div class="header__nav-primary__list">
                   <ul class="header__nav-primary__list__menu">
-                    <li><a href="#">NEW</a></li>
-                    <li><a href="#">BRAND</a></li>
+                    <li><a href="#">{{ __('common.新規') }}</a></li>
+                    <li><a href="#">{{ __('header.ブランド') }}</a></li>
                     <li><a href="#">APPAREL</a></li>
                     <li><a href="#">SHOES</a></li>
                     <li><a href="#">SNEAKER</a></li>
                     <li><a href="#">BAG</a></li>
                     <li><a href="#">ACCESSORY</a></li>
-                    <li><a href="#">EDITORIAL</a></li>
-                    <li><a href="#">SALE</a></li>
+                    <li><a href="#">{{ __('common.文学') }}</a></li>
+                    <li><a href="#">{{ __('common.販売') }}</a></li>
                   </ul>
                 </div>
               </li>
@@ -254,7 +254,7 @@
         <!--/.footer__banner-->
         <div class="footer__nav">
           <div class="l-wrapper">
-            <h2 class="footer__nav__hd" data-accordion="">BRAND</h2>
+            <h2 class="footer__nav__hd" data-accordion="">{{ __('header.ブランド') }}</h2>
             <div class="footer__nav__list-wrap">
               <ul class="footer__nav__list footer__nav__list--col04">
                 <li><a href="#">berg</a></li>
