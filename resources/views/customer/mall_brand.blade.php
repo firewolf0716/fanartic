@@ -22,7 +22,7 @@
             <div class="c-brand-list">
                 <ul class="c-brand-list__items">
                     @foreach($brands as $brand)
-                        <li class="c-brand-list__item inview">
+                       <li class="c-brand-list__item inview">
                             <a href="{{Request::url().'/'.$brand->brand_name_en}}" class="c-brand-list__link">
                                 <figure class="c-brand-list__item__figure"><img
                                             src="http://placehold.jp/466x660.png?text=" alt="visvim"></figure>
@@ -34,7 +34,7 @@
                 <!--/.c-brand-list__items-->
             </div>
             <!--/.c-brand-list-->
-            <div class="l-button inview inview-fadeUp"><a href="#" class="c-button c-button--submit">VIEW ALL</a></div>
+            <div class="l-button inview inview-fadeUp"><a href="#" class="c-button c-button--submit">{{ __('common.すべてを見る') }}	</a></div>
         </div>
         <!--/.top__brands-->
         <div class="c-cpn-list">
@@ -44,7 +44,7 @@
                     </figure>
                     <div class="c-cpn-list__item__button">
 						<a href="#" class="c-button c-button--submit c-button--color--01">
-							{{ __('common.詳細を表示	') }}			 
+							{{ __('common.詳細を表示') }}			 
 						</a>
 					</div>
                 </li>
@@ -53,7 +53,7 @@
                     </figure>
                     <div class="c-cpn-list__item__button">
 						<a href="#" class="c-button c-button--submit c-button--color--02">
-							{{ __('common.詳細を表示	') }}				 
+							{{ __('common.詳細を表示') }}				 
 						</a>
 					</div>
                 </li>
@@ -62,7 +62,7 @@
                     </figure>
                     <div class="c-cpn-list__item__button">
 						<a href="#" class="c-button c-button--submit c-button--color--03">
-							{{ __('common.詳細を表示	') }}			 
+							{{ __('common.詳細を表示') }}			 
 						</a>
 					</div>
                 </li>
@@ -71,7 +71,7 @@
                     </figure>
                     <div class="c-cpn-list__item__button">
 						<a href="#" class="c-button c-button--submit c-button--color--04">
-							{{ __('common.詳細を表示	') }}				 
+							{{ __('common.詳細を表示') }}				 
 						</a>
 					</div>
                 </li>
@@ -80,12 +80,12 @@
                     </figure>
                     <div class="c-cpn-list__item__button">
 						<a href="#" class="c-button c-button--submit c-button--color--05">
-							{{ __('common.詳細を表示	') }}				 
+							{{ __('common.詳細を表示') }}				 
 						</a>
 					</div>
                 </li>
             </ul>
-            <div class="l-button inview inview-fadeUp"><a href="#" class="c-button c-button--submit">VIEW ALL ITEMS</a>
+            <div class="l-button inview inview-fadeUp"><a href="#" class="c-button c-button--submit">{{ __('common.すべての項目を表示') }}</a>
             </div>
         </div>
         <!--/.c-cpn-list-->

@@ -29,7 +29,7 @@ return [
     'お名前' => 'name',
     '登録する' => 'register',
     'Facebookで登録' => 'Facebook register',
-	'ログイン' => 'login',,
+	'ログイン' => 'login',
 	'登録することで以下に同意したものとみなされます。' => 'By registering you are deemed to have agreed to the following.',
 	'利用規約' => 'Terms of service',
 	'プライバシー＆クッキーポリシー' => 'Privacy & Cookie Policy',

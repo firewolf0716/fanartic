@@ -1,6 +1,6 @@
 @if(isset($customerid))
     <div class="l-column--sub">
-        <h2 class="c-hd">最近チェックしたアイテム</h2>
+        <h2 class="c-hd">{{ __('customer.最近チェックしたアイテム') }}</h2>
         <div class="c-items c-items--03">
             @if(isset($recent))
                 @foreach($recent as $recentitem)
