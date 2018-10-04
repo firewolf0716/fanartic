@@ -2,10 +2,10 @@
 @section('content')
     <ul class="c-breadcrumbs">
         <li><a href="/">HOME</a></li>
-        <li>注文履歴</li>
+        <li>{{ __('customer.注文履歴') }}</li>
     </ul>
     <!--/.c-breadcrumbs-->
-    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--history"></i> 注文履歴</h1>
+    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--history"></i> {{ __('customer.注文履歴') }}</h1>
     <div class="members">
         <div class="members__column">
             <div class="members__column__content">
@@ -14,14 +14,14 @@
                         <section class="c-box">
                             <h3 class="c-box__hd">
                                 @if($group->history_status == 2)
-                                    未発送
+                                    {{ __('customer.未発送') }}
                                 @elseif($group->history_status == 3)
-                                    発送
+                                    {{ __('customer.発送') }}
                                 @elseif($group->history_status == 1)
-                                    拒否
+                                    {{ __('customer.拒否') }}
                                 @endif
                                 <small>
-                                    発送予定日：&nbsp;&nbsp;&nbsp;&nbsp;注文日：{{implode('.', explode('/', substr($group->history_date, 0, 10)))}}</small>
+                                    {{ __('customer.発送予定日') }}：&nbsp;&nbsp;&nbsp;&nbsp;{{ __('customer.注文日') }}：{{implode('.', explode('/', substr($group->history_date, 0, 10)))}}</small>
                             </h3>
                             <div class="c-box__content">
                                 <div class="c-item c-item-01">
@@ -41,18 +41,18 @@
                                                     @if($subitem->history_status == 2)
                                                         <a href="#">ステータス:未発送</a>
                                                     @elseif($subitem->history_status == 3)
-                                                        <a href="{{url('user/history/receive/'.$subitem->id)}}">ステータス:発送</a>
+                                                        <a href="{{url('user/history/receive/'.$subitem->id)}}">{{ __('customer.ステータス') }}:{{ __('customer.発送') }}</a>
                                                     @elseif($subitem->history_status == 1)
-                                                        <a href="#">ステータス:拒否</a>
+                                                        <a href="#">{{ __('customer.ステータス') }}:{{ __('customer.拒否') }}</a>
                                                     @elseif($subitem->history_status == 4)
-                                                        <a href="#">ステータス:完了</a>
+                                                        <a href="#">{{ __('customer.ステータス') }}:{{ __('customer.完了') }}</a>
                                                     @endif
                                                     <h3 class="c-item__name">{{$subitem->brand_name}}</h3>
                                                     <ul class="c-item__data">
                                                         <li>{{$subitem->product_name}}</li>
-                                                        <li>カラー：{{$colorname[$subitem->id]->color_name}}</li>
-                                                        <li>サイズ：{{$sizename[$subitem->id]->size_name}}</li>
-                                                        <li>数量：{{number_format($subitem->history_amount)}}</li>
+                                                        <li>{{ __('customer.カラー') }}：{{$colorname[$subitem->id]->color_name}}</li>
+                                                        <li>{{ __('customer.サイズ') }}：{{$sizename[$subitem->id]->size_name}}</li>
+                                                        <li>{{ __('customer.数量') }}：{{number_format($subitem->history_amount)}}</li>
                                                     </ul>
                                                     <div class="c-item__price">
                                                         <strong>&yen;{{number_format($subitem->history_price)}}</strong>
@@ -69,14 +69,14 @@
                                 <div class="c-box-detail">
                                     <div class="c-item">
                                         <ul class="c-item__data">
-                                            <li>ご注文番号：</li>
-                                            <li>支払い方法： クレジット(一括)</li>
-                                            <li>支払い金額：<span
+                                            <li>{{ __('customer.ご注文番号') }}：</li>
+                                            <li>{{ __('customer.お支払い方法') }}： {{ __('customer.クレジット(一括)') }}</li>
+                                            <li>{{ __('customer.支払い金額') }}：<span
                                                         class="c-item__price"><strong>&yen;{{number_format($total[$group->history_group])}}</strong></span>
                                             </li>
                                         </ul>
                                         <a href="{{url('user/historydetail/'.$group->history_group)}}"
-                                           class="c-button c-button--primary c-button--full">注文内容の詳細</a></div>
+                                           class="c-button c-button--primary c-button--full">{{ __('customer.注文内容の詳細') }}</a></div>
                                 </div>
                                 <!--/.c-box-detail-->
                             </div>
@@ -85,7 +85,7 @@
                         <!--/.c-box-->
                     @endforeach
                 @else
-                    <p>まだ購入履歴がありません</p>
+                    <p>{{ __('customer.まだ購入履歴がありません') }}</p>
                 @endif
             </div>
             <!--/.members__column__content-->

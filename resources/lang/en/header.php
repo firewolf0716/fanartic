@@ -24,7 +24,7 @@ return [
     '注文履歴' => 'Order History',
     '会員情報' => 'Profile',
     'ポイント' => 'Point',
-	'男性' => 'MEN',
-	'女性' => 'WOMEN'
+	'メンズ' => 'MEN',
+	'レディース' => 'WOMEN'
 
 ];

@@ -6,22 +6,26 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>モールを管理する</h3>
+            <h3>{{ __('admin.管理者 / ショッピングモール') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
+                <div class="x_title">
+                    <h4>{{ __('admin.ショッピングモール') }}</h4>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="x_content">
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th hidden>identify</th>
-                                <th style="text-align:center">名前</th>
-                                <th style="text-align:center">英名</th>
-                                <th style="text-align:center">ステータス</th>
+                                <th style="text-align:center">{{ __('admin.名前') }}</th>
+                                <th style="text-align:center">{{ __('admin.英名') }}</th>
+                                <th style="text-align:center">{{ __('admin.ステータス') }}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -36,9 +40,9 @@
                                 <td style="text-align:center">{{$mall->mall_name_en}}</td>
                                 <td style="text-align:center">
                                     @if($mall->mall_status == 1)
-                                    有効
+                                    {{ __('admin.有効') }}
                                     @else
-                                    無効
+                                    {{ __('admin.無効') }}
                                     @endif
                                 </td>
                                 <td style="text-align:center">
@@ -52,7 +56,7 @@
                 </div>
             </div>
         </div>
-    </div>        
+    </div>
 </div>
     <!-- jQuery -->
     <script src="{{ url('')}}/gvendor/jquery/dist/jquery.min.js"></script>
@@ -82,9 +86,9 @@
     <script src="{{ URL::asset('gvendor/moment/min/moment.min.js') }}"></script>
     <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
-    <!-- bootstrap-datetimepicker -->    
+    <!-- bootstrap-datetimepicker -->
     <script src="{{ URL::asset('gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
-    
+
     <!-- Custom Theme Scripts -->
 
 
@@ -127,7 +131,7 @@
 
     <script>
 		function deleteConfirm(mall_id) {
-			var answer = confirm('本当に削除しますか?');
+			var answer = confirm('{{ __('admin.本当に削除しますか?') }}');
             if(!answer){
                 return;
             }

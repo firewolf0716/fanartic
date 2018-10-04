@@ -128,7 +128,7 @@
         @yield('content')
         @if(isset($customerid))
             <div class="l-column--sub">
-                <h2 class="c-hd">最近チェックしたアイテム</h2>
+                <h2 class="c-hd">{{ __('customer.最近チェックしたアイテム') }}</h2>
                 <div class="c-items c-items--03">
                     <div class="c-item c-item--03">
                         <div class="c-item__column">

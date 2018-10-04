@@ -45,7 +45,7 @@
             <!--/.product-detail__figure-->
 
             <div class="product-detail__data">
-                <h2 class="product-detail__data__brand">{{ __('ブランド') }}：<a href="#">{{$product->brand->brand_name}}</a></h2>
+                <h2 class="product-detail__data__brand">{{ __('header.ブランド') }}：<a href="#">{{$product->brand->brand_name}}</a></h2>
                 <h1 class="product-detail__data__name">{{$product->product_name}}</h1>
                 <div class="product-detail__data__price">
                     @if($price['min'] < $price['max'])
@@ -58,11 +58,11 @@
                     @endif
                 </div>
                 <ul class="product-detail__data__list">
-                    <li><i class="c-icon product-detail__data__list__icon--point"></i>獲得スコア：1000ポイント</li>
-                    <li><i class="c-icon product-detail__data__list__icon--wish"></i>お気に入りアイテム登録数：2877人</li>
+                    <li><i class="c-icon product-detail__data__list__icon--point"></i>{{ __('customer.獲得スコア') }}：1000{{ __('customer.ポイント') }}</li>
+                    <li><i class="c-icon product-detail__data__list__icon--wish"></i>{{ __('customer.お気に入りアイテム登録数') }}：2877{{ __('customer.人') }}</li>
                 </ul>
                 <div class="u-sp"><span class="c-item__addcart product-detail__data__cart__item__list__addcart__button"
-                                        data-productdetail__button=""><i class="c-icon"></i>カートへ入れる</span></div>
+                                        data-productdetail__button=""><i class="c-icon"></i>{{ __('customer.カートへ入れる') }}</span></div>
                 <div class="product-detail__data__cart" data-productdetail__content="">
                     <h3 class="product-detail__data__cart__hd u-sp">カートに入れる</h3>
                     @foreach($skucolor as $color)
@@ -81,7 +81,7 @@
                                             <div class="product-detail__data__cart__item__list__size">
                                                 {{$size->size_name}}
                                                 <span class="u-pc">&nbsp;/&nbsp;</span>
-                                                <br class="u-sp">在庫あり
+                                                <br class="u-sp">{{ __('customer.在庫あり') }}
                                             </div>
                                             <div class="product-detail__data__cart__item__list__size">
                                                 <div class="l-column--cart__quantity">
@@ -104,8 +104,7 @@
                                                 <button id='{{$color->sku_id.'_'.$size->sku_id}}_btn'
                                                         class="c-item__addcart product-detail__data__cart__item__list__addcart__button"
                                                         onClick="onCart('{{$color->sku_id.'_'.$size->sku_id}}', '{{$skuinfo[$color->sku_id][$size->sku_id]['count']}}')">
-                                                    <i class="c-icon u-pc"></i>カートへ入れる
-                                                </button>
+                                                    <i class="c-icon u-pc"></i>{{ __('customer.カートへ入れる') }}</button>
                                             </div>
                                             <div class="product-detail__data__cart__item__list__wish">
                                                 <i class="c-icon" onClick="onFavorite('{{$product->product_id}}',
@@ -140,23 +139,26 @@
         <!--/.product-detail__column-->
         <div class="product-detail__text" data-tab="">
             <ul class="product-detail__text__index" data-tab__list="">
-                <li><a href="#detail01" class="is-current">アイテム説明</a></li>
-                <li><a href="#detail02">サイズ・詳細</a></li>
-                <li><a href="#detail03">配送＆返品</a></li>
+                <li><a href="#detail01" class="is-current">{{ __('customer.アイテム説明') }}</a></li>
+                <li><a href="#detail02">{{ __('customer.サイズ・詳細') }}</a></li>
+                <li><a href="#detail03">{{ __('customer.配送＆返品') }}</a></li>
             </ul>
             <ul class="product-detail__text__content" data-tab__content="">
                 <li id="detail01">
                     <p>{{$product->product_memo}}</p>
                     <dl class="c-dl">
-                        <dt>カラー</dt>
+                        <dt>{{ __('customer.カラー') }}</dt>
                         <dd>&nbsp;{{$product->color_name}}</dd>
-                        <dt>素材</dt>
+                        <dt>{{ __('customer.カテゴリー') }}</dt>
+                        <dd>&nbsp;{{$top_category->category_name}}･{{$mcategory->category_name}}
+                            ･{{$scategory->category_name}}</dd>
+                        <dt>{{ __('customer.素材') }}</dt>
                         <dd>&nbsp;{{$product->product_material}}</dd>
-                        <dt>生産国</dt>
+                        <dt>{{ __('customer.生産国') }}</dt>
                         <dd>&nbsp;{{$product->product_place}}</dd>
-                        <dt>取扱い</dt>
+                        <dt>{{ __('customer.取扱い') }}</dt>
                         <dd>&nbsp;取扱い</dd>
-                        <dt>商品番号</dt>
+                        <dt>{{ __('customer.商品番号') }}</dt>
                         <dd>&nbsp;{{$product->product_code}}</dd>
                     </dl>
                     <ul class="product-detail__text__content__sns">
@@ -171,11 +173,11 @@
                     <table class="c-table">
                         <thead>
                         <tr>
-                            <th>アイテム説明</th>
-                            <th>肩幅</th>
-                            <th>身幅</th>
-                            <th>着丈</th>
-                            <th>袖丈</th>
+                            <th>{{ __('customer.アイテム説明') }}</th>
+                            <th>{{ __('customer.肩幅') }}</th>
+                            <th>{{ __('customer.身幅') }}</th>
+                            <th>{{ __('customer.着丈') }}</th>
+                            <th>{{ __('customer.袖丈') }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -204,19 +206,19 @@
                     </table>
                 </li>
                 <li id="detail03">
-                    <h4 class="product-detail__text__content__hd">配送先情報</h4>
-                    <p>こちらのアイテムは次の国/地域から発送されます： ポーランド</p>
-                    <p>複数のロケーション＆注文でも送料定額<br>いくつ注文しても、世界のどこから注文しても、送料は一定料金となります。</p>
-                    <p>新サービスのクリック＆コレクト（店舗受取サービス）をご利用いただけます。詳細はこちら</p>
-                    <h4 class="product-detail__text__content__hd">返品無料引き取りサービス</h4>
-                    <p>返品無料引き取りサービスを実施しています。</p>
-                    <p>返品手続きは商品受領日より14日以内にお願い致します。返品可能期間に受理されるよう、商品受領日より7日以内に当サイトにて返品無料引き取りサービスをご予約いただくことをお薦めします。</p>
-                    <p>返品ポリシーに関する詳細はこちらをクリックしてください。</p>
-                    <h4 class="product-detail__text__content__hd">輸入関税に関する情報</h4>
-                    <p>お買い物を安心してお楽しみいただくため、以下をご確認ください。</p>
+                    <h4 class="product-detail__text__content__hd">{{ __('customer.配送先情報') }}</h4>
+                    <p>{{ __('customer.こちらのアイテムは次の国/地域から発送されます') }}： {{ __('customer.ポーランド') }}</p>
+                    <p>{{ __('customer.複数のロケーション＆注文でも送料定額') }}<br>{{ __('customer.いくつ注文しても、世界のどこから注文しても、送料は一定料金となります。') }}</p>
+                    <p>{{ __('customer.新サービスのクリック＆コレクト（店舗受取サービス）をご利用いただけます。詳細はこちら') }}</p>
+                    <h4 class="product-detail__text__content__hd">{{ __('customer.返品無料引き取りサービス') }}</h4>
+                    <p>{{ __('customer.返品無料引き取りサービスを実施しています。') }}</p>
+                    <p>{{ __('customer.返品手続きは商品受領日より14日以内にお願い致します。返品可能期間に受理されるよう、商品受領日より7日以内に当サイトにて返品無料引き取りサービスをご予約いただくことをお薦めします。') }}</p>
+                    <p>{{ __('customer.返品ポリシーに関する詳細はこちらをクリックしてください。') }}</p>
+                    <h4 class="product-detail__text__content__hd">{{ __('customer.輸入関税に関する情報') }}</h4>
+                    <p>{{ __('customer.お買い物を安心してお楽しみいただくため、以下をご確認ください。') }}</p>
                     <p>
-                        EU圏内および、アメリカ合衆国、カナダ、中国、オーストラリア、ニュージーランド、イスラエル、プエルトリコ、スイス、シンガポール、韓国、クウェート、メキシコ、カタール、インド、ノルウェー、サウジアラビア、台湾、タイ、アラブ首長国連邦、日本、ブラジル、ガーンジー、マン島、ジャージー、サンマリノへの配送の場合、輸入関税手数は商品価格に含まれています。そのため、表示価格以外に輸入関税手数料を請求されることはありません。</p>
-                    <p>その他の国や地域への配送における輸入関税手数料は商品価格には含まれておりません。そのため、商品受領の際に輸入関税手数料の支払いが発生する場合がございますので、あらかじめご了承ください。</p>
+                        {{ __('customer.EU圏内および、アメリカ合衆国、カナダ、中国、オーストラリア、ニュージーランド、イスラエル、プエルトリコ、スイス、シンガポール、韓国、クウェート、メキシコ、カタール、インド、ノルウェー、サウジアラビア、台湾、タイ、アラブ首長国連邦、日本、ブラジル、ガーンジー、マン島、ジャージー、サンマリノへの配送の場合、輸入関税手数は商品価格に含まれています。そのため、表示価格以外に輸入関税手数料を請求されることはありません。') }}</p>
+                    <p>{{ __('customer.その他の国や地域への配送における輸入関税手数料は商品価格には含まれておりません。そのため、商品受領の際に輸入関税手数料の支払いが発生する場合がございますので、あらかじめご了承ください。') }}</p>
                 </li>
             </ul>
         </div>

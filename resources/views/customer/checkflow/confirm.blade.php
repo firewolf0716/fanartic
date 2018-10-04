@@ -1,14 +1,14 @@
 @extends('layouts.customer_layout')
 @section('content')
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--checkout"></i> 注文内容の確認</h1>
+<h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--checkout"></i> {{ __('customer.注文内容の確認') }}</h1>
 <div class="cart">
     <div class="cart__column">
     <div class="cart__column__content">
         <ol class="cart__checkout__flow">
-        <li class="cart__checkout__flow__step--01"><i class="c-icon"></i>情報入力</li>
-        <li class="cart__checkout__flow__step--02 is-curent"><i class="c-icon"></i>注文確認</li>
-        <li class="cart__checkout__flow__step--03"><i class="c-icon"></i>注文完了</li>
+        <li class="cart__checkout__flow__step--01"><i class="c-icon"></i>{{ __('customer.情報入力') }}</li>
+        <li class="cart__checkout__flow__step--02 is-curent"><i class="c-icon"></i>{{ __('customer.注文確認') }}</li>
+        <li class="cart__checkout__flow__step--03"><i class="c-icon"></i>{{ __('customer.注文完了') }}</li>
         </ol>
         <!--/.cart__checkout__flow-->
         <hr class="c-hr">
@@ -18,7 +18,7 @@
                 <div class="c-item c-item--01">
                 <div class="c-item__column">
                     <div class="c-item__column__figure">
-                            @php 
+                            @php
                                 $pro_img  = $images[$item->id];
                                 $prod_path = url('').'/images/products/'.$pro_img;
                             @endphp
@@ -29,8 +29,8 @@
                     <h3 class="c-item__name">{{$item->brand_name}}</h3>
                     <ul class="c-item__data">
                         <li>{{$item->product_name}}</li>
-                        <li>カラー：{{$colorname[$item->id]->color_name}}</li>
-                        <li>サイズ：{{$sizename[$item->id]->size_name}}</li>
+                        <li>{{ __('customer.カラー') }}：{{$colorname[$item->id]->color_name}}</li>
+                        <li>{{ __('customer.サイズ') }}：{{$sizename[$item->id]->size_name}}</li>
                     </ul>
                     <div class="c-item__price u-sp"><strong>&yen;{{number_format($item->product_price_sale)}}</strong></div>
                     </div>
@@ -46,7 +46,7 @@
         <hr class="c-hr">
         @endforeach
         <section class="c-box">
-        <h3 class="c-box__hd">配送先住所</h3>
+        <h3 class="c-box__hd">{{ __('customer.配送先住所') }}</h3>
         <div class="c-box__content">
             @if ($addrobj)
             <div class="l-column l-column--list l-column--top">
@@ -69,7 +69,7 @@
         </section>
         <!--/.c-box-->
         <section class="c-box">
-        <h3 class="c-box__hd">お支払い方法</h3>
+        <h3 class="c-box__hd">{{ __('customer.お支払い方法') }}</h3>
         <div class="c-box__content">
             <div class="l-column l-column--list l-column--top">
             <div class="l-column--list__data">
@@ -91,17 +91,17 @@
         <div class="cart__shipping">
         <table class="cart__shipping__data">
             <tr>
-            <td>商品合計</td>
+            <td>{{ __('customer.商品合計') }}</td>
             <td class="cart__shipping__data__price">￥{{number_format($total['sum'])}}</td>
             </tr>
             <tr>
-            <td>送料</td>
+            <td>{{ __('customer.送料') }}</td>
             <td class="cart__shipping__data__price">￥0</td>
             </tr>
         </table>
         <table class="cart__shipping__data cart__shipping__data--total">
             <tr>
-            <td>合計</td>
+            <td>{{ __('customer.合計') }}</td>
             <td class="cart__shipping__data__price cart__shipping__price"><strong>￥{{number_format($total['sum'])}}</strong></td>
             </tr>
         </table>
@@ -110,10 +110,10 @@
                 <div id="paypal-button-container"></div>
             @elseif ($creditobj)
                 <a id="a_next" href="{{url('user/confirm_order')}}"
-                   class="c-button c-button--submit c-button--full">注文を確定する</a>
+                   class="c-button c-button--submit c-button--full">{{ __('customer.注文を確定する') }}</a>
             @endif
         </div>
-        <p class="cart__shipping__back"><a href="{{url('user/checkflowinfo')}}">戻る</a></p>
+        <p class="cart__shipping__back"><a href="{{url('user/checkflowinfo')}}">{{ __('customer.戻る') }}</a></p>
         </div>
         <!--/.cart__shipping-->
     </div>
@@ -129,7 +129,7 @@
             size:  'medium',    // small | medium | large | responsive
             shape: 'rect',     // pill | rect
             color: 'blue',     // gold | blue | silver | black
-            tagline: false    
+            tagline: false
         },
 
         // PayPal Client IDs - replace with your own

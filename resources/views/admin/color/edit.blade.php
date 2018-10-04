@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>色を編集する</h3>
+            <h3>{{ __('admin.色を編集する') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,24 +16,24 @@
         {{ Form::hidden('color_id', $color->color_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>色を編集する</h4>
+                <h4>{{ __('admin.色を編集する') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="color_name" name="color_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$color->color_name}}" placeholder="色名を日本語で入力してください">
+                        <input type="text" id="color_name" name="color_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$color->color_name}}" placeholder="{{ __('admin.色名を日本語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.英名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="color_name_en" name="color_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$color->color_name_en}}" placeholder="色名を英語で入力してください">
+                        <input type="text" id="color_name_en" name="color_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$color->color_name_en}}" placeholder="{{ __('admin.色名を英語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">色<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.色') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="input-group demo2">
                             <input type="text" value="{{$color->color_value}}" name="color_value" class="form-control" required/>
@@ -42,13 +42,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.登録日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$color->created_at}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.変更日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$color->updated_at}}">
                     </div>
@@ -57,8 +57,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">色を編集する</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('admin.色を編集する') }}</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
                     </div>
                 </div>
             </div>
@@ -124,7 +124,7 @@
         $('#create_date').val('{{$color->created_at}}');
         $('#update_date').val('{{$color->updated_at}}');
     });
-    
+
     $('#btnSubmit').click(function() {
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();

@@ -9,14 +9,14 @@
 <script type="text/javascript" language="javascript" src="{{ url('')}}/js/media/js/jquery.dataTables.js"></script>
 <script type="text/javascript" charset="utf-8">
     var oTable;
-    
+
     $(document).ready(function() {
         $('#form').submit( function() {
             var sData = oTable.$('input').serialize();
             alert( "The following data would have been submitted to the server: \n\n"+sData );
             return false;
         } );
-        
+
         oTable = $('#dataTable').dataTable();
     } );
 </script>
@@ -47,7 +47,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>モール 追加</h3>
+            <h3>{{ __('admin.モール 追加') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -56,7 +56,7 @@
 
         <div class="x_panel">
             <div class="x_title">
-                <h4>モール 追加</h4>
+                <h4>{{ __('admin.モール 追加') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -79,9 +79,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name" name="mall_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="モール名を日本語で入力してください">
+                        <input type="text" id="mall_name" name="mall_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="{{ __('admin.モール名を日本語で入力してください') }}">
                     </div>
                 </div>
                 <!-- <div class="form-group">
@@ -95,16 +95,16 @@
                     </div>
                 </div> -->
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.英名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="モール名を英語で入力してください">
+                        <input type="text" id="mall_name_en" name="mall_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="{{ __('admin.モール名を英語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.ステータス') }}<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="1" name="optionValid" checked>有効</label>
-                        <label><input type="radio" value="0" name="optionValid">無効</label>
+                        <label><input type="radio" value="1" name="optionValid" checked>{{ __('admin.有効') }}</label>
+                        <label><input type="radio" value="0" name="optionValid">{{ __('admin.無効') }}</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -116,17 +116,17 @@
 
                 <div class="ln_solid"></div>
 
-                <label class="x_title">ブランド</label>                
+                <label class="x_title">{{ __('header.ブランド') }}</label>
                 <div class="y_content">
                     <table id="datatable1" class="table table-striped table-bordered dt-responsive nowrap">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <td hidden>identify</td>
-                                <th style="text-align:center">名前</th>
-                                <th style="text-align:center">英名</th>
-                                <th style="text-align:center">ステータス</th>
-                                <th style="text-align:center">接続</th>
+                                <th style="text-align:center">{{ __('admin.名前') }}</th>
+                                <th style="text-align:center">{{ __('admin.英名') }}</th>
+                                <th style="text-align:center">{{ __('admin.ステータス') }}</th>
+                                <th style="text-align:center">{{ __('admin.接続') }}</th>
                             </tr>
                         </thead>
                         <tbody id="tablebody">
@@ -148,16 +148,16 @@
 
                 <div class="ln_solid"></div>
 
-                <label class="x_title">カテゴリ</label> 
+                <label class="x_title">{{ __('admin.カテゴリ') }}</label>
                 <div class="y_content">
                     <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <!-- <th hidden>identify</td> -->
-                                <th style="text-align:center">トップ カテゴリ</th>
-                                <th style="text-align:center">メイン カテゴリ</th>
-                                <th style="text-align:center">サブ カテゴリ</th>
+                                <th style="text-align:center">{{ __('admin.トップ カテゴリ') }}</th>
+                                <th style="text-align:center">{{ __('admin.メイン カテゴリ') }}</th>
+                                <th style="text-align:center">{{ __('admin.サブ カテゴリ') }}</th>
                                 <th style="text-align:center"></th>
                             </tr>
                         </thead>
@@ -176,35 +176,35 @@
                     </table>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">トップ カテゴリ</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.トップ カテゴリ') }}</label>
                         <div class=" a col-md-4 col-sm-6 col-xs-12">
                             <select id="top_category" name="top_category" class="form-control">
-                                <option value="">--トップ カテゴリ 選択--</option>
+                                <option value="">--{{ __('admin.トップ カテゴリ 選択') }}--</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">メイン カテゴリ</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.メイン カテゴリ') }}</label>
                         <div class=" a col-md-4 col-sm-6 col-xs-12">
                             <select id="main_category" name="main_category" class="form-control">
-                                <option value="">--メイン カテゴリ 選択--</option>
+                                <option value="">--{{ __('admin.メイン カテゴリ 選択') }}--</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">サブ カテゴリ</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.サブ カテゴリ') }}</label>
                         <div class=" a col-md-4 col-sm-6 col-xs-12">
                             <select id="sub_category" name="sub_category" class="form-control">
-                                <option value="">--サブ カテゴリ 選択--</option>
+                                <option value="">--{{ __('admin.サブ カテゴリ 選択') }}--</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-60 col-sm-60 col-xs-12 col-md-offset-4">
-                            <button id="addcategory" type="button" class="btn btn-primary" onclick="addCategory()">カテゴリ 追加</button>
+                            <button id="addcategory" type="button" class="btn btn-primary" onclick="addCategory()">{{ __('admin.カテゴリ 追加') }}</button>
                         </div>
                     </div>
                 </div>
@@ -213,8 +213,8 @@
 
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" onclick="updateMallCategorys()" class="btn btn-warning">モール 追加</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
+                        <button id="btnSubmit" type="submit" onclick="updateMallCategorys()" class="btn btn-warning">{{ __('admin.モール 追加') }}</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
                     </div>
                 </div>
             </div>
@@ -329,12 +329,12 @@
         // if ( $.fn.DataTable.isDataTable( '#datatable' ) ) {
         //     table.destroy();
         // } else {
-            
+
         // }
     });
     function addTopCategorys() {
         $('#top_category').find('option').remove().end().append('<option value="">--トップ カテゴリ 選択--</option>');
-        
+
         $.ajax( {
             type: 'get',
             url: '{{url('admin/category/get-top-categorys')}}',
@@ -350,11 +350,11 @@
         });
     }
     function addCategory() {
-        
+
         if ($('#top_category').val() == '' && $('#main_category').val()) {
             return;
         }
-        
+
         var $topCategoryName = jQuery("#top_category option:selected").text();
         var $mainCategoryName = jQuery("#main_category option:selected").text();
         var $subCategoryName = '';
@@ -382,7 +382,7 @@
                                break;
                             }
                         }
-                        
+
                         if (isExist == false) {
                             table.row.add([item.category_id, $topCategoryName, $mainCategoryName, item.category_name, '<a><span class="glyphicon glyphicon-trash" onclick="removeCategory(' + item.category_id + ')" aria-hidden="true"></span></a>']).draw( false );
                         }
@@ -390,7 +390,7 @@
                 }
             });
         } else {
-            var $categoryid = $('#sub_category').val();            
+            var $categoryid = $('#sub_category').val();
             for (i = 0; i < table.rows().count(); i++) {
                 if (table.cell(i, 0).data() == $categoryid) {
                     return;
@@ -470,7 +470,7 @@
 
     $('#main_category').change(function(){
         $('#sub_category').find('option').remove().end().append('<option value="">--サブ カテゴリ 選択--</option>');
-        
+
         var top = $('#top_category').val();
         var main = $('#main_category').val();
         if(top != ""){
@@ -492,7 +492,7 @@
 
     function checkboxEdit(id) {
         var table = $('#datatable1').DataTable();
-        
+
         var brands = $('#mall_brands').val().split(",");
 
         if (document.getElementById("check-" + id).checked) {
@@ -500,7 +500,7 @@
         } else {
             brands.pop(id);
         }
-        
+
         $('#mall_brands').val(brands.toString());
     }
 
@@ -510,7 +510,7 @@
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#datatable').DataTable().clear().draw(false);
     });
-    
+
     $('#btnSubmit').click(function() {
         $('#form_add').parsley();
     });
