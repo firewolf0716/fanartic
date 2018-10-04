@@ -1,6 +1,6 @@
 @extends('layouts.customer_layout')
 @section('content')
-    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--cart"></i> ショッピングカート</h1>
+    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--cart"></i> {{ __('customer.ショッピングカート') }}</h1>
     <div class="cart">
         <div class="cart__column">
             <div class="cart__column__content">
@@ -27,8 +27,8 @@
                                             <h3 class="c-item__name">{{$item->brand_name}}</h3>
                                             <ul class="c-item__data">
                                                 <li>{{$item->product_name}}</li>
-                                                <li>カラー：{{$colorname[$item->id]->color_name}}</li>
-                                                <li>サイズ：{{$sizename[$item->id]->size_name}}</li>
+                                                <li>{{ __('customer.カラー') }}：{{$colorname[$item->id]->color_name}}</li>
+                                                <li>{{ __('customer.サイズ') }}：{{$sizename[$item->id]->size_name}}</li>
                                             </ul>
                                             <div class="c-item__price u-sp">
                                                 <strong>&yen;{{number_format($item->product_price_sale)}}</strong></div>
@@ -58,42 +58,43 @@
                             </div>
                             <div class="l-column--cart__button">
                                 <a class="c-button c-button--secondary"
-                                   onClick="onRemove('{{$item->id}}')">削除</a></div>
+                                   onClick="onRemove('{{$item->id}}')">{{ __('customer.削除') }}</a></div>
                         </div>
                         <!--/.l-column l-column--cart-->
                         <hr class="c-hr">
                     @endforeach
                 </form>
                 <dl class="cart__total">
-                    <dt>商品合計（{{number_format($count)}}点）</dt>
+                    <dt>{{ __('customer.商品合計') }}（{{number_format($count)}}{{ __('customer.点') }}）</dt>
                     <dd><strong>¥{{number_format($sum)}}</strong></dd>
                 </dl>
                 <!--/.cart__total-->
                 @else
-                    <p>カートに商品がありません</p>
+                    <p>{{ __('customer.カートに商品がありません') }}</p>
                 @endif
             </div>
             <!--/.cart__column__content-->
             <div class="cart__column__shipping">
                 <div class="cart__shipping">
                     @if(count($cartitems) > 0)
-                        {{--<p class="cart__shipping__delivery">送料無料でお届けします。</p>--}}
-                        <p class="cart__shipping__quantity">商品合計（{{number_format($count)}}点）</p>
+                        {{--<p class="cart__shipping__delivery">{{ __('customer.送料無料でお届けします。
+                        <p class="cart__shipping__quantity">{{ __('customer.商品合計') }}（ {{number_format($count)}}点）</p>
+') }}</p>--}}
                         <p class="cart__shipping__price"><strong>¥{{number_format($sum)}}</strong></p>
-                        <p class="cart__shipping__point">獲得ポイント：2,000ポイント</p>
+                        <p class="cart__shipping__point">{{ __('customer.獲得ポイント') }}：2,000{{ __('customer.ポイント') }}</p>
                         <div class="cart__shipping__button">
                             <a href="{{url('user/checkflowinfo')}}" class="c-button c-button--submit c-button--full">
-                                レジへ進む</a>
+                                {{ __('customer.レジへ進む') }}</a>
                         </div>
                     @else
                         <div class="cart__shipping__button">
                             <a href="" class="c-button c-button--submit c-button--full">
-                                商品をさがしましょう
+                                {{ __('customer.商品をさがしましょう') }}
                             </a>
                         </div>
                     @endif
 
-                    <p class="cart__shipping__back"><a href="">ショッピングを続ける</a></p>
+                    <p class="cart__shipping__back"><a href="">{{ __('customer.ショッピングを続ける') }}</a></p>
                 </div>
                 <!--/.cart__shipping-->
             </div>
@@ -104,7 +105,7 @@
     <!--/.cart-->
     <script>
         function onRemove(id) {
-            if (confirm("削除しますか？")) {
+            if (confirm("{{ __('customer.削除しますか？') }}")) {
                 $('#remove_id').val(id);
                 $('#form_cart_list').submit();
             }
@@ -113,7 +114,7 @@
         function onChangeCount(obj, max) {
             console.log($(obj).val());
             if ($(obj).val() > max) {
-                alert('在庫が足りません');
+                alert('{{ __('customer.在庫が足りません') }}');
                 $(obj).val(max);
             }
         }

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>or Not__ | 探しているアイテム</title>
+    <title>or Not__ | {{ __('customer.探しているアイテム') }}</title>
     <meta name="viewport" content="width=device-width">
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="">

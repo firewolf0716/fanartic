@@ -17,12 +17,12 @@
             <div class="l-column l-column--control is-nb">
                 <div class="l-column--control__col u-sp"><span class="c-select c-select--sort u-sp__full"
                                                                data-productfilter__button=""><span
-                                class="c-select__box u-sp__full"><span class="c-select__box__inner">絞り込む</span></span>
+                                class="c-select__box u-sp__full"><span class="c-select__box__inner">{{ __('customer.絞り込む') }}</span></span>
         </span>
                 </div>
                 <div class="l-column--control__col"><label class="c-select c-select--sort u-sp__full"><span
                                 class="c-select__box u-sp__full"><select name="" id=""><option
-                                        value="">並び替え</option></select></span></label></div>
+                                        value="">{{ __('customer.並び替え') }}</option></select></span></label></div>
             </div>
             <!--/.l-column l-column--control-->
             <div class="c-items c-items--04">
@@ -45,10 +45,10 @@
             @if(isset($scategory))
                 {{ Form::hidden('scategory_id', $scategory->category_id)}}
             @endif
-            <h2 class="product-list__column__nav__hd u-sp">絞り込む</h2>
+            <h2 class="product-list__column__nav__hd u-sp">{{ __('customer.絞り込む') }}</h2>
             <ul class="product-list__nav">
                 <li>
-                    <h3 class="product-list__nav__hd is-open" data-accordionproductlist="">カテゴリー</h3>
+                    <h3 class="product-list__nav__hd is-open" data-accordionproductlist="">{{ __('customer.カテゴリー') }}</h3>
                     <div class="product-list__nav__item">
                         <ul class="product-list__nav__category u-pc">
                             @foreach($maincategorys as $maincategory)
@@ -83,9 +83,9 @@
                 </li>
                 <li>
                     @if(isset($_GET['sizeid']) && $_GET['sizeid'] != '')
-                        <h3 class="product-list__nav__hd is-open" data-accordionproductlist="">サイズ</h3>
+                        <h3 class="product-list__nav__hd is-open" data-accordionproductlist="">{{ __('customer.サイズ') }}</h3>
                     @else
-                        <h3 class="product-list__nav__hd" data-accordionproductlist="">サイズ</h3>
+                        <h3 class="product-list__nav__hd" data-accordionproductlist="">{{ __('customer.サイズ') }}</h3>
                     @endif
                     <div class="product-list__nav__item">
                         <ul class="product-list__nav__column u-pc">
@@ -96,7 +96,7 @@
                                            value="{{$size->size_id}}">{{$size->size_name}}</a></li>
                                 @endforeach
                                 <li><a class="product-list__nav__button product-list__nav__button--size"
-                                       onClick="onSizeChange('')">すべて</a></li>
+                                       onClick="onSizeChange('')">{{ __('customer.すべて') }}</a></li>
                             @endif
                         </ul>
                     </div>
@@ -107,12 +107,12 @@
                 </li>
                 <li data-productfiltermodal="">
                     @if(isset($_GET['colorid']) && $_GET['colorid'] != '')
-                        <h3 class="product-list__nav__hd is-open" data-accordionproductlist="">カラー</h3>
+                        <h3 class="product-list__nav__hd is-open" data-accordionproductlist="">{{ __('customer.カラー') }}</h3>
                     @else
-                        <h3 class="product-list__nav__hd" data-accordionproductlist="">カラー</h3>
+                        <h3 class="product-list__nav__hd" data-accordionproductlist="">{{ __('customer.カラー') }}</h3>
                     @endif
                     <div class="product-list__nav__item" data-productfiltermodal__content="">
-                        <h2 class="product-list__column__nav__hd u-sp">カラーを選択</h2>
+                        <h2 class="product-list__column__nav__hd u-sp">{{ __('customer.カラーを選択') }}</h2>
                         <ul class="product-list__nav__column">
                             @foreach($colors as $color)
                                 <li>
@@ -126,12 +126,12 @@
                                     <label class="product-list__nav__button product-list__nav__button--color product-list__nav__button--color--yellow u-sp">
                                         <input type="radio" name="color" value="{{$color->color_id}}"
                                                data-productfiltermodal__radio='{"label":"イエロー","key":"yellow"}'>
-                                        <span>イエロー</span>
+                                        <span>{{ __('customer.イエロー') }}</span>
                                     </label>
                                 </li>
                             @endforeach
                             <li><a class="product-list__nav__button product-list__nav__button--size"
-                                   onClick="onColorChange('')">すべて</a></li>
+                                   onClick="onColorChange('')">{{ __('customer.すべて') }}</a></li>
                         </ul>
 
                     {{ Form::hidden('color_id', '' ,array('id' => 'color_val'))}}
@@ -141,16 +141,16 @@
                     <!--/.product-list__nav__item-->
                     <div class="c-select c-select--filter c-select--modal u-sp u-sp__full"
                          data-productfiltermodal__open=""><span class="c-select__box u-sp__full"><span
-                                    class="c-select__box__inner" data-productfiltermodal__value__label="">カラーを選択</span> <input
+                                    class="c-select__box__inner" data-productfiltermodal__value__label="">{{ __('customer.カラーを選択') }}</span> <input
                                     type="hidden" value="カラーを選択" data-productfiltermodal__value__key=""></span>
                     </div>
                 </li>
                 {{ Form::hidden('range_min', '' ,array('id' => 'rangemin_val'))}}
                 {{ Form::hidden('range_max', '' ,array('id' => 'rangemax_val'))}}
                 <li data-productfiltermodal="">
-                    <h3 id="cash_range" class="product-list__nav__hd" data-accordionproductlist="">価格</h3>
+                    <h3 id="cash_range" class="product-list__nav__hd" data-accordionproductlist="">{{ __('customer.価格') }}</h3>
                     <div class="product-list__nav__item" data-productfiltermodal__content="" data-productlistprice="">
-                        <h2 class="product-list__column__nav__hd u-sp">価格を選択</h2>
+                        <h2 class="product-list__column__nav__hd u-sp">{{ __('customer.価格を選択') }}</h2>
                         <div class="product-list__nav__price">
                             @php
                                 $rangemin = 0; $rangemax = 500000;
@@ -201,27 +201,27 @@
                             <div class="l-column--half__col"><span class="c-button c-button--clear c-button--full"
                                                                    data-productfiltermodal__clear="">クリア</span></div>
                             <div class="l-column--half__col"><span class="c-button c-button--submit c-button--full"
-                                                                   data-productfiltermodal__submit="">価格を選択</span></div>
+                                                                   data-productfiltermodal__submit="">{{ __('customer.価格を選択') }}</span></div>
                         </div>
                     </div>
                     <!--/.product-list__nav__item-->
                     <div class="c-select c-select--filter c-select--modal u-sp u-sp__full"
                          data-productfiltermodal__open=""><span class="c-select__box u-sp__full"><span
-                                    class="c-select__box__inner" data-productfilterprice__label="">価格を選択</span></span>
+                                    class="c-select__box__inner" data-productfilterprice__label="">{{ __('customer.価格を選択') }}</span></span>
                     </div>
                 </li>
                 <li>
                     <div class="product-list__nav__price__buttons u-pc">
-                        <a class="product-list__nav__price__button" onClick="onClear()">削除</a>
+                        <a class="product-list__nav__price__button" onClick="onClear()">{{ __('customer.削除') }}</a>
                         <a class="product-list__nav__price__button" onClick="onFilter()">OK</a>
                     </div>
                 </li>
             </ul>
             <div class="l-column l-column--half u-sp">
                 <div class="l-column--half__col"><input type="reset" class="c-button c-button--clear c-button--full"
-                                                        data-productfilter__clear="" value="クリア"></div>
+                                                        data-productfilter__clear="" value="{{ __('customer.') }}クリア"></div>
                 <div class="l-column--half__col">
-                    <button class="c-button c-button--submit c-button--full" data-productfilter__submit="">絞り込む</button>
+                    <button class="c-button c-button--submit c-button--full" data-productfilter__submit="">{{ __('customer.') }}絞り込む</button>
                 </div>
             </div>
             <!--/.l-column l-column--half-->

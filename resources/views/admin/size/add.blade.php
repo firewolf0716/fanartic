@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>サイズを追加</h3>
+            <h3>{{ __('admin.サイズを追加') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -15,15 +15,15 @@
         {!! Form::open(array('id' => 'form_add','url'=>'admin/size/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>サイズを追加</h4>
+                <h4>{{ __('admin.サイズを追加') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.サイズカテゴリ') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select id="select_category" name="select_category" class="form-control" required>
-                            <option value="">--サイズのカテゴリを選択--</option>
+                            <option value="">--{{ __('admin.サイズのカテゴリを選択') }}--</option>
                             @foreach($categorys as $category)
                             <option value="{{$category->sizecategory_id}}">{{$category->sizecategory_name}}</option>
                             @endforeach
@@ -31,15 +31,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="size_name" name="size_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="サイズの名前を日本語で入力してください">
+                        <input type="text" id="size_name" name="size_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="{{ __('admin.サイズの名前を日本語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.英名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="size_name_en" name="size_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="サイズの名前を英語で入力してください">
+                        <input type="text" id="size_name_en" name="size_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="{{ __('admin.サイズの名前を英語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -55,8 +55,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">サイズを追加</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('admin.サイズを追加') }}</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
                     </div>
                 </div>
             </div>

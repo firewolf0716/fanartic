@@ -2,18 +2,18 @@
 @section('content')
 <script src="https://checkout.stripe.com/checkout.js"></script>
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--checkout"></i> 配送方法・お支払い方法</h1>
+<h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--checkout"></i> {{ __('customer.配送方法・お支払い方法') }}</h1>
 <div class="cart">
     <div class="cart__column">
     <div class="cart__column__content">
         <ol class="cart__checkout__flow">
-        <li class="cart__checkout__flow__step--01 is-curent"><i class="c-icon"></i>情報入力</li>
-        <li class="cart__checkout__flow__step--02"><i class="c-icon"></i>注文確認</li>
-        <li class="cart__checkout__flow__step--03"><i class="c-icon"></i>注文完了</li>
+        <li class="cart__checkout__flow__step--01 is-curent"><i class="c-icon"></i>{{ __('customer.情報入力') }}</li>
+        <li class="cart__checkout__flow__step--02"><i class="c-icon"></i>{{ __('customer.注文確認') }}</li>
+        <li class="cart__checkout__flow__step--03"><i class="c-icon"></i>{{ __('customer.注文完了') }}</li>
         </ol>
         <!--/.cart__checkout__flow-->
         <section class="c-box">
-        <h3 class="c-box__hd">配送先住所を選択</h3>
+        <h3 class="c-box__hd">{{ __('customer.配送先住所を選択') }}</h3>
             {!! Form::open(array('id' => 'form_flow','url'=>'user/checkflowinfoPost', 'novalidate')) !!}
             <div class="c-box__content">
                 <div data-checkopen="address">
@@ -49,14 +49,14 @@
                 @endforeach
                 <div data-checkopen__list="address">
                     <div class="c-form__row">
-                    <div class="c-form__checkswitch"><label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="address"><input type="radio" name="address" value="addressNew"><i></i>別の住所を登録</label></div>
+                    <div class="c-form__checkswitch"><label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="address"><input type="radio" name="address" value="addressNew"><i></i>{{ __('customer.別の住所を登録') }}</label></div>
                     </div>
                     <!--/.c-form__row-->
                     <div data-checkopen__list__content="address">
                     <div class="c-form__row c-form__row--min">
                         <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
                         <div class="l-column--half__col">
-                            <div class="c-form__label">お名前</div>
+                            <div class="c-form__label">{{ __('customer.お名前') }}</div>
                             <div class="c-form__row">
                             <div class="c-form__row__input">
                                 <div class="c-form__colum"><input type="text" class="c-form__input" name="address_name" value=""></div>
@@ -66,7 +66,7 @@
                         </div>
                         <!--/.l-column--half__col-->
                         <div class="l-column--half__col">
-                            <div class="c-form__label">お名前（カナ）</div>
+                            <div class="c-form__label">{{ __('customer.お名前（カナ）') }}</div>
                             <div class="c-form__row">
                             <div class="c-form__row__input">
                                 <div class="c-form__colum"><input type="text" class="c-form__input" name="address_name_kana" value=""></div>
@@ -83,15 +83,15 @@
                     <div class="c-form__row c-form__row--min">
                         <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
                         <div class="l-column--half__col">
-                            <div class="c-form__label">郵便番号</div>
+                            <div class="c-form__label">{{ __('customer.郵便番号') }}</div>
                             <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" id="zipcode" value=""> <button type="button" class="c-button c-button--sub" onClick="getAddress()">住所自動入力</button></div>
+                            <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" id="zipcode" value=""> <button type="button" class="c-button c-button--sub" onClick="getAddress()">{{ __('customer.住所自動入力') }}</button></div>
                             </div>
                             <!--/.c-form__row-->
                         </div>
                         <!--/.l-column--half__col-->
                         <div class="l-column--half__col">
-                            <div class="c-form__label">都道府県</div>
+                            <div class="c-form__label">{{ __('customer.都道府県') }}</div>
                             <div class="c-form__row">
                             <div class="c-form__row__input"><input type="text" class="c-form__input" name="province" id="province" value=""></div>
                             </div>
@@ -105,7 +105,7 @@
                     <div class="c-form__row">
                         <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
                         <div class="l-column--half__col">
-                            <div class="c-form__label">市町区村</div>
+                            <div class="c-form__label">{{ __('customer.市町区村') }}</div>
                             <div class="c-form__row">
                             <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" id="county" value=""></div>
                             </div>
@@ -113,7 +113,7 @@
                         </div>
                         <!--/.l-column--half__col-->
                         <div class="l-column--half__col">
-                            <div class="c-form__label">番地</div>
+                            <div class="c-form__label">{{ __('customer.番地') }}</div>
                             <div class="c-form__row">
                             <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_ex" value=""></div>
                             </div>
@@ -127,7 +127,7 @@
                     <div class="c-form__row c-form__row--min">
                         <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
                         <div class="l-column--half__col">
-                            <div class="c-form__label">電話番号</div>
+                            <div class="c-form__label">{{ __('customer.電話番号') }}</div>
                             <div class="c-form__row"><input type="tel" class="c-form__input c-form__input--tel" name="tel1" value="">
                                 <input type="tel" class="c-form__input c-form__input--tel" name="tel2" value="">
                                 <input type="tel" class="c-form__input c-form__input--tel" name="tel3" value=""></div>
@@ -149,12 +149,12 @@
             </section>
             <!--/.c-box-->
             <section class="c-box">
-            <h3 class="c-box__hd">お支払い方法を選択</h3>
+            <h3 class="c-box__hd">{{ __('customer.お支払い方法を選択') }}</h3>
             <div class="c-box__content" data-checkopen="payment">
                 <div class="c-form__row" data-checkopen__list="payment">
                     <div class="c-form__checkswitch">
                         <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="payment">
-                            <input type="radio" name="payment" value="credit" checked=""><i></i>クレジットカード
+                            <input type="radio" name="payment" value="credit" checked=""><i></i>{{ __('customer.クレジットカード') }}
                         </label>
                         <div class="c-form__checkswitch__inner" data-checkopen__list__content="payment" data-checkopen="credit">
                             @foreach($cards as $key => $card)
@@ -181,13 +181,13 @@
                             <div data-checkopen__list="credit">
                                     <div class="c-form__checkswitch">
                                         <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="credit">
-                                            <input type="radio" name="paymentCredit" value="creditnew" id="other_card"><i></i>別のカードを追加
+                                            <input type="radio" name="paymentCredit" value="creditnew" id="other_card"><i></i>{{ __('customer.別のカードを追加') }}
                                         </label>
                                         <div class="c-form__checkswitch__inner" data-checkopen__list__content="credit"
                                              data-checkopen="credit">
 
                                             <div class="c-form__row">
-                                                <div class="c-form__row__label">カード番号<span class="c-form__require">必須</span></div>
+                                                <div class="c-form__row__label">{{ __('customer.カード番号') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
                                                 <div class="c-form__row__input">
                                                     <div class="c-form__colum">
                                                         <div class="c-form__colum__col"><input type="text" class="c-form__input" name="no" value="" required></div>
@@ -196,7 +196,7 @@
                                             </div>
 
                                             <div class="c-form__row">
-                                                <div class="c-form__row__label">カード名義<span class="c-form__require">必須</span></div>
+                                                <div class="c-form__row__label">{{ __('customer.カード名義') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
                                                 <div class="c-form__row__input">
                                                     <div class="c-form__colum">
                                                         <div class="c-form__colum__col"><input type="text" class="c-form__input" name="owner" value="" required></div>
@@ -205,7 +205,7 @@
                                             </div>
 
                                             <div class="c-form__row">
-                                                <div class="c-form__row__label">セキュリティ番号<span class="c-form__require">必須</span></div>
+                                                <div class="c-form__row__label">{{ __('customer.セキュリティ番号') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
                                                 <div class="c-form__row__input">
                                                     <div class="c-form__colum">
                                                         <div class="c-form__colum__col"><input type="text" class="c-form__input c-form__input--tel" name="token" value="" maxlength="4" required></div>
@@ -214,7 +214,7 @@
                                             </div>
 
                                             <div class="c-form__row">
-                                                <div class="c-form__row__label">有効期限<span class="c-form__require">必須</span></div>
+                                                <div class="c-form__row__label">{{ __('customer.有効期限') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
                                                 <div class="c-form__row__input">
                                                     <label class="c-form__select c-form__select--birthday--year">
                     <span class="c-form__select__box">
@@ -224,15 +224,15 @@
                             @endfor
                         </select>
                     </span>
-                                                        <span class="u-pc">年</span></label>
-                                                    <label class="c-form__select c-form__select--birthday--month">
+                        <span class="u-pc">{{ __('customer.年') }}</span></label>
+                    <label class="c-form__select c-form__select--birthday--month">
                     <span class="c-form__select__box">
                         <select name="month" id="month" required>
                             @for($i = 1; $i <= 12; $i++)
                                 <option value="{{$i}}">{{$i}}</option>
                             @endfor
                         </select>
-                    </span><span class="u-pc">月</span></label>
+                    </span><span class="u-pc">{{ __('customer.月') }}</span></label>
                                                 </div>
                                             </div>
 
@@ -266,26 +266,26 @@
         <div class="cart__shipping">
         <table class="cart__shipping__data">
             <tr>
-            <td>商品合計</td>
+            <td>{{ __('customer.商品合計') }}</td>
             <td class="cart__shipping__data__price">￥{{number_format($total['sum'])}}</td>
             </tr>
             <tr>
-            <td>送料</td>
+            <td>{{ __('customer.送料') }}</td>
             <td class="cart__shipping__data__price">￥0</td>
             </tr>
             <tr>
-            <td>支払い手数料</td>
+            <td>{{ __('customer.支払い手数料') }}</td>
             <td class="cart__shipping__data__price">￥0</td>
             </tr>
         </table>
         <table class="cart__shipping__data cart__shipping__data--total">
             <tr>
-            <td>合計</td>
+            <td>{{ __('customer.合計') }}</td>
             <td class="cart__shipping__data__price cart__shipping__price"><strong>¥{{number_format($total['sum'])}}</strong></td>
             </tr>
         </table>
-        <div class="cart__shipping__button"><a class="c-button c-button--submit c-button--full" onClick="onSubmit()">次へ進む</a></div>
-        <p class="cart__shipping__back"><a href="{{url('user/cart')}}">戻る</a></p>
+        <div class="cart__shipping__button"><a class="c-button c-button--submit c-button--full" onClick="onSubmit()">{{ __('customer.次へ進む') }}</a></div>
+        <p class="cart__shipping__back"><a href="{{url('user/cart')}}">{{ __('customer.戻る') }}</a></p>
         </div>
         <!--/.cart__shipping-->
     </div>
@@ -330,7 +330,7 @@
             success: function(result){
                 var res = result.resourceSets[0].resources[0].name;
                 if(res.length < 8){
-                    alert('郵便番号が間違っている.');
+                    alert('{{ __('customer.郵便番号が間違っている.') }}');
                     return;
                 }
                 $('#province').val(result.resourceSets[0].resources[0].address.adminDistrict);

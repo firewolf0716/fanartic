@@ -37,6 +37,8 @@ return [
 	'熱狂的ファッション愛好家のための' => 'For enthusiastic fashion enthusiasts',
 	'ECプラットフォーム' => 'EC Platform',
 	'ブランド一覧' => 'Brand List',
-	'詳細を表示' => 'View Detail'
+	'詳細を表示' => 'VIEW DETAIL',
+	'すべての項目を表示' => 'VIEW ALL ITEMS',
+	'すべてを見る' => 'VIEW ALL'
 
 ];
