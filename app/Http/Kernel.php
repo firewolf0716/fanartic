@@ -64,7 +64,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 		
-        'basicAuth' => \App\Http\Middleware\BasicAuth::class, //Registering New Middleware
+        // 'basicAuth' => \App\Http\Middleware\BasicAuth::class, //Registering New Middleware
        // 'check_required_API_headers' => \App\Http\Middleware\CheckRequiredAPIHeaders::class,
     ];
 }

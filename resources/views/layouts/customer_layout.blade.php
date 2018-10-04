@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>or Not__ | 探しているアイテム</title>
+    <title>@yield('title', '')｜or not__</title>
     <meta name="viewport" content="width=device-width">
     <meta name="format-detection" content="telephone=no">
     <meta name="description" content="">
@@ -75,8 +75,9 @@
                                     <div class="c-form__select__box">
                                         <select name="language" id="language">
                                             @foreach (Config::get('languages') as $lang => $language)
-                                                <option value="{{ $lang }}" @if($lang == Config::get('languages')
-                                            [App::getLocale()]) selected @endif>{{ $language }}</option>
+                                                <option value="{{ $lang }}"
+                                                        @if($language == Config::get('languages')[App::getLocale()])
+                                                        selected @endif>{{ $language }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -157,7 +158,7 @@
     <script src="{{asset('js/script.js')}}"></script>
     <script>
         $(function () {
-            var topcategory = "{{$top_category->category_id}}";
+            var topcategory = 1;
             if (topcategory == '1') {
                 $('#top_women').removeClass('is-current');
                 $('#top_men').addClass('is-current');

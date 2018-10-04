@@ -164,7 +164,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 		'Collective\Html\HtmlServiceProvider',
-        Barryvdh\Debugbar\ServiceProvider::class,
+        // Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -216,7 +216,7 @@ return [
 	'Form' => 'Collective\Html\FormFacade',
 	'Html' => 'Collective\Html\HtmlFacade',
 	'Image' => Intervention\Image\Facades\Image::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        // 'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

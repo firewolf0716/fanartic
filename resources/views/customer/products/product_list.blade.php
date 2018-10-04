@@ -3,12 +3,12 @@
 @section('content')
     <ul class="c-breadcrumbs">
         <li><a href="/">HOME</a></li>
-        <li>{{$tcategory->category_name}}</li>
-        @if(isset($mcategory))
-            <li>{{$mcategory->category_name}}</li>
+        <li>{{$topcategory->category_name}}</li>
+        @if(isset($maincategory))
+            <li>{{$maincategory->category_name}}</li>
         @endif
-        @if(isset($scategory))
-            <li>{{$scategory->category_name}}</li>
+        @if(isset($subcategory))
+            <li>{{$subcategory->category_name}}</li>
         @endif
     </ul>
     <!--/.c-breadcrumbs-->
@@ -37,13 +37,13 @@
         <!--/.product-list__column__content-->
         <div class="product-list__column__nav" data-productfilter__content="">
             {!! Form::open(array('id' => 'form_product_list','url'=>'product/product_list_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-            {{ Form::hidden('tcategory_id', $tcategory->category_id)}}
+            {{ Form::hidden('tcategory_id', $topcategory->category_id)}}
             {{ Form::hidden('cururl', Request::url())}}
-            @if(isset($mcategory))
-                {{ Form::hidden('mcategory_id', $mcategory->category_id)}}
+            @if(isset($maincategory))
+                {{ Form::hidden('mcategory_id', $maincategory->category_id)}}
             @endif
-            @if(isset($scategory))
-                {{ Form::hidden('scategory_id', $scategory->category_id)}}
+            @if(isset($subcategory))
+                {{ Form::hidden('scategory_id', $subcategory->category_id)}}
             @endif
             <h2 class="product-list__column__nav__hd u-sp">絞り込む</h2>
             <ul class="product-list__nav">
@@ -57,22 +57,22 @@
                                         $url = '/';
                                         if(isset($listtype)){
                                             if($listtype == 'mall_category'){
-                                                $url = url('').'/'.$mallname.'/'.$top_id.'/'.str_replace('/', '-',
-                                                $maincategory->category_name_en);
+                                                $url = '/'.$mallname.'/'.$topcategory->category_name_en.'/'
+                                                .$maincategory->category_name_en;
                                             } else if($listtype == 'mall_brands'){
-                                                $url = url('').'/'.$mallname.'/'.$top_id.'/'.str_replace('/', '-', $maincategory->category_name_en);
+                                                $url = '/'.$mallname.'/'.$top_id.'/'.$maincategory->category_name_en;
                                             } else if($listtype == 'mall_brand_products'){
-                                                $url = url('').'/'.$mallname.'/'.$brandname.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                                $url = '/'.$mallname.'/'.$brandname.'/men/'.$maincategory->category_name_en;
                                             } else if($listtype == 'brand_products'){
-                                                $url = url('').'/brands/'.$brandid.'/men/'.str_replace('/', '-', $maincategory->category_name_en);
+                                                $url = '/brands/'.$brandid.'/men/'.$maincategory->category_name_en;
                                             }
                                         }
                                     @endphp
                                     <a href="{{$url}}">{{$maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
-                                        @foreach($subcategorys[$maincategory->category_id] as $subcategory)
+                                        @foreach($maincategory->subs as $subcategory)
                                             <li>
-                                                <a href="{{$url.'/'.str_replace('/', '-', $subcategory->category_name_en)}}">{{$subcategory->category_name}}</a>
+                                                <a href="{{$url.'/'.$subcategory->category_name_en}}">{{$subcategory->category_name}}</a>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -80,6 +80,7 @@
                             @endforeach
                         </ul>
                         <!--/.product-list__nav__item-->
+                    </div>
                 </li>
                 <li>
                     @if(isset($_GET['sizeid']) && $_GET['sizeid'] != '')

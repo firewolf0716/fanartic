@@ -32,9 +32,6 @@ class AppServiceProvider extends ServiceProvider
                 // お知らせ
                 // $notices = NoticeService::getLists(Auth::id());
                 View::share(compact('authUser'));
-            } else if (Auth::guard('merchant')->check()) {
-                $authMerchant = Customers::find(Auth::guard('user')->id());
-                View::share(compact('authMerchant'));
             }
 
             if (Auth::guard('merchant')->check()) {

@@ -150,9 +150,6 @@
                     <dl class="c-dl">
                         <dt>カラー</dt>
                         <dd>&nbsp;{{$product->color_name}}</dd>
-                        <dt>カテゴリ</dt>
-                        <dd>&nbsp;{{$top_category->category_name}}･{{$mcategory->category_name}}
-                            ･{{$scategory->category_name}}</dd>
                         <dt>素材</dt>
                         <dd>&nbsp;{{$product->product_material}}</dd>
                         <dt>生産国</dt>
