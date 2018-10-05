@@ -5,7 +5,7 @@
     <ul class="header__nav-primary">
         @if(count($women_categories) > 0)
             <li><span class="header__nav-primary__button" data-header-primary__button
-                      id="top_women">{{ __('header.女性') }}</span>
+                      id="top_women">{{ __('header.レディース') }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
                         <li><a href="#">{{ __('common.新規') }}</a></li>
@@ -31,7 +31,8 @@
             </li>
         @endif
         @if(count($men_categories) > 0)
-            <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">{{ __('header.男性') }}</span>
+            <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">{{ __('header.メンズ')
+            }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
                         <li class="active"><a href="#">{{ __('common.新規') }}</a></li>

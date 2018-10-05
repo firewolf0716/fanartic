@@ -16,11 +16,10 @@
     <!-- NProgress -->
     <link href="{{ asset('gvendor/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-    <link href="{{ asset('gvendor/bootstrap-daterangepicker/daterangepicker.css')}}/" rel="stylesheet">
+{{--    <link href="{{ asset('gvendor/bootstrap-daterangepicker/daterangepicker.css')}}/" rel="stylesheet">--}}
 
     <!-- bootstrap-datetimepicker -->
-    <link href="{{ asset('gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}/"
-          rel="stylesheet">
+{{--    <link href="{{ asset('gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}/" rel="stylesheet">--}}
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/custom.css')}}" rel="stylesheet">
