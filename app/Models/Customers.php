@@ -13,6 +13,7 @@ use App\Services\StockService;
 class Customers extends AppModel
 {
     protected $primaryKey = 'customer_id';
+    protected $table = 'customers';
 
     public static function get_addresses($id)
     {
@@ -456,5 +457,11 @@ class Customers extends AppModel
         DB::table('customer_buy_history')->where('id', $historyid)->update(['history_status' => 4]);
         $receipt_id = DB::table('receipt_detail')->where('history_id', $historyid)->get()->first()->receipt_id;
         DB::table('receipts')->where('id', $receipt_id)->update(['status' => 4]);
+    }
+
+    public static function get_name_by_id($customer_id)
+    {
+        return DB::table('customers')->where('customer_id', $customer_id)
+            ->get()->pluck('name')->first();
     }
 }

@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>ブランドを編集する</h3>
+            <h3>{{ __('admin.ブランドを編集する') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -17,7 +17,7 @@
         {{ Form::hidden('brand_image', $brand->brand_image)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>ブランドを編集する</h4>
+                <h4>{{ __('admin.ブランドを編集する') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -31,7 +31,7 @@
                                     @if($mall->mall_id == $selmall->mall_id)
                                     <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
                                     <?php $selected=true?>
-                                    @break                                    
+                                    @break
                                     @endif
                                 @endforeach
                                 @if($selected == false)
@@ -43,85 +43,91 @@
                 </div> -->
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="brand_name" name="brand_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$brand->brand_name}}" placeholder="モール名を日本語で入力してください">
+                        <input type="text" id="brand_name" name="brand_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$brand->brand_name}}" placeholder="{{ __('admin.モール名を日本語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.英名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="brand_name_en" name="brand_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$brand->brand_name_en}}" placeholder="モール名を英語で入力してください">
+                        <input type="text" id="brand_name_en" name="brand_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$brand->brand_name_en}}" placeholder="{{ __('admin.モール名を英語で入力してください') }}">
                     </div>
                 </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">メンズ</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('header.メンズ') }}</label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
-                            <label><input type="radio" value="1" name="is_men" @if($brand->is_men == 1) checked @endif>アクティブ</label>
+                            <label><input type="radio" value="1" name="is_men" @if($brand->is_men == 1) checked @endif>{{ __('admin.アクティブ') }}</label>
                             <label><input type="radio" value="0" name="is_men" @if($brand->is_men == 0) checked
-                                        @endif>非アクティブ</label>
+                                        @endif>{{ __('admin.非アクティブ') }}</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">レディース</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('header.レディース') }}</label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <label><input type="radio" value="1" name="is_women" @if($brand->is_women == 1) checked
-                                        @endif>アクティブ</label>
+                                        @endif>{{ __('admin.アクティブ') }}</label>
                             <label><input type="radio" value="0" name="is_women" @if($brand->is_women == 0) checked
-                                        @endif>非アクティブ</label>
+                                        @endif>{{ __('admin.非アクティブ') }}</label>
                         </div>
                     </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">デザイン種類<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.デザイン種類') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select id="select_design" name="select_design" class="form-control" required>
-                            <option value="">--デザインタイプを選択--</option>
+                            <option value="">--{{ __('admin.デザインタイプを選択') }}--</option>
                             <option value="1"
                             @if($brand->brand_design == 1)
                                 selected
                             @endif
-                                >カバー写真と説明のみ</option>
-                            <option value="2" 
+                                >{{ __('admin.カバー写真と説明のみ') }}</option>
+                            <option value="2"
                             @if($brand->brand_design == 2)
                                 selected
                             @endif
-                                >オリジナルTOPページ</option>
+                                >{{ __('admin.オリジナルTOPページ') }}</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.ステータス') }}<span class="required">*</span></label>
                     <div class="radio col-md-4 col-sm-6 col-xs-12">
-                        <label><input type="radio" value="1" name="brand_status"{{$brand->brand_status == 1 ? ' checked' : ''}}>アクティブ</label>
-                        <label><input type="radio" value="0" name="brand_status"{{$brand->brand_status == 0 ? ' checked' : ''}}>非アクティブ</label>
-                        <label><input type="radio" value="2" name="brand_status"{{$brand->brand_status == 2 ? ' checked' : ''}}>凍結</label>
-                        <label><input type="radio" value="3" name="brand_status"{{$brand->brand_status == 3 ? ' checked' : ''}}>退会</label>
+                        @if($brand->brand_status == 0)
+                            <label><input type="radio" value="0" name="optionStatus" checked>{{ __('admin.非アクティブ') }}</label>
+                        @else
+                            <label><input type="radio" value="0" name="optionStatus">{{ __('admin.非アクティブ') }}</label>
+                        @endif
+                        @if($brand->brand_status == 1)
+                        <label><input type="radio" value="1" name="optionStatus" checked>{{ __('admin.アクティブ') }}</label>
+                        @else
+                        <label><input type="radio" value="1" name="optionStatus">{{ __('admin.アクティブ') }}</label>
+                        @endif
                     </div>
                 </div>
                 <div id="div_images">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">写真<span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.写真') }}<span class="required">*</span></label>
                         <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
                             <img style="height:70px; width:70px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}" id="brand_image2">
-                            <button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">Remove</button>
+                            <button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">{{ __('admin.除去する') }}</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">説明<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.説明') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                        <textarea class="form-control" id="brand_description" name="brand_description" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;" required>{{$brand->brand_description}}</textarea>
                     </div>
                 </div>
                      <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.登録日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->created_at}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.変更日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$brand->updated_at}}">
                     </div>
@@ -130,8 +136,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">ブランドを編集する</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('admin.ブランドを編集する') }}</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
                     </div>
                 </div>
             </div>
@@ -191,7 +197,7 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
-    
+
 <script type="text/javascript">
     $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
@@ -199,10 +205,10 @@
         $('#update_date').val('{{$brand->updated_at}}');
 
         $cstr = '<img style="height:70px; width:70px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}" id="brand_image2">';
-        $cstr += '<button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">Remove</button>';
+        $cstr += '<button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">{{ __('admin.除去する') }}</button>';
         $('#div-product-image').html($cstr);
     });
-    
+
     $('#btnSubmit').click(function() {
         $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();

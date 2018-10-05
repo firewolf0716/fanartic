@@ -6,24 +6,28 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>出店プランを管理する</h3>
+            <h3>{{ __('admin.管理 / 管理計画') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
+                <div class="x_title">
+                    <h4>{{ __('admin.管理計画') }}</h4>
+                    <div class="clearfix"></div>
+                </div>
                 <div class="x_content">
                     <table id="datatable" class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th hidden>identify</th>
-                                <th style="text-align:center">タイトル</th>
-                                <th style="text-align:center">初期費用</th>
-                                <th style="text-align:center">固定費用</th>
-                                <th style="text-align:center">日本販売手数料</th>
-                                <th style="text-align:center">海外販売手数料</th>
+                                <th style="text-align:center">{{ __('admin.タイトル') }}</th>
+                                <th style="text-align:center">{{ __('admin.初期費用') }}</th>
+                                <th style="text-align:center">{{ __('admin.固定費用') }}</th>
+                                <th style="text-align:center">{{ __('admin.日本販売手数料') }}</th>
+                                <th style="text-align:center">{{ __('admin.海外販売手数料') }}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -49,7 +53,7 @@
                 </div>
             </div>
         </div>
-    </div>        
+    </div>
 </div>
 
     <!-- jQuery -->
@@ -80,9 +84,9 @@
     <script src="{{ URL::asset('gvendor/moment/min/moment.min.js') }}"></script>
     <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
-    <!-- bootstrap-datetimepicker -->    
+    <!-- bootstrap-datetimepicker -->
     <script src="{{ URL::asset('gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
-    
+
     <!-- Custom Theme Scripts -->
 
 

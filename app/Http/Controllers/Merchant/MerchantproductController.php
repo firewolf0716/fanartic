@@ -25,6 +25,8 @@ use App\Models\ProductStock;
 use App\Models\MerchantShipping;
 use App\Models\ProductImage;
 use App\Models\ProductMasterImage;
+use App\Models\Customers;
+use App\Models\CustomerOrder;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\SkuService;
@@ -35,7 +37,16 @@ use Session;
 
 class MerchantproductController extends Controller
 {
-    //
+    public $status_list = array(
+            array("blue" => "Processed"),
+            array("green" => "Complete"),
+            array("yellow" => "Open"),
+            array("red" => "Failed"),
+            array("purple" => "Declined"),
+            array("grey" => "Backordered"),
+            array("dark" => "Canceled"),
+        );   
+
     public function __construct()
     {
         // parent::__construct();
@@ -594,11 +605,12 @@ class MerchantproductController extends Controller
             }
 
             $result[] = [
-                'product_id' => $product->product_id,
+                'product_code' => $product->product_code,
                 'product_name' => $product->product_name,
                 'product_price' => (count($stocks) > 0 ? $stocks[0]->product_price_sale : ''),
                 'product_images' => $images,
                 'stock_type' => $product->stock_type,
+                'sale_span' => $product->product_salerange,
                 'product_count' => $amount,
             ];
         }
@@ -933,13 +945,13 @@ class MerchantproductController extends Controller
         // }
     }
 
-    public function product_cash_on_delivery()
+    public function order()  // firewolf  order view
     {
         $merchant_id = Auth::id();
         // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
         $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
 
-        return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
+        return view('merchant.product.order')->with('merchant_id', $merchant_id)
             ->with('cashProducts', $cashProducts)
             ->with('product_status', '2')
             ->with('free_word', '')
@@ -947,6 +959,88 @@ class MerchantproductController extends Controller
             ->with('max_price', '')
             ->with('duration_setting', '0')
             ->with('duration_range', '');
+    }
+
+    public function firewolforder()  // firewolf  order view
+    {
+        $merchant_id = Auth::id();
+        // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
+        $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
+
+        return view('merchant.product.firewolforder')->with('merchant_id', $merchant_id)
+            ->with('status_list', $this->status_list)
+            ->with('cashProducts', $cashProducts)
+            ->with('product_status', '2')
+            ->with('free_word', '')
+            ->with('min_price', '')
+            ->with('max_price', '')
+            ->with('duration_setting', '0')
+            ->with('duration_range', '');
+    }
+
+    public function getorders()
+    {         
+        $orders = CustomerOrder::get();
+        $retVal = array();
+        foreach ($orders as $order) {
+            $buffer = array();
+            $buffer['order_id'] = $order->order_id;
+            $buffer['merchant_id'] = $order->merchant_id;
+            $buffer['merchant_name'] = Merchants::get_name_by_id($order->merchant_id);
+            $buffer['customer_id'] = $order->customer_id;
+            $buffer['customer_name'] = Customers::get_name_by_id($order->customer_id);
+            $buffer['customer_info'] = $order->customer_info;
+            $buffer['order_time'] = $order->order_time;
+            $buffer['payment_time'] = $order->payment_time;
+            $buffer['ship_time'] = $order->ship_time;
+            $buffer['ship_info'] = $order->ship_info;
+            $buffer['status'] = $order->status;
+            $retVal[] = $buffer;
+        }
+
+        $iTotalRecords = count($orders); 
+        $iDisplayLength = intval($_REQUEST['length']);
+        $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength; 
+        $iDisplayStart = intval($_REQUEST['start']);
+        $sEcho = intval($_REQUEST['draw']);
+      
+        $records = array();
+        $records["data"] = array(); 
+
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;  
+
+        for($i = $iDisplayStart; $i < $end; $i++) {
+            $id = ($i + 1);            
+            $status = $this->status_list[$retVal[$i]['status']];
+            $buffer = array(
+                '<input type="checkbox" name="id[]" value="'.$id.'">',
+                '<a href="#">Order<bdi>#'.$retVal[$i]['order_id'].'</bdi></a>', 
+                '<span class="btn btn-xs '.(key($status)).'">'.(current($status)).'</span>',
+                $retVal[$i]['merchant_name'], 
+                $retVal[$i]['customer_name'] , 
+                $retVal[$i]['customer_info'] , 
+                $retVal[$i]['ship_info'] , 
+                $retVal[$i]['order_time'] , 
+                $retVal[$i]['payment_time'] , 
+                $retVal[$i]['ship_time'] , 
+                '<a href="#" class="btn btn-xs default "><i class="fa fa-search"></i></a>
+                <a href="#" class="btn btn-xs green "><i class="fa fa-edit"></i></a>
+                <a href="#" class="btn btn-xs red "><i class="fa fa-trash-o"></i></a>',
+            );
+            $records['data'][] = $buffer;
+        }
+
+        if (isset($_REQUEST["customActionType"]) && $_REQUEST["customActionType"] == "group_action") {
+            $records["customActionStatus"] = "OK"; // pass custom message(useful for getting status of group actions)
+            $records["customActionMessage"] = "Group action successfully has been completed. Well done!"; // pass custom message(useful for getting status of group actions)
+        }
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalRecords;
+      
+        echo json_encode($records);
     }
 
     public function shipping()

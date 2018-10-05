@@ -2,10 +2,10 @@
 @section('content')
     <ul class="c-breadcrumbs">
         <li><a href="/">HOME</a></li>
-        <li>お気に入りアイテム</li>
+        <li>{{ __('customer.お気に入りアイテム') }}</li>
     </ul>
     <!--/.c-breadcrumbs-->
-    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--member"></i> お気に入りアイテム</h1>
+    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--member"></i> {{ __('customer.お気に入りアイテム') }}</h1>
     <div class="members">
         <div class="members__column">
             <div class="members__column__content">
@@ -14,7 +14,7 @@
                         <label class="c-select c-select--sort u-sp__full">
                             <span class="c-select__box u-sp__full">
                                 <select name="" id="">
-                                    <option value="">すべてのカテゴリ</option>
+                                    <option value="">{{ __('customer.すべてのカテゴリ') }}</option>
                                 </select>
                             </span>
                         </label>
@@ -23,7 +23,7 @@
                         <label class="c-select c-select--sort u-sp__full">
                             <span class="c-select__box u-sp__full">
                                 <select name="" id="">
-                                    <option value="">すべて</option>
+                                    <option value="">{{ __('customer.すべて') }}</option>
                                 </select>
                             </span>
                         </label>
@@ -56,10 +56,10 @@
                                     <div class="c-item__price">
                                         <strong>&yen;{{number_format($fav->product_price_sale)}}</strong></div>
                                     <button class="c-item__addcart" onClick="onCart({{$fav->id}})"><i
-                                                class="c-icon c-item__addcart__icon"></i>カートへ入れる
+                                                class="c-icon c-item__addcart__icon"></i>{{ __('customer.カートへ入れる') }}
                                     </button>
                                     <button type="button" class="c-item__delete" onClick="onRemove({{$fav->id}})"><i
-                                                class="c-icon c-item__delete__icon"></i>削除
+                                                class="c-icon c-item__delete__icon"></i>{{ __('customer.削除') }}
                                     </button>
                                 </div>
                                 <!--/.c-item__column__data-->

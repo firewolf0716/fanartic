@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>or Not__ backend</title>
+    <title>@yield('title', '店舗管理画面')｜or not__</title>
 
     <!-- Bootstrap -->
     <link href="{{ asset('gvendor/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -16,11 +16,10 @@
     <!-- NProgress -->
     <link href="{{ asset('gvendor/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-    <link href="{{ asset('gvendor/bootstrap-daterangepicker/daterangepicker.css')}}/" rel="stylesheet">
+{{--    <link href="{{ asset('gvendor/bootstrap-daterangepicker/daterangepicker.css')}}/" rel="stylesheet">--}}
 
     <!-- bootstrap-datetimepicker -->
-    <link href="{{ asset('gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}/"
-          rel="stylesheet">
+{{--    <link href="{{ asset('gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}/" rel="stylesheet">--}}
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/custom.css')}}" rel="stylesheet">
@@ -36,6 +35,20 @@
     <link href="{{ asset('gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}"
           rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/multi-select.css') }}"/>
+
+    <!-- BEGIN Order Manage PAGE LEVEL STYLES -->
+    <link href="{{ asset('gvendor/select2/select2.css')}}"/>
+    <link href="{{ asset('gvendor/datatables/plugins/bootstrap/dataTables.bootstrap.css')}}"/>
+    <link href="{{ asset('gvendor/bootstrap-datepicker/css/datepicker.css')}}"/>
+    <!-- END Order Manage PAGE LEVEL STYLES -->
+
+    <!-- BEGIN Order Manage THEME STYLES -->
+    <link href="{{ asset('css/global/components-rounded.css')}}" id="style_components" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/global/plugins.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/global/layout.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/global/default.css')}}" rel="stylesheet" type="text/css" id="style_color">
+    <!-- <link href="../../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css"> -->
+    <!-- END Order Manage THEME STYLES -->
 </head>
 
 <body class="nav-md">
@@ -44,7 +57,7 @@
         <div class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
-                    <a href="{{url('merchant/dashboard')}}" class="site_title">or Not__ merchant</a>
+                    <a href="{{url('merchant/dashboard')}}" class="site_title">店舗用管理画面</a>
                 </div>
 
                 <div class="clearfix"></div>
@@ -78,9 +91,9 @@
                             </li>
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{ url('merchant/product/cash_on_delivery') }}">受注一覧</a></li>
+                                    <li><a href="{{ url('merchant/product/order') }}">受注一覧</a></li>
+                                    <li><a href="{{ url('merchant/product/firewolforder') }}">受注一覧(firewolf)</a></li>
                                     <li><a href="{{ url('merchant/product/shipping') }}">出荷一覧</a></li>
-                                    <li><a href="#">受注追加（マニュアル）</a></li>
                                 </ul>
                             </li>
                             <li><a><i class="fa fa-dollar"></i> 売上管理 <span class="fa fa-chevron-down"></span></a>
@@ -89,18 +102,13 @@
                                     <li><a href="#">アクセス解析</a></li>
                                 </ul>
                             </li>
-                            <li><a><i class="fa fa-file-o"></i> コンテンツ管理 <span class="fa fa-chevron-down"></span></a>
-                                <ul class="nav child_menu">
-                                    <li><a href="#">新着情報</a></li>
-                                </ul>
-                            </li>
                             <li><a><i class="fa fa-edit"></i> 店舗設定 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a href="{{url('merchant/setting')}}">一般設定</a></li>
+                                    <li><a href="{{url('merchant/setting')}}">基本情報設定</a></li>
                                     <li><a href="#">メンバー管理</a></li>
-                                    <li><a href="#">権限管理</a></li>
+                                    <li><a href="#">権限設定</a></li>
                                     <li><a href="#">パスワードの変更</a></li>
-                                    <li><a> 店舗設定 <span class="fa fa-chevron-down"></span></a>
+                                    <li><a> 配送設定 <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li><a href="{{ url('merchant/shipping/add') }}">新規登録</a>
                                             <li><a href="{{ url('merchant/shipping/list') }}">配送設定一覧</a>
@@ -110,6 +118,7 @@
                             </li>
                         </ul>
                     </div>
+                    @if($authMerchant->id == 1)
                     <div class="menu_section">
                         <h3>ブランド用</h3>
                         <ul class="nav side-menu">
@@ -118,9 +127,16 @@
                                     <li><a href="#">トップページ編集</a></li>
                                 </ul>
                             </li>
+                            <li><a><i class="fa fa-file-o"></i> コンテンツ管理 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    <li><a href="#">新着情報</a></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
+                    @endif
 
+                    @if($authMerchant->id == 3)
                     <div class="menu_section">
                         <h3>アーカイブ用</h3>
                         <ul class="nav side-menu">
@@ -133,7 +149,7 @@
                             </li>
                         </ul>
                     </div>
-
+                    @endif
                 </div>
                 <!-- /sidebar menu -->
 

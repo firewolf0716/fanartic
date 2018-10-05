@@ -6,7 +6,6 @@ use App\Models\Products;
 
 class ProductService
 {
-
     public static function getProducts() {
 
     }

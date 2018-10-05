@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>{{$toptitle}}</h3>
+            <h3>{{ __('admin.トップカテゴリを編集') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -17,7 +17,7 @@
         {{ Form::hidden('categorylevel', $categorylevel)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>{{$title}}</h4>
+                <h4>{{ __('admin.トップカテゴリを編集') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -34,7 +34,7 @@
                                         @break
                                     @endif
                                 @endforeach
-                                
+
                                 @if($selected == true)
                                     <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
                                 @else
@@ -47,22 +47,22 @@
                 @endif -->
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="category_name" name="category_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$category->category_name}}" placeholder="カテゴリ名を日本語で入力してください">                    </div>
+                        <input type="text" id="category_name" name="category_name" required="required" class="form-control col-md-7 col-xs-12" value="{{$category->category_name}}" placeholder="{{ __('admin.カテゴリ名を日本語で入力してください') }}">                    </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.英名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="category_name_en" name="category_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$category->category_name_en}}" placeholder="カテゴリ名を英語で入力してください">
+                        <input type="text" id="category_name_en" name="category_name_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$category->category_name_en}}" placeholder="{{ __('admin.カテゴリ名を英語で入力してください') }}">
                     </div>
                 </div>
                 @if ($categorylevel == 2)
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.サイズカテゴリ') }}<span class="required">*</span></label>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <select id="select_sizecategory" name="select_sizecategory" class="form-control">
-                                <option value="">--サイズのカテゴリを選択--</option>
+                                <option value="">--{{ __('admin.サイズのカテゴリを選択') }}--</option>
                                 @foreach($sizecategorys as $sizecategory)
                                     @if($category->category_size_id == $sizecategory->sizecategory_id)
                                         <option value="{{$sizecategory->sizecategory_id}}" selected>{{$sizecategory->sizecategory_name}}</option>
@@ -75,14 +75,14 @@
                     </div>
                 @endif
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.登録日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="created_at" name="created_at" class="form-control col-md-7 col-xs-12"
                                readonly value="{{ $category->created_at }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.変更日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="updated_at" name="updated_at" class="form-control col-md-7
                         col-xs-12" readonly value="{{ $category->updated_at }}">
@@ -99,8 +99,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">商品カテゴリの編集</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('admin.商品カテゴリの編集') }}</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
                     </div>
                 </div>
             </div>
@@ -200,7 +200,7 @@
                                             @break
                                         @endif
                                     @endforeach
-                                    
+
                                     @if($selected == true)
                                         <option value="{{$mall->mall_id}}" selected>{{$mall->mall_name}}</option>
                                     @else

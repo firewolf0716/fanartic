@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>色を追加</h3>
+            <h3>{{ __('admin.色を追加') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -15,24 +15,24 @@
         {!! Form::open(array('id' => 'form_add','url'=>'admin/color/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>色を追加</h4>
+                <h4>{{ __('admin.色を追加') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="color_name" name="color_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="色名を日本語で入力してください">
+                        <input type="text" id="color_name" name="color_name" required="required" class="form-control col-md-7 col-xs-12" placeholder="{{ __('admin.色名を日本語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.英名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="color_name_en" name="color_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="色名を英語で入力してください">
+                        <input type="text" id="color_name_en" name="color_name_en" required="required" class="form-control col-md-7 col-xs-12" placeholder="{{ __('admin.色名を英語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">色<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.色') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="input-group demo2">
                             <input type="text" value="#000000" name="color_value" class="form-control" required/>
@@ -53,8 +53,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">色を追加</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('admin.色を追加') }}</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
                     </div>
                 </div>
             </div>
