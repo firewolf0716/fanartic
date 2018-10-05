@@ -199,6 +199,7 @@
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
 
 <script type="text/javascript">
+	$("#select_design").select2();
     $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#create_date').val('{{$brand->created_at}}');

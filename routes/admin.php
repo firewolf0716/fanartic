@@ -57,6 +57,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	Route::post('mall/editpost','MallController@editpost');
 	Route::get('mall/delete/{id}','MallController@delete');
 
+    // Duty
+    Route::post('duty/addpost','DutyController@addpost');
+    Route::get('duty/list','DutyController@list');
+    Route::get('duty/edit/{id}','DutyController@edit');
+    Route::get('duty/countryedit/{id}','DutyController@countryedit');
+    Route::post('duty/editpost','DutyController@editpost');
+    Route::post('duty/countryeditpost','DutyController@countryeditpost');
+    Route::get('duty/delete/{id}','DutyController@delete');
+    Route::get('duty/countrydelete/{id}','DutyController@countrydelete');
+
 	// Brand
 	Route::get('brand/add','BrandController@add');
 	Route::post('brand/addpost','BrandController@addpost');
@@ -149,4 +159,3 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'/*,'middleware' => 'aut
 	// Route::get('merchant_detailw/{id}','AdminController@detail_merchant_wait');
 	// Route::get('merchant_reject/{id}','AdminController@merchant_reject');
 });
-
