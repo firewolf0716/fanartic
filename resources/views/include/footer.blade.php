@@ -11,7 +11,7 @@
             </div>
             <div class="footer__nav__column">
                 <div class="footer__nav__column__col">
-                    <h2 class="footer__nav__hd" data-accordion="">{{ __('common.サポート') }}</h2>
+                    <h2 class="footer__nav__hd" data-accordion="">{{ __('common.SUPPORT') }}</h2>
                     <div class="footer__nav__list-wrap">
                         <ul class="footer__nav__list">
                             <li><a href="{{ route('page.terms_customer') }}">{{ __('common.ユーザーご利用規約') }}</a></li>
@@ -24,7 +24,7 @@
                 </div>
                 <!--/.footer__nav__column__col-->
                 <div class="footer__nav__column__col">
-                    <h2 class="footer__nav__hd" data-accordion="">{{ __('common.接触') }}</h2>
+                    <h2 class="footer__nav__hd" data-accordion="">{{ __('common.COMPANY') }}</h2>
                     <div class="footer__nav__list-wrap">
                         <ul class="footer__nav__list">
                             <li><a href="{{ route('page.company') }}">{{ __('common.運営会社情報') }}</a></li>
@@ -46,7 +46,7 @@
                         </ul>
                     </ul>
 
-                    <h2 class="footer__nav__hd">{{ __('common.フォローする') }}</h2>
+                    <h2 class="footer__nav__hd">{{ __('common.FOLLOW US') }}</h2>
                     <ul class="footer__nav__sns">
                         <li><a href="#"><i class="c-icon footer__nav__sns__icon--twitter"></i></a></li>
                         <li><a href="#"><i class="c-icon footer__nav__sns__icon--facebook"></i></a></li>

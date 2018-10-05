@@ -14,10 +14,10 @@ return [
     */
 
     '商品名・ブランド名で検索' => 'Search with Product name and Brand',
-	'サポート' => 'SUPPROT',
-	'接触' => 'CONNECT',
+    'SUPPORT' => 'SUPPORT',
+    'COMPANY' => 'COMPANY',
 	'国 / 言語' => 'COUNTRY / LANGUAGE',
-	'フォローする' => 'FOLLOW',
+    'FOLLOW US' => 'FOLLOW US',
 	'ユーザーご利用規約' => 'User Terms of Service',
 	'出店者ご利用規約' => 'Terms of service',
 	'特定商取引法に基づく表記' => 'Notation based on Specified Commercial Transactions Law',
@@ -33,7 +33,7 @@ return [
 	'韓国' => 'Korea',
 	'新規' => 'NEW',
 	'文学' => 'EDITORAL',
-	'販売' => 'SALE',
+    'SALE' => 'SALE',
 	'熱狂的ファッション愛好家のための' => 'For enthusiastic fashion enthusiasts',
 	'ECプラットフォーム' => 'EC Platform',
 	'ブランド一覧' => 'Brand List',

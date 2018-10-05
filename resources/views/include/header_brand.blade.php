@@ -23,8 +23,7 @@
                                 </li>
                             @endif
                         @endforeach
-                        <li><a href="#">{{ __('common.文学') }}</a></li>
-                        <li><a href="#">{{ __('common.販売') }}</a></li>
+                        <li><a href="#">{{ __('common.SALE') }}</a></li>
                         <span class="slide-line"></span>
                     </ul>
                 </div>
@@ -50,7 +49,7 @@
                                 </li>
                             @endif
                         @endforeach
-                        <li><a href="#">{{ __('common.販売') }}</a></li>
+                        <li><a href="#">{{ __('common.SALE') }}</a></li>
                         <span class="slide-line"></span>
                     </ul>
                 </div>
