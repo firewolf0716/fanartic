@@ -57,8 +57,8 @@
 
                 <div class="form-group">
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="hidden" id="create_date1" name="create_date1" class="form-control col-md-7 col-xs-12" readonly>
-                        <input type="hidden" id="update_date1" name="update_date1" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="created_date1" name="created_date1" class="form-control col-md-7 col-xs-12" readonly>
+                        <input type="hidden" id="updated_date1" name="updated_date1" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
 
@@ -142,8 +142,8 @@
 
                <div class="form-group">
                    <div class="col-md-4 col-sm-6 col-xs-12">
-                       <input type="hidden" id="create_date2" name="create_date1" class="form-control col-md-7 col-xs-12" readonly>
-                       <input type="hidden" id="update_date2" name="update_date1" class="form-control col-md-7 col-xs-12" readonly>
+                       <input type="hidden" id="created_date2" name="created_date2" class="form-control col-md-7 col-xs-12" readonly>
+                       <input type="hidden" id="updated_date2" name="updated_date2" class="form-control col-md-7 col-xs-12" readonly>
                    </div>
                </div>
 
@@ -276,8 +276,11 @@ function deleteConfirm(id, type) {
 }
 
     $(function(){
-        $('#create_date1').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-        $('#update_date1').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#created_date1').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#updated_date1').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+
+        $('#created_date2').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        $('#updated_date2').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         var table = $('#datatable').DataTable({
             destroy: true,
             columnDefs: [

@@ -19,8 +19,8 @@ class DutyController extends Controller
             $entry =  array(
                 'name' => Input::get('duty_name'),
                 'num' => Input::get('group_tariff'),
-                'created_at' => Input::get('create_date1'),
-                'updated_at' => Input::get('update_date1')
+                'created_at' => Input::get('created_date1'),
+                'updated_at' => Input::get('updated_date1')
             );
             $duties->name = Input::get('duty_name');
             $duties->num = Input::get('group_tariff');
@@ -30,8 +30,9 @@ class DutyController extends Controller
             $duties->country = Input::get('country');
             $duties->duty_id = Input::get('duty_id');
             $duties->country_tariff = Input::get('country_tariff');
-            $duties->created_at = Input::get('create_date2');
-            $duties->updated_at = Input::get('update_date2');
+            //$duties->created_at = Input::get('created_date2');
+            //$duties->updated_at = Input::get('updated_date2');
+
             $duties->save();
         }
         return Redirect::to('admin/duty/list');
@@ -62,8 +63,8 @@ class DutyController extends Controller
         $entry =  array(
             'name' => Input::get('duty_name'),
             'num' => Input::get('group_tariff'),
-            'created_at' => Input::get('created_at'),
-            'updated_at' => Input::get('updated_at')
+            'created_at' => Input::get('created_date1'),
+            'updated_at' => Input::get('updated_date1')
         );
 
         $duties = new Duty();
@@ -79,9 +80,10 @@ class DutyController extends Controller
             'country' => Input::get('country'),
             'country_tariff' => Input::get('group_tariff'),
             'duty_id' => Input::get('duty_id'),
-            'created_at' => Input::get('created_at'),
-            'updated_at' => Input::get('updated_at')
+            'created_at' => Input::get('created_date2'),
+            'updated_at' => Input::get('updated_date2')
         );
+        var_dump($entry);exit();
 
         $duties = new DutyCountry();
         $duties::update_countryduty($entry, $countryduty_id);

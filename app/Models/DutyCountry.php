@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 
 /**
- * @property int id
- * @property string name
- * @property int num
+ * @property int c_id
+  * @property int duty_id
+ * @property string country
+  * @property string country_code
+ * @property int country_tariff
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
