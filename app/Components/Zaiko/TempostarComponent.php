@@ -3,6 +3,8 @@
 namespace App\Components;
 
 use App\Models\Currency;
+use App\Models\Products;
+use App\Services\ProductService;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
 use League\Csv\Writer;
@@ -19,6 +21,19 @@ class TempostarComponent
     // 受注管理　　受注情報CSVエクスポート　　/order/export/***/***/　　order***.[id].csv
     // 受注管理　　出荷指示エクスポート(確定)　　/order/export/***/***/　　order***.[id].csv
     // 受注管理　　出荷確定インポート(配送)　　/order/import/　　ordership***.csv
+
+    public $max = 3;
+
+    public $stockHeader = [
+        "商品コード", // test-loop
+        "想定在庫数",
+        "保留在庫数",
+        "倉庫コード",
+        "良品在庫数",
+        "不良在庫数",
+        "更新モード", // 1 => 上書き, 2 => 追加
+        "更新対象" // 1 => 想定在庫数のみ更新, 2 => 実在庫数(想定在庫数も更新), 3 => 実在庫のみを更新(想定在庫は そのまま)
+    ];
 
     public function __construct($infomation)
     {
@@ -40,8 +55,6 @@ class TempostarComponent
         $this->downloadFiles = [
             'stockorder/stockorder.20180425102557.csv',
         ];
-
-        $this->max = 3;
     }
 
     /**
@@ -62,61 +75,75 @@ class TempostarComponent
      */
     public function getStock()
     {
-        foreach ($this->downloadFiles as $downloadFile) {
+        $path = "/stock/update/";
+        $connection = $this->ftp->getAdapter()->getConnection();
+
+        $files = ftp_nlist($connection, $path);
+
+        foreach ($files as $file) {
+            if (!preg_match("/\.csv/i", $file)) {
+                continue;
+            }
 
             // ファイル内容の読み込み
-            $content = mb_convert_encoding($this->ftp->read($downloadFile), 'UTF-8', 'SJIS');
+            $content = mb_convert_encoding($this->ftp->read($path . $file), 'UTF-8', 'SJIS');
 
             // CSVファイルの読み込み
-            $csv = Reader::createFromPath($content);
+            $csv = Reader::createFromString($content);
+
             // レコードを読み
             $records = $csv->getRecords();
             $line = 0;
+            $head = [];
             foreach ($records as $index => $dataRow) {
-                $line++;
-                for($i = 0; $i < count( $dataRow ); ++$i ){
-                    //列、行指定
+                // dataRow
+                // 0 商品コード, 1想定在庫数, 2更新モード, 3更新対象
+                if($line == 0) {
+                    $head = $dataRow;
+                    $line++;
+                    continue;
                 }
-            }
+                for ($i = 0; $i < count($dataRow); ++$i) {
+                }
+                // 商品コード
+                $product_code = $dataRow[0];
+                // 想定在庫数
+                $product_stock = $dataRow[1];
+                // 更新モード
+                $product_stock = $dataRow[2];
+                // 更新対象
+                //1: 想定在庫数のみ更新
+                //2: 実在庫数(想定在庫数も更新)
+                //3: 実在庫のみを更新(想定在庫はそのまま)
+                $product_stock = $dataRow[3];
 
-            // 前回ファイルをアーカイブ
-            if ($this->ftp->has($downloadFile) === true) {
-                // $this->ftp->rename($downloadFile, $downloadFile);
-            }
+                $product = ProductService::getByCode($product_code);
+                if(!empty($product->id)) {
+                    // 在庫数更新
+                }
 
-            // ローカルファイルに書き込み（ファイルがない場合は新規で作られる）
-            $result = Storage::disk('local')->put($downloadFile, $content);
-            // $result = $this->ftp->write($downloadFile, $content);
+            }
 
         }
-
-        dd($result);
     }
 
     /**
+     *
      * set Stock Information via FTP (在庫更新)
      *
+     * 追加：売上が上がったタイミングで呼ぶ(決済完了時)
+     * 減算：キャンセルが上がったタイミングで呼ぶ(キャンセル時)
+     *
      */
-    public function setStock()
+    public function setStock($product_code, $stock)
     {
-        $header = [
-            "商品コード", // test-loop
-            "想定在庫数",
-            // '保留在庫数',
-            // '倉庫コード',
-            // '良品在庫数',
-            // '不良在庫数',
-            "更新モード", // 1 => 上書き, 2 => 追加
-            "更新対象" // 1 => 想定在庫数のみ更新, 2 => 実在庫数(想定在庫数も更新), 3 => 実在庫のみを更新(想定在庫は そのまま)
-        ];
-
         $data = [
-            "test-loop",
-            "10",
-            // '',
-            // '',
-            // '',
-            // '',
+            $product_code,
+            $stock,
+            "",
+            "",
+            "",
+            "",
             "1",
             "1",
         ];
@@ -127,7 +154,7 @@ class TempostarComponent
         $csv->setEnclosure('"');
 
         // レコード追加
-        $csv->insertOne($header);
+        $csv->insertOne($this->stockHeader);
         $csv->insertOne($data);
 
         // CSVで保存（時間でファイルを作っています）

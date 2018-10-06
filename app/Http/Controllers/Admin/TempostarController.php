@@ -18,7 +18,7 @@ class TempostarController extends Controller
     {
         $tempo_comp = new TempostarComponent(['ftp.tempostar.net', '1966_0', 'xrhyL19660']);
 
-        dd($tempo_comp->setStock());
+        // dd($tempo_comp->setStock("test-loop", 12));
 
         $this->model = new Tempostar();
         $title = $this->model->getTitle();
