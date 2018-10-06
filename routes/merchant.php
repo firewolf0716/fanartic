@@ -35,11 +35,9 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant'], function () {
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' => 'auth:merchant'], function () {
-    Route::get('/','AdminController@login');
+
+    Route::get('/','DashBoardController@index');
     Route::get('dashboard', 'DashBoardController@index')->name('merchant.dashboard');
-    Route::get('setting', 'MerchantController@setting');
-    Route::get('getcity', 'MerchantController@getcity');
-    Route::post('editsetting', 'MerchantController@editsetting');
 
     //merchant product
     Route::get('product/add', 'MerchantproductController@add');
@@ -55,7 +53,7 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' =>
     Route::get('product/manage/{product_status}', 'MerchantproductController@product_manage_with_status');
     Route::get('product/sold', 'MerchantproductController@sold');
     Route::get('product/csvupload', 'MerchantproductController@product_csvupload');
-    Route::get('product/cash_on_delivery', 'MerchantproductController@product_cash_on_delivery');
+    Route::get('product/order', 'MerchantproductController@order');
     Route::get('product/shipping', 'MerchantproductController@shipping');
     Route::get('product/accept_pay_shipping_delivery/{id}', 'MerchantproductController@accept_pay_shipping_delivery');
     Route::get('product/decline_pay_shipping_delivery/{id}', 'MerchantproductController@decline_pay_shipping_delivery');
@@ -79,4 +77,15 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' =>
     Route::get('shipping/remove_price/{shipping_id}', 'MerchantShippingController@shipping_remove_price');
 
     Route::get('product/product_import_csv', 'MerchantproductController@import_csv');
+
+    // merchant setting
+    Route::group(['prefix' => 'setting'], function () {
+        Route::get('/', 'MerchantController@setting');
+        Route::get('/status', 'MerchantController@setting'); //店舗ステータス変更
+        Route::get('/edit', 'MerchantController@setting'); // 店舗詳細情報変更
+        Route::get('/np', 'MerchantController@setting'); // NP後払い
+    });
+    Route::get('getcity', 'MerchantController@getcity');
+    Route::post('editsetting', 'MerchantController@editsetting');
 });
+

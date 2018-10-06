@@ -298,19 +298,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズカテゴリ<span class="required">*</span></label>
-                            <div class="col-md-4 col-sm-6 col-xs-12">
-                                <select class="form-control" name="product_sizeCategory" id="product_sizeCategory" required disabled>
-                                    <option value="">--Select Size Category--</option>
-                                    @foreach($sizeCategorys as $sizeCategory)
-                                    <option value="{{$sizeCategory->sizecategory_id}}">{{$sizeCategory->sizecategory_name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">サイズ<span class="required">*</span></label>
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <select class="form-control" name="product_size[]" id="product_size" required>
@@ -352,8 +339,8 @@
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">ステータス<span class="required">*</span></label>
                             <div class="radio col-md-4 col-sm-6 col-xs-12">
-                                <label><input type="radio" value="0" name="product_status" checked>有効</label>
-                                <label><input type="radio" value="1" name="product_status">無効</label>
+                                <label><input type="radio" value="1" name="product_status" checked>有効</label>
+                                <label><input type="radio" value="0" name="product_status">無効</label>
                             </div>
                         </div>
                         <div class="form-group">
@@ -436,7 +423,6 @@
     <script src="{{ URL::asset('gvendor/jQuery-Smart-Wizard/js/jquery.smartWizard.js') }}"></script>
     
     <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
-    <script type="text/javascript"></script>
 
 <script>
     $(function(){
@@ -620,7 +606,6 @@
 
 
     <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script>
         var route_prefix = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
     </script>

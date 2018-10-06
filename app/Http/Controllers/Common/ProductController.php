@@ -116,107 +116,6 @@ class ProductController extends Controller
         return $view->with('recent', $recent)->with('recentimages', $images);
     }
 
-    public function product_list_mall($mallname, $topid = null, $mainid = null, $categoryid = null)
-    {
-        $mall = MallService::get_mall_byname($mallname);
-        $topcategorys = CategoryService::getTopCategorys();
-        $topcategory = null;
-        if ($topid == null) {
-            $topcategory = $topcategorys[0];
-        } else {
-            if ($topid == "men") {
-                $topcategory = Categorys::find(1);
-            } else if ($topid == "women") {
-                $topcategory = Categorys::find(2);
-            }
-        }
-        $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
-        $subcategorys = array();
-        foreach ($maincategorys as $maincategory) {
-            $result = CategoryService::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
-            $subcategorys[$maincategory->category_id] = $result;
-        }
-        $colors = Colors::get();
-        $sizes = null;
-        $mcategory = null;
-        if ($mainid != null) {
-            $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
-            $sizecategory_id = $mcategory->category_size_id;
-            $sizes = SizeCategory::find($sizecategory_id)->sizes;
-        }
-        $scategory = null;
-        if ($categoryid != null) {
-            $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
-        }
-
-        $products = null;
-        $filtercategory = $topcategory->category_id;
-        $categorylevel = 1;
-        if ($mcategory != null) {
-            $filtercategory = $mcategory->category_id;
-            $categorylevel = 2;
-        }
-        if ($scategory != null) {
-            $filtercategory = $scategory->category_id;
-            $categorylevel = 3;
-        }
-        $filtersize = null;
-        $filtercolor = null;
-        $rangemin = null;
-        $rangemax = null;
-        if (isset($_GET['sizeid']) && $_GET['sizeid'] != '') {
-            $filtersize = $_GET['sizeid'];
-        }
-        if (isset($_GET['colorid']) && $_GET['colorid'] != '') {
-            $filtercolor = $_GET['colorid'];
-        }
-        if (isset($_GET['rangemin']) && $_GET['rangemin'] != '') {
-            $rangemin = $_GET['rangemin'];
-        }
-        if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
-            $rangemax = $_GET['rangemax'];
-        }
-        $products = ProductService::get_product_filter_mall($mall->mall_id, null, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
-
-        $prices = array();
-        $images = array();
-        foreach ($products as $product) {
-            $price = StockService::get_price_range($product->product_id);
-            $prices[$product->product_id] = $price;
-
-            $imagerec = Products::get_master_images($product->product_id);
-            $images[$product->product_id] = $imagerec;
-        }
-
-        $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
-        $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
-
-        $brands = MatchService::get_brands($mall->mall_id);
-
-        $customerid = null;
-        if (Auth::check()) {
-            $customerid = Auth::id();
-        }
-
-        $view = view('customer.products.product_list')->with('tcategory', $topcategory)
-            ->with('maincategorys', $maincategorys)
-            ->with('mcategory', $mcategory)
-            ->with('scategory', $scategory)
-            ->with('subcategorys', $subcategorys)
-            ->with('sizes', $sizes)
-            ->with('colors', $colors)
-            ->with('products', $products)
-            ->with('mencategories', $mencategories)
-            ->with('womencategories', $womencategories)
-            ->with('brands', $brands)
-            ->with('prices', $prices)
-            ->with('images', $images)
-            ->with('mallname', $mallname)
-            ->with('customerid', $customerid)
-            ->with('listtype', "mallcategory");
-        return $this->set_recent($view);
-    }
-
     public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null)
     {
         // dd($mall);
@@ -539,16 +438,7 @@ class ProductController extends Controller
     public function product_detail($mallname, $productid)
     {
         $product = Products::find($productid);
-
-        $tcategoryid = CategoryService::getTopCategoryID($product->product_category_id);
-
-        $mcategoryid = CategoryService::getMainCategoryID($product->product_category_id);
-        $mcategory = Categorys::find($mcategoryid);
-
-        $scategory = Categorys::find($product->product_category_id);
-
         // $sizes = SizeCategory::find($mcategoryid)->sizes;
-
         $skucolor = SKUService::get_for_product($productid, 1);
         $skusize = SKUService::get_for_product($productid, 2);
 
@@ -576,16 +466,13 @@ class ProductController extends Controller
             $skuimages[$image->master_image_id] = $each;
         }
 
-        $customerid = null;
         if (Auth::check()) {
             $customerid = Auth::id();
             Customers::add_recent($customerid, $productid);
         }
 
-        return $this->layout_init(view('customer.products.product_detail'), $tcategoryid)
+        return view('customer.products.product_detail')
             ->with('product', $product)
-            ->with('mcategory', $mcategory)
-            ->with('scategory', $scategory)
             ->with('skuinfo', $skuinfo)
             ->with('skucolor', $skucolor)
             ->with('skusize', $skusize)

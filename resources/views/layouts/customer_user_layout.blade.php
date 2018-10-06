@@ -29,8 +29,8 @@
                               id="top_women">WOMEN</span>
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
-                                <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('brands')}}">BRAND</a></li>
+                                <li><a href="#">{{ __('common.新規') }}</a></li>
+                                <li><a href="{{url('brands')}}">{{ __('header.ブランド') }}</a></li>
                                 @foreach($womencategories as $key => $womencategory)
                                     @if($key < 5)
                                         @php
@@ -43,8 +43,8 @@
                                         </li>
                                     @endif
                                 @endforeach
-                                <li><a href="#">EDITORIAL</a></li>
-                                <li><a href="#">SALE</a></li>
+                                <li><a href="#">{{ __('common.文学') }}</a></li>
+                                <li><a href="#">{{ __('common.販売') }}</a></li>
                                 <span class="slide-line"></span>
                             </ul>
                         </div>
@@ -52,8 +52,8 @@
                     <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">MEN</span>
                         <div class="header__nav-primary__list">
                             <ul class="header__nav-primary__list__menu">
-                                <li><a href="#">NEW</a></li>
-                                <li><a href="{{url('brands')}}">BRAND</a></li>
+                                <li><a href="#">{{ __('common.新規') }}</a></li>
+                                <li><a href="{{url('brands')}}">{{ __('header.ブランド') }}</a></li>
                                 @foreach($mencategories as $key => $mencategory)
                                     @if($key < 5)
                                         @php
@@ -65,8 +65,8 @@
                                         <li><a href="{{$url}}">{{$mencategory->category_name}}</a>
                                     @endif
                                 @endforeach
-                                <li><a href="#">EDITORIAL</a></li>
-                                <li><a href="#">SALE</a></li>
+                                <li><a href="#">{{ __('common.文学') }}</a></li>
+                                <li><a href="#">{{ __('common.販売') }}</a></li>
                                 <span class="slide-line"></span>
                             </ul>
                         </div>
@@ -83,8 +83,12 @@
                 @endif
                 <li><a href="{{url('')}}/user/favourite"><i
                                 class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/user/cart?redirect={{url()->current()}}"><i
-                                class="c-icon header__nav-secondary__icon--wish"></i></a></li>
+                <li><a href="{{url('')}}/user/cart">
+                        <span class="c-badge"><span class="c-badge__num">99</span></span>
+                        <i class="c-icon header__nav-secondary__icon--wish"></i>
+                    </a>
+                </li>
+
             </ul>
 
             <div class="header__search" data-header-search><span class="header__search__close"
@@ -124,7 +128,7 @@
         @yield('content')
         @if(isset($customerid))
             <div class="l-column--sub">
-                <h2 class="c-hd">最近チェックしたアイテム</h2>
+                <h2 class="c-hd">{{ __('customer.最近チェックしたアイテム') }}</h2>
                 <div class="c-items c-items--03">
                     <div class="c-item c-item--03">
                         <div class="c-item__column">
@@ -268,7 +272,7 @@
         <!--/.footer__banner-->
         <div class="footer__nav">
             <div class="l-wrapper">
-                <h2 class="footer__nav__hd" data-accordion="">BRAND</h2>
+                <h2 class="footer__nav__hd" data-accordion="">{{ __('header.ブランド') }}</h2>
                 <div class="footer__nav__list-wrap">
                     <ul class="footer__nav__list footer__nav__list--col04">
                         @foreach($brands as $brand)

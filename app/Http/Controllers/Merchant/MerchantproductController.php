@@ -323,6 +323,7 @@ class MerchantproductController extends Controller
             }
         }
         // Edit info
+        /** @var Products $product */
         $product = Products::find($productid);
         $product->product_salemethod = Input::get('product_salemethod');
         $product->product_salerange = Input::get('product_salerange');
@@ -552,24 +553,58 @@ class MerchantproductController extends Controller
         }
     }
 
-    public function manage($product_status = 1)
+    public function manage()
     {
-        return view('merchant.product.product_store_manage')->with('product_status', $product_status);
+        return view('merchant.product.product_store_manage')
+            ->with('product_status', 1);
     }
 
-    public function product_manage_with_status($product_status)
+    public function sold()
+    {
+        return view('merchant.product.product_store_manage')
+            ->with('product_status', 0);
+    }
+
+    public function product_manage_with_status($productStatus)
     {
         $merchant_id = Auth::id();
-        $products = Products::get_products_manage($merchant_id);
 
+        $products = Products::where('product_merchant_id', $merchant_id)->get();
+
+        $result = [];
+        /** @var Products $product */
         foreach ($products as $product) {
-            $master_images = Products::get_master_images($product->product_id);
-            if (count($master_images) == 0) {
-                $master_images = '';
+            /** @var ProductStock $stock */
+            $stocks = ProductStock::where('product_id', $product->product_id)->get();
+            $amount = ProductStock::where('product_id', $product->product_id)->sum('product_count');
+
+            if ($productStatus == 1) {
+                if ($amount == 0) {
+                    continue;
+                }
+            } else {
+                if ($amount != 0) {
+                    continue;
+                }
             }
-            $product->product_images = $master_images;
+
+            $images = Products::get_master_images($product->product_id);
+            if (count($images) == 0) {
+                $images = '';
+            }
+
+            $result[] = [
+                'product_code' => $product->product_code,
+                'product_name' => $product->product_name,
+                'product_price' => (count($stocks) > 0 ? $stocks[0]->product_price_sale : ''),
+                'product_images' => $images,
+                'stock_type' => $product->stock_type,
+                'sale_span' => $product->product_salerange,
+                'product_count' => $amount,
+            ];
         }
-        return $products;
+
+        return $result;
     }
 
     public function product_csvupload()
@@ -899,13 +934,13 @@ class MerchantproductController extends Controller
         // }
     }
 
-    public function product_cash_on_delivery()
+    public function order()
     {
         $merchant_id = Auth::id();
         // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
         $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
 
-        return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
+        return view('merchant.product.order')->with('merchant_id', $merchant_id)
             ->with('cashProducts', $cashProducts)
             ->with('product_status', '2')
             ->with('free_word', '')
@@ -923,21 +958,6 @@ class MerchantproductController extends Controller
         return view('merchant.product.product_shipping')->with('merchant_id', $merchant_id)
             ->with('cashProducts', $cashProducts)
             ->with('product_status', '3')
-            ->with('free_word', '')
-            ->with('min_price', '')
-            ->with('max_price', '')
-            ->with('duration_setting', '0')
-            ->with('duration_range', '');
-    }
-
-    public function sold()
-    {
-        $merchant_id = Auth::id();
-        $cashProducts = Products::get_products_search($merchant_id, '4', '', '', '', '0', '');
-
-        return view('merchant.product.product_sold')->with('merchant_id', $merchant_id)
-            ->with('cashProducts', $cashProducts)
-            ->with('product_status', '4')
             ->with('free_word', '')
             ->with('min_price', '')
             ->with('max_price', '')

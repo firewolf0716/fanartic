@@ -7,7 +7,7 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>イベントを編集</h3>
+            <h3>{{ __('admin.イベントを編集') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
@@ -16,30 +16,30 @@
         {{ Form::hidden('event_id',$event->event_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>イベントを編集</h4>
+                <h4>{{ __('admin.イベントを編集') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">名前<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="event_title" name="event_title" required="required" class="form-control col-md-7 col-xs-12" value="{{$event->event_title}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">英名<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.英名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="event_title_en" name="event_title_en" required="required" class="form-control col-md-7 col-xs-12" value="{{$event->event_title_en}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">条件<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.条件') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="event_condition" name="event_condition" required="required" class="form-control col-md-7 col-xs-12" value="{{$event->event_condition}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">期間<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.期間') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="control-group">
                             <div class="controls">
@@ -52,19 +52,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">コンテンツ<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.コンテンツ') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <textarea class="form-control" id="event_content" name="event_content" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;">{{$event->event_content}}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.登録日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$event->event_create}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.変更日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$event->event_update}}">
                     </div>
@@ -73,8 +73,8 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">イベントを編集</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('admin.イベントを編集') }}</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
                     </div>
                 </div>
             </div>

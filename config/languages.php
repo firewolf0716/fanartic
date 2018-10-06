@@ -9,10 +9,10 @@ return [
     |
     */
 
-    'ja' => 'Japanese',
+    'ja' => '日本語',
     'en' => 'English',
-    'ko' => 'Korean',
-    'cn' => 'Chinese',
-    'tw' => 'Taiwanese',
+    'ko' => '한국어',
+    'cn' => '繁体語',
+    'tw' => '簡体字',
 
 ];

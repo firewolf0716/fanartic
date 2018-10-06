@@ -30,7 +30,7 @@
     <link href="{{ url('')}}/gvendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="{{ url('')}}/gvendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="{{ url('')}}/gvendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- Bootstrap Colorpicker -->
     <link href="{{ url('')}}/gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url('') }}/css/multi-select.css" />
@@ -52,7 +52,7 @@
                         <img src="{{ URL::asset('images/img.jpg') }}" alt="..." class="img-circle profile_img">
                     </div>
                     <div class="profile_info">
-                        <span>ようこそ!</span>
+                        <span>{{ __('common.ようこそ!') }}</span>
                         <h2>{{Session::get('adminname')}}</h2>
                     </div>
                 </div>
@@ -63,77 +63,78 @@
                 <!-- sidebar menu -->
                 <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                     <div class="menu_section">
-                        <h3>共通</h3>
+                        <h3>{{ __('common.共通') }}</h3>
                         <ul class="nav side-menu">
-                            <li><a href="{{ url('admin') }}"><i class="fa fa-home"></i> ダッシュボード</a></li>
-                            <li><a><i class="fa fa-table"></i> マスター管理 <span class="fa fa-chevron-down"></span></a>
+                            <li><a href="{{ url('admin') }}"><i class="fa fa-home"></i> {{ __('admin.ダッシュボード') }}</a></li>
+                            <li><a><i class="fa fa-table"></i> {{ __('admin.マスター管理') }} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li><a>モール<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.モール') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/mall/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/mall/list')}}">モール一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/mall/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/mall/list')}}">{{ __('admin.モール一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>ジャンル<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.ジャンル') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/genre/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/genre/list')}}">ジャンル一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/genre/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/genre/list')}}">{{ __('admin.ジャンル一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>ブランド<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('header.ブランド') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/brand/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/brand/list')}}">ブランド一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/brand/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/brand/list')}}">{{ __('common.ブランド一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>カテゴリ<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.カテゴリ') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/category/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/category/list')}}">カテゴリ一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/category/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/category/list')}}">{{ __('admin.カテゴリ一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>カラー<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.カラー') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/color/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/color/list')}}">カラー一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/color/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/color/list')}}">{{ __('admin.カラー一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>サイズカテゴリ<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.サイズカテゴリ') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/size/addcategory')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/size/listcategory')}}">サイズカテゴリ一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/size/addcategory')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/size/listcategory')}}">{{ __('admin.サイズカテゴリ一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>サイズ<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.サイズ') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/size/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/size/list')}}">サイズ一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/size/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/size/list')}}">{{ __('admin.サイズ一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>イベント<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.イベント') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/event/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/event/list')}}">イベント一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/event/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/event/list')}}">{{ __('admin.イベント一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>お知らせ(店舗)<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.お知らせ(店舗)') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/notifymerchant/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/notifymerchant/list')}}">お知らせ(店舗)一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/notifymerchant/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/notifymerchant/list')}}">{{ __('admin.お知らせ(店舗)一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>お知らせ(顧客)<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.お知らせ(顧客)') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/notifycustomer/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/notifycustomer/list')}}">お知らせ(顧客)一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/notifycustomer/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/notifycustomer/list')}}">{{ __('admin.お知らせ(顧客)一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>出店プラン<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.出店プラン') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/plan/add')}}">新規登録</a></li>
-                                            <li><a href="{{url('admin/plan/list')}}">出店プラン一覧</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/plan/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                            <li><a href="{{url('admin/plan/list')}}">{{ __('admin.出店プラン一覧') }}</a></li>
                                         </ul>
                                     </li>
+<<<<<<< HEAD
                                     <li><a>関税マスタ<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/duty/create')}}">新規登録</a></li>
@@ -141,25 +142,33 @@
                                         </ul>
                                     </li>
                                     <li><a>インポートデータ<span class="fa fa-chevron-down"></span></a>
+=======
+                                    <li><a>{{ __('admin.インポートデータ') }}<span class="fa fa-chevron-down"></span></a>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                                         <ul class="nav child_menu">
-                                            <li class="sub_menu"><a href="{{url('admin/import/csv')}}">csv からデータをインポートする</a></li>
+                                            <li class="sub_menu"><a href="{{url('admin/import/csv')}}">{{ __('admin.csv からデータをインポートする') }}</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>{{ __('admin.関税') }}<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{url('admin/duty/list')}}">{{ __('admin.関税リスト') }}</a></li>
                                         </ul>
                                     </li>
                                 </ul>
                             </li>
 
-                            
-                            <li><a><i class="fa fa-table"></i> 店舗管理 <span class="fa fa-chevron-down"></span></a>
+
+                            <li><a><i class="fa fa-table"></i> {{ __('admin.店舗管理') }} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li class="sub_menu"><a href="{{url('admin/merchants/add')}}">新規登録</a></li>
-                                    <li><a href="{{url('admin/merchants/list')}}">店舗一覧</a></li>
+                                    <li class="sub_menu"><a href="{{url('admin/merchants/add')}}">{{ __('auth.新規登録') }}</a></li>
+                                    <li><a href="{{url('admin/merchants/list')}}">{{ __('admin.店舗一覧') }}</a></li>
                                 </ul>
                             </li>
                             @if(Session::get('adminper') == '1')
-                            <li><a><i class="fa fa-table"></i> 管理者 <span class="fa fa-chevron-down"></span></a>
+                            <li><a><i class="fa fa-table"></i> {{ __('admin.管理者') }} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
-                                    <li class="sub_menu"><a href="{{url('admin/admins/add')}}">新規登録</a></li>
-                                    <li><a href="{{url('admin/admins/list')}}">管理者一覧</a></li>
+                                    <li class="sub_menu"><a href="{{url('admin/admins/add')}}">{{ __('admin.新規登録') }}</a></li>
+                                    <li><a href="{{url('admin/admins/list')}}">{{ __('admin.管理者一覧') }}</a></li>
                                 </ul>
                             </li>
                             @endif
@@ -202,15 +211,15 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="javascript:;"> Profile</a></li>
+                                <li><a href="javascript:;">{{ __('admin.プロフィール') }}</a></li>
                                 <li>
                                     <a href="javascript:;">
                                         <span class="badge bg-red pull-right">50%</span>
-                                        <span>Settings</span>
+                                        <span>{{ __('admin.設定') }}</span>
                                     </a>
                                 </li>
-                                <li><a href="javascript:;">Help</a></li>
-                                <li><a href="{{url('admin/signout')}}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                <li><a href="javascript:;">{{ __('admin.助けて') }}</a></li>
+                                <li><a href="{{url('admin/signout')}}"><i class="fa fa-sign-out pull-right"></i> {{ __('auth.ログアウト') }}</a></li>
                             </ul>
                         </li>
 

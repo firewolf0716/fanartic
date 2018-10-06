@@ -1,15 +1,16 @@
 @php
-$path = Request::path();
+    $path = Request::path();
 @endphp
 <div class="header__nav-primary-wrap" data-header-primary>
     <ul class="header__nav-primary">
         @if(count($women_categories) > 0)
             <li><span class="header__nav-primary__button" data-header-primary__button
-                      id="top_women">WOMEN</span>
+                      id="top_women">{{ __('header.レディース') }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
-                        <li><a href="#">NEW</a></li>
-                        <li><a href="{{ route('mall',$mallname) }}">BRAND</a></li>
+                        <li><a href="#">{{ __('common.新規') }}</a></li>
+                        <li><a href="{{ route('mall',$mallname) }}">{{ __('header.ブランド') }}</a>
+						</li>
                         @php $i=0; @endphp
                         @foreach($women_categories as $key => $womencategory)
                             @if($i < 5)
@@ -22,19 +23,20 @@ $path = Request::path();
                                 </li>
                             @endif
                         @endforeach
-                        <li><a href="#">EDITORIAL</a></li>
-                        <li><a href="#">SALE</a></li>
+                        <li><a href="#">{{ __('common.文学') }}</a></li>
+                        <li><a href="#">{{ __('common.販売') }}</a></li>
                         <span class="slide-line"></span>
                     </ul>
                 </div>
             </li>
         @endif
         @if(count($men_categories) > 0)
-            <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">MEN</span>
+            <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">{{ __('header.メンズ')
+            }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
-                        <li class="active"><a href="#">NEW</a></li>
-                        <li><a href="{{ route('mall',$mallname) }}">BRAND</a></li>
+                        <li class="active"><a href="#">{{ __('common.新規') }}</a></li>
+                        <li><a href="{{ route('mall',$mallname) }}">{{ __('header.ブランド') }}</a></li>
                         @php $i=0; @endphp
                         @foreach($men_categories as $key => $mencategory)
                             @if($i < 5)
@@ -48,7 +50,7 @@ $path = Request::path();
                                 </li>
                             @endif
                         @endforeach
-                        <li><a href="#">SALE</a></li>
+                        <li><a href="#">{{ __('common.販売') }}</a></li>
                         <span class="slide-line"></span>
                     </ul>
                 </div>

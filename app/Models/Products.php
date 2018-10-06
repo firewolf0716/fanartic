@@ -10,6 +10,43 @@ use Illuminate\Auth\Authenticatable;
 
 use App\Services\CategoryService;
 
+/**
+ * @property int product_id
+ * @property string product_salemethod
+ * @property string product_salerange
+ * @property int product_brand_id
+ * @property int product_category_id
+ * @property string product_event
+ * @property string product_code
+ * @property string product_name
+ * @property string product_name_kana
+ * @property string product_name_detail
+ * @property string product_taxflag
+ * @property string product_old_status
+ * @property string product_color
+ * @property string product_size_category_id
+ * @property string product_weight
+ * @property string product_season
+ * @property string product_place
+ * @property string product_material
+ * @property string product_memo
+ * @property string product_status
+ * @property int product_merchant_id
+ * @property int product_parent_id
+ * @property int stock_type
+ * @property int max_order_count
+ * @property int postage_type
+ * @property int postage
+ * @property int delivery_id
+ * @property int shipping_id
+ * @property int product_size_id
+ * @property string product_ca
+ * @property string product_color_1
+ * @property string product_size
+ * @property string created_at
+ * @property string updated_at
+ * @property string deleted_at
+ */
 class Products extends AppModel
 {
     //new code

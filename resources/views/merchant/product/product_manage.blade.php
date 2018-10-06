@@ -1,6 +1,6 @@
 @extends('layouts.merchant_layout')
 
-@section('title', 'Merchant Product Add|fanaRtic')
+@section('title', '商品追加')
 
 @section('content')
 <div class="">

@@ -21,4 +21,15 @@ class Categorys extends AppModel
     protected $guarded = array('category_id');
     protected $table = 'master_category';
     protected $primaryKey = 'category_id';
+
+    public function parent()
+    {
+        return $this->belongsTo(Categorys::class, "category_parent_id");
+    }
+
+    public function subs()
+    {
+        return $this->hasMany(Categorys::class, "category_parent_id");
+    }
+
 }

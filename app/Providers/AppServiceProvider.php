@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Currency;
 use App\Models\Customers;
 use App\Models\Malls;
+use App\Models\Merchants;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -31,6 +32,11 @@ class AppServiceProvider extends ServiceProvider
                 // お知らせ
                 // $notices = NoticeService::getLists(Auth::id());
                 View::share(compact('authUser'));
+            }
+
+            if (Auth::guard('merchant')->check()) {
+                $authMerchant = Merchants::find(Auth::guard('merchant')->id());
+                View::share(compact('authMerchant'));
             }
         });
 

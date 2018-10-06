@@ -3,20 +3,32 @@
 @section('content')
 <ul class="c-breadcrumbs">
     <li><a href="/">HOME</a></li>
-    <li>会員情報</li>
+    <li>{{ __('customer.会員情報') }}</li>
 </ul>
 <!--/.c-breadcrumbs-->
+<<<<<<< HEAD
 
 <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--member"></i> 会員情報</h1>
+=======
+<h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--member"></i> {{ __('customer.会員情報') }}</h1>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
 <div class="members">
     <div class="members__column">
     <div class="members__column__content">
         <section class="c-box">
+<<<<<<< HEAD
         <h3 class="c-box__hd">お届け先住所 追加</h3>
             <div class="c-box__content">
             {!! Form::open(array('id' => 'form_address','url'=>'user/address_add_post')) !!}
             <div class="c-form__row{{ $errors->has('name') ? ' has-error' : '' }}">
                 <div class="c-form__row__label">名前<span class="c-form__require">必須</span></div>
+=======
+        <h3 class="c-box__hd">{{ __('customer.お届け先住所追加') }} </h3>
+        <div class="c-box__content">
+            {!! Form::open(array('id' => 'form_address','url'=>'user/address_add_post', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+            <div class="c-form__row">
+                <div class="c-form__row__label">{{ __('customer.名前') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                 <div class="c-form__row__input">
                     <div class="c-form__colum">
                         <div class="c-form__colum__col"><input type="text" class="c-form__input" name="name"
@@ -28,20 +40,40 @@
                 </div>
             </div>
             <!--/.c-form__row-->
+<<<<<<< HEAD
             <div class="c-form__row{{ $errors->has('phone') ? ' has-error' : '' }}">
                 <div class="c-form__row__label">電話番号<span class="c-form__require">必須</span></div>
                 <div class="c-form__row__input">
                     <input type="tel" class="c-form__input c-form__input--tel" name="tel1" value="{{ old('tel1') }}">
                     <input type="tel" class="c-form__input c-form__input--tel" name="tel2" value="{{ old('tel2') }}">
                     <input type="tel" class="c-form__input c-form__input--tel" name="tel3" value="{{ old('tel3') }}">
+=======
+            <div class="c-form__row">
+                <div class="c-form__row__label">{{ __('customer.電話番号') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                <div class="c-form__row__input">
+                <input type="tel" class="c-form__input c-form__input--tel" name="tel1" value="" required>
+                <input type="tel" class="c-form__input c-form__input--tel" name="tel2" value="" required>
+                <input type="tel" class="c-form__input c-form__input--tel" name="tel3" value="" required></div>
+            </div>
+            <!--/.c-form__row-->
+            <div class="c-form__row">
+                <div class="c-form__row__label">{{ __('customer.郵便番号') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" id="zipcode" name="zipcode" value="" required>
+                    <button type="button" class="c-button c-button--primary" onClick="getAddress()">{{ __('customer.住所自動入力') }}</button>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                 </div>
                 @if ($errors->has('phone'))
                     <span class="help-block">{{ $errors->first('phone')}}</span>
                 @endif
             </div>
             <!--/.c-form__row-->
+<<<<<<< HEAD
             <div class="c-form__row{{ $errors->has('country') ? ' has-error' : '' }}">
                 <div class="c-form__row__label">国<span class="c-form__require">必須</span></div>
+=======
+            <div class="c-form__row">
+                <div class="c-form__row__label">{{ __('customer.国') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                 <div class="c-form__row__input">
                     <div class="c-form__row__input">
                         <label class="c-form__select c-form__select--birthday--year">
@@ -61,6 +93,7 @@
                 @endif
             </div>
             <div id="address_abroad" style="display:none">
+<<<<<<< HEAD
                 <div class="c-form__row{{ $errors->has('city') ? ' has-error' : '' }}">
                     <div class="c-form__row__label">都市<span class="c-form__require">必須</span></div>
                     <div class="c-form__colum">
@@ -81,11 +114,22 @@
                     @if ($errors->has('address_ex'))
                         <span class="help-block">{{ $errors->first('address_ex')}}</span>
                     @endif
+=======
+                <div class="c-form__row">
+                    <div class="c-form__row__label">{{ __('customer.') }}都市<span class="c-form__require">{{ __('customer.') }}必須</span></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="city" value="" required></div>
+                </div>
+                <!--/.c-form__row-->
+                <div class="c-form__row">
+                    <div class="c-form__row__label">{{ __('customer.') }}以降の住所<span class="c-form__require">{{ __('customer.') }}必須</span></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_ex" value="" required></div>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                 </div>
                 <!--/.c-form__row-->
             </div>
             <!--/.c-form__row-->
             <div id="address_home" style="display:block">
+<<<<<<< HEAD
                 <div class="c-form__row{{ $errors->has('zipcode') ? ' has-error' : '' }}">
                     <div class="c-form__row__label">郵便番号<span class="c-form__require">必須</span></div>
                         <div class="c-form__row__input">
@@ -102,6 +146,11 @@
                 <!--/.c-form__row-->
                 <div class="c-form__row{{ $errors->has('province_jp') ? ' has-error' : '' }}">
                     <div class="c-form__row__label">都道府県<span class="c-form__require">必須</span></div>
+=======
+                <div class="c-form__row">
+                    <div class="c-form__row__label">{{ __('customer.都道府県') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                    <div class="c-form__row__input">
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                         <div class="c-form__colum">
                             <div class="c-form__row__input">
                             <div class="c-form__colum__col"><input type="text" class="c-form__input" name="province_jp" id="province_jp" value="{{ old('province_jp') }}"></div>
@@ -112,6 +161,7 @@
                     @endif
                 </div>
                 <!--/.c-form__row-->
+<<<<<<< HEAD
                 <div class="c-form__row{{ $errors->has('city_jp') ? ' has-error' : '' }}">
                     <div class="c-form__row__label">市町区村<span class="c-form__require">必須</span></div>
                     <div class="c-form__row__input">
@@ -132,11 +182,21 @@
                     @if ($errors->has('address_jp'))
                         <span class="help-block">{{ $errors->first('address_jp')}}</span>
                     @endif
+=======
+                <div class="c-form__row">
+                    <div class="c-form__row__label">{{ __('customer.市町区村') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" id="county" value="" required></div>
+                </div>
+                <!--/.c-form__row-->
+                <div class="c-form__row">
+                    <div class="c-form__row__label">{{ __('customer.番地') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_jp" value="" required></div>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                 </div>
                 <!--/.c-form__row-->
             </div>
             <hr class="c-hr">
-            <div class="l-button"><button type="button" class="c-button c-button--submit" onClick="onSubmit()">お届け先を追加する</button></div>
+            <div class="l-button"><button type="button" class="c-button c-button--submit" onClick="onSubmit()">{{ __('customer.お届け先を追加する') }}</button></div>
             <!--/.l-button-->
             {{ Form::close() }}
         </div>
@@ -176,7 +236,11 @@
             success: function(result){
                 var res = result.resourceSets[0].resources[0].name;
                 if(res.length < 8){
+<<<<<<< HEAD
                     alert('郵便番号が間違っています。');
+=======
+                    alert('{{ __('customer.郵便番号が間違っている.') }}');
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                     return;
                 }
                 $('#province_jp').val(result.resourceSets[0].resources[0].address.adminDistrict);

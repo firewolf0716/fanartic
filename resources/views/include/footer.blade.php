@@ -1,7 +1,7 @@
 <div class="footer">
     <div class="footer__nav">
         <div class="l-wrapper">
-            <h2 class="footer__nav__hd" data-accordion="">BRAND</h2>
+            <h2 class="footer__nav__hd" data-accordion="">{{ __('header.ブランド') }}</h2>
             <div class="footer__nav__list-wrap">
                 <ul class="footer__nav__list footer__nav__list--col04">
                     @foreach($brands as $brand)
@@ -11,42 +11,42 @@
             </div>
             <div class="footer__nav__column">
                 <div class="footer__nav__column__col">
-                    <h2 class="footer__nav__hd" data-accordion="">SUPPORT</h2>
+                    <h2 class="footer__nav__hd" data-accordion="">{{ __('common.サポート') }}</h2>
                     <div class="footer__nav__list-wrap">
                         <ul class="footer__nav__list">
-                            <li><a href="{{ route('page.terms_customer') }}">ユーザーご利用規約</a></li>
-                            <li><a href="{{ route('page.terms_merchant') }}">出店者ご利用規約</a></li>
-                            <li><a href="{{ route('page.tokusho') }}">特定商取引法に基づく表記</a></li>
-                            <li><a href="{{ route('page.privacy') }}">プライバシーポリシー</a></li>
-                            <li><a href="{{ route('page.help') }}">ヘルプ</a></li>
+                            <li><a href="{{ route('page.terms_customer') }}">{{ __('common.ユーザーご利用規約') }}</a></li>
+                            <li><a href="{{ route('page.terms_merchant') }}">{{ __('common.出店者ご利用規約') }}</a></li>
+                            <li><a href="{{ route('page.tokusho') }}">{{ __('common.特定商取引法に基づく表記') }}</a></li>
+                            <li><a href="{{ route('page.privacy') }}">{{ __('common.プライバシーポリシー') }}</a></li>
+                            <li><a href="{{ route('page.help') }}">{{ __('common.ヘルプ') }}</a></li>
                         </ul>
                     </div>
                 </div>
                 <!--/.footer__nav__column__col-->
                 <div class="footer__nav__column__col">
-                    <h2 class="footer__nav__hd" data-accordion="">CONTACT</h2>
+                    <h2 class="footer__nav__hd" data-accordion="">{{ __('common.接触') }}</h2>
                     <div class="footer__nav__list-wrap">
                         <ul class="footer__nav__list">
-                            <li><a href="{{ route('page.company') }}">運営会社情報</a></li>
-                            <li><a href="{{ route('page.recruit') }}">採用情報</a></li>
-                            <li><a href="{{ route('page.sitemap') }}">サイトマップ</a></li>
-                            <li><a href="{{ route('page.contact') }}">お問合わせ</a></li>
+                            <li><a href="{{ route('page.company') }}">{{ __('common.運営会社情報') }}</a></li>
+                            <li><a href="{{ route('page.recruit') }}">{{ __('common.採用情報') }}</a></li>
+                            <li><a href="{{ route('page.sitemap') }}">{{ __('common.サイトマップ') }}</a></li>
+                            <li><a href="{{ route('page.contact') }}">{{ __('common.お問合わせ') }}</a></li>
                         </ul>
                     </div>
                 </div>
                 <!--/.footer__nav__column__col-->
                 <div class="footer__nav__column__col">
-                    <h2 class="footer__nav__hd">COUNTRY / LANGUAGE</h2>
+                    <h2 class="footer__nav__hd">{{ __('common.国 / 言語') }}</h2>
                     <ul class="footer__nav__country">
                         <ul class="footer__nav__list">
-                            <li><a href="{{ route('page.company') }}">日本</a></li>
-                            <li><a href="{{ route('page.recruit') }}">中国</a></li>
-                            <li><a href="{{ route('page.sitemap') }}">アメリカ</a></li>
-                            <li><a href="{{ route('page.contact') }}">韓国</a></li>
+                            <li><a href="{{ route('page.company') }}">{{ __('common.日本') }}</a></li>
+                            <li><a href="{{ route('page.recruit') }}">{{ __('common.中国') }}</a></li>
+                            <li><a href="{{ route('page.sitemap') }}">{{ __('common.アメリカ') }}</a></li>
+                            <li><a href="{{ route('page.contact') }}">{{ __('common.韓国') }}</a></li>
                         </ul>
                     </ul>
 
-                    <h2 class="footer__nav__hd">FOLLOW</h2>
+                    <h2 class="footer__nav__hd">{{ __('common.フォローする') }}</h2>
                     <ul class="footer__nav__sns">
                         <li><a href="#"><i class="c-icon footer__nav__sns__icon--twitter"></i></a></li>
                         <li><a href="#"><i class="c-icon footer__nav__sns__icon--facebook"></i></a></li>
