@@ -8,6 +8,8 @@ use Session;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 
+use App\Models\DutyCountry;
+
 /**
  * @property int id
  * @property string name
@@ -23,11 +25,6 @@ class Duty extends AppModel
     protected $primaryKey = 'id';
 
     public function duties() {
-          return $this->hasMany(DutyCountry::class, 'duty_id');
-    }
-
-    public static function update_duty($entry, $id)
-    {
-        return DB::table('duties')->where('id', '=', $id)->update($entry);
+          return $this->hasMany(DutyCountry::class, 'duty_id', 'id');
     }
 }

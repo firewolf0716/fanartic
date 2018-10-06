@@ -3,6 +3,7 @@
 @section('title', 'Dashboard|fanaRtic')
 
 @section('content')
+<link href="{{ url('')}}/gvendor/select2/dist/css/select2.min.css" rel="stylesheet">
 
 <div class="">
     <div class="page-title">
@@ -37,7 +38,15 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.国名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12" value="{{$country_duty->country}}" placeholder="">
+                        <select type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12">
+                            @foreach($countries as $country)
+                                <?php $selected=''?>
+                                @if($country_duty->country == $country)
+                                    <?php $selected='selected'; ?>
+                                @endif
+                            <option {{ $selected }} value="{{$country}}">{{$country}}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -121,16 +130,13 @@
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
 <script type="text/javascript">
-    $('#created_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-    $('#updated_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+    $("select").select2();
+
     $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
-        $('#created_at').val('{{$country_duty->created_at}}');
-        $('#updated_at').val('{{$country_duty->updated_at}}');
     });
 
     $('#btnSubmit').click(function() {
-        $('#updated_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
     });
 </script>

@@ -7,6 +7,7 @@
 <head>
     <!-- iCheck -->
     <link href="{{ url('')}}/gvendor/iCheck/skins/flat/green.css" rel="stylesheet">
+    <link href="{{ url('')}}/gvendor/select2/dist/css/select2.min.css" rel="stylesheet">
 
     <style>
         @supports (zoom:2) {
@@ -126,9 +127,10 @@
                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.国') }}<span class="required">*</span></label>
                    <div class="col-md-4 col-sm-6 col-xs-12">
                        <select type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12">
-                           <option>China</option>
-                           <option>Janpan</option>
-                           <option>Korea</option>
+                           <option></option>
+                            @foreach($countries as $country)
+                           <option value="{{$country}}">{{$country}}</option>
+                           @endforeach
                        </select>
                    </div>
                </div>
@@ -161,6 +163,7 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <td hidden></td>
                                 <th style="text-align:center">{{ __('admin.国名前') }}</th>
                                 <th style="text-align:center">{{ __('admin.関税') }}</th>
                                 <th style="text-align:center">{{ __('admin.グループ名前') }}</th>
@@ -262,8 +265,9 @@
     <script src="{{ url('')}}/gvendor/pdfmake/build/vfs_fonts.js"></script>
 
 <script type="text/javascript">
-function deleteConfirm(id, type) {
+$("select").select2();
 
+function deleteConfirm(id, type) {
     var answer = confirm('{{ __('admin.本当に削除しますか?') }}');
     if(!answer){
         return;

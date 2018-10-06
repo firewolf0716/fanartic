@@ -107,8 +107,6 @@
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
 <script type="text/javascript">
-    $('#created_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
-    $('#updated_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
     $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
         $('#created_at').val('{{$duty->created_at}}');
@@ -116,7 +114,6 @@
     });
 
     $('#btnSubmit').click(function() {
-        $('#updated_at').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
     });
 </script>

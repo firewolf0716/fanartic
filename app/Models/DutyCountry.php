@@ -23,9 +23,4 @@ class DutyCountry extends AppModel
     protected $guarded = 'c_id';
     protected $table = 'country_duties';
     protected $primaryKey = 'c_id';
-
-    public static function update_countryduty($entry, $id)
-    {
-        return DB::table('country_duties')->where('c_id', '=', $id)->update($entry);
-    }
 }

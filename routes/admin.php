@@ -16,6 +16,7 @@
 | 1) Admin 認証不要
 |--------------------------------------------------------------------------
 */
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::get('login', 'AdminController@login')->name('admin.login');
     Route::get('signout', 'AdminController@signout');
