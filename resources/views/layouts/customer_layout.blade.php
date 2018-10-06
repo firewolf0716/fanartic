@@ -176,7 +176,7 @@
                 sendToServer('women');
             });
             $('#top_men').click(function(){
-                sendToServer('  men');
+                sendToServer('men');
             });
         });
     </script>
