@@ -148,15 +148,26 @@
     <script src="{{asset('js/script.js')}}"></script>
     <script>
         $(function () {
-            var topcategory = "{{$tcategory->category_id}}";
-            if (topcategory == '1') {
-                $('#top_women').removeClass('is-current');
-                $('#top_men').addClass('is-current');
+            function sendToServer(value){
+                $.ajax({
+                   type: 'post',
+                   data: {
+                       value: value,
+                       _token: "{{ csrf_token() }}"
+                   },
+                   url: "{{url('insert_session')}}",
+                   success: function (data) {
+                       console.log(data)
+                   }
+               });
+
             }
-            else if (topcategory == '2') {
-                $('#top_men').removeClass('is-current');
-                $('#top_women').addClass('is-current');
-            }
+            $('#top_women').click(function(){
+                sendToServer('women');
+            });
+            $('#top_men').click(function(){
+                sendToServer('  men');
+            });
         });
     </script>
 </div>
