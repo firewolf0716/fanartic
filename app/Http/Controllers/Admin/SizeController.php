@@ -17,10 +17,10 @@ class SizeController extends Controller
     }
 
     public function addcategorypost() {
-        $sizeCategory = new SizeCategory();
-        $sizeCategory->sizecategory_name = Input::get('sizecategory_name');
-        $sizeCategory->sizecategory_name_en = Input::get('sizecategory_name_en');
-        $sizeCategory->save();
+        $sizecategory = new SizeCategory();
+        $sizecategory->sizecategory_name = Input::get('sizecategory_name');
+        $sizecategory->sizecategory_name_en = Input::get('sizecategory_name_en');
+        $sizecategory->save();
 
         return Redirect::to('admin/size/listcategory');   
     }
@@ -45,9 +45,8 @@ class SizeController extends Controller
     }
 
     public function add() {
-        $categorys = SizeCategory::get();
-        return view('admin.size.add')
-            ->with('categorys', $categorys);
+        $categorys = Sizes::get();
+        return view('admin.size.add')->with('categorys', $categorys);
     }
 
     public function addpost() {
@@ -66,7 +65,7 @@ class SizeController extends Controller
     }
 
     public function edit($id) {
-        $categorys = SizeCategory::get();
+        $categorys = Sizes::get();
         $size = Sizes::find($id);
         return view('admin.size.edit')
             ->with('size', $size)

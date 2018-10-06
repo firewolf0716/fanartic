@@ -10,13 +10,13 @@ class MerchantUserService
 {
     public static function check_login($uname, $pwd)
     {
-        $check_email = Merchants::where('merchant_email', '=', $uname)->where('merchant_status', '=', 1)->get();
+        $check_email = Merchants::where('email', '=', $uname)->where('merchant_status', '=', 1)->get();
         $check_password = 0;
         if (count($check_email) > 0) {
             foreach ($check_email as $check) {
                 if ($check->merchant_email == $uname) {
-                    $check_password = Merchants::where('merchant_email', '=', $uname)
-                        ->where('merchant_password', '=', $pwd)
+                    $check_password = Merchants::where('email', '=', $uname)
+                        ->where('password', '=', $pwd)
                         ->where('merchant_status', '=', 1)->get();
                 } else {
                     return -1;
@@ -37,7 +37,7 @@ class MerchantUserService
     }
     public static function merchant_status($uname, $pwd)
     {
-        $users = DB::table('fan_merchant_submit')->where('merchant_email', '=', $uname)->get();
+        $users = DB::table('fan_merchant_submit')->where('email', '=', $uname)->get();
         if (count($users) > 0) {
             $merchant = $users->first();
             if ($pwd != $merchant->merchant_password) {

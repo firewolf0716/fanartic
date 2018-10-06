@@ -196,6 +196,7 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
+<<<<<<< HEAD
                                 <li><a href="javascript:;">{{ __('admin.プロフィール') }}</a></li>
                                 <li>
                                     <a href="javascript:;">
@@ -205,6 +206,10 @@
                                 </li>
                                 <li><a href="javascript:;">{{ __('admin.助けて') }}</a></li>
                                 <li><a href="{{url('admin/signout')}}"><i class="fa fa-sign-out pull-right"></i> {{ __('auth.ログアウト') }}</a></li>
+=======
+                                <li><a href="{{ route('admin.logout') }}">
+                                    <i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+>>>>>>> feature/fanartic70
                             </ul>
                         </li>
 

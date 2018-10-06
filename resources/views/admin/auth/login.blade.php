@@ -31,23 +31,27 @@
         <div class="animate form login_form">
           <section class="login_content">
             
-            {!! Form::open(array('id' => 'form_signin','url'=>'admin/signin')) !!}
-            {{ Form::hidden('redirect', $redirect)}}
+            <form method="POST" action="{{ route('admin.loginPost') }}" aria-label="{{ __('Login') }}">
+              @csrf            
               <h1>Login(Admin)</h1>
-              <div>
-                <input type="text" name="username" class="form-control" placeholder="Username" required="" />
+              <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                  <input type="text" name="email" class="form-control" placeholder="Email"/>
+                  @if ($errors->has('email'))
+                      <span class="help-block">{{ $errors->first('email')}}</span>
+                  @endif
+              </div>
+              <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
+                  <input type="password" name="password" class="form-control" placeholder="Password"/>
+                  @if ($errors->has('password'))
+                      <span class="help-block">{{ $errors->first('password')}}</span>
+                  @endif
               </div>
               <div>
-                <input type="password" name="password" class="form-control" placeholder="Password" required="" />
+                  <button class="btn btn-default submit">Log in</button>
               </div>
-              <div>
-                <button class="btn btn-default submit">Log in</button>
-              </div>
-
-              <div class="clearfix"></div>
 
               
-            {{ Form::close() }}
+            </form>
             
           </section>
         </div>

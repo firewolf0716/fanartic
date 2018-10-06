@@ -53,12 +53,12 @@ class MerchantController extends Controller
         $merchant->merchant_plan = Input::get('merchant_plan');
         $merchant->merchant_taxflag = Input::get('merchant_taxflag');
         $merchant->merchant_companyname = Input::get('merchant_companyname');
-        $merchant->merchant_name = Input::get('merchant_name');
+        $merchant->name = Input::get('merchant_name');
         $merchant->merchant_rep = Input::get('merchant_rep');
         $merchant->merchant_admin = Input::get('merchant_admin');
         $merchant->merchant_permit = Input::get('merchant_permit');
-        $merchant->merchant_email = Input::get('merchant_email');
-        $merchant->merchant_password = Input::get('merchant_password');
+        $merchant->email = Input::get('merchant_email');
+        $merchant->password = Input::get('merchant_password');
         $merchant->merchant_postalcode = Input::get('merchant_postalcode');
         $merchant->merchant_state = Input::get('merchant_state');
         $merchant->merchant_commission_jp = Input::get('merchant_commission_jp');
