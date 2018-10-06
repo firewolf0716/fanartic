@@ -131,7 +131,7 @@ class TempostarComponent
         $csv->insertOne($data);
 
         // CSVで保存（時間でファイルを作っています）
-        $response = $this->ftp->write('stock/' . time() . rand() . 'utf8.csv', $csv->__toString());
+        $response = $this->ftp->write('stock/stock' . time() . 'utf8.csv', $csv->__toString());
 
         dd($response);
 
