@@ -25,8 +25,23 @@
                         <div class="form-group" style="margin-Bottom:30px">
                             <div class="input-group">
                                 <input type="file" name="csv_file" class="form-control" accept=".csv" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="x_content" style="padding-Top:40px">
+                        <label class="control-label">Please Select ZIP File</label>
+                        <div class="form-group" style="margin-Bottom:30px">
+                            <div class="input-group">
+                                <input type="file" name="zip_file" class="form-control" accept=".zip" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="x_content" style="padding-Top:40px">
+                        <div class="form-group" style="margin-Bottom:30px">
+                            <div class="input-group">
                                 <span class="input-group-btn">
-                                    <button id="btnSubmit" type="submit" class="btn btn-warning">csvからの読み込み</button>
+                                    <button id="btnSubmit" type="submit" class="btn btn-warning">csvからの読み込み
+                                    </button>
                                 </span>
                             </div>
                         </div>

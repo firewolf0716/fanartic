@@ -744,9 +744,29 @@ class MerchantproductController extends Controller
         }
 
         // $filename_new = "merchant_product_csv_" . time() . "." . strtolower($csv_file->getClientOriginalExtension());
-        $filename_new = "merchant_product_csv_" . $merchant_id . "." . strtolower($csv_file->getClientOriginalExtension());
+        $filename_new = "merchant_product_csv_" . $merchant_id . "." . strtolower($csv_file->getClientOriginalExtension());  
         $newdestinationPath = './csv/';
         $uploadSuccess_new = $csv_file->move($newdestinationPath, $filename_new);
+
+/*zip file upload*/
+        $zip_file = Input::file('zip_file');
+        if ($zip_file == null || $zip_file == "") {
+            return Redirect::to('merchant/product/manage');
+        }
+
+        $filename_zip_new = "merchant_product_zip_" . $merchant_id . "." . strtolower($zip_file->getClientOriginalExtension());  
+        $newdestinationZipPath = './zip/';
+        $uploadZipSuccess_new = $zip_file->move($newdestinationZipPath, $filename_zip_new);
+
+        $zip = new \ZipArchive;
+        if ($zip->open($uploadZipSuccess_new) === TRUE) {
+            $zip->extractTo('./images/products/');
+            $zip->close();
+            $ok = TRUE;
+        } else {
+            $ok = FALSE;
+        }
+/*zip file upload*/
 
         $importProductCount = 0;
         if (($handle = fopen($uploadSuccess_new, 'r')) !== FALSE) {
@@ -761,21 +781,20 @@ class MerchantproductController extends Controller
                 }
                 // product color string
                 $product_colors = array();
-                $tmpColors = explode('/**/', $data[25]);
+                $tmpColors = explode('/**/', $data[25]); 
                 $strProductColors = '';
                 foreach ($tmpColors as $tmpColor) {
                     if ($strProductColors != '') {
                         $strProductColors .= '/**/';
                     }
                     $tmpColor = SkuService::get_color_with_name($tmpColor);
-                    if (count($tmpColor) == 0) {
+                    if ($tmpColor == null) {
                         continue;
                     }
                     $tmpColorId = $tmpColor->color_id;
                     array_push($product_colors, $tmpColorId);
                     $strProductColors .= $tmpColorId;
                 }
-
                 $product_sizes = array();
                 $tmpSizes = explode('/**/', $data[26]);
                 $strProductSizes = '';
@@ -810,10 +829,9 @@ class MerchantproductController extends Controller
                 $postage_type = 0;
                 $postage = '';
                 $delivery_id = 1;
-                $shipping_id = 0;
+                $shipping_id = 42;
                 $product_color_1 = 1;
                 $current_date = date("Y/m/d H:i:s");
-
                 // Save fan product
                 $product = new Products();
                 $product->product_salemethod = $product_salemethod;
@@ -842,7 +860,7 @@ class MerchantproductController extends Controller
                 $product->postage_type = $postage_type;
                 $product->postage = $postage;
                 $product->delivery_id = $delivery_id;
-                $product->shipping_id = $data[34];
+                $product->shipping_id = $shipping_id;  //  $data[34];
                 $product->product_color_1 = $product_color_1;
                 $product->save();
                 $productid = $product->product_id;
