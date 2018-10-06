@@ -148,7 +148,7 @@
     <script src="{{asset('js/script.js')}}"></script>
     <script>
         $(function () {
-            var topcategory = "{{$tcategory->category_id}}";
+            var topcategory = "{{$top_category->category_id}}";
             if (topcategory == '1') {
                 $('#top_women').removeClass('is-current');
                 $('#top_men').addClass('is-current');

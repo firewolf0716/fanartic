@@ -10,6 +10,14 @@ class ProductService
 
     }
 
+    /**
+     * @param $mall_id
+     */
+    public static function getNew($mall_id)
+    {
+
+    }
+
     public static function get_product_filter_mall($mallid, $brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax)
     {
         $sql = Products::leftJoin('master_brand', 'master_brand.brand_id', '=', 'fan_product.product_brand_id')

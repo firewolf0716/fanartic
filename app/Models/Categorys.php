@@ -31,5 +31,4 @@ class Categorys extends AppModel
     {
         return $this->hasMany(Categorys::class, "category_parent_id");
     }
-
 }

@@ -67,14 +67,6 @@ class MallController extends Controller
         if (!empty($mall)) {
             $brands = MatchService::get_brands($mall->mall_id);
 
-            $topcategorys = CategoryService::getTopCategorys();
-            $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
-            $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
-            $maincategorys = CategoryService::getMainCategorys($topcategorys[0]->category_id);
-            $tcategory = $topcategorys[0];
-
-            $brands = Brands::get();
-
             $customerid = null;
             $recent = null;
             $images = null;
@@ -87,21 +79,13 @@ class MallController extends Controller
                     // dd($imagerec);
                     $images[$product->product_id] = $imagerec;
                 }
-                $email = CustomerUser::find(Auth::id())->email;
                 // dd($email);
             }
 
             return view('customer.mall_brand')
-                ->with(compact('mencategories'))
-                ->with('womencategories', $womencategories)
-                ->with('brands', $brands)
-                ->with('tcategory', $tcategory)
-                ->with('maincategorys', $maincategorys)
-                ->with('customerid', $customerid)
-                ->with('recent', $recent)
+                ->with(compact('customerid', 'recent'))
                 ->with('recentimages', $images)
                 ->with('listtype', "malls")
-                ->with('email', $email)
                 ->with('mallname', $mallname)
                 ->with('listtype', "mall_brands");
         } else

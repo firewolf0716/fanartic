@@ -147,9 +147,8 @@ class CategoryService
     public static function get_category_byname($parentid, $childname)
     {
         return DB::table('master_category')
-            ->where('category_parent_id', $parentid)
-            ->where('category_name_en', $childname)
-            ->get()
-            ->first();
+                ->where('category_parent_id', $parentid)
+                ->where('category_name_en', $childname)
+                ->first();
     }
 }
