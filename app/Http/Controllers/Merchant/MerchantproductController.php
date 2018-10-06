@@ -945,42 +945,20 @@ class MerchantproductController extends Controller
         // }
     }
 
-    public function order()  // firewolf  order view
+    public function order() 
     {
         $merchant_id = Auth::id();
-        // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
-        $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
 
         return view('merchant.product.order')->with('merchant_id', $merchant_id)
-            ->with('cashProducts', $cashProducts)
-            ->with('product_status', '2')
-            ->with('free_word', '')
-            ->with('min_price', '')
-            ->with('max_price', '')
-            ->with('duration_setting', '0')
-            ->with('duration_range', '');
-    }
-
-    public function firewolforder()  // firewolf  order view
-    {
-        $merchant_id = Auth::id();
-        // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
-        $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
-
-        return view('merchant.product.firewolforder')->with('merchant_id', $merchant_id)
-            ->with('status_list', $this->status_list)
-            ->with('cashProducts', $cashProducts)
-            ->with('product_status', '2')
-            ->with('free_word', '')
-            ->with('min_price', '')
-            ->with('max_price', '')
-            ->with('duration_setting', '0')
-            ->with('duration_range', '');
+            ->with('status_list', $this->status_list);
     }
 
     public function getorders()
-    {         
-        $orders = CustomerOrder::get();
+    {   
+        $where = array();
+        
+        $orders = CustomerOrder::get_orders();
+
         $retVal = array();
         foreach ($orders as $order) {
             $buffer = array();

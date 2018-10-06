@@ -46,10 +46,29 @@ var EcommerceOrders = function () {
                             "pageOf": "of"
                         }
                     },
+                "processing": true,
+                "serverSide": true,
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
-                        'orderable': false,
-                        'targets': [0]
+                        'orderable': true,
+                        'targets': [0,1,2]
                     }],
+                "columns": [
+                    {   "name": "" ,
+                        "orderable": false,
+                    },
+                    {   "name": "" ,
+                        "orderable": false,
+                    },
+                    { "name": "status" },
+                    { "name": "merchant_id" },
+                    { "name": "customer_id" },
+                    { "name": "customer_info" },
+                    { "name": "ship_info" },
+                    { "name": "order_time" },
+                    { "name": "payment_time" },
+                    { "name": "ship_time" },
+                    { "name": "" }
+                ],
                 "lengthMenu": [
                     [10, 20, 50, 100, 150, -1],
                     [10, 20, 50, 100, 150, "All"] // change per page values here
@@ -59,7 +78,7 @@ var EcommerceOrders = function () {
                     "url": "getorders", // ajax source
                 },
                 "order": [
-                    [1, "asc"]
+                    [4, "asc"]
                 ] // set first column as a default sort by asc
             }
         });

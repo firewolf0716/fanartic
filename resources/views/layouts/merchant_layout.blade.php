@@ -92,7 +92,6 @@
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ url('merchant/product/order') }}">受注一覧</a></li>
-                                    <li><a href="{{ url('merchant/product/firewolforder') }}">受注一覧(firewolf)</a></li>
                                     <li><a href="{{ url('merchant/product/shipping') }}">出荷一覧</a></li>
                                 </ul>
                             </li>
