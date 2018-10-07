@@ -12,7 +12,7 @@
 */
 
 $app = new Illuminate\Foundation\Application(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
 
 /*
@@ -40,6 +40,21 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     App\Exceptions\Handler::class
 );
+
+switch ($_SERVER['HTTP_HOST']) {
+    case 'or-not.com':
+        $app->loadEnvironmentFrom('.env.prod');
+        break;
+    case 'fashion.aidiot.xyz':
+        $app->loadEnvironmentFrom('.env.stg');
+        break;
+    case 'localhost:8080':
+        $app->loadEnvironmentFrom('.env.local');
+        break;
+    default:
+        $app->loadEnvironmentFrom('.env.prod');
+        break;
+}
 
 /*
 |--------------------------------------------------------------------------
