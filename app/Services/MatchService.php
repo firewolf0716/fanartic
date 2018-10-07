@@ -8,6 +8,8 @@ use Hash;
 use App\Models\MallBrands;
 use App\Models\MallCategorys;
 use App\Models\MerchantBrands;
+use App\Models\Duty;
+use App\Models\DutyCountry;
 
 class MatchService
 {
@@ -22,11 +24,24 @@ class MatchService
             ->leftJoin('master_brand', 'mall_brand_match.brand_id', '=', 'master_brand.brand_id')
             ->get();
     }
+
+    public static function get_country_duties(){
+        return Duty::whereNull('country_duties.deleted_at')
+            ->Join('country_duties', 'duties.id', '=', 'country_duties.duty_id')
+            ->get();
+    }
+
     public static function get_malls($brand){
         return MallBrands::where('brand_id', $brand)->get();
     }
     public static function remove_brands($mall){
         return MallBrands::where('mall_id', $mall)->delete();
+    }
+    public static function remove_duty($duty){
+        return Duty::where('id', $duty)->delete();
+    }
+    public static function remove_countryduty($duty){
+        return DutyCountry::where('c_id', $duty)->delete();
     }
     public static function remove_malls($brand){
         return MallBrands::where('brand_id', $brand)->delete();

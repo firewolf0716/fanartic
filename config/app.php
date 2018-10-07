@@ -164,6 +164,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 		'Collective\Html\HtmlServiceProvider',
+        Monarobase\CountryList\CountryListServiceProvider::class,
         // Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
@@ -216,6 +217,7 @@ return [
 	'Form' => 'Collective\Html\FormFacade',
 	'Html' => 'Collective\Html\HtmlFacade',
 	'Image' => Intervention\Image\Facades\Image::class,
+    'Countries' => Monarobase\CountryList\CountryListFacade::class,
         // 'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 

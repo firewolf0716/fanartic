@@ -52,7 +52,7 @@ return [
 	'助けて' => 'help',
 	'管理者 / ショッピングモール' => 'Admin / Manage Malls',
 	'ショッピングモール' => 'Manage Malls',
-	'除去する' => 'Remove'
+	'除去する' => 'Remove',
 	'プロフィール' => 'Profile',
 	'設定' => 'Settings',
 	'助けて' => 'Help',
