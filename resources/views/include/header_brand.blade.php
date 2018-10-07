@@ -3,8 +3,22 @@
 @endphp
 <div class="header__nav-primary-wrap" data-header-primary>
     <ul class="header__nav-primary">
+        @php
+            $women_active = '';
+            $men_active = '';
+            if (session('cate_type')){
+                if(session('cate_type') == 'women')
+                    $women_active = 'is-current';
+                else if(session('cate_type') == 'men'){
+                    $men_active = 'is-current';
+                }
+            } else {
+                $women_active = 'is-current';
+            }
+
+        @endphp
         @if(count($women_categories) > 0)
-            <li><span class="header__nav-primary__button" data-header-primary__button
+            <li><span class="header__nav-primary__button {{ $women_active}}" data-header-primary__button
                       id="top_women">{{ __('header.レディース') }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
@@ -30,7 +44,7 @@
             </li>
         @endif
         @if(count($men_categories) > 0)
-            <li><span class="header__nav-primary__button" data-header-primary__button id="top_men">{{ __('header.メンズ')
+            <li><span class="header__nav-primary__button {{ $men_active}}" data-header-primary__button id="top_men">{{ __('header.メンズ')
             }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
