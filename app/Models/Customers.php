@@ -14,6 +14,11 @@ class Customers extends AppModel
 {
     protected $primaryKey = 'customer_id';
 
+    protected $_validates = [
+        'customer_name_first'  => 'required',
+        'customer_name_second'  => 'required',
+    ];
+
     public static function get_addresses($id)
     {
         return DB::table('customer_address')->where('customer_id', $id)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Models\Customers;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use Hash;
@@ -90,8 +91,8 @@ class UserController extends Controller
     {
         $customer = CustomerUser::find(Auth::id());
         $births = array('', '', '');
-        if (!empty($customer->customer_birthda)) {
-            $births = explode('-', $customer->customer_birthday);
+        if (!empty($customer->customer_birthday)) {
+            $births = explode('-', date("Y-n-j", strtotime($customer->customer_birthday)));
         }
 
         $tel = array('', '', '');
@@ -103,28 +104,26 @@ class UserController extends Controller
         return $this->layout_init($view, 1)->with('customer', $customer)->with('birth', $births)->with('phone', $tel);
     }
 
-    public function profilepost()
+    public function profilepost(Request $request)
     {
-        $customer = CustomerUser::find(Auth::id());
+        $this->customer = new Customers();
 
-        $p_address_province = $customer->customer_province;
-        $p_address_county = $customer->customer_county;
-        $p_address_ex = $customer->customer_address_jp;
-        
-        $customer->customer_name_first = Input::get('first_name');
-        $customer->customer_name_second = Input::get('second_name');
-        $customer->customer_name_kana_first = Input::get('first_name_kana');
-        $customer->customer_name_kana_second = Input::get('second_name_kana');
-        $customer->customer_gender = Input::get('sex');
-        $customer->customer_birthday = Input::get('birthday_year') . '/' . Input::get('birthday_month') . '/' . Input::get('birthday_day');
+        $request->validate($this->customer->getValidateList());
+
+        $customer = CustomerUser::find(Auth::id());
+        $customer->customer_name_first = $request->input('customer_name_first');
+        $customer->customer_name_second = $request->input('customer_name_second');
+        $customer->customer_gender = $request->input('sex');
+        $birth = $request->input('birthday_year') . '-' . $request->input('birthday_month') . '-' . $request->input('birthday_day');
+        $customer->customer_birthday = $birth;
         $customer->customer_phone = Input::get('tel1') . '-' . Input::get('tel2') . '-' . Input::get('tel3');
-        $customer->customer_status = $customer->customer_status;
         $customer->save();
 
-        $password = Input::get('password');
+/*        $password = Input::get('password');
         if (isset($password)) {
             $entry['customer_password'] = $password;
-        }
+        }*/
+
         return Redirect::to('user/profile');
     }
 }
