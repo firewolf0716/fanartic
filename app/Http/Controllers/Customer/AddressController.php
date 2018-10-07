@@ -93,8 +93,7 @@ class AddressController extends Controller
     public function edit($id)
     {
         $locale = session('applocale');
-        $country = new CountryList();
-        $countries = json_decode($country->getList($locale, 'json'));
+        $countries = Countries::getList($locale, 'php');
 
         $address = CustomerAddress::find($id);
         return $this->layout_init(view('customer.user.address_edit'), 1)

@@ -70,7 +70,7 @@ class Customers extends AppModel
 
     public static function get_card($id)
     {
-        return DB::table('customer_card')->where('id', $id)->get();
+        return DB::table('customer_card')->where('id', $id)->first();
     }
 
     public static function edit_card($entry, $id)

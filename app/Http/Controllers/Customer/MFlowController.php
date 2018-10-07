@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Models\CustomerAddress;
 use App\Models\CustomerUser;
+use App\Models\DutyCountry;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use Countries;
@@ -86,10 +87,22 @@ class MFlowController extends Controller
             $address->address_jp = $request->input('address_jp');
             $address->save();
 
-            Session::put('calc_address', $address);
+            Session::put('calc_address', $address->id);
+            $addressData = CustomerAddress::find($address->id);
         } else {
             Session::put('calc_address', $address);
+            $addressData = CustomerAddress::find($address);
         }
+
+        // 関税 part
+        if ($addressData != 'JP') {
+            $dutyCounty = DutyCountry::where('country', $addressData->country)->first();
+            // 関税テーブルを持っていたら料金上乗せ
+            if(!empty($dutyCounty)) {
+                Session::put('calc_duty', $dutyCounty->duty->num);
+            }
+        }
+
         $credit = Input::get('paymentCredit');
         if (Input::get('payment') == 'paypal') {
             Session::put('calc_credit', 'paypal');
@@ -140,7 +153,7 @@ class MFlowController extends Controller
             $images[$item->id] = $image;
         }
 
-        $address = Session::get('calc_address');
+        $address = CustomerAddress::find(Session::get('calc_address'));
         $credit = Session::get('calc_credit');
         $locale = session('applocale');
         $countries = Countries::getList($locale, 'php');
@@ -148,10 +161,13 @@ class MFlowController extends Controller
         if ($credit == 'paypal') {
             $creditobj = 'paypal';
         } else {
-            $creditobj = Customers::get_card($credit)->first();
+            $creditobj = Customers::get_card($credit);
         }
 
         $total = Cart::getSum(Auth::id());
+        if (Session::get('calc_duty')) {
+            $total['sum'] += $total['sum'] * Session::get('calc_duty') / 100;
+        }
         return $this->layout_init(view('customer.checkflow.confirm'), 1)
             ->with('cartitems', $cartitems)
             ->with('address', $address)
@@ -191,6 +207,9 @@ class MFlowController extends Controller
         $address = Session::get('calc_address');
         $credit = Session::get('calc_credit');
         $total = Cart::getSum(Auth::id());
+        if (Session::get('calc_duty')) {
+            $total['sum'] += $total['sum'] * Session::get('calc_duty') / 100;
+        }
         $payresult = $this->process_payment($credit, $total['sum']);
         if ($payresult) {
             foreach ($cartitems as $item) {
