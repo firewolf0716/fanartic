@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use Monarobase\CountryList\CountryList;
 use Session;
 use Hash;
 use Mail;
+use Countries;
 
 use App\Models\Customers;
 use App\Models\States;
@@ -35,8 +35,7 @@ class AddressController extends Controller
     public function index()
     {
         $locale = session('applocale');
-        $country = new CountryList();
-        $countries = (object)json_decode($country->getList($locale, 'json'));
+        $countries = Countries::getList($locale, 'php');
 
         $customer = CustomerUser::find(Auth::id());
         $addresses = $customer->address;
@@ -47,8 +46,7 @@ class AddressController extends Controller
     public function add()
     {
         $locale = session('applocale');
-        $country = new CountryList();
-        $countries = json_decode($country->getList($locale, 'json'));
+        $countries = Countries::getList($locale, 'php');
 
         // $states = States::get();
         return $this->layout_init(view('customer.user.address_add'), 1)->with(compact('countries'));

@@ -36,7 +36,8 @@ class DutyController extends Controller
         $duties = Duty::get();
         // $country_duties = MatchService::get_country_duties();
         $country_duties = DutyCountry::get();
-        $countries = Countries::getList('en', 'php');
+        $countries = Countries::getList('ja', 'php');
+
         return view('admin.duty.show')->with('duties', $duties)
             ->with('country_duties', $country_duties)
             ->with('countries', $countries);
