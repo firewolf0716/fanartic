@@ -13,7 +13,7 @@ use Illuminate\Auth\Authenticatable;
   * @property int duty_id
  * @property string country
   * @property string country_code
- * @property int country_tariff
+ * @property int country_duty
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at

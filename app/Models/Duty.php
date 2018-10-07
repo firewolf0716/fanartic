@@ -25,6 +25,6 @@ class Duty extends AppModel
     protected $primaryKey = 'id';
 
     public function duties() {
-          return $this->hasMany(DutyCountry::class, 'duty_id', 'id');
+          return $this->hasMany(DutyCountry::class, 'duty_id');
     }
 }

@@ -23,19 +23,19 @@ DROP TABLE IF EXISTS `country_duties`;
 CREATE TABLE `country_duties` (
   `c_id` int(11) NOT NULL AUTO_INCREMENT,
   `country` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country_tariff` int(1) DEFAULT NULL,
+  `country_duty` int(1) DEFAULT NULL,
   `duty_id` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `country_duties` */
 
-insert  into `country_duties`(`c_id`,`country`,`country_tariff`,`duty_id`,`created_at`,`updated_at`,`deleted_at`) values 
-(19,'France',10,31,'2018-10-06 13:22:39','2018-10-06 13:28:30',NULL),
-(20,'Belgium',10,31,'2018-10-06 13:48:08','2018-10-06 13:48:08',NULL);
+insert  into `country_duties`(`c_id`,`country`,`country_duty`,`duty_id`,`created_at`,`updated_at`,`deleted_at`) values 
+(27,'Albania',15,31,'2018-10-07 12:15:53','2018-10-07 12:15:53',NULL),
+(28,'Vanuatu',13,31,'2018-10-07 12:16:06','2018-10-07 12:16:06',NULL);
 
 /*Table structure for table `duties` */
 

@@ -161,7 +161,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.関税') }}(%)<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="group_tariff " name="group_tariff" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
+                        <input type="text" id="group_duty " name="group_duty" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
                     </div>
                 </div>
 
@@ -247,7 +247,7 @@
                <div class="form-group">
                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.関税') }}(%)<span class="required">*</span></label>
                    <div class="col-md-4 col-sm-6 col-xs-12">
-                       <input type="text" id="country_tariff " name="country_tariff" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
+                       <input type="text" id="country_duty " name="country_duty" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
                    </div>
                </div>
 
@@ -287,7 +287,7 @@
                                     <td>{{$index}}</td>
                                     <td hidden>{{$country_duty->c_id}}</td>
                                     <td style="text-align:center">{{$country_duty->country}}</td>
-                                    <td style="text-align:center">{{$country_duty->country_tariff}}</td>
+                                    <td style="text-align:center">{{$country_duty->country_duty}}</td>
                                     <td style="text-align:center">{{$country_duty->name}}</td>
                                     <td style="text-align:center">
                                         <a href="{{ url('admin/duty/countryedit/'.$country_duty->c_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>

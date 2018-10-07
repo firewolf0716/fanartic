@@ -29,7 +29,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.関税') }}(%)<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="group_tariff" name="group_tariff" required="required" class="form-control col-md-7 col-xs-12" value="{{$duty->num}}" placeholder="{{ __('admin.サイズの名前を英語で入力してください') }}">
+                        <input type="text" id="group_duty" name="group_duty" required="required" class="form-control col-md-7 col-xs-12" value="{{$duty->num}}" placeholder="{{ __('admin.サイズの名前を英語で入力してください') }}">
                     </div>
                 </div>
                 <div class="form-group">

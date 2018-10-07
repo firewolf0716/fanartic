@@ -26,7 +26,8 @@ class MatchService
     }
 
     public static function get_country_duties(){
-        return Duty::Join('country_duties', 'duties.id', '=', 'country_duties.duty_id')
+        return Duty::whereNull('country_duties.deleted_at')
+            ->Join('country_duties', 'duties.id', '=', 'country_duties.duty_id')
             ->get();
     }
 

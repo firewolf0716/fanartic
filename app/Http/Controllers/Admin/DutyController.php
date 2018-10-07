@@ -20,20 +20,16 @@ class DutyController extends Controller
             $duties = new Duty();
             $entry =  array(
                 'name' => Input::get('duty_name'),
-                'num' => Input::get('group_tariff'),
-                //'created_at' => Input::get('created_date1'),
-                //'updated_at' => Input::get('updated_date1')
+                'num' => Input::get('group_duty'),
             );
             $duties->name = Input::get('duty_name');
-            $duties->num = Input::get('group_tariff');
+            $duties->num = Input::get('group_duty');
             $duties->save();
         } else {
             $duties = new DutyCountry();
             $duties->country = Input::get('country');
             $duties->duty_id = Input::get('duty_id');
-            $duties->country_tariff = Input::get('country_tariff');
-            //$duties->created_at = Input::get('created_date2');
-            //$duties->updated_at = Input::get('updated_date2');
+            $duties->country_duty = Input::get('country_duty');
 
             $duties->save();
         }
@@ -43,7 +39,6 @@ class DutyController extends Controller
     public function list() {
         $duties = Duty::get();
         $country_duties = MatchService::get_country_duties();
-
         $countries = Countries::getList('en', 'php');
         return view('admin.duty.show')->with('duties', $duties)
                                         ->with('country_duties', $country_duties)
@@ -70,7 +65,7 @@ class DutyController extends Controller
 
         $duty = Duty::find($dutyid);
         $duty->name = Input::get('duty_name');
-        $duty->num = Input::get('group_tariff');
+        $duty->num = Input::get('group_duty');
         $duty->save();
 
         return Redirect::to('admin/duty/list');
@@ -80,7 +75,7 @@ class DutyController extends Controller
         $countryduty_id = Input::get('id');
 
         $countryduty = DutyCountry::find($countryduty_id);;
-        $countryduty->country_tariff = Input::get('group_tariff');
+        $countryduty->country_duty = Input::get('group_duty');
         $countryduty->duty_id = Input::get('duty_id');
         $countryduty->country = Input::get('country');
         $countryduty->save();
