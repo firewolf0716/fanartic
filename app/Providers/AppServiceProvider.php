@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Cart;
 use App\Models\Currency;
 use App\Models\Customers;
 use App\Models\Malls;
@@ -26,12 +27,15 @@ class AppServiceProvider extends ServiceProvider
                 // ログイン中ユーザー
                 $authUser = Customers::find(Auth::guard('user')->id());
 
+                // カート商品
+                $cartTotal = Cart::getSum(Auth::guard('user')->id())['count'];
+
                 // アクセス日時
                 // event(new AccessDetection($authUser));
 
                 // お知らせ
                 // $notices = NoticeService::getLists(Auth::id());
-                View::share(compact('authUser'));
+                View::share(compact('authUser', 'cartTotal'));
             }
 
             if (Auth::guard('merchant')->check()) {

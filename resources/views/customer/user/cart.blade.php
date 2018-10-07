@@ -1,6 +1,6 @@
 @extends('layouts.customer_layout')
 @section('content')
-    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--cart"></i> {{ __('customer.ショッピングカート') }}</h1>
+    <h1 class="c-pagetitle"><i class="c-icon c-pagetitle__icon c-pagetitle__icon--cart"></i> {{ __('customer.カート') }}</h1>
     <div class="cart">
         <div class="cart__column">
             <div class="cart__column__content">

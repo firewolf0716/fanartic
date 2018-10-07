@@ -2,7 +2,7 @@
   <ul class="members__nav">
     <li><a href="{{url('user/cart')}}">{{ __('customer.カート') }}</a></li>
     <li><a href="{{url('user/favorite')}}">{{ __('customer.お気に入り') }}</a></li>
-    <li><a href="{{url('user/wish')}}">{{ __('customer.探しているアイテム') }}</a></li>
+{{--    <li><a href="{{url('user/wish')}}">{{ __('customer.探しているアイテム') }}</a></li>--}}
     <li><a href="{{url('user/history')}}">{{ __('customer.注文履歴') }}</a></li>
     <li><a href="{{url('user/score')}}">{{ __('customer.ポイント') }}</a></li>
     <li><a href="#">{{ __('customer.会員情報') }}</a>

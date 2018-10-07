@@ -9,7 +9,7 @@
     <div class="members">
         <div class="members__column">
             <div class="members__column__content">
-                <div class="l-column l-column--control">
+{{--                <div class="l-column l-column--control">
                     <div class="l-column--control__col">
                         <label class="c-select c-select--sort u-sp__full">
                             <span class="c-select__box u-sp__full">
@@ -28,7 +28,7 @@
                             </span>
                         </label>
                     </div>
-                </div>
+                </div>--}}
                 <!--/.l-column l-column--control-->
                 {!! Form::open(array('id' => 'form_fav_list','route'=>'favorite.action')) !!}
                 {{ Form::hidden('action_id', '',array('id' => 'action_id'))}}
