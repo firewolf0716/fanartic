@@ -145,9 +145,9 @@
                                             <li class="sub_menu"><a href="{{url('admin/import/csv')}}">{{ __('admin.csv からデータをインポートする') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>{{ __('admin.関税') }}<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>関税<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="{{url('admin/duty/list')}}">{{ __('admin.関税リスト') }}</a></li>
+                                            <li><a href="{{url('admin/duty/list')}}">関税リスト</a></li>
                                         </ul>
                                     </li>
                                 </ul>

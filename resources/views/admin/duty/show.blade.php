@@ -118,7 +118,6 @@
                            @endforeach
                        </select>
                        <!-- <select class="form-control" name="brand_mall[]" id="brands" multiple="multiple">
-
                        </select> -->
                    </div>
                </div>
