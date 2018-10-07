@@ -56,13 +56,13 @@ Route::group(['prefix' => 'user', 'namespace' => 'Customer', 'middleware' => 'au
     Route::post('cart_remove_item', 'CartController@cart_remove_item')->name('cart.remove');
 
     //address
-    Route::get('address', 'AddressController@address')->name('address');
-    Route::get('addressadd', 'AddressController@addressadd')->name('address.add');
-    Route::post('address_add_post', 'AddressController@address_add_post')->name('address.add.post');
-    Route::get('address_flag/{addr_id}', 'AddressController@address_flag')->name('address.flag');
-    Route::get('address_edit/{addr_id}', 'AddressController@address_edit')->name('address.edit');
-    Route::post('address_edit_post', 'AddressController@address_edit_post')->name('address.edit.post');
-    Route::get('address_delete/{addr_id}', 'AddressController@address_delete')->name('address.remove');
+    Route::get('address', 'AddressController@index')->name('address');
+    Route::get('addressadd', 'AddressController@add')->name('address.add');
+    Route::post('address_add_post', 'AddressController@addPost')->name('address.add.post');
+    Route::get('address_flag/{addr_id}', 'AddressController@flag')->name('address.flag');
+    Route::get('address_edit/{addr_id}', 'AddressController@edit')->name('address.edit');
+    Route::post('address_edit_post', 'AddressController@editPost')->name('address.edit.post');
+    Route::get('address_delete/{addr_id}', 'AddressController@delete')->name('address.remove');
 
     //payment
     Route::get('credit', 'CardController@credit')->name('credit');

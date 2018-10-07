@@ -16,6 +16,7 @@
 | 1) Admin 認証不要
 |--------------------------------------------------------------------------
 */
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 	//Route::get('login', 'AdminController@login')->name('admin.login');
 	Route::get('login', 'Auth\LoginController@showLoginForm')->name('admin.login');
@@ -28,7 +29,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
 |--------------------------------------------------------------------------
 */
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:admin'], function () {
-    Route::get('/','AdminController@login');
+    Route::get('/', 'Auth\LoginController@showLoginForm')->name('admin.login');
 	Route::get('logout', 'Auth\LoginController@logout')->name('admin.logout');
 	// Admin	
 	Route::get('dashboard','AdminController@dashboard');
@@ -58,6 +59,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:
 	Route::post('mall/editpost','MallController@editpost');
 	Route::get('mall/delete/{id}','MallController@delete');
 
+    // Duty
+    Route::post('duty/addpost','DutyController@addpost');
+    Route::get('duty/list','DutyController@list');
+    Route::get('duty/edit/{id}','DutyController@edit');
+    Route::get('duty/countryedit/{id}','DutyController@countryedit');
+    Route::post('duty/editpost','DutyController@editpost');
+    Route::post('duty/countryeditpost','DutyController@countryeditpost');
+    Route::get('duty/delete/{id}','DutyController@delete');
+    Route::get('duty/countrydelete/{id}','DutyController@countrydelete');
+
 	// Brand
 	Route::get('brand/add','BrandController@add');
 	Route::post('brand/addpost','BrandController@addpost');
@@ -76,7 +87,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:
 	Route::get('category/list/{topcategoryid}/{maincategoryid}','CategoryController@list');
 	Route::get('category/edit/{topid}','CategoryController@edittop');
 	Route::get('category/edit/{topid}/{mainid}','CategoryController@editmain');
-	Route::get('category/edit/{topid}/{mainid}/{id}','CategoryController@edit');
+	Route::get('category/edit/{topid}/{mainid}/{id}','CategoryController@editsub');
 	Route::get('category/delete/{id}','CategoryController@delete');
 	Route::post('category/editpost','CategoryController@editpost');
 	Route::get('category/get-top-categorys','CategoryController@getTopCategorys');
@@ -150,4 +161,3 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:
 	// Route::get('merchant_detailw/{id}','AdminController@detail_merchant_wait');
 	// Route::get('merchant_reject/{id}','AdminController@merchant_reject');
 });
-

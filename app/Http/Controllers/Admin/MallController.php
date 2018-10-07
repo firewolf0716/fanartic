@@ -59,9 +59,9 @@ class MallController extends Controller
                 $match->category_id = $category;
                 $match->save();
             }
-    
+
         }
-        
+
         return Redirect::to('admin/mall/list');
     }
 
@@ -83,7 +83,7 @@ class MallController extends Controller
         }
 
         $mall_brands = explode(',', $selBrandsString);
-        
+
         $selcategorys = CategoryService::get_categorys_for_mall($mall->mall_id);
         return view('admin.mall.edit')->with('mall', $mall)
                                     ->with('brands', $brands)

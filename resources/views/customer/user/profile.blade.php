@@ -106,6 +106,9 @@
                         </div>
                         <!--/.c-form__row-->
                         <div class="c-form__row">
+<<<<<<< HEAD
+                            <div class="c-form__row__label">TEL<span class="c-form__require">必須</span></div>
+=======
                             <div class="c-form__row__label">{{ __('customer.郵便番号') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
                             <div class="c-form__row__input">
                                 <input id="zipcode" type="text" class="c-form__input c-form__input--address"
@@ -144,6 +147,7 @@
                         <!--/.c-form__row-->
                         <div class="c-form__row">
                             <div class="c-form__row__label">TEL<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+>>>>>>> 26450f5c01057c5dd18fb2729d8fb859c8271288
                             <div class="c-form__row__input">
                                 <input type="tel" class="c-form__input c-form__input--tel" name="tel1"
                                        value="{{$phone[0]}}" required>

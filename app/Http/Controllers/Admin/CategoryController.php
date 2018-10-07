@@ -161,7 +161,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit($topid, $mainid, $id) {
+    public function editsub($topid, $mainid, $id) {
         $category = Categorys::find($id);
         $malls = Malls::get();
         

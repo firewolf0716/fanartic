@@ -134,9 +134,20 @@
                                             <li><a href="{{url('admin/plan/list')}}">{{ __('admin.出店プラン一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>{{ __('admin.インポートデータ') }}<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>関税マスタ<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li class="sub_menu"><a href="{{url('admin/duty/create')}}">新規登録</a></li>
+                                            <li><a href="{{url('admin/duty')}}">プラン一覧</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>インポートデータ<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/import/csv')}}">{{ __('admin.csv からデータをインポートする') }}</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>{{ __('admin.関税') }}<span class="fa fa-chevron-down"></span></a>
+                                        <ul class="nav child_menu">
+                                            <li><a href="{{url('admin/duty/list')}}">{{ __('admin.関税リスト') }}</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -196,20 +207,8 @@
                                 <span class=" fa fa-angle-down"></span>
                             </a>
                             <ul class="dropdown-menu dropdown-usermenu pull-right">
-<<<<<<< HEAD
-                                <li><a href="javascript:;">{{ __('admin.プロフィール') }}</a></li>
-                                <li>
-                                    <a href="javascript:;">
-                                        <span class="badge bg-red pull-right">50%</span>
-                                        <span>{{ __('admin.設定') }}</span>
-                                    </a>
-                                </li>
-                                <li><a href="javascript:;">{{ __('admin.助けて') }}</a></li>
-                                <li><a href="{{url('admin/signout')}}"><i class="fa fa-sign-out pull-right"></i> {{ __('auth.ログアウト') }}</a></li>
-=======
                                 <li><a href="{{ route('admin.logout') }}">
                                     <i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
->>>>>>> feature/fanartic70
                             </ul>
                         </li>
 
