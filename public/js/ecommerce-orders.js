@@ -1,12 +1,12 @@
 var EcommerceOrders = function () {
 
-    // var initPickers = function () {
-    //     //init date pickers
-    //     $('.date-picker').datepicker({
-    //         rtl: Metronic.isRTL(),
-    //         autoclose: true
-    //     });
-    // }
+    var initPickers = function () {
+        //init date pickers
+        $('.date-picker').datepicker({
+            rtl: 'left',
+            autoclose: true
+        });
+    }
 
     var handleOrders = function () {
 
@@ -46,10 +46,31 @@ var EcommerceOrders = function () {
                             "pageOf": "of"
                         }
                     },
+                "processing": true,
+                "serverSide": true,
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
-                        'orderable': false,
+                        'orderable': true,
                         'targets': [0]
                     }],
+                "columns": [
+                    {   "name": "" ,
+                        "orderable": false,
+                    },
+                    {   "name": "" ,
+                        "orderable": false,
+                    },
+                    { "name": "status" },
+                    { "name": "fan_merchant.merchant_companyname" },
+                    { "name": "customers.customer_name_second" },
+                    { "name": "customers.customer_phone" },
+                    { "name": "receipts.shipping_data" },
+                    { "name": "receipts.date_juchu" },
+                    { "name": "receipts.date_pay" },
+                    { "name": "receipts.date_delivery" },
+                    { "name": "",
+                        "orderable": false,
+                    }
+                ],
                 "lengthMenu": [
                     [10, 20, 50, 100, 150, -1],
                     [10, 20, 50, 100, 150, "All"] // change per page values here
@@ -59,7 +80,7 @@ var EcommerceOrders = function () {
                     "url": "getorders", // ajax source
                 },
                 "order": [
-                    [1, "asc"]
+                    [7, "desc"]
                 ] // set first column as a default sort by asc
             }
         });
@@ -100,7 +121,7 @@ var EcommerceOrders = function () {
         //main function to initiate the module
         init: function () {
 
-            // initPickers();
+            initPickers();
             handleOrders();
         }
 

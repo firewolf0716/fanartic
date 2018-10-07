@@ -16,10 +16,10 @@
     <!-- NProgress -->
     <link href="{{ asset('gvendor/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
-{{--    <link href="{{ asset('gvendor/bootstrap-daterangepicker/daterangepicker.css')}}/" rel="stylesheet">--}}
+    <!-- <link href="{{ asset('gvendor/bootstrap-daterangepicker/daterangepicker.css')}}/" rel="stylesheet"> -->
 
     <!-- bootstrap-datetimepicker -->
-{{--    <link href="{{ asset('gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}/" rel="stylesheet">--}}
+    <!-- <link href="{{ asset('gvendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}/" rel="stylesheet"> -->
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/custom.css')}}" rel="stylesheet">
@@ -47,6 +47,7 @@
     <link href="{{ asset('css/global/plugins.css')}}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/global/layout.css')}}" rel="stylesheet" type="text/css">
     <link href="{{ asset('css/global/default.css')}}" rel="stylesheet" type="text/css" id="style_color">
+    <!-- <link href="../../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css"> -->
     <!-- <link href="../../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css"> -->
     <!-- END Order Manage THEME STYLES -->
 </head>
@@ -92,7 +93,6 @@
                             <li><a><i class="fa fa-bar-chart-o"></i> 受注管理 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li><a href="{{ url('merchant/product/order') }}">受注一覧</a></li>
-                                    <li><a href="{{ url('merchant/product/firewolforder') }}">受注一覧(firewolf)</a></li>
                                     <li><a href="{{ url('merchant/product/shipping') }}">出荷一覧</a></li>
                                 </ul>
                             </li>
