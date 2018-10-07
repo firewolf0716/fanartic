@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Authenticatable;
 
 /**
- * @property int c_id
-  * @property int duty_id
+ * @property int id
+ * @property int duty_id
  * @property string country
-  * @property string country_code
+ * @property string country_code
  * @property int country_duty
  * @property string created_at
  * @property string updated_at
@@ -20,7 +20,12 @@ use Illuminate\Auth\Authenticatable;
  */
 class DutyCountry extends AppModel
 {
-    protected $guarded = 'c_id';
+    protected $guarded = 'id';
     protected $table = 'country_duties';
-    protected $primaryKey = 'c_id';
+    protected $primaryKey = 'id';
+
+    public function duty()
+    {
+        return $this->belongsTo(Duty::class);
+    }
 }

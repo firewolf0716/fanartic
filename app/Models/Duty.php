@@ -27,4 +27,14 @@ class Duty extends AppModel
     public function duties() {
           return $this->hasMany(DutyCountry::class, 'duty_id');
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // Delete Relationship
+        static::deleting(function($duty) {
+            $duty->duties()->delete();
+        });
+    }
 }

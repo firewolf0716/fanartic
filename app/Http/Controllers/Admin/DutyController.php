@@ -19,10 +19,6 @@ class DutyController extends Controller
     {
         if (Input::get('type') != 'country') {
             $duties = new Duty();
-            $entry = array(
-                'name' => Input::get('duty_name'),
-                'num' => Input::get('group_duty'),
-            );
             $duties->name = Input::get('duty_name');
             $duties->num = Input::get('group_duty');
             $duties->save();
@@ -30,8 +26,6 @@ class DutyController extends Controller
             $duties = new DutyCountry();
             $duties->country = Input::get('country');
             $duties->duty_id = Input::get('duty_id');
-            $duties->country_duty = Input::get('country_duty');
-
             $duties->save();
         }
         return Redirect::to('admin/duty/list');
@@ -40,7 +34,8 @@ class DutyController extends Controller
     public function list()
     {
         $duties = Duty::get();
-        $country_duties = MatchService::get_country_duties();
+        // $country_duties = MatchService::get_country_duties();
+        $country_duties = DutyCountry::get();
         $countries = Countries::getList('en', 'php');
         return view('admin.duty.show')->with('duties', $duties)
             ->with('country_duties', $country_duties)
@@ -81,7 +76,6 @@ class DutyController extends Controller
         $countryduty_id = Input::get('id');
 
         $countryduty = DutyCountry::find($countryduty_id);;
-        $countryduty->country_duty = Input::get('group_duty');
         $countryduty->duty_id = Input::get('duty_id');
         $countryduty->country = Input::get('country');
         $countryduty->save();
@@ -99,7 +93,7 @@ class DutyController extends Controller
     public function countrydelete($id)
     {
         DutyCountry::find($id)->delete();
-        MatchService::remove_countryduty($id);
+        // MatchService::remove_countryduty($id);
         return Redirect::to('admin/duty/list');
     }
 }

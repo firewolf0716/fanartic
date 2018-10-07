@@ -14,7 +14,7 @@
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         {!! Form::open(array('id' => 'form_add','url'=>'admin/duty/countryeditpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-        {{ Form::hidden('id', $country_duty->c_id)}}
+        {{ Form::hidden('id', $country_duty->id)}}
         <div class="x_panel">
             <div class="x_title">
                 <h4>{{ __('admin.国別関税編集') }}</h4>
@@ -22,15 +22,13 @@
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.グループ名前') }}<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税グループ') }}<span
+                                class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select type="text" id="duty_id" name="duty_id" required="required" class="form-control col-md-7 col-xs-12">
                             @foreach($duties as $duty)
-                                <?php $selected=''?>
-                                @if($country_duty->duty_id == $duty->id)
-                                    <?php $selected='selected'; ?>
-                                @endif
-                            <option {{ $selected }} value="{{$duty->id}}">{{$duty->name}}</option>
+                            <option value="{{$duty->id}}" @if($country_duty->duty->id == $duty->id) selected
+                                    @endif>{{$duty->name}}（{{$duty->num}}%）</option>
                             @endforeach
                         </select>
                     </div>
@@ -39,20 +37,11 @@
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.国名前') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <select type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12">
-                            @foreach($countries as $country)
-                                <?php $selected=''?>
-                                @if($country_duty->country == $country)
-                                    <?php $selected='selected'; ?>
-                                @endif
-                            <option {{ $selected }} value="{{$country}}">{{$country}}</option>
+                            @foreach($countries as $code => $country)
+                            <option value="{{$code}}" @if($country_duty->country == $code) selected
+                                    @endif>{{$country}}</option>
                             @endforeach
                         </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.関税') }}(%)<span class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="group_duty" name="group_duty" required="required" class="form-control col-md-7 col-xs-12" value="{{$country_duty->country_duty}}" placeholder="">
                     </div>
                 </div>
                 <div class="form-group">
@@ -70,8 +59,7 @@
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('admin.グループ編集') }}</button>
-                        <button id="btnReset" type="button" class="btn btn-primary">{{ __('admin.リセット') }}</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('更新する') }}</button>
                     </div>
                 </div>
             </div>

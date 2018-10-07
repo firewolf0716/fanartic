@@ -29,28 +29,28 @@
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>{{ __('admin.関税管理') }}</h3>
+            <h3>{{ __('関税管理') }}</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h4>{{ __('admin.グループ関税を追加') }}</h4>
+                <h4>{{ __('関税グループを追加') }}</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 {!! Form::open(array('id' => 'form_add1','url'=>'admin/duty/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
                 <input type="hidden" name="type" value="duty">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.グループ名前') }}<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('グループ名') }}<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="duty_name" name="duty_name" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.関税') }}(%)<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税') }}(%)<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="group_duty " name="group_duty" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
                     </div>
@@ -114,7 +114,7 @@
                    <div class="col-md-4 col-sm-6 col-xs-12">
                        <select type="text" id="group_name" name="duty_id" required="required" class="form-control col-md-7 col-xs-12">
                            @foreach($duties as $duty)
-                           <option value="{{$duty->id}}">{{$duty->name}}</option>
+                           <option value="{{$duty->id}}">{{$duty->name}}（{{$duty->num}}%）</option>
                            @endforeach
                        </select>
                        <!-- <select class="form-control" name="brand_mall[]" id="brands" multiple="multiple">
@@ -127,17 +127,10 @@
                    <div class="col-md-4 col-sm-6 col-xs-12">
                        <select type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12">
                            <option></option>
-                            @foreach($countries as $country)
-                           <option value="{{$country}}">{{$country}}</option>
+                            @foreach($countries as $code => $country)
+                           <option value="{{$code}}">{{$country}}</option>
                            @endforeach
                        </select>
-                   </div>
-               </div>
-
-               <div class="form-group">
-                   <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.関税') }}(%)<span class="required">*</span></label>
-                   <div class="col-md-4 col-sm-6 col-xs-12">
-                       <input type="text" id="country_duty " name="country_duty" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
                    </div>
                </div>
 
@@ -162,7 +155,6 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <td hidden></td>
                                 <th style="text-align:center">{{ __('admin.国名前') }}</th>
                                 <th style="text-align:center">{{ __('admin.関税') }}</th>
                                 <th style="text-align:center">{{ __('admin.グループ名前') }}</th>
@@ -174,14 +166,16 @@
                             @foreach($country_duties as $country_duty)
                                 <?php $index += 1; ?>
                                 <tr>
-                                    <td>{{$index}}</td>
-                                    <td hidden>{{$country_duty->c_id}}</td>
-                                    <td style="text-align:center">{{$country_duty->country}}</td>
-                                    <td style="text-align:center">{{$country_duty->country_duty}}</td>
-                                    <td style="text-align:center">{{$country_duty->name}}</td>
+                                    <td>{{$country_duty->id}}</td>
+                                    <td style="text-align:center">{{$countries[$country_duty->country]}}</td>
+                                    <td style="text-align:center">{{$country_duty->duty->num}}</td>
+                                    <td style="text-align:center">{{$country_duty->duty->name}}</td>
                                     <td style="text-align:center">
-                                        <a href="{{ url('admin/duty/countryedit/'.$country_duty->c_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                                        <a href="#"><span class="glyphicon glyphicon-trash" onclick="deleteConfirm({{$country_duty->c_id}},'country')" aria-hidden="true"></span></a>
+                                        <a href="{{ url('admin/duty/countryedit/'.$country_duty->id) }}"><span
+                                                    class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                        <a href="#"><span class="glyphicon glyphicon-trash"
+                                                           onclick="deleteConfirm('{{$country_duty->id}}','country')"
+                                                          aria-hidden="true"></span></a>
                                     </td>
                                 </tr>
                             @endforeach

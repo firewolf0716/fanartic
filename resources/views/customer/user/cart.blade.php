@@ -43,7 +43,8 @@
                                 &yen;{{number_format($item->product_price_sale)}}
                             </div>
                             <div class="l-column--cart__quantity">
-                                <label class="c-select c-select--quantity">
+                                {{ $item->cart_amount }}
+{{--                                <label class="c-select c-select--quantity">
                                     <div class="c-select__box">
                                         <select name="item_{{ $item->id }}" onChange="onChangeCount(this,
                                         {{$item->product_count}})">
@@ -54,7 +55,7 @@
                                             @endfor
                                         </select>
                                     </div>
-                                </label>
+                                </label>--}}
                             </div>
                             <div class="l-column--cart__button">
                                 <a class="c-button c-button--secondary"
