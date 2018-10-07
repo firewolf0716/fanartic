@@ -32,6 +32,7 @@ use App\Services\CategoryService;
 use App\Services\SkuService;
 use App\Services\MatchService;
 use App\Services\StockService;
+use App\Services\OrderService;
 use DB;
 use Session;
 
@@ -993,9 +994,9 @@ class MerchantproductController extends Controller
         }
 
         if (isset($_REQUEST['action']) && $_REQUEST['action'] = 'filter') 
-            $orders = Receipts::get_where_orders( $where);
+            $orders = OrderService::get_where_orders( $where);
         else
-            $orders = Receipts::get_orders( $where);
+            $orders = OrderService::get_orders( $where);
 
         $retVal = array();
         
