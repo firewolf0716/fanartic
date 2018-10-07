@@ -49,8 +49,8 @@ class MerchantShipping extends AppModel
 
     public static function get_merchant_shipping($merchant_id, $shipping_id)
     {
-        return DB::table('merchant_shipping')->where('merchant_id', $merchant_id)
-            ->where('shipping_id', $shipping_id)->get()->first();
+        return MerchantShipping::where('merchant_id', $merchant_id)
+            ->where('shipping_id', $shipping_id)->first();
     }
 
     public static function get_merchant_shipping_prices($merchant_id, $shipping_id)

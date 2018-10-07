@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Customer;
 
+use App\Models\CustomerAddress;
 use App\Models\CustomerUser;
 use Illuminate\Support\Facades\Auth;
 use Session;
+use Countries;
 
 use App\Models\Cart;
 use App\Models\Colors;
@@ -23,6 +25,17 @@ use Stripe\Stripe;
 
 class MFlowController extends Controller
 {
+    protected $_validates_jp = [
+        'zipcode'  => 'sometimes|required',
+        'province_jp'  => 'sometimes|required',
+        'city_jp'  => 'sometimes|required',
+        'address_jp'  => 'sometimes|required',
+    ];
+    protected $_validates_us = [
+        'city'  => 'sometimes|required',
+        'address_ex'  => 'sometimes|required',
+    ];
+
     public function checkflowinfo()
     {
         $cartCt = Cart::getCartItemCt(Auth::id());
@@ -31,6 +44,8 @@ class MFlowController extends Controller
         }
 
         $addresses = Customers::get_addresses(Auth::id());
+        $locale = session('applocale');
+        $countries = Countries::getList($locale, 'php');
 
         $cards = Customers::get_cards(Auth::id());
 
@@ -38,26 +53,40 @@ class MFlowController extends Controller
 
         return $this->layout_init(view('customer.checkflow.input'), 1)
             ->with('addresses', $addresses)
+            ->with('countries', $countries)
             ->with('cards', $cards)
             ->with('total', $total);
     }
 
-    public function checkflowinfoPost()
+    public function checkflowinfoPost(Request $request)
     {
-        $address = Input::get('address');
+        $address = $request->input('address');
         if ($address == 'addressNew') {
-            $entry = array(
-                'customer_id' => Auth::id(),
-                'address_name' => Input::get('address_name'),
-                'address_phone' => Input::get('tel1') . '-' . Input::get('tel2') . '-' . Input::get('tel3'),
-                'address_postalcode' => Input::get('zipcode'),
-                'address_state' => 1,
-                'address_province' => Input::get('province'),
-                'address_county' => Input::get('county'),
-                'address_address_jp' => Input::get('address_ex')
-            );
-            $id = Customers::add_address($entry);
-            Session::put('calc_address', $id);
+            $request->merge(['phone' => $request->input('tel1') . '-' . $request->input('tel2') . '-' . $request->input('tel3')]);
+            $request->merge(['customer_id' => Auth::id()]);
+            $this->address = new CustomerAddress();
+            if ($request->input('country') == 'JP') {
+                $validate_list = array_merge($this->address->getValidateList(), $this->_validates_jp);
+            } else {
+                $validate_list = array_merge($this->address->getValidateList(), $this->_validates_us);
+            }
+
+            $request->validate($validate_list);
+
+            $address = new CustomerAddress();
+            $address->customer_id = Auth::id();
+            $address->name = $request->input('name');
+            $address->phone = $request->input('phone');
+            $address->zipcode = $request->input('zipcode');
+            $address->country = $request->input('country');
+            $address->city = $request->input('city');
+            $address->address_ex = $request->input('address_ex');
+            $address->province_jp = $request->input('province_jp');
+            $address->city_jp = $request->input('city_jp');
+            $address->address_jp = $request->input('address_jp');
+            $address->save();
+
+            Session::put('calc_address', $address);
         } else {
             Session::put('calc_address', $address);
         }
@@ -113,7 +142,8 @@ class MFlowController extends Controller
 
         $address = Session::get('calc_address');
         $credit = Session::get('calc_credit');
-        $addrobj = Customers::get_address($address)->first();
+        $locale = session('applocale');
+        $countries = Countries::getList($locale, 'php');
 
         if ($credit == 'paypal') {
             $creditobj = 'paypal';
@@ -124,7 +154,8 @@ class MFlowController extends Controller
         $total = Cart::getSum(Auth::id());
         return $this->layout_init(view('customer.checkflow.confirm'), 1)
             ->with('cartitems', $cartitems)
-            ->with('addrobj', $addrobj)
+            ->with('address', $address)
+            ->with('countries', $countries)
             ->with('creditobj', $creditobj)
             ->with('total', $total)
             ->with('images', $images)
@@ -171,7 +202,7 @@ class MFlowController extends Controller
                     'history_skusizeid' => $item->cart_skusizeid,
                     'history_amount' => $item->cart_amount,
                     'history_price' => $item->product_price_sale,
-                    'history_address' => $address,
+                    'history_address' => $address->id,
                     'history_card' => $credit,
                     'history_status' => 2,
                     'history_group' => $maxgroup,

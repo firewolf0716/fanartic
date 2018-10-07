@@ -24,23 +24,24 @@
                         <div class="c-form__checkswitch">
                             <label class="c-form__radio c-form__checkswitch__label" data-checkopen__list__radio="address">
                                 <input type="radio" name="address" value="{{$address->id}}"
-                                @if($address->address_default == 1)
-                                    checked=""
+                                @if($address->is_default == 1)
+                                    checked
                                 @endif
-                                ><i></i>{{$address->address_name}}
+                                ><i></i>{{$address->name}}
                             </label>
                         </div>
                     </div>
                     <!--/.l-column--list__name-->
-                    <div class="l-column--list__data">〒{{$address->address_postalcode}}
-                        <br>@php
-                                if($address->address_state == 1){
-                                    echo $address->address_province.$address->address_county.$address->address_address_jp;
-                                } else {
-                                    echo $address->state_name.' '.$address->address_city.' '.$address->address_address_ex;
-                                }
-                            @endphp
-                        <br>{{$address->address_phone}}</div>
+                    <div class="l-column--list__data">
+                        @php
+                            if($address->country == 'JP'){
+                                echo "〒".$address->zipcode."\n";
+                                echo $address->province_jp.$address->city_jp.$address->address_jp;
+                            } else {
+                                echo $countries[$address->country].' '.$address->city.' '.$address->address_ex;
+                            }
+                        @endphp
+                        <br>{{$address->phone}}</div>
                     <!--/.l-column--list__data-->
                     </div>
                     <!--/.l-column l-column--list-->
@@ -53,91 +54,126 @@
                     </div>
                     <!--/.c-form__row-->
                     <div data-checkopen__list__content="address">
-                    <div class="c-form__row c-form__row--min">
-                        <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
-                        <div class="l-column--half__col">
-                            <div class="c-form__label">{{ __('customer.お名前') }}</div>
-                            <div class="c-form__row">
+                        <div class="c-form__row{{ $errors->has('name') ? ' has-error' : '' }}">
+                            <div class="c-form__row__label">{{ __('customer.名前') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
                             <div class="c-form__row__input">
-                                <div class="c-form__colum"><input type="text" class="c-form__input" name="address_name" value=""></div>
+                                <div class="c-form__colum">
+                                    <div class="c-form__colum__col"><input type="text" class="c-form__input" name="name"
+                                                                           value="{{ old('name') }}"></div>
+                                </div>
+                                @if ($errors->has('name'))
+                                    <span class="help-block">{{ $errors->first('name')}}</span>
+                                @endif
                             </div>
-                            </div>
-                            <!--/.c-form__row-->
                         </div>
-                        <!--/.l-column--half__col-->
-                        <div class="l-column--half__col">
-                            <div class="c-form__label">{{ __('customer.お名前（カナ）') }}</div>
-                            <div class="c-form__row">
+                        <!--/.c-form__row-->
+                        <div class="c-form__row{{ $errors->has('phone') ? ' has-error' : '' }}">
+                            <div class="c-form__row__label">{{ __('customer.電話番号') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
                             <div class="c-form__row__input">
-                                <div class="c-form__colum"><input type="text" class="c-form__input" name="address_name_kana" value=""></div>
+                                <input type="tel" class="c-form__input c-form__input--tel" name="tel1" value="{{ old('tel1') }}">
+                                <input type="tel" class="c-form__input c-form__input--tel" name="tel2" value="{{ old('tel2') }}">
+                                <input type="tel" class="c-form__input c-form__input--tel" name="tel3" value="{{ old('tel3') }}">
+                            </div>
+                            @if ($errors->has('phone'))
+                                <span class="help-block">{{ $errors->first('phone')}}</span>
+                            @endif
+                        </div>
+                        <!--/.c-form__row-->
+                        <div class="c-form__row{{ $errors->has('country') ? ' has-error' : '' }}">
+                            <div class="c-form__row__label">{{ __('customer.国') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                            <div class="c-form__row__input">
+                                <div class="c-form__row__input">
+                                    <label class="c-form__select c-form__select--birthday--year">
+                        <span class="c-form__select__box">
+                            <select name="country" id="country" onChange="onCountryChanged()">
+                                @foreach($countries as $code => $country)
+                                    <option value="{{ $code }}" @if($code == old('country', 'JP')) selected @endif>{{
+                                    $country }}</option>
+                                @endforeach
+                            </select>
+                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            @if ($errors->has('country'))
+                                <span class="help-block">{{ $errors->first('country')}}</span>
+                            @endif
+                        </div>
+                        <div id="address_abroad" style="display:none">
+                            <div class="c-form__row{{ $errors->has('city') ? ' has-error' : '' }}">
+                                <div class="c-form__row__label">{{ __('customer.都市') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                                <div class="c-form__colum">
+                                    <div class="c-form__row__input"><input type="text" class="c-form__input" name="city" value="{{ old('city') }}"></div>
+                                </div>
+                                @if ($errors->has('city'))
+                                    <span class="help-block">{{ $errors->first('city')}}</span>
+                                @endif
                             </div>
                             <!--/.c-form__row-->
-                            </div>
-                            <!--/.l-column--half__col-->
-                        </div>
-                        <!--/.l-column l-column--half-->
-                        </div>
-                        <!--/.l-column-->
-                    </div>
-                    <!--/.c-form__row-->
-                    <div class="c-form__row c-form__row--min">
-                        <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
-                        <div class="l-column--half__col">
-                            <div class="c-form__label">{{ __('customer.郵便番号') }}</div>
-                            <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input c-form__input--address" name="zipcode" id="zipcode" value=""> <button type="button" class="c-button c-button--sub" onClick="getAddress()">{{ __('customer.住所自動入力') }}</button></div>
+                            <div class="c-form__row{{ $errors->has('address_ex') ? ' has-error' : '' }}">
+                                <div class="c-form__row__label">{{ __('customer.以降の住所') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                                <div class="c-form__row__input">
+                                    <div class="c-form__colum">
+                                        <input type="text" class="c-form__input" name="address_ex" value="{{ old('address_ex') }}">
+                                    </div>
+                                </div>
+                                @if ($errors->has('address_ex'))
+                                    <span class="help-block">{{ $errors->first('address_ex')}}</span>
+                                @endif
                             </div>
                             <!--/.c-form__row-->
                         </div>
-                        <!--/.l-column--half__col-->
-                        <div class="l-column--half__col">
-                            <div class="c-form__label">{{ __('customer.都道府県') }}</div>
-                            <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input" name="province" id="province" value=""></div>
+                        <!--/.c-form__row-->
+                        <div id="address_home" style="display:block">
+                            <div class="c-form__row{{ $errors->has('zipcode') ? ' has-error' : '' }}">
+                                <div class="c-form__row__label">郵便番号<span class="c-form__require">必須</span></div>
+                                <div class="c-form__row__input">
+                                    <div class="c-form__colum">
+                                        <input type="text" class="c-form__input c-form__input--address" id="zipcode"
+                                               name="zipcode" value="{{ old('zipcode') }}">
+                                        <button type="button" class="c-button c-button--primary" onClick="getAddress()">住所自動入力</button>
+                                    </div>
+                                </div>
+                                @if ($errors->has('zipcode'))
+                                    <span class="help-block">{{ $errors->first('zipcode')}}</span>
+                                @endif
+                            </div>
+                            <!--/.c-form__row-->
+                            <div class="c-form__row{{ $errors->has('province_jp') ? ' has-error' : '' }}">
+                                <div class="c-form__row__label">{{ __('customer.都道府県') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                                <div class="c-form__colum">
+                                    <div class="c-form__row__input">
+                                        <div class="c-form__colum__col"><input type="text" class="c-form__input" name="province_jp" id="province_jp" value="{{ old('province_jp') }}"></div>
+                                    </div>
+                                </div>
+                                @if ($errors->has('province_jp'))
+                                    <span class="help-block">{{ $errors->first('province_jp')}}</span>
+                                @endif
+                            </div>
+                            <!--/.c-form__row-->
+                            <div class="c-form__row{{ $errors->has('city_jp') ? ' has-error' : '' }}">
+                                <div class="c-form__row__label">{{ __('customer.市町区村') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                                <div class="c-form__row__input">
+                                    <div class="c-form__colum">
+                                        <input type="text" class="c-form__input" name="city_jp" id="city_jp" value="{{ old('city_jp') }}"></div>
+                                </div>
+                                @if ($errors->has('city_jp'))
+                                    <span class="help-block">{{ $errors->first('city_jp')}}</span>
+                                @endif
+                            </div>
+                            <!--/.c-form__row-->
+                            <div class="c-form__row{{ $errors->has('address_jp') ? ' has-error' : '' }}">
+                                <div class="c-form__row__label">{{ __('customer.番地') }}<span class="c-form__require">{{ __('customer.必須') }}</span></div>
+                                <div class="c-form__row__input">
+                                    <div class="c-form__colum">
+                                        <input type="text" class="c-form__input" name="address_jp" value="{{ old('address_jp') }}"></div>
+                                </div>
+                                @if ($errors->has('address_jp'))
+                                    <span class="help-block">{{ $errors->first('address_jp')}}</span>
+                                @endif
                             </div>
                             <!--/.c-form__row-->
                         </div>
-                        <!--/.l-column--half__col-->
-                        </div>
-                        <!--/.l-column l-column--half-->
-                    </div>
-                    <!--/.c-form__row-->
-                    <div class="c-form__row">
-                        <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
-                        <div class="l-column--half__col">
-                            <div class="c-form__label">{{ __('customer.市町区村') }}</div>
-                            <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input" name="county" id="county" value=""></div>
-                            </div>
-                            <!--/.c-form__row-->
-                        </div>
-                        <!--/.l-column--half__col-->
-                        <div class="l-column--half__col">
-                            <div class="c-form__label">{{ __('customer.番地') }}</div>
-                            <div class="c-form__row">
-                            <div class="c-form__row__input"><input type="text" class="c-form__input" name="address_ex" value=""></div>
-                            </div>
-                            <!--/.c-form__row-->
-                        </div>
-                        <!--/.l-column--half__col-->
-                        </div>
-                        <!--/.l-column l-column--half-->
-                    </div>
-                    <!--/.c-form__row-->
-                    <div class="c-form__row c-form__row--min">
-                        <div class="l-column l-column--half l-column--half--wide u-sp__l-column--full">
-                        <div class="l-column--half__col">
-                            <div class="c-form__label">{{ __('customer.電話番号') }}</div>
-                            <div class="c-form__row"><input type="tel" class="c-form__input c-form__input--tel" name="tel1" value="">
-                                <input type="tel" class="c-form__input c-form__input--tel" name="tel2" value="">
-                                <input type="tel" class="c-form__input c-form__input--tel" name="tel3" value=""></div>
-                            <!--/.c-form__row-->
-                        </div>
-                        <!--/.l-column l-column--half-->
-                        </div>
-                        <!--/.l-column-->
-                    </div>
-                    <!--/.c-form__row-->
                     </div>
                     <!--/data-checkopen__list__content-->
                 </div>
@@ -295,6 +331,42 @@
 </div>
 <!--/.cart-->
 <script>
+    function onCountryChanged(){
+        var country = $('#country').val();
+        if(country == 'JP'){
+            $('#address_home').css('display', 'block');
+            $('#address_abroad').css('display', 'none');
+        } else {
+            $('#address_abroad').css('display', 'block');
+            $('#address_home').css('display', 'none');
+        }
+    }
+    function onSubmit(){
+        // $('#form_address').parsley();
+        $('#form_address').submit();
+    }
+    function getAddress(){
+        var postalCode = $('#zipcode').val();
+        var purl = 'http://dev.virtualearth.net/REST/v1/Locations?countryRegion=JP&postalCode='
+            + postalCode
+            + '&o=json&key=AoyhuvvuNi0LJYoJhgs0NIl4sTLl_aB_ew7NZr3bPhw6yLk1bIXywCbRVwhEIPfB&c=ja';
+        $.ajax({
+            type:"get",
+            url: purl,
+            success: function(result){
+                var res = result.resourceSets[0].resources[0].name;
+                if(res.length < 8){
+                    alert('{{ __('customer.郵便番号が間違っている.') }}');
+                    return;
+                }
+                $('#province_jp').val(result.resourceSets[0].resources[0].address.adminDistrict);
+                $('#city_jp').val(res.substring($('#zipcode').val().length + $('#province_jp').val().length + 1));
+                $('#address_jp').val('');
+            }
+        });
+    }
+</script>
+<script>
     var handler = StripeCheckout.configure({
         key: 'pk_test_XXbN9QSy1TgyoQHe2i5l4JsK',
         image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
@@ -318,26 +390,6 @@
         } else {
             $('#form_flow').submit();
         }
-    }
-    function getAddress(){
-        var postalCode = $('#zipcode').val();
-        var purl = 'http://dev.virtualearth.net/REST/v1/Locations?countryRegion=JP&postalCode='
-                    + postalCode
-                    + '&o=json&key=AoyhuvvuNi0LJYoJhgs0NIl4sTLl_aB_ew7NZr3bPhw6yLk1bIXywCbRVwhEIPfB&c=ja';
-        $.ajax({
-            type:"get",
-            url: purl,
-            success: function(result){
-                var res = result.resourceSets[0].resources[0].name;
-                if(res.length < 8){
-                    alert('{{ __('customer.郵便番号が間違っている.') }}');
-                    return;
-                }
-                $('#province').val(result.resourceSets[0].resources[0].address.adminDistrict);
-                $('#county').val(res.substring($('#zipcode').val().length + $('#province').val().length + 1));
-                $('#address').val('');
-            }
-        });
     }
 
     // Close Checkout on page navigation:

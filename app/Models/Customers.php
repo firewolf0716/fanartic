@@ -15,14 +15,14 @@ class Customers extends AppModel
     protected $primaryKey = 'customer_id';
 
     protected $_validates = [
-        'customer_name_first'  => 'required',
-        'customer_name_second'  => 'required',
+        'customer_name_first' => 'required',
+        'customer_name_second' => 'required',
     ];
 
     public static function get_addresses($id)
     {
-        return DB::table('customer_address')->where('customer_id', $id)
-            ->leftJoin('master_state', 'master_state.state_id', '=', 'customer_address.address_state')
+        return DB::table('customer_address')
+            ->where('customer_id', $id)
             ->get();
     }
 
@@ -375,17 +375,18 @@ class Customers extends AppModel
     public static function add_receipt($entry)
     {
         //save address
-        $address = DB::table('customer_address')->where('id', $entry['history_address'])->get()->first();
+        $address = CustomerAddress::find($entry['history_address']);
+
         $address_entry = array(
-            'address_name' => $address->address_name,
-            'address_phone' => $address->address_phone,
-            'address_postalcode' => $address->address_postalcode,
-            'address_state' => $address->address_state,
-            'address_city' => $address->address_city,
-            'address_address_ex' => $address->address_address_ex,
-            'address_province' => $address->address_province,
-            'address_county' => $address->address_county,
-            'address_address_jp' => $address->address_address_jp
+            'name' => $address->name,
+            'phone' => $address->phone,
+            'zipcode' => $address->zipcode,
+            'country' => $address->country,
+            'city' => $address->city,
+            'address_ex' => $address->address_ex,
+            'province_jp' => $address->province_jp,
+            'city_jp' => $address->city_jp,
+            'address_jp' => $address->address_jp
         );
         $address_id = Customers::add_entry("receipt_address", $address_entry);
         //save credit card
@@ -425,8 +426,10 @@ class Customers extends AppModel
         $profile_id = Customers::add_entry('receipt_customer', $customer_entry);
 
         $product = Products::get_product($entry['history_productid']);
+
         //save devliery setting
         $delivery = MerchantShipping::get_merchant_shipping($product->product_merchant_id, $product->shipping_id);
+
         $delivery_entry = array(
             'merchant_id' => $delivery->merchant_id,
             'shipping_state' => $delivery->shipping_state,

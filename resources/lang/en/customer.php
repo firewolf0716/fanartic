@@ -68,6 +68,8 @@ return [
 	'お名前' => 'name',
 	'お名前（カナ）' => 'Your name (Kana)',
 	'別の住所を登録' => 'Register another address',
+    '都市' => 'City',
+    '以降の住所' => 'Other',
 	'郵便番号' => 'Postal code',
 	'住所自動入力' => 'Automatic address entr',
 	'都道府県' => 'Prefectures',

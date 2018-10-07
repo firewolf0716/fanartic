@@ -48,22 +48,20 @@
         <section class="c-box">
         <h3 class="c-box__hd">{{ __('customer.配送先住所') }}</h3>
         <div class="c-box__content">
-            @if ($addrobj)
             <div class="l-column l-column--list l-column--top">
-            <div class="l-column--list__name">{{$addrobj->address_name}}</div>
             <!--/.l-column--list__name-->
-            <div class="l-column--list__data">〒{{$addrobj->address_postalcode}}<br>@php
-                                if($addrobj->address_state == 1){
-                                    echo $addrobj->address_province.$addrobj->address_county.$addrobj->address_address_jp;
-                                } else {
-                                    echo $addrobj->state_name.' '.$addrobj->address_city.' '.$addrobj->address_address_ex;
-                                }
-                            @endphp
-                        <br>{{$addrobj->address_phone}}</div>
-            <!--/.l-column--list__data-->
+                <div class="l-column--list__data">{{$address->name}}<br>
+                    @php
+                        if($address->country == 'JP'){
+                            echo "〒".$address->zipcode."\n";
+                            echo $address->province_jp.$address->city_jp.$address->address_jp;
+                        } else {
+                            echo $countries[$address->country].' '.$address->city.' '.$address->address_ex;
+                        }
+                    @endphp
+                    <br>{{$address->phone}}</div>
             </div>
             <!--/.l-column l-column--list-->
-            @endif
         </div>
         <!--/.c-box__content-->
         </section>
