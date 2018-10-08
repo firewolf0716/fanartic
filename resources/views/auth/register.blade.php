@@ -11,6 +11,8 @@
 
                     <form method="POST" action="{{ route('register') }}" aria-label="{{ __('Register') }}">
                         @csrf
+                        <input type="hidden" name="cur_currency" value="{{ Session::get('cur_currency') }}">
+                        <input type="hidden" name="locale" value="{{ App::getLocale() }}">
                         <h5 class="c-box__hd" id="errordiv_up" style="display:none"></h5>
                         <div class="c-box__content">
                             <div class="c-form__row c-form__row--min">
