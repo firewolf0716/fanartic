@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Models\Customers;
+use App\Services\ScoreService;
+use App\Services\ScoresumService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -11,10 +13,10 @@ class ScoreController extends Controller
 {
     public function score()
     {
-        $totalscore = Customers::get_score(Auth::id());
-        $scores = Customers::get_score_bybrand(Auth::id());
-        return $this->layout_init(view('customer.user.score'), 1)
-            ->with('totalscore', $totalscore)
-            ->with('scores', $scores);
+        $scores = ScoreService::getList(Auth::id());
+        $totalScore = ScoresumService::getTotal(Auth::id());
+
+        return view('customer.user.score')
+            ->with(compact('totalScore', 'scores'));
     }
 }
