@@ -9,15 +9,10 @@
             <div class="portlet-title">
                 <div class="caption">
                     <i class="icon-basket font-green-sharp"></i>
-                    <span class="caption-subject font-green-sharp bold uppercase">Order Listing</span>
-                    <span class="caption-helper">manage orders...</span>
+                    <span class="caption-subject font-green-sharp bold uppercase">注文リスト</span>
+                    <span class="caption-helper">注文を管理する...</span>
                 </div>
                 <div class="actions">
-                    <!-- <a href="javascript:;" class="btn btn-circle btn-default">
-                    <i class="fa fa-plus"></i>
-                    <span class="hidden-480">
-                    New Order </span>
-                    </a> -->
                     <div class="btn-group">
                         <a class="btn btn-default btn-circle" href="javascript:;" data-toggle="dropdown">
                         <i class="fa fa-share"></i>
@@ -50,6 +45,7 @@
             </div>
             <div class="portlet-body">
                 <div class="table-container">
+<<<<<<< HEAD
                     <!-- <div class="table-actions-wrapper">
                         <span>
                         </span>
@@ -62,6 +58,8 @@
                         </select>
                         <button class="btn btn-sm yellow table-group-action-submit"><i class="fa fa-check"></i> Submit</button>
                     </div> -->
+=======
+>>>>>>> c519269a2665d5be95b61e9fc9757a923ab1e2b3
                     <table class="table table-striped table-bordered table-hover" id="datatable_orders">
                     <thead>
                     <tr role="row" class="heading">
@@ -69,6 +67,7 @@
                             <input type="checkbox" class="group-checkable">
                         </th>
                         <th width="5%">
+<<<<<<< HEAD
                              Order&nbsp;#
                         </th>
                         <th width="10%">
@@ -97,6 +96,36 @@
                         </th>
                         <th width="10%">
                              Actions
+=======
+                             受注&nbsp;#
+                        </th>
+                        <th width="7%">
+                             ステータス
+                        </th>
+                        <th width="14%">
+                             顧客
+                        </th>
+                        <th width="14%">
+                             顧客
+                        </th>
+                        <th width="10%">
+                             顧客情報
+                        </th>
+                        <th width="10%">
+                             発送情報
+                        </th>
+                        <th width="10%">
+                             受注日時
+                        </th>
+                        <th width="10%">
+                             入金日時
+                        </th>
+                        <th width="10%">
+                             発送日時
+                        </th>
+                        <th width="15%">
+                             行動
+>>>>>>> c519269a2665d5be95b61e9fc9757a923ab1e2b3
                         </th>
                     </tr>
                     <tr role="row" class="filter">
@@ -107,16 +136,28 @@
                         <td>
                             <select name="status" class="form-control form-filter input-sm">
                                 <option value="">Select...</option>
+<<<<<<< HEAD
                                 @foreach ($status_list as $status)                               
                                 <option value="{{key($status)}}" class="btn btn-xs {{key($status)}}">{{current($status)}}</option>
+=======
+                                @foreach ($status_list as $key => $status)                           
+                                <option value="{{$key}}" class="btn btn-xs {{$status[0]}}">{{$status[1]}}</option>
+>>>>>>> c519269a2665d5be95b61e9fc9757a923ab1e2b3
                                 @endforeach
                             </select>
                         </td>
                         <td>
+<<<<<<< HEAD
                             <input type="text" class="form-control form-filter input-sm" name="merchant_id">
                         </td>
                         <td>
                             <input type="text" class="form-control form-filter input-sm" name="customer_id">
+=======
+                            <input type="text" class="form-control form-filter input-sm" name="merchant_name">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control form-filter input-sm" name="customer_name">
+>>>>>>> c519269a2665d5be95b61e9fc9757a923ab1e2b3
                         </td>
                         <td>
                             <input type="text" class="form-control form-filter input-sm" name="customer_info">
@@ -168,9 +209,15 @@
                         </td>
                         <td>
                             <div class="margin-bottom-5">
+<<<<<<< HEAD
                                 <button class="btn btn-sm yellow filter-submit margin-bottom"><i class="fa fa-search"></i> Search</button>
                             </div>
                             <button class="btn btn-sm red filter-cancel"><i class="fa fa-times"></i> Reset</button>
+=======
+                                <button class="btn btn-sm yellow filter-submit margin-bottom"><i class="fa fa-search"></i> サーチ</button>
+                            </div>
+                            <button class="btn btn-sm red filter-cancel"><i class="fa fa-times"></i> リセット</button>
+>>>>>>> c519269a2665d5be95b61e9fc9757a923ab1e2b3
                         </td>
                     </tr>
                     </thead>
@@ -208,10 +255,10 @@
     <script src="{{ URL::asset('gvendor/DateJS/build/date.js') }}"></script>
     <!-- bootstrap-daterangepicker -->
     <script src="{{ URL::asset('gvendor/moment/min/moment.min.js') }}"></script>
-    <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <!-- <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script> -->
 
     <!-- bootstrap-datetimepicker -->    
-    <script src="{{ URL::asset('gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <!-- <script src="{{ URL::asset('gvendor/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script> -->
     
     <!-- Custom Theme Scripts -->
 
@@ -222,7 +269,7 @@
     <!-- starrr -->
     <script src="{{ URL::asset('gvendor/starrr/dist/starrr.js') }}"></script>
     <!-- Select2 -->
-    <script src="{{ URL::asset('gvendor/select2/dist/js/select2.full.min.js') }}"></script>
+    <!-- <script src="{{ URL::asset('gvendor/select2/dist/js/select2.full.min.js') }}"></script> -->
     <!-- jQuery Tags Input -->
     <script src="{{ URL::asset('gvendor/jquery.tagsinput/src/jquery.tagsinput.js') }}"></script>
     <!-- bootstrap-wysiwyg -->

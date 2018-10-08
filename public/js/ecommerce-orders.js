@@ -1,12 +1,12 @@
 var EcommerceOrders = function () {
 
-    // var initPickers = function () {
-    //     //init date pickers
-    //     $('.date-picker').datepicker({
-    //         rtl: Metronic.isRTL(),
-    //         autoclose: true
-    //     });
-    // }
+    var initPickers = function () {
+        //init date pickers
+        $('.date-picker').datepicker({
+            rtl: 'left',
+            autoclose: true
+        });
+    }
 
     var handleOrders = function () {
 
@@ -50,7 +50,7 @@ var EcommerceOrders = function () {
                 "serverSide": true,
                 "columnDefs": [{ // define columns sorting options(by default all columns are sortable extept the first checkbox column)
                         'orderable': true,
-                        'targets': [0,1,2]
+                        'targets': [0]
                     }],
                 "columns": [
                     {   "name": "" ,
@@ -60,14 +60,16 @@ var EcommerceOrders = function () {
                         "orderable": false,
                     },
                     { "name": "status" },
-                    { "name": "merchant_id" },
-                    { "name": "customer_id" },
-                    { "name": "customer_info" },
-                    { "name": "ship_info" },
-                    { "name": "order_time" },
-                    { "name": "payment_time" },
-                    { "name": "ship_time" },
-                    { "name": "" }
+                    { "name": "fan_merchant.merchant_companyname" },
+                    { "name": "customers.customer_name_second" },
+                    { "name": "customers.customer_phone" },
+                    { "name": "receipts.shipping_data" },
+                    { "name": "receipts.date_juchu" },
+                    { "name": "receipts.date_pay" },
+                    { "name": "receipts.date_delivery" },
+                    { "name": "",
+                        "orderable": false,
+                    }
                 ],
                 "lengthMenu": [
                     [10, 20, 50, 100, 150, -1],
@@ -78,7 +80,7 @@ var EcommerceOrders = function () {
                     "url": "getorders", // ajax source
                 },
                 "order": [
-                    [4, "asc"]
+                    [7, "desc"]
                 ] // set first column as a default sort by asc
             }
         });
@@ -119,7 +121,7 @@ var EcommerceOrders = function () {
         //main function to initiate the module
         init: function () {
 
-            // initPickers();
+            initPickers();
             handleOrders();
         }
 

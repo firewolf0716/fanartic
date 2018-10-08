@@ -241,6 +241,7 @@ var Datatable = function() {
                 $(this).attr("checked", false);
             });
             the.clearAjaxParams();
+            ajaxParams = {'_token': _token}; 
             the.addAjaxParam("action", tableOptions.filterCancelAction);
             dataTable.ajax.reload();
         },
@@ -263,6 +264,7 @@ var Datatable = function() {
         },
 
         addAjaxParam: function(name, value) {
+            console.log(name, value);
             if (!ajaxParams[name]) {
                 ajaxParams[name] = [];
             }
