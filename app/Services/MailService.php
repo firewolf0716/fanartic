@@ -14,71 +14,82 @@ class MailService
      */
 
     public static $_subjects = [
-        'ja' => [
-            'customer' => [
+        'customer' => [
+            'ja' => [
                 'auth' => [
-                    'pre_register' => '新規仮登録完了',
-                    'register' => '本登録完了',
-                    'frozen' => 'アカウントが凍結しました',
-                    'reset_password' => 'パスワードの再設定',
+                    'pre_register' => '仮登録完了のお知らせ',
+                    'register' => '本登録完了のお知らせ',
+                    'frozen' => 'アカウント凍結のお知らせ',
+                    'quit' => '退会処理完了のお知らせ',
+                    'reset_password' => 'パスワード再設定',
+                ],
+                'product' => [
+                    'added_favorite_brand' => '[]の商品が追加されました',
+                    'added_search' => '[]の検索条件の商品が追加されました',
+                ],
+                'order' => [
+                    'contact_send' => 'お問い合わせ完了',
+                    'contact_receive' => '(返信)お問い合わせ',
+                    'reserve' => '商品予約購入完了のお知らせ',
+                    'bank' => '商品購入手続きのお知らせ',
+                    'bank2' => '(重要)商品購入手続きを完了させてください',
+                    'payment' => '商品購入完了のお知らせ',
+                    'bank_payment' => '入金完了のお知らせ',
+                    'shipment' => '商品発送のお知らせ',
+                    'cancel' => '商品購入キャンセルのお知らせ',
+                    'error' => '購入が完了出来ませんでした',
                 ],
             ],
-            'merchant' => [
-
-            ]
+            'en' => [],
+            'ko' => [],
+            'cn' => [],
+            'tw' => [],
         ],
-        'en' => [
-            'customer' => [
+        'merchant' => [
+            'ja' => [
                 'auth' => [
-                    'pre_register' => 'New provisional registration',
-                    'register' => 'Main registration',
-                    'frozen' => 'Freezing Account',
-                    'reset_password' => 'Password Reset',
+                    'pre_register' => '出店者登録申請完了のお知らせ',
+                    'register' => '本登録完了のお知らせ',
+                    'frozen' => 'アカウント凍結のお知らせ',
+                    'quit' => '退会処理完了のお知らせ',
+                    'reset_password' => 'パスワード再設定',
+                    'new_charger' => '担当者追加のお知らせ', // to charger
+                    'add_charger' => '担当者追加のお知らせ', // to merchant master
                 ],
-            ],
-            'merchant' => [
-
-            ]
-        ],
-        'ko' => [
-            'customer' => [
-                'auth' => [
-                    'pre_register' => '신규가등록',
-                    'register' => '본등록',
-                    'frozen' => '동결',
-                    'reset_password' => '비밀번호 변경하기',
+                'setting' => [
                 ],
-            ],
-            'merchant' => [
-
-            ]
-        ],
-        'cn' => [
-            'customer' => [
-                'auth' => [
-                    'pre_register' => '新临时登记',
-                    'register' => '登记',
-                    'frozen' => '冻结',
-                    'reset_password' => '重置密码',
+                'product' => [
+                    'decrease' => '在庫数低下のお知らせ'
                 ],
-            ],
-            'merchant' => [
-
-            ]
-        ],
-        'tw' => [
-            'customer' => [
-                'auth' => [
-                    'pre_register' => '新臨時登記',
-                    'register' => '登記',
-                    'frozen' => '凍結',
-                    'reset_password' => '重置密碼',
+                'stock' => [
                 ],
+                'order' => [
+                    'contact_receive' => 'お問い合わせのお知らせ',
+                    'reserve' => '商品予約購入完了のお知らせ',
+                    'bank' => '商品購入手続きのお知らせ',
+                    'bank2' => '(重要)商品購入手続きが完了していません',
+                    'payment' => '商品購入完了のお知らせ',
+                    'bank_payment' => '入金完了のお知らせ',
+                    'shipment' => '商品発送のお知らせ',
+                    'cancel' => '商品購入キャンセルのお知らせ',
+                    'error' => '購入が完了出来ませんでした',
+                ],
+                'sales' => [
+                    'monthly' => 'のご収入のお知らせ'
+                ]
             ],
-            'merchant' => [
-
-            ]
+            'en' => [],
+            'ko' => [],
+            'cn' => [],
+            'tw' => [],
         ],
+        'admin' => [
+            'ja' => [],
+            'en' => [],
+            'ko' => [],
+            'cn' => [],
+            'tw' => [],
+        ]
     ];
 
     public static function getSubject($options, $lang)
