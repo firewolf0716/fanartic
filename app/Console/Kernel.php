@@ -35,6 +35,9 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('set:currency')
             ->hourly();
+
+        $schedule->command('set:tempostar')
+            ->everyMinute();
     }
 
     /**

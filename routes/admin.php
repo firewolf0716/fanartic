@@ -161,4 +161,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:
 	Route::get('duty/delete/{id}','DutyController@delete');
 	Route::get('duty/countrydelete/{id}','DutyController@countrydelete');
 
+    Route::resource('tempostar','TempostarController',['names' => 'tempostar']);
+
 });

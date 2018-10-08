@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Components\TempostarComponent;
+use App\Components\Zaiko\TempostarComponent;
 use App\Models\Tempostar;
 use Illuminate\Http\Request;
 
@@ -18,7 +18,7 @@ class TempostarController extends Controller
     {
         $tempo_comp = new TempostarComponent(['ftp.tempostar.net', '1966_0', 'xrhyL19660']);
 
-        // dd($tempo_comp->setStock("test-loop", 12));
+        dd($tempo_comp->getStock());
 
         $this->model = new Tempostar();
         $title = $this->model->getTitle();
