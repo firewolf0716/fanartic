@@ -134,7 +134,7 @@
                                             <li><a href="{{url('admin/plan/list')}}">{{ __('admin.出店プラン一覧') }}</a></li>
                                         </ul>
                                     </li>
-                                    <li><a>インポートデータ<span class="fa fa-chevron-down"></span></a>
+                                    <li><a>{{ __('admin.インポートデータ') }}<span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/import/csv')}}">{{ __('admin.csv からデータをインポートする') }}</a></li>
                                         </ul>

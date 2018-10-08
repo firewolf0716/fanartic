@@ -42,6 +42,11 @@ class AppServiceProvider extends ServiceProvider
                 $authMerchant = Merchants::find(Auth::guard('merchant')->id());
                 View::share(compact('authMerchant'));
             }
+
+            if (Auth::guard('merchant')->check()) {
+                $authMerchant = Merchants::find(Auth::guard('merchant')->id());
+                View::share(compact('authMerchant'));
+            }
         });
 
         $currencies = Currency::getCurrencies();

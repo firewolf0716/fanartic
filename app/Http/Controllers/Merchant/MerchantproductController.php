@@ -25,17 +25,29 @@ use App\Models\ProductStock;
 use App\Models\MerchantShipping;
 use App\Models\ProductImage;
 use App\Models\ProductMasterImage;
+use App\Models\Customers;
+use App\Models\Receipts;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\SkuService;
 use App\Services\MatchService;
 use App\Services\StockService;
+use App\Services\OrderService;
 use DB;
 use Session;
 
 class MerchantproductController extends Controller
 {
-    //
+    public $status_list = array(
+            array("blue", "処理された"),
+            array("green" , "コンプリート"),
+            array("yellow" , "開いた"),
+            array("red" ,  "失敗"),
+            array("purple" , "辞退"),
+            array("grey" , "再順序付けされた"),
+            array("dark" , "キャンセル"),
+        );  
+
     public function __construct()
     {
         // parent::__construct();
@@ -954,18 +966,117 @@ class MerchantproductController extends Controller
 
     public function order()
     {
-        $merchant_id = Auth::id();
-        // $cashProducts = Products::get_cash_on_delivery_products($merchant_id);
-        $cashProducts = Products::get_products_search($merchant_id, '2', '', '', '', '0', '');
+        return view('merchant.product.order')
+            ->with('status_list', $this->status_list);
+    }
 
-        return view('merchant.product.order')->with('merchant_id', $merchant_id)
-            ->with('cashProducts', $cashProducts)
-            ->with('product_status', '2')
-            ->with('free_word', '')
-            ->with('min_price', '')
-            ->with('max_price', '')
-            ->with('duration_setting', '0')
-            ->with('duration_range', '');
+    public function getorders()
+    {   
+        $where = array();
+
+        if (isset($_REQUEST['order'])) 
+        {
+            $columnNo = $_REQUEST['order'][0]['column'];
+            $where['order']['field'] = $_REQUEST['columns'][$columnNo]['name'];
+            $where['order']['dir'] = $_REQUEST['order'][0]['dir'];
+        }
+
+        if (isset($_REQUEST['action'])) 
+        {
+            if ($_REQUEST['action'] = 'filter') {
+                if (!empty($_REQUEST['status'])) 
+                    $where['status'] = $_REQUEST['status'];
+                if (!empty($_REQUEST['merchant_name'])) 
+                    $where['merchant_name'] = $_REQUEST['merchant_name'];
+                if (!empty($_REQUEST['customer_name'])) 
+                    $where['customer_name'] = $_REQUEST['customer_name'];
+                if (!empty($_REQUEST['customer_info'])) 
+                    $where['customer_info'] = $_REQUEST['customer_info'];
+                if (!empty($_REQUEST['ship_info'])) 
+                    $where['ship_info'] = $_REQUEST['ship_info'];
+                if (!empty($_REQUEST['order_time_from'])) 
+                    $where['order_time_from'] = $_REQUEST['order_time_from'];
+                if (!empty($_REQUEST['order_time_to'])) 
+                    $where['order_time_to'] = $_REQUEST['order_time_to'];
+                if (!empty($_REQUEST['payment_time_from'])) 
+                    $where['payment_time_from'] = $_REQUEST['payment_time_from'];
+                if (!empty($_REQUEST['payment_time_to'])) 
+                    $where['payment_time_to'] = $_REQUEST['payment_time_to'];
+                if (!empty($_REQUEST['ship_time_from'])) 
+                    $where['ship_time_from'] = $_REQUEST['ship_time_from'];
+                if (!empty($_REQUEST['ship_time_to'])) 
+                    $where['ship_time_to'] = $_REQUEST['ship_time_to'];                
+            }elseif($_REQUEST['action'] = 'filter_cancel' ){
+                $where = array();
+            }
+        }
+
+        if (isset($_REQUEST['action']) && $_REQUEST['action'] = 'filter') 
+            $orders = OrderService::get_where_orders( $where);
+        else
+            $orders = OrderService::get_orders( $where);
+
+        $retVal = array();
+        
+        foreach ($orders as $order) {
+            $buffer = array();
+            $buffer['order_id'] = $order->id;
+            $buffer['merchant_id'] = $order->merchant_id;
+            $buffer['merchant_name'] = $order->merchant_companyname;
+            $buffer['customer_id'] = $order->customer_id;
+            $buffer['customer_name'] = $order->customer_name_first.' '.$order->customer_name_second;
+            $buffer['customer_info'] = $order->customer_phone;
+            $buffer['order_time'] = $order->date_juchu;
+            $buffer['payment_time'] = $order->date_pay;
+            $buffer['ship_time'] = $order->date_delivery;
+            $buffer['ship_info'] = $order->shipping_data;
+            $buffer['status'] = $order->status;
+            $retVal[] = $buffer;
+        }
+
+        $iTotalRecords = count($orders); 
+        $iDisplayLength = intval($_REQUEST['length']);
+        $iDisplayLength = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength; 
+        $iDisplayStart = intval($_REQUEST['start']);
+        $sEcho = intval($_REQUEST['draw']);
+      
+        $records = array();
+        $records["data"] = array(); 
+
+        $end = $iDisplayStart + $iDisplayLength;
+        $end = $end > $iTotalRecords ? $iTotalRecords : $end;  
+
+        for($i = $iDisplayStart; $i < $end; $i++) {
+            $id = ($i + 1);            
+            $status = $this->status_list[$retVal[$i]['status']];
+            $buffer = array(
+                '<input type="checkbox" name="id[]" value="'.$id.'">',
+                '<a href="#">Order<bdi>#'.$retVal[$i]['order_id'].'</bdi></a>', 
+                '<span class="btn btn-xs '.($status[0]).'">'.($status[1]).'</span>',
+                $retVal[$i]['merchant_name'], 
+                $retVal[$i]['customer_name'] , 
+                $retVal[$i]['customer_info'] , 
+                $retVal[$i]['ship_info'] , 
+                $retVal[$i]['order_time'] , 
+                $retVal[$i]['payment_time'] , 
+                $retVal[$i]['ship_time'] , 
+                '<a href="#" class="btn btn-xs default "><i class="fa fa-search"></i></a>
+                <a href="#" class="btn btn-xs green "><i class="fa fa-edit"></i></a>
+                <a href="#" class="btn btn-xs red "><i class="fa fa-trash-o"></i></a>',
+            );
+            $records['data'][] = $buffer;
+        }
+
+        if (isset($_REQUEST["customActionType"]) && $_REQUEST["customActionType"] == "group_action") {
+            $records["customActionStatus"] = "OK"; // pass custom message(useful for getting status of group actions)
+            $records["customActionMessage"] = "Group action successfully has been completed. Well done!"; // pass custom message(useful for getting status of group actions)
+        }
+
+        $records["draw"] = $sEcho;
+        $records["recordsTotal"] = $iTotalRecords;
+        $records["recordsFiltered"] = $iTotalRecords;
+      
+        echo json_encode($records);
     }
 
     public function shipping()

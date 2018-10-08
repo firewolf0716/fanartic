@@ -35,6 +35,21 @@
     <link href="{{ asset('gvendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css')}}"
           rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/multi-select.css') }}"/>
+
+    <!-- BEGIN Order Manage PAGE LEVEL STYLES -->
+    <link href="{{ asset('gvendor/select2/select2.css')}}"/>
+    <link href="{{ asset('gvendor/datatables/plugins/bootstrap/dataTables.bootstrap.css')}}"/>
+    <link href="{{ asset('gvendor/bootstrap-datepicker/css/datepicker.css')}}"/>
+    <!-- END Order Manage PAGE LEVEL STYLES -->
+
+    <!-- BEGIN Order Manage THEME STYLES -->
+    <link href="{{ asset('css/global/components-rounded.css')}}" id="style_components" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/global/plugins.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/global/layout.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/global/default.css')}}" rel="stylesheet" type="text/css" id="style_color">
+    <!-- <link href="../../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css"> -->
+    <!-- <link href="../../assets/admin/layout3/css/custom.css" rel="stylesheet" type="text/css"> -->
+    <!-- END Order Manage THEME STYLES -->
 </head>
 
 <body class="nav-md">

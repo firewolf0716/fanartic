@@ -67,4 +67,10 @@ class Merchants extends Authenticatable
         'password',
     ];
 
+    public static function get_name_by_id($merchant_id)
+    {
+        return DB::table('fan_merchant')->where('merchant_id', $merchant_id)
+            ->get()->pluck('name')->first();
+    }
+
 }

@@ -54,6 +54,7 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' =>
     Route::get('product/sold', 'MerchantproductController@sold');
     Route::get('product/csvupload', 'MerchantproductController@product_csvupload');
     Route::get('product/order', 'MerchantproductController@order');
+    Route::post('/product/getorders', 'MerchantproductController@getorders');
     Route::get('product/shipping', 'MerchantproductController@shipping');
     Route::get('product/accept_pay_shipping_delivery/{id}', 'MerchantproductController@accept_pay_shipping_delivery');
     Route::get('product/decline_pay_shipping_delivery/{id}', 'MerchantproductController@decline_pay_shipping_delivery');
