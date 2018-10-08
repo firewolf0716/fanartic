@@ -6,6 +6,14 @@ use App\Models\Products;
 
 class ProductService
 {
+    public static function getByCode($code) {
+        $product = Products::where('product_code', $code);
+        if(empty($product->id)) {
+            return false;
+        }
+        return $product;
+    }
+
     public static function getProducts() {
 
     }

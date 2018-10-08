@@ -147,11 +147,17 @@
                                 </ul>
                             </li>
 
-
                             <li><a><i class="fa fa-table"></i> {{ __('admin.店舗管理') }} <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     <li class="sub_menu"><a href="{{url('admin/merchants/add')}}">{{ __('auth.新規登録') }}</a></li>
                                     <li><a href="{{url('admin/merchants/list')}}">{{ __('admin.店舗一覧') }}</a></li>
+                                </ul>
+                            </li>
+                            <li><a><i class="fa fa-gears"></i> 在庫連携 <span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu">
+                                    @foreach(Config::get('zaiko') as $key => $value)
+                                        <li class="sub_menu"><a href="/admin/{{ $key }}">{{ $value }}</a></li>
+                                    @endforeach
                                 </ul>
                             </li>
                             @if(Session::get('adminper') == '1')

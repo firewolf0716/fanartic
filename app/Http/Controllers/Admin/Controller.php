@@ -50,7 +50,7 @@ class Controller extends BaseController
     {
         $route = Route::currentRouteName();
         $slag = explode(".", $route)[0];
-        if (!empty($slag) && $slag == 'duty') {
+        if (!empty($slag) && ($slag == 'duty' || $slag == 'tempostar')) {
             $this->name = $slag;
             $model = 'App\\Models\\' . ucfirst($slag);
             $this->model = new $model();
