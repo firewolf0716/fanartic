@@ -38,11 +38,6 @@ class MFlowController extends Controller
 
     public function checkflowinfo()
     {
-        $cartCt = Cart::getCartItemCt(Auth::id());
-        if ($cartCt == 0) {
-            return Redirect::to('user/cart');
-        }
-
         $addresses = Customers::get_addresses(Auth::id());
         $locale = session('applocale');
         $countries = Countries::getList($locale, 'php');
