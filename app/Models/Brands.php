@@ -28,4 +28,9 @@ class Brands extends AppModel
     protected $guarded = array('brand_id');
     protected $table = 'master_brand';
     protected $primaryKey = 'brand_id';
+
+    public function scores()
+    {
+        return $this->hasMany(CustomerScore::class);
+    }
 }

@@ -14,9 +14,9 @@ class ScoreController extends Controller
     public function score()
     {
         $scores = ScoreService::getList(Auth::id());
-        $totalScore = ScoresumService::getTotal(Auth::id());
+        $totalScores = ScoresumService::getTotal(Auth::id());
 
         return view('customer.user.score')
-            ->with(compact('totalScore', 'scores'));
+            ->with(compact('totalScores', 'scores'));
     }
 }
