@@ -23,7 +23,7 @@
             <div class="header__button-search" data-header-search-button><i
                         class="c-icon header__button-search__icon"></i></div>
             <div class="header__sitename">
-                <a href="{{ route('mall', $mallname) }}">
+                <a href="{{ route('mall', ['mallname' => $mallname]) }}">
                     <img src="{{asset('images/logo.png')}}" alt="" width="150">
                 </a>
             </div>

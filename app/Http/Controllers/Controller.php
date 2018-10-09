@@ -128,7 +128,8 @@ class Controller extends BaseController
             ->with('recent', $recent)
             ->with('recentimages', $images)
             ->with('listtype', "malls")
-            ->with('email', $email);
+            ->with('email', $email)
+            ->with('brands', $brands);
     }
 
     public function setMainCategory($view)
