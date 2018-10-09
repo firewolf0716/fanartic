@@ -30,7 +30,6 @@ use App\Models\Customers;
 use App\Models\Brands;
 use App\Models\ProductSKU;
 use App\Models\ProductStock;
-use App\Models\Cart;
 use App\Models\Malls;
 use App\Models\MallBrands;
 use App\Models\States;

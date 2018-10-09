@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Session;
 use Countries;
 
-use App\Models\Cart;
 use App\Models\Colors;
 use App\Models\Customers;
 use App\Models\Products;

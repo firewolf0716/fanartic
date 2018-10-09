@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Providers;
-
-use App\Models\Cart;
 use App\Models\Currency;
 use App\Models\Customers;
 use App\Models\Malls;
