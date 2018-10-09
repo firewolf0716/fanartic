@@ -61,16 +61,13 @@
                     <li><i class="c-icon product-detail__data__list__icon--point"></i>{{ __('customer.獲得スコア') }}：1000{{ __('customer.ポイント') }}</li>
                     <li><i class="c-icon product-detail__data__list__icon--wish"></i>{{ __('customer.お気に入りアイテム登録数') }}：2877{{ __('customer.人') }}</li>
                 </ul>
-<<<<<<< HEAD
+
                 <div class="u-sp">
                     <span class="c-item__addcart product-detail__data__cart__item__list__addcart__button"
                                         data-productdetail__button="">
                         <i class="c-icon"></i>{{ __('customer.カートへ入れる') }}</span>
                 </div>
-=======
-                <div class="u-sp"><span class="c-item__addcart product-detail__data__cart__item__list__addcart__button"
-                                        data-productdetail__button=""><i class="c-icon"></i>{{ __('customer.カートへ入れる') }}</span></div>
->>>>>>> feature/order
+
                 <div class="product-detail__data__cart" data-productdetail__content="">
                     <h3 class="product-detail__data__cart__hd u-sp">{{ __('customer.カートへ入れる') }}</h3>
                     @foreach($skucolor as $color)
@@ -158,17 +155,13 @@
                         <dt>{{ __('customer.カラー') }}</dt>
                         <dd>&nbsp;{{$product->color_name}}</dd>
                         <dt>{{ __('customer.カテゴリー') }}</dt>
-<<<<<<< HEAD
+
                         <dd>
                             &nbsp;
                             {{$product->category->parent->parent->category_name}} >
                             {{$product->category->parent->category_name}} >
                             {{$product->category->category_name}}
                         </dd>
-=======
-                        <dd>&nbsp;{{$top_category->category_name}}･{{$mcategory->category_name}}
-                            ･{{$scategory->category_name}}</dd>
->>>>>>> feature/order
                         <dt>{{ __('customer.素材') }}</dt>
                         <dd>&nbsp;{{$product->product_material}}</dd>
                         <dt>{{ __('customer.生産国') }}</dt>
@@ -270,7 +263,7 @@
                 url: "{{url('user/addtocart')}}",
                 success: function (data) {
                     console.log(data);
-                    if (data == "Successed") {
+                    if (data == "Success") {
                         window.location = "{{url('user/cart')}}";
                     } else if (data == "Login") {
                         alert('Please log in first');

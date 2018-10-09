@@ -73,6 +73,7 @@ class ProductController extends Controller
     public function product_detail($mallname, $productid)
     {
         $product = Products::find($productid);
+        // dd($product->product_category_id);
         // $sizes = SizeCategory::find($mcategoryid)->sizes;
         $skucolor = SKUService::get_for_product($productid, 1);
         $skusize = SKUService::get_for_product($productid, 2);

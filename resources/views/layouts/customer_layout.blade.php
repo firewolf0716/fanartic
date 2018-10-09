@@ -105,7 +105,7 @@
                 </li>
                 <li><a href="{{ route('favorite') }}"><i class="c-icon
                 header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{ route('cart') }}/user/cart">
+                <li><a href="{{ route('cart') }}">
                         @if(!empty($cartTotal) && $cartTotal > 0)
                             <span class="c-badge"><span class="c-badge__num">{{ $cartTotal }}</span></span>
                         @endif

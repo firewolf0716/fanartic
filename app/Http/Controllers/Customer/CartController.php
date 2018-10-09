@@ -59,12 +59,21 @@ class CartController extends Controller
             "size" => Input::get('size'),
             "count" => Input::get('count')
         );
-
         try {
-            CartService::addCart($cartEntry);
-            return 'Successed';
+            $carts = session('cart');
+            if($carts == null || $carts == ''){
+                $carts = array();  
+            }
+            foreach($carts as $i => $cart){
+                if($cart['product'] == $cartEntry['product']){
+                    unset($carts[$i]);
+                }
+            }
+            array_push($carts, $cartEntry);
+            session(['cart' => $carts]);
+            return "Success";
         } catch (\Exception $ex) {
-            return 'Failed';
+            return "Failed";
         }
     }
 
