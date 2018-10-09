@@ -112,7 +112,7 @@ class Products extends AppModel
 
     public static function get_product($id)
     {
-        return DB::table('fan_product')->where('product_id', $id)->get()->first();
+        return DB::table('fan_product')->where('product_id', $id)->first();
     }
 
     public static function edit_product($entry, $id)
@@ -319,7 +319,7 @@ class Products extends AppModel
             ->where('fan_product_image.color_id', $color_id)
             ->leftJoin('master_color', 'master_color.color_id', 'fan_product_image.color_id')
             ->orderBy('fan_product_image.image_id', 'ASC')
-            ->get()->first();
+            ->first();
     }
 
     public static function get_images($product_id)
@@ -369,17 +369,17 @@ class Products extends AppModel
     {
         $product_size_id = DB::table('fan_product_sku')->where('product_id', $id)
             ->where('sku_type', 2)
-            ->get()->first()->sku_type_id;
+            ->first()->sku_type_id;
         return $product_size_id;
     }
 
     public static function get_cart_image($product_id, $color)
     {
-        // $first = DB::table('fan_product_image')->where('product_id', $product_id)->get()->first();
+        // $first = DB::table('fan_product_image')->where('product_id', $product_id)->first();
         $img = DB::table('fan_product_image')
             ->where('product_id', $product_id)
             ->where('color_id', $color)
-            ->get()->first();
+            ->first();
         return $img;
     }
 
@@ -417,7 +417,7 @@ class Products extends AppModel
                 ->update(['product_count' => $product->product_count + $product->product_amt]);
         }
 
-        $history_id = DB::table('receipts')->where('id', $id)->leftJoin('receipt_detail', 'receipt_detail.receipt_id', 'receipts.id')->get()->first()->history_id;
+        $history_id = DB::table('receipts')->where('id', $id)->leftJoin('receipt_detail', 'receipt_detail.receipt_id', 'receipts.id')->first()->history_id;
         DB::table('customer_buy_history')->where('id', $history_id)->update(['history_status' => $status]);
         return DB::table('receipts')
             ->where('id', $id)

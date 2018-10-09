@@ -53,8 +53,8 @@ class CategoryService
 
     public static function getParentCategory($id)
     {
-        $parent_id = Categorys::where('category_id', $id)->get()->first()->category_parent_id;
-        return Categorys::where('category_id', $parent_id)->get()->first();
+        $parent_id = Categorys::where('category_id', $id)->first()->category_parent_id;
+        return Categorys::where('category_id', $parent_id)->first();
     }
 
     public static function getMainCategoryID($id)
@@ -144,16 +144,13 @@ class CategoryService
                 $q->where('category_parent_id', '')
                     ->orWhere('category_parent_id', '0')
                     ->orWhere('category_parent_id', null);
-            })
-            ->get()->first()->category_id;
+            })->first()->category_id;
 
         $main_id = Categorys::where('category_name', $main_name)
-            ->where('category_parent_id', $top_id)
-            ->get()->first()->category_id;
+            ->where('category_parent_id', $top_id)->first()->category_id;
 
         $sub_id = Categorys::where('category_name', $sub_name)
-            ->where('category_parent_id', $main_id)
-            ->get()->first()->category_id;
+            ->where('category_parent_id', $main_id)->first()->category_id;
 
         return $sub_id;
     }

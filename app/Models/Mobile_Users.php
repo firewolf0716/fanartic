@@ -13,7 +13,7 @@ class Mobile_Users extends AppModel
         $customer = DB::table('customers')
             ->where('customer_email', $email)
             ->where('verified', 1)
-            ->get()->first();
+            ->first();
 
         if ($customer == NULL) {
             return NULL;

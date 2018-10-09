@@ -11,13 +11,13 @@ class CustomerUserService
 {
     public static function is_email_exists($email)
     {
-        $prevmail = CustomerUser::where('email', '=', $email)->get()->first();
+        $prevmail = CustomerUser::where('email', '=', $email)->first();
         return isset($prevmail);
     }
 
     public static function check_login($uname, $pwd)
     {
-        $customer = CustomerUser::where('email', '=', $uname)->where('verified', 1)->get()->first();
+        $customer = CustomerUser::where('email', '=', $uname)->where('verified', 1)->first();
         if ($customer == null) {
             return -1;
         }
@@ -47,7 +47,7 @@ class CustomerUserService
 
     public static function signverify($email, $token)
     {
-        $prevmail = CustomerUser::where('email', '=', $email)->get()->first();
+        $prevmail = CustomerUser::where('email', '=', $email)->first();
         // dd($prevmail);
         if (isset($prevmail)) {
             if ($token == $prevmail->token) {
