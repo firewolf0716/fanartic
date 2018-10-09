@@ -83,8 +83,8 @@ class ProductController extends Controller
         foreach ($skucolor as $skucolor_id) {
             $info = array();
             foreach ($skusize as $skusize_id) {
-                $skuvalue = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_count;
-                $skuprice = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->first()->product_price_sale;
+                $skuvalue = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->product_count;
+                $skuprice = StockService::get_for_product($productid, $skucolor_id->sku_id, $skusize_id->sku_id)->product_price_sale;
                 $info[$skusize_id->sku_id]['count'] = $skuvalue;
                 $info[$skusize_id->sku_id]['price'] = $skuprice;
             }

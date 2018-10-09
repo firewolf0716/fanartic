@@ -347,7 +347,7 @@ class Customers extends AppModel
         );
         $product_id = Customers::add_entry('receipt_product', $product_entry);
         //save stock
-        $stock = StockService::get_for_product($entry['history_productid'], $entry['history_skucolorid'], $entry['history_skusizeid'])->first();
+        $stock = StockService::get_for_product($entry['history_productid'], $entry['history_skucolorid'], $entry['history_skusizeid']);
         $stock_entry = array(
             'product_id' => $stock->product_id,
             'product_count' => $stock->product_count,

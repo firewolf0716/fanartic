@@ -9,14 +9,14 @@
                 <form action="{{ route('cart.remove') }}" method="post" id="form_cart_list">
                     @csrf
                     <input type="hidden" name="remove_id" value="" id="remove_id">
-                    @foreach($cartitems as $item)
+                    @foreach($cartitems as $i => $item)
                         <div class="l-column l-column--cart">
                             <div class="l-column--cart__item">
                                 <div class="c-item c-item--01">
                                     <div class="c-item__column">
                                         <div class="c-item__column__figure">
                                             @php
-                                                $pro_img  = $images[$item->id];
+                                                $pro_img  = $images[$i];
                                                 $prod_path = url('').'/images/products/'.$pro_img;
                                             @endphp
                                             <figure class="c-item__figure"><a href=""><img src="{{$prod_path}}" alt=""></a>
@@ -24,14 +24,14 @@
                                         </div>
                                         <!--/.c-item__column__figure-->
                                         <div class="c-item__column__data">
-                                            <h3 class="c-item__name">{{$item->brand_name}}</h3>
+                                            <h3 class="c-item__name">{{$cartbrands[$i]}}</h3>
                                             <ul class="c-item__data">
-                                                <li>{{$item->product_name}}</li>
-                                                <li>{{ __('customer.カラー') }}：{{$colorname[$item->id]->color_name}}</li>
-                                                <li>{{ __('customer.サイズ') }}：{{$sizename[$item->id]->size_name}}</li>
+                                                <li>{{ $products[$i]->product_name }}</li>
+                                                <li>{{ __('customer.カラー') }}：{{$colorname[$i]}}</li>
+                                                <li>{{ __('customer.サイズ') }}：{{$sizename[$i]}}</li>
                                             </ul>
                                             <div class="c-item__price u-sp">
-                                                <strong>&yen;{{number_format($item->product_price_sale)}}</strong></div>
+                                                <strong>&yen;{{number_format($stocks[$i]->product_price_sale)}}</strong></div>
                                         </div>
                                         <!--/.c-item__column__data-->
                                     </div>
@@ -40,10 +40,10 @@
                                 <!--/.c-item-->
                             </div>
                             <div class="l-column--cart__price u-pc">
-                                &yen;{{number_format($item->product_price_sale)}}
+                                &yen;{{number_format($stocks[$i]->product_price_sale)}}
                             </div>
                             <div class="l-column--cart__quantity">
-                                {{ $item->cart_amount }}
+                                {{ $item['count'] }}
 {{--                                <label class="c-select c-select--quantity">
                                     <div class="c-select__box">
                                         <select name="item_{{ $item->id }}" onChange="onChangeCount(this,
@@ -59,7 +59,7 @@
                             </div>
                             <div class="l-column--cart__button">
                                 <a class="c-button c-button--secondary"
-                                   onClick="onRemove('{{$item->id}}')">{{ __('customer.削除') }}</a></div>
+                                   onClick="onRemove('{{$i}}')">{{ __('customer.削除') }}</a></div>
                         </div>
                         <!--/.l-column l-column--cart-->
                         <hr class="c-hr">
