@@ -134,6 +134,9 @@ class Controller extends BaseController
 
     public function setMainCategory($view)
     {
-
+        $topcategorys = CategoryService::getTopCategorys();
+        $mencategories = CategoryService::getMainCategorys($topcategorys[0]->category_id);
+        $womencategories = CategoryService::getMainCategorys($topcategorys[1]->category_id);
+        // return $view->with()
     }
 }

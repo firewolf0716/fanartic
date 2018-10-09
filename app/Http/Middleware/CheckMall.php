@@ -33,11 +33,11 @@ class CheckMall
         if (Auth::guard('user')->check()) {
             $user = Auth::guard('user')->user();
             if (in_array($mall, $malls)) {
-                session(['cur_mall' => $user->mall]);
-                if ($user->mall !== null && $user->mall != $mall) {
+                if ($user->mall == null || $user->mall != $mall) {
                     $user->mall = $mall;
                     $user->save();
                 }
+                session(['cur_mall' => $user->mall]);
             }
         } elseif (in_array($mall, $malls)) {
             Session(['cur_mall' => $mall]);

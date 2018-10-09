@@ -33,7 +33,7 @@
                                     $i++;
                                 @endphp
                                 <li @if(strpos($path, $url) !== false) class="active" @endif>
-                                    <a href="/{{$url}}">{{$womencategory->category_name}}</a>
+                                    <a href="{{ url($url) }}">{{$womencategory->category_name}}</a>
                                 </li>
                             @endif
                         @endforeach
@@ -59,7 +59,7 @@
                                     $i++;
                                 @endphp
                                 <li @if(strpos($path, $url) !== false) class="active" @endif>
-                                    <a href="/{{$url}}">{{$mencategory->category_name}}</a>
+                                    <a href="{{ url($url) }}">{{$mencategory->category_name}}</a>
                                 </li>
                             @endif
                         @endforeach

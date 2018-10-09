@@ -7,6 +7,20 @@ use DB;
 
 class CategoryService
 {
+    public function getTopCagetory($topid){
+        $topcategorys = CategoryService::getTopCategorys();
+        $topcategory = null;
+        if ($topid == null) {
+            $topcategory = $topcategorys[0];
+        } else {
+            if ($topid == "men") {
+                $topcategory = Categorys::find(1);
+            } else if ($topid == "women") {
+                $topcategory = Categorys::find(2);
+            }
+        }
+    }
+    
     public static function getByName($name)
     {
         return Categorys::where('category_name_en', $name)->first();
