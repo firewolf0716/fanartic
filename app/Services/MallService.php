@@ -16,6 +16,6 @@ class MallService
 
     public static function get_mall_byname($name)
     {
-        return Malls::where('mall_name_en', $name)->get()->first();
+        return Malls::where('mall_name_en', $name)->first();
     }
 }

@@ -23,7 +23,7 @@
             <div class="header__button-search" data-header-search-button><i
                         class="c-icon header__button-search__icon"></i></div>
             <div class="header__sitename">
-                <a href="{{ route('mall', $mallname) }}">
+                <a href="{{ route('mall', ['mallname' => $mallname]) }}">
                     <img src="{{asset('images/logo.png')}}" alt="" width="150">
                 </a>
             </div>
@@ -105,7 +105,7 @@
                 </li>
                 <li><a href="{{ route('favorite') }}"><i class="c-icon
                 header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{ route('cart') }}/user/cart">
+                <li><a href="{{ route('cart') }}">
                         @if(!empty($cartTotal) && $cartTotal > 0)
                             <span class="c-badge"><span class="c-badge__num">{{ $cartTotal }}</span></span>
                         @endif

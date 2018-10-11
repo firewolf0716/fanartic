@@ -30,7 +30,6 @@ use App\Models\Customers;
 use App\Models\Brands;
 use App\Models\ProductSKU;
 use App\Models\ProductStock;
-use App\Models\Cart;
 use App\Models\Malls;
 use App\Models\MallBrands;
 use App\Models\States;
@@ -87,7 +86,8 @@ class MallController extends Controller
                 ->with('recentimages', $images)
                 ->with('listtype', "malls")
                 ->with('mallname', $mallname)
-                ->with('listtype', "mall_brands");
+                ->with('listtype', "mall_brands")
+                ->with('brands', $brands);
         } else
             return redirect(route('top'));
     }
@@ -173,7 +173,7 @@ class MallController extends Controller
             $customerid = Auth::id();
         }
 
-        $view = view('customer.products.product_list')->with('tcategory', $topcategory)
+        $view = view('customer.products.product_list')->with('topcategory', $topcategory)
             ->with('maincategorys', $maincategorys)
             ->with('mcategory', $mcategory)
             ->with('scategory', $scategory)

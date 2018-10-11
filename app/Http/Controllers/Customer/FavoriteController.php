@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Session;
 
-use App\Models\Cart;
 use App\Models\ProductSKU;
 use App\Services\CartService;
 use App\Models\Customers;

@@ -29,7 +29,6 @@ use App\Models\Customers;
 use App\Models\Brands;
 use App\Models\ProductSKU;
 use App\Models\ProductStock;
-use App\Models\Cart;
 use App\Models\Malls;
 use App\Models\MallBrands;
 use App\Models\States;
@@ -96,7 +95,9 @@ class CategoryController extends Controller
     public function product_list_mall($mallname, $topid = null, $mainid = null, $categoryid = null)
     {
         $mall = MallService::get_mall_byname($mallname);
-        $topcategory = CategoryService::getByName($topid);
+        if($topid == 'men') $topid = 1;
+        if($topid == 'women') $topid = 2;
+        $topcategory = Categorys::find($topid);
         $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
         $maincategory = CategoryService::getByName($mainid);
         $subcategory = CategoryService::getByName($categoryid);

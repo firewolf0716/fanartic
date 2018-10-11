@@ -10,7 +10,7 @@ class StockService
         return ProductStock::where('product_id', $product_id)
             ->where('product_sku_color_id', $sku_color)
             ->where('product_sku_size_id', $sku_size)
-            ->get();
+            ->first();
     }
     public static function get_product_sku_id($product_id) {
         return ProductStock::where('product_id', $product_id)->get();

@@ -81,9 +81,9 @@
                 @else
                     <a href="{{url('user/profile')}}"><i class="c-icon header__nav-secondary__icon--user"></i></a></li>
                 @endif
-                <li><a href="{{url('')}}/user/favourite"><i
+                <li><a href="{{url('/user/favourite')}}"><i
                                 class="c-icon header__nav-secondary__icon--favorite"></i></a></li>
-                <li><a href="{{url('')}}/user/cart">
+                <li><a href="{{url('/user/cart')}}">
                         @if(!empty($cartTotal) && $cartTotal > 0)
                             <span class="c-badge"><span class="c-badge__num">{{ $cartTotal }}</span></span>
                         @endif

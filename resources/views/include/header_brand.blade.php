@@ -23,7 +23,7 @@
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
                         <li><a href="#">{{ __('common.新規') }}</a></li>
-                        <li><a href="{{ route('mall',$mallname) }}">{{ __('header.ブランド') }}</a>
+                        <li><a href="{{ route('mall', ['mallname' => $mallname]) }}">{{ __('header.ブランド') }}</a>
 						</li>
                         @php $i=0; @endphp
                         @foreach($women_categories as $key => $womencategory)
@@ -33,7 +33,7 @@
                                     $i++;
                                 @endphp
                                 <li @if(strpos($path, $url) !== false) class="active" @endif>
-                                    <a href="/{{$url}}">{{$womencategory->category_name}}</a>
+                                    <a href="{{ url($url) }}">{{$womencategory->category_name}}</a>
                                 </li>
                             @endif
                         @endforeach
@@ -49,7 +49,7 @@
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
                         <li class="active"><a href="#">{{ __('common.新規') }}</a></li>
-                        <li><a href="{{ route('mall',$mallname) }}">{{ __('header.ブランド') }}</a></li>
+                        <li><a href="{{ route('mall', ['mallname' => $mallname]) }}">{{ __('header.ブランド') }}</a></li>
                         @php $i=0; @endphp
                         @foreach($men_categories as $key => $mencategory)
                             @if($i < 5)
@@ -59,7 +59,7 @@
                                     $i++;
                                 @endphp
                                 <li @if(strpos($path, $url) !== false) class="active" @endif>
-                                    <a href="/{{$url}}">{{$mencategory->category_name}}</a>
+                                    <a href="{{ url($url) }}">{{$mencategory->category_name}}</a>
                                 </li>
                             @endif
                         @endforeach

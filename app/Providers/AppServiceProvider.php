@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Providers;
-
-use App\Models\Cart;
 use App\Models\Currency;
 use App\Models\Customers;
 use App\Models\Malls;
@@ -28,7 +26,8 @@ class AppServiceProvider extends ServiceProvider
                 $authUser = Customers::find(Auth::guard('user')->id());
 
                 // カート商品
-                $cartTotal = Cart::getSum(Auth::guard('user')->id())['count'];
+                // $cartTotal = Cart::getSum(Auth::guard('user')->id())['count'];
+                $cartTotal = count(session('cart'));
 
                 // アクセス日時
                 // event(new AccessDetection($authUser));

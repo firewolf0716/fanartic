@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Redirect;
 
 use App\Models\Admins;
 
-use App\Services\AdminUserService;
-
 class AdminController extends Controller
 {
     public function dashboard() {
@@ -177,9 +175,9 @@ class AdminController extends Controller
 
     public function addadminpost() {
         $admin = new Admins();
-        $admin->admin_name = Input::get('admin_name');
-        $admin->admin_email = Input::get('admin_email');
-        $admin->admin_password = Input::get('admin_password');
+        $admin->name = Input::get('admin_name');
+        $admin->email = Input::get('admin_email');
+        $admin->password = Input::get('admin_password');
         $admin->admin_permission = 2;
         $admin->save();
 
@@ -198,9 +196,9 @@ class AdminController extends Controller
 
     public function editadminpost() {
         $admin = Admins::find(Input::get('admin_id'));
-        $admin->admin_name = Input::get('admin_name');
-        $admin->admin_email = Input::get('admin_email');
-        $admin->admin_password = Input::get('admin_password');
+        $admin->name = Input::get('admin_name');
+        $admin->email = Input::get('admin_email');
+        $admin->password = Input::get('admin_password');
         $admin->save();
 
         return Redirect::to('admin/admins/list');

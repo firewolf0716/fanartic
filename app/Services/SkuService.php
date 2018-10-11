@@ -12,7 +12,7 @@ use App\Models\ProductSKU;
 class SkuService
 {
     public static function get_color_with_name($color_name) {
-        return Colors::where('color_name', $color_name)->get()->first();
+        return Colors::where('color_name', $color_name)->first();
     }
     public static function remove_SKU($product_id, $type, $type_id)
     {

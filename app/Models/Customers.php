@@ -153,7 +153,7 @@ class Customers extends AppModel
             ->where('history_group', $group)
             ->leftJoin('customer_address', 'customer_buy_history.history_address', 'customer_address.id')
             ->leftJoin('customer_card', 'customer_buy_history.history_card', 'customer_card.id')
-            ->get()->first();
+            ->first();
     }
 
     public static function get_OrderNo($customerid, $group)
@@ -197,7 +197,7 @@ class Customers extends AppModel
 
     public static function get_fav($id)
     {
-        return DB::table('customer_favourite')->where('id', $id)->get()->first();
+        return DB::table('customer_favourite')->where('id', $id)->first();
     }
 
     public static function add_recent($customerid, $productid)
@@ -257,7 +257,7 @@ class Customers extends AppModel
 
     public static function update_score_sum($entry)
     {
-        $rec = DB::table('customer_scoresum')->where('customer_id', $entry['customer_id'])->where('brand_id', $entry['brand_id'])->get()->first();
+        $rec = DB::table('customer_scoresum')->where('customer_id', $entry['customer_id'])->where('brand_id', $entry['brand_id'])->first();
         if ($rec == null) {
             $sumscore = 0;
             if ($entry['score_type'] == 1) {//plus
@@ -347,7 +347,7 @@ class Customers extends AppModel
         );
         $product_id = Customers::add_entry('receipt_product', $product_entry);
         //save stock
-        $stock = StockService::get_for_product($entry['history_productid'], $entry['history_skucolorid'], $entry['history_skusizeid'])->first();
+        $stock = StockService::get_for_product($entry['history_productid'], $entry['history_skucolorid'], $entry['history_skusizeid']);
         $stock_entry = array(
             'product_id' => $stock->product_id,
             'product_count' => $stock->product_count,
@@ -391,7 +391,7 @@ class Customers extends AppModel
         );
         $address_id = Customers::add_entry("receipt_address", $address_entry);
         //save credit card
-        $card = DB::table('customer_card')->where('id', $entry['history_card'])->get()->first();
+        $card = DB::table('customer_card')->where('id', $entry['history_card'])->first();
         // dd($card);
         $card_entry = array();
         if ($entry['history_card'] == 'paypal') {
@@ -463,7 +463,7 @@ class Customers extends AppModel
     public static function receive_item($historyid)
     {
         DB::table('customer_buy_history')->where('id', $historyid)->update(['history_status' => 4]);
-        $receipt_id = DB::table('receipt_detail')->where('history_id', $historyid)->get()->first()->receipt_id;
+        $receipt_id = DB::table('receipt_detail')->where('history_id', $historyid)->first()->receipt_id;
         DB::table('receipts')->where('id', $receipt_id)->update(['status' => 4]);
     }
 
