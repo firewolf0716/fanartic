@@ -139,8 +139,9 @@ Route::group(['prefix' => '{mallname}', 'namespace' => 'Common'], function () {
     Route::get('brand/men', 'BrandController@brand_list_men');
     Route::get('brand/women', 'BrandController@brand_list_women');
 
-    Route::get('{brandid}', 'MallController@mall_product_list')->name('brand');
-    Route::get('{brandid}/{topid}', 'MallController@mall_product_list');
-    Route::get('{brandid}/{topid}/{mainid}', 'MallController@mall_product_list');
-    Route::get('{brandid}/{topid}/{mainid}/{categoryid}', 'MallController@mall_product_list');
+    Route::get('{brandid}', 'MallController@brand_top')->name('brand.top');
+    Route::get('{brandid}/item', 'MallController@mall_product_list')->name('brand.item');
+    Route::get('{brandid}/item/{topid}', 'MallController@mall_product_list');
+    Route::get('{brandid}/item/{topid}/{mainid}', 'MallController@mall_product_list');
+    Route::get('{brandid}/item/{topid}/{mainid}/{categoryid}', 'MallController@mall_product_list');
 });
