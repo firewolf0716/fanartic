@@ -45,6 +45,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税') }}(%)<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="country_duty " name="country_duty" required="required" class="form-control col-md-7 col-xs-12" value="{{ $country_duty->country_duty }}" placeholder="">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.登録日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <input type="text" id="created_at" name="created_at" class="form-control col-md-7 col-xs-12" readonly value="{{$country_duty->created_at}}">

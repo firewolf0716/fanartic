@@ -133,6 +133,12 @@
                        </select>
                    </div>
                </div>
+               <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税') }}(%)<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="country_duty " name="country_duty" required="required" class="form-control col-md-7 col-xs-12" value="" placeholder="">
+                    </div>
+                </div>
 
                <div class="form-group">
                    <div class="col-md-4 col-sm-6 col-xs-12">
@@ -168,7 +174,7 @@
                                 <tr>
                                     <td>{{$country_duty->id}}</td>
                                     <td style="text-align:center">{{$countries[$country_duty->country]}}</td>
-                                    <td style="text-align:center">{{$country_duty->duty->num}}</td>
+                                    <td style="text-align:center">{{$country_duty->country_duty}}</td>
                                     <td style="text-align:center">{{$country_duty->duty->name}}</td>
                                     <td style="text-align:center">
                                         <a href="{{ url('admin/duty/countryedit/'.$country_duty->id) }}"><span
