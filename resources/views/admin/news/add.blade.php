@@ -3,71 +3,71 @@
 @section('title', 'Dashboard|fanaRtic')
 
 @section('content')
-<link href="{{ url('')}}/gvendor/select2/dist/css/select2.min.css" rel="stylesheet">
 
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>{{ __('admin.国別関税編集') }}</h3>
+            <h3>ニュースの追加</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'admin/duty/countryeditpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-        {{ Form::hidden('id', $country_duty->id)}}
+        {!! Form::open(array('id' => 'form_add','url'=>'admin/news/addpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
         <div class="x_panel">
             <div class="x_title">
-                <h4>{{ __('admin.国別関税編集') }}</h4>
+                <h4>を追加</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税グループ') }}<span
-                                class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select type="text" id="duty_id" name="duty_id" required="required" class="form-control col-md-7 col-xs-12">
-                            @foreach($duties as $duty)
-                            <option value="{{$duty->id}}" @if($country_duty->duty->id == $duty->id) selected
-                                    @endif>{{$duty->name}}（{{$duty->num}}%）</option>
-                            @endforeach
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12"> 
+                        <select id="brand_id" name="brand_id" class="form-control" required>
+                            <option value="">--ブランドを選択--</option>
+                        @foreach( $brands as $brand)
+                            <option value="{{$brand->brand_id}}">{{$brand->brand_name}}</option>
+                        @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.国名前') }}<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">日付<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12">
-                            @foreach($countries as $code => $country)
-                            <option value="{{$code}}" @if($country_duty->country == $code) selected
-                                    @endif>{{$country}}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" id="date" name="date" required="required" class="form-control col-md-7 col-xs-12" placeholder="xxxx-xx-xx">
+                    </div>
+                </div>
+                <div id="div_images">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
+                        <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
+                            <input type="file" name="figure" class="form-control" required>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税') }}(%)<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">説明<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="country_duty " name="country_duty" required="required" class="form-control col-md-7 col-xs-12" value="{{ $country_duty->country_duty }}" placeholder="">
+                        <textarea class="form-control" id="news" name="news" cols="50" rows="10" style="margin: 0px 21px 0px 0px; height: 150px;" required></textarea>
+                    </div>
+                </div>                
+                <div class="form-group">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="hidden" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.登録日時') }}</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="created_at" name="created_at" class="form-control col-md-7 col-xs-12" readonly value="{{$country_duty->created_at}}">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.変更日時') }}</label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="updated_at" name="updated_at" class="form-control col-md-7 col-xs-12" readonly value="{{$country_duty->updated_at}}">
+                        <input type="hidden" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly>
                     </div>
                 </div>
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('更新する') }}</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">追加する</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
+                
             </div>
         </div>
         {{ Form::close() }}
@@ -103,6 +103,8 @@
     <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
+
+
     <script src="{{ URL::asset('gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
@@ -123,15 +125,22 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
 
-<script type="text/javascript">
-    $("select").select2();
+    <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        });
 
-    $('#btnReset').click(function() {
-        document.getElementById("form_add").reset();
-    });
+        $('#btnReset').click(function() {
+            document.getElementById("form_add").reset();
+            $('#create_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+            $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
+        });
 
-    $('#btnSubmit').click(function() {
-        $('#form_add').parsley();
-    });
-</script>
+        $('#btnSubmit').click(function() {
+            $('#form_add').parsley();
+        });
+        
+    </script>
 @endsection

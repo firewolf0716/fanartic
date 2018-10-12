@@ -84,6 +84,18 @@
                                         <ul class="nav child_menu">
                                             <li class="sub_menu"><a href="{{url('admin/brand/add')}}">{{ __('auth.新規登録') }}</a></li>
                                             <li><a href="{{url('admin/brand/list')}}">{{ __('common.ブランド一覧') }}</a></li>
+                                            <li><a>ブランド歴史<span class="fa fa-chevron-down"></span></a>
+                                                <ul class="nav child_menu">
+                                                    <li class="sub_menu"><a href="{{url('admin/history/add')}}">新規登録</a></li>
+                                                    <li><a href="{{url('admin/history/list')}}">一覧</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a>ブランドニュース<span class="fa fa-chevron-down"></span></a>
+                                                <ul class="nav child_menu">
+                                                    <li class="sub_menu"><a href="{{url('admin/news/add')}}">新規登録</a></li>
+                                                    <li><a href="{{url('admin/news/list')}}">一覧</a></li>
+                                                </ul>
+                                            </li>
                                         </ul>
                                     </li>
                                     <li><a>{{ __('admin.カテゴリ') }}<span class="fa fa-chevron-down"></span></a>
@@ -156,7 +168,7 @@
                             <li><a><i class="fa fa-gears"></i> 在庫連携 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     @foreach(Config::get('zaiko') as $key => $value)
-                                        <li class="sub_menu"><a href="/admin/{{ $key }}">{{ $value }}</a></li>
+                                        <li class="sub_menu"><a href={{ url('admin/'.$key) }}>{{ $value }}</a></li>
                                     @endforeach
                                 </ul>
                             </li>

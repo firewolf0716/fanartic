@@ -21,19 +21,11 @@ use App\Services\MatchService;
 class MerchantController extends Controller
 {
     public function manage() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchants_live = Merchants::get();
         return view("admin.merchant.merchants")->with('merchants_live', $merchants_live);
     }
 
     public function open($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $ml = Merchants::find($id);
         $ml->merchant_status = 1;
         $ml->save();
@@ -41,10 +33,6 @@ class MerchantController extends Controller
     }
 
     public function close($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $ml = Merchants::find($id);
         $ml->merchant_status = '0';
         $ml->save();
@@ -52,10 +40,6 @@ class MerchantController extends Controller
     }
 
     public function detail_live($id) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchant = Merchants::find($id);
         $plans = Plans::get();
         $states = States::get();
@@ -70,10 +54,6 @@ class MerchantController extends Controller
     }
 
     public function add() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $plans = Plans::get();
         $states = States::get();
         $brands = Brands::get();
@@ -81,10 +61,6 @@ class MerchantController extends Controller
     }
 
     public function add_post() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $merchant = new Merchants();
         $merchant->merchant_type = Input::get('merchant_type');
         $merchant->merchant_plan = Input::get('merchant_plan');
@@ -134,19 +110,11 @@ class MerchantController extends Controller
     }
 
     public function get_plan($planId) {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $plan = Plans::find($planId);
         return $plan;
     }
 
     public function edit_post() {
-        if ($this->check_admin_session() == false) {
-            return Redirect::to('admin/login');
-        }
-
         $id = Input::get('merchant_id');
         /** @var Merchants $merchant */
         $merchant = Merchants::find($id);

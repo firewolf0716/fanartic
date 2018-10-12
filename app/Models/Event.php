@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use DB;
 
-class Events extends AppModel
+class Event extends AppModel
 {
     protected $guarded = array('id');
     protected $table = 'master_event';

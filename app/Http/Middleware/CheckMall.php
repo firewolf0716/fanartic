@@ -29,7 +29,11 @@ class CheckMall
     {
         $mall = explode("/", $request->path())[0];
         $malls = MallService::getAll();
-        $default_mall = Malls::where('is_default', 1)->first()->mall_name_en;
+        $default_mall = Malls::where('is_default', 1)->first();
+        $default_mall_name = '';
+        if($default_mall != null){ // if there is no mall
+            $default_mall_name = $default_mall->mall_name_en;
+        }
         if (Auth::guard('user')->check()) {
             $user = Auth::guard('user')->user();
             if (in_array($mall, $malls)) {
@@ -44,7 +48,7 @@ class CheckMall
         } elseif (Session::has('cur_mall') && in_array(Session::get('cur_mall'), $malls)) {
             Session(['cur_mall' => Session::get('cur_mall')]);
         } else {
-            Session(['cur_mall' => $default_mall]);
+            Session(['cur_mall' => $default_mall_name]);
         }
 
         $mallname = Session::get('cur_mall');

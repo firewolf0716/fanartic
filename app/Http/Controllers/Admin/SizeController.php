@@ -45,7 +45,7 @@ class SizeController extends Controller
     }
 
     public function add() {
-        $categorys = Sizes::get();
+        $categorys = SizeCategory::all();
         return view('admin.size.add')->with('categorys', $categorys);
     }
 

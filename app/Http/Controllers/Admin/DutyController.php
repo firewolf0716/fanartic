@@ -17,6 +17,7 @@ class DutyController extends Controller
 {
     public function addpost()
     {
+        // dd(Input::all());
         if (Input::get('type') != 'country') {
             $duties = new Duty();
             $duties->name = Input::get('duty_name');
@@ -26,6 +27,7 @@ class DutyController extends Controller
             $duties = new DutyCountry();
             $duties->country = Input::get('country');
             $duties->duty_id = Input::get('duty_id');
+            $duties->country_duty = Input::get('country_duty');
             $duties->save();
         }
         return Redirect::to('admin/duty/list');
@@ -79,6 +81,7 @@ class DutyController extends Controller
         $countryduty = DutyCountry::find($countryduty_id);;
         $countryduty->duty_id = Input::get('duty_id');
         $countryduty->country = Input::get('country');
+        $countryduty->country_duty = Input::get('country_duty');
         $countryduty->save();
 
         return Redirect::to('admin/duty/list');

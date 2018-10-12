@@ -3,69 +3,86 @@
 @section('title', 'Dashboard|fanaRtic')
 
 @section('content')
-<link href="{{ url('')}}/gvendor/select2/dist/css/select2.min.css" rel="stylesheet">
 
 <div class="">
     <div class="page-title">
         <div class="title_left" style="margin-Bottom:20px">
-            <h3>{{ __('admin.国別関税編集') }}</h3>
+            <h3>ブランドを編集する</h3>
         </div>
     </div>
     <div class="clearfix"></div>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        {!! Form::open(array('id' => 'form_add','url'=>'admin/duty/countryeditpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
-        {{ Form::hidden('id', $country_duty->id)}}
+        {!! Form::open(array('id' => 'form_add','url'=>'admin/designer/editpost','class'=>'form-horizontal','enctype'=>'multipart/form-data', 'accept-charset' => 'UTF-8', 'novalidate')) !!}
+        {{ Form::hidden('id', $designer->designer_id)}} 
+        {{ Form::hidden('brand_id', $designer->brand_id)}}
         <div class="x_panel">
             <div class="x_title">
-                <h4>{{ __('admin.国別関税編集') }}</h4>
+                <h4>ブランドを編集する</h4>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
+
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税グループ') }}<span
-                                class="required">*</span></label>
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select type="text" id="duty_id" name="duty_id" required="required" class="form-control col-md-7 col-xs-12">
-                            @foreach($duties as $duty)
-                            <option value="{{$duty->id}}" @if($country_duty->duty->id == $duty->id) selected
-                                    @endif>{{$duty->name}}（{{$duty->num}}%）</option>
-                            @endforeach
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">ブランド<span class="required">*</span></label>
+                    <div class="col-md-4 col-sm-6 col-xs-12"> 
+                        <select id="brand_id" name="brand_id" class="form-control" disabled>
+                        @foreach( $brands as $brand)
+                            <option value="{{$brand->brand_id}}"
+                            @if( $brand->brand_id == $designer->b_id)
+                                selected
+                            @endif
+                            >{{$brand->brand_name}}</option>
+                        @endforeach
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.国名前') }}<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">デザイナー<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <select type="text" id="country" name="country" required="required" class="form-control col-md-7 col-xs-12">
-                            @foreach($countries as $code => $country)
-                            <option value="{{$code}}" @if($country_duty->country == $code) selected
-                                    @endif>{{$country}}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" id="designer" name="designer" required="required" class="form-control col-md-7 col-xs-12" value="{{$designer->designer}}" placeholder="デザイナー名">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('関税') }}(%)<span class="required">*</span></label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">期間<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="country_duty " name="country_duty" required="required" class="form-control col-md-7 col-xs-12" value="{{ $country_duty->country_duty }}" placeholder="">
+                        <input type="text" id="period" name="period" required="required" class="form-control col-md-7 col-xs-12" value="{{$designer->period}}" placeholder="期間">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.登録日時') }}</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">出身地<span class="required">*</span></label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="created_at" name="created_at" class="form-control col-md-7 col-xs-12" readonly value="{{$country_duty->created_at}}">
+                        <input type="text" id="birthplace" name="birthplace" required="required" class="form-control col-md-7 col-xs-12" value="{{$designer->birthplace}}" placeholder="出身地">
+                    </div>
+                </div>
+                <div id="div_images">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
+                        <div class="radio col-md-3 col-sm-6 col-xs-12" id="div-product-image">
+                            <img style="height:70px; width:70px;" src="{{url('/images/designer/'.$designer->figure)}}" id="designer_image2">
+                            <button class="btn-small" type="button" id="remove_designer_image" onClick="onRemoveImg()">Remove</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">登録日時</label>
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <input type="text" id="create_date" name="create_date" class="form-control col-md-7 col-xs-12" readonly value="{{$designer->created_at}}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">{{ __('admin.変更日時') }}</label>
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12">変更日時</label>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <input type="text" id="updated_at" name="updated_at" class="form-control col-md-7 col-xs-12" readonly value="{{$country_duty->updated_at}}">
+                        <input type="text" id="update_date" name="update_date" class="form-control col-md-7 col-xs-12" readonly value="{{$designer->updated_at}}">
                     </div>
                 </div>
+
                 <div class="ln_solid"></div>
                 <div class="form-group">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <button id="btnSubmit" type="submit" class="btn btn-warning">{{ __('更新する') }}</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-warning">ブランドを編集する</button>
+                        <button id="btnReset" type="button" class="btn btn-primary">リセット</button>
                     </div>
                 </div>
             </div>
@@ -103,6 +120,8 @@
     <script src="{{ URL::asset('gvendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
+
+
     <script src="{{ URL::asset('gvendor/validator/validator.js') }}"></script>
     <!-- Parsley -->
     <script src="{{ URL::asset('gvendor/parsleyjs/dist/parsley.min.js') }}"></script>
@@ -122,16 +141,26 @@
     <script src="{{ URL::asset('gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
-
+    <script src="{{ url('') }}/js/multi_select_dropdown.js"></script>
+    
 <script type="text/javascript">
-    $("select").select2();
-
     $('#btnReset').click(function() {
         document.getElementById("form_add").reset();
-    });
+        $('#create_date').val('{{$brand->created_at}}');
+        $('#update_date').val('{{$brand->updated_at}}');
 
+        $cstr = '<img style="height:70px; width:70px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}" id="brand_image2">';
+        $cstr += '<button class="btn-small" type="button" id="remove_brand_image" onClick="onRemoveImg()">Remove</button>';
+        $('#div-product-image').html($cstr);
+    });
+    
     $('#btnSubmit').click(function() {
+        $('#update_date').val(moment().format('YYYY/MM/DD hh:mm:ss'));
         $('#form_add').parsley();
     });
+
+    function onRemoveImg() {
+        $('#div-product-image').html('<input type="file" name="figure" class="form-control" required>');
+    }
 </script>
 @endsection
