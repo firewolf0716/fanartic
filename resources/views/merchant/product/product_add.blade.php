@@ -234,14 +234,14 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12">画像<span class="required">*</span></label>
                                 
-                                <!-- <div class="col-md-3 col-sm-6 col-xs-12" id="div-product-image">
+                                <div class="col-md-3 col-sm-6 col-xs-12" id="div-product-image">
                                     <input type="file" name="product_img_1" class="form-control" required>
                                 </div>
                                 <div class="col-md-2 col-sm-6 col-xs-12">
                                     <button class="btn" type="button" id="btnProductImage">Add</button>
-                                </div> -->
+                                </div>
 
-                                <div class="col-md-3 col-sm-6 col-xs-12 row">
+                                <!-- <div class="col-md-3 col-sm-6 col-xs-12 row">
                                     <div class="input-group">
                                         <input id="thumbnail" class="form-control" type="text" name="filepath">
                                         <span class="input-group-btn">
@@ -249,7 +249,7 @@
                                             <i class="fa fa-picture-o"></i>Choose</a>
                                         </span>
                                     </div>
-                                </div>
+                                </div> -->
                                 
                                 <div class="col-md-2 col-sm-6 col-xs-12">
                                     <!-- <button class="btn" type="button" id="btnProductImage">Add</button> -->

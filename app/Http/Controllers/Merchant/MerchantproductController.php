@@ -295,7 +295,7 @@ class MerchantproductController extends Controller
         if (Input::get('stock_type') == 1) {
             return Redirect::to('merchant/product/manage')->with('product_status', 1);
         } else {
-            return $this->merchant_product_edit_sku($productid);
+            return Redirect::to('merchant/product/edit_sku/'.$productid);
         }
     }
 
@@ -561,7 +561,7 @@ class MerchantproductController extends Controller
         if (Input::get('stock_type') == 1) {
             return Redirect::to('merchant/product/manage')->with('product_status', 1);
         } else {
-            return $this->merchant_product_edit_sku($productid);
+            return Redirect::to('merchant/product/edit_sku/'.$productid);
         }
     }
 
@@ -606,6 +606,7 @@ class MerchantproductController extends Controller
             }
 
             $result[] = [
+                'product_id' => $product->product_id,
                 'product_code' => $product->product_code,
                 'product_name' => $product->product_name,
                 'product_price' => (count($stocks) > 0 ? $stocks[0]->product_price_sale : ''),
