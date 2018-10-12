@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 
-use App\Models\Events;
+use App\Models\Event;
 
 class EventController extends Controller
 {
@@ -26,22 +26,22 @@ class EventController extends Controller
     }
 
     public function list() {
-        $events = Events::get();
+        $events = Event::all();
         return view('admin.event.list')->with('events', $events);
     }
 
     public function edit($id) {
-        $event = Events::find($id);
+        $event = Event::find($id);
         return view('admin.event.edit')->with('event', $event);
     }
 
     public function delete($id) {
-        Events::find($id)->delete();
+        Event::find($id)->delete();
         return Redirect::to('admin/event/list');
     }
     public function editpost() {
         $id = Input::get('event_id');
-        $event = Events::find($id);
+        $event = Event::find($id);
         $event->event_title = Input::get('event_title');
         $event->event_title_en = Input::get('event_title_en');
         $event->event_condition = Input::get('event_condition');

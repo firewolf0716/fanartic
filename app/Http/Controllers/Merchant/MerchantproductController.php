@@ -16,7 +16,7 @@ use App\Models\Sizes;
 use App\Services\SizeService;
 use App\Models\SizeCategory;
 use App\Models\Colors;
-use App\Models\Events;
+use App\Models\Event;
 use App\Models\Merchants;
 use App\Models\MerchantBrands;
 use App\Models\ProductStates;
@@ -62,7 +62,7 @@ class MerchantproductController extends Controller
             $brands = Brands::get();
         }
         $sizeCategorys = SizeCategory::get();
-        $events = Events::get();
+        $events = Event::get();
         $colors = Colors::get();
         $productstates = ProductStates::get();
         $topCategorys = CategoryService::getTopCategorys();
