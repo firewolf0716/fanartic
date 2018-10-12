@@ -37,6 +37,8 @@ class CartService
 
     public static function cartParams(){
         $cartitems = session('cart');
+        if($cartitems == null)
+            $cartitems = array();
         
         // $cartitems = Cart::getItems(Auth::id());
         $images = array();
@@ -55,7 +57,7 @@ class CartService
             $colorname[$i] = $color_obj->color_name;
 
             $sku_size = ProductSKU::find($item['size']);
-            $size_obj = Sizes::find($sku_color->sku_type_id);
+            $size_obj = Sizes::find($sku_size->sku_type_id);
             $sizename[$i] = $size_obj->size_name;
 
             $image = Products::get_cart_image($item['product'], $color_obj->color_id)->image_name;

@@ -72,7 +72,7 @@
                                     <ul class="product-list__nav__category__sub">
                                         @foreach($maincategory->subs as $subcategory)
                                             <li>
-                                                <a href="{{$url.'/'.$subcategory->category_name_en}}">{{$subcategory->category_name}}</a>
+                                                <a href="{{ url($url.'/'.$subcategory->category_name_en) }}">{{ $subcategory->category_name }}</a>
                                             </li>
                                         @endforeach
                                     </ul>

@@ -272,7 +272,6 @@
                             status = "無効";
                         }
                         var product_id = item.product_id;
-                        alert(product_id);
 
                         var image = '';
                         if (item.product_images != '') {
