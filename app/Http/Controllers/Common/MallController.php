@@ -207,4 +207,22 @@ class MallController extends Controller
         return $view->with('recent', $recent)->with('recentimages', $images);
     }
 
+    public function brand_top($mallname, $brandname)  //  firewolf
+    {
+        $brand = BrandService::get_brand_byname($brandname);
+        if (!$brand) return redirect(route($mallname));
+        $histories   = $brand->histories; 
+        $designers   = $brand->designers; 
+        $newses      = $brand->newses;
+        
+        $view = view('customer.brand_top')
+            ->with('brand', $brand)
+            ->with('brand_id', $brand->brand_id)
+            ->with('main_figure', $brand->figure)
+            ->with('main_text', $brand->overview)
+            ->with('histories', $histories)
+            ->with('designers', $designers)
+            ->with('newses', $newses);
+        return $this->set_recent($view);
+    }
 }

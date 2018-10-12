@@ -60,7 +60,7 @@
                                     @endif
                                 </td>
                                 <td style="text-align:center">
-                                    <img style="height:20px;" src="{{url("")}}/images/brands/{{$brand->brand_image}}">
+                                    <img style="height:20px;" src="{{url("")}}/images/brands/{{$brand->figure}}">
                                 </td>
                                 <td style="text-align:center">
                                     <a href="{{ url('admin/brand/edit/'.$brand->brand_id) }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>

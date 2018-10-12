@@ -96,16 +96,16 @@
                                             <td style="text-align:center">{{$production_sku_info->color_name}}</td>
                                             <td style="text-align:center">{{$production_sku_info->size_name}}</td>
                                             <td style="text-align:center">
-                                                <input style="text-align:right" type="text" id="product_place" name="product_count_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_count}}">
+                                                <input style="text-align:right" type="number" id="product_place" name="product_count_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_count}}">
                                                 @if ($production_sku_info->product_count_endless == 1)
                                                     <label><input type="checkbox" value="1" name="product_count_endless_{{$production_sku_info->product_stock_id}}" checked>無限</label>
                                                 @else
                                                     <label><input type="checkbox" value="1" name="product_count_endless_{{$production_sku_info->product_stock_id}}">無限</label>
                                                 @endif
                                             </td>
-                                            <td style="text-align:center"><input style="text-align:right" type="text" id="product_place" name="product_price_sale_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_price_sale}}"></td>
-                                            <td style="text-align:center"><input style="text-align:right" type="text" id="product_place" name="product_price_ref_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_price_ref}}"></td>
-                                            <td style="text-align:center"><input style="text-align:right" type="text" id="product_place" name="product_price_law_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_price_law}}"></td>
+                                            <td style="text-align:center"><input style="text-align:right" type="number" id="product_place" name="product_price_sale_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_price_sale}}"></td>
+                                            <td style="text-align:center"><input style="text-align:right" type="number" id="product_place" name="product_price_ref_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_price_ref}}"></td>
+                                            <td style="text-align:center"><input style="text-align:right" type="number" id="product_place" name="product_price_law_{{$production_sku_info->product_stock_id}}" value="{{$production_sku_info->product_price_law}}"></td>
                                             <td hidden>identify"{{$production_sku_info->product_stock_id}}"</td>
                                         </tr>
                                     @endforeach

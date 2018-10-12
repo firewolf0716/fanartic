@@ -105,7 +105,9 @@ class CategoryController extends Controller
         $sizes = null;
         if ($mainid != null) {
             $sizecategory_id = $maincategory->category_size_id;
-            $sizes = SizeCategory::find($sizecategory_id)->sizes;
+            $sizecategory = SizeCategory::find($sizecategory_id);
+            if(isset($sizecategory))
+                $sizes = $sizecategory->sizes;
         }
         $scategory = null;
         if ($categoryid != null) {
@@ -141,6 +143,7 @@ class CategoryController extends Controller
         }
         $products = ProductService::get_product_filter_mall($mall->mall_id, null, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
 
+        $prices = array(); $images = array();
         foreach ($products as $product) {
             $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;

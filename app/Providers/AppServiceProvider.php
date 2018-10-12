@@ -27,8 +27,10 @@ class AppServiceProvider extends ServiceProvider
 
                 // カート商品
                 // $cartTotal = Cart::getSum(Auth::guard('user')->id())['count'];
-                $cartTotal = count(session('cart'));
-
+                $cart = session('cart');
+                if($cart != null){
+                    $cartTotal = count(session('cart'));
+                }
                 // アクセス日時
                 // event(new AccessDetection($authUser));
 

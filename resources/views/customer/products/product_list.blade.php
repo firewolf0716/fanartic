@@ -62,17 +62,17 @@
                                             } else if($listtype == 'mall_brands'){
                                                 $url = '/'.$mallname.'/'.$top_id.'/'.$maincategory->category_name_en;
                                             } else if($listtype == 'mall_brand_products'){
-                                                $url = '/'.$mallname.'/'.$brandname.'/men/'.$maincategory->category_name_en;
+                                                $url = '/'.$mallname.'/'.$brandname.'/item/men/'.$maincategory->category_name_en;
                                             } else if($listtype == 'brand_products'){
                                                 $url = '/brands/'.$brandid.'/men/'.$maincategory->category_name_en;
                                             }
                                         }
                                     @endphp
-                                    <a href="{{$url}}">{{$maincategory->category_name}}</a>
+                                    <a href="{{ url($url) }}"> {{ $maincategory->category_name}}</a>
                                     <ul class="product-list__nav__category__sub">
                                         @foreach($maincategory->subs as $subcategory)
                                             <li>
-                                                <a href="{{$url.'/'.$subcategory->category_name_en}}">{{$subcategory->category_name}}</a>
+                                                <a href="{{ url($url.'/'.$subcategory->category_name_en) }}">{{ $subcategory->category_name }}</a>
                                             </li>
                                         @endforeach
                                     </ul>
