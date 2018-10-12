@@ -168,7 +168,7 @@
                             <li><a><i class="fa fa-gears"></i> 在庫連携 <span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu">
                                     @foreach(Config::get('zaiko') as $key => $value)
-                                        <li class="sub_menu"><a href="/admin/{{ $key }}">{{ $value }}</a></li>
+                                        <li class="sub_menu"><a href={{ url('admin/'.$key) }}>{{ $value }}</a></li>
                                     @endforeach
                                 </ul>
                             </li>
