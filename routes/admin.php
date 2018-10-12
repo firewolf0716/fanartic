@@ -161,4 +161,25 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:
 	Route::get('duty/delete/{id}','DutyController@delete');
 	Route::get('duty/countrydelete/{id}','DutyController@countrydelete');
 
+	//Brand History
+	Route::get('history/add','HistoryController@add');
+	Route::post('history/addpost','HistoryController@addpost');
+	Route::get('history/list','HistoryController@list');
+	Route::get('history/edit/{id}','HistoryController@edit');
+	Route::post('history/editpost','HistoryController@editpost');
+	Route::get('history/delete/{id}','HistoryController@delete');	
+	// News
+	Route::get('news/add','NewsController@add');
+	Route::post('news/addpost','NewsController@addpost');
+	Route::get('news/list','NewsController@list');
+	Route::get('news/edit/{id}','NewsController@edit');
+	Route::post('news/editpost','NewsController@editpost');
+	Route::get('news/delete/{id}','NewsController@delete');
+	// Designer
+	Route::get('designer/add','DesignerController@add');
+	Route::post('designer/addpost','DesignerController@addpost');
+	Route::get('designer/list', 'DesignerController@list');
+	Route::get('designer/edit/{id}','DesignerController@edit');
+	Route::post('designer/editpost','DesignerController@editpost');
+	Route::get('designer/delete/{id}','DesignerController@delete');
 });
