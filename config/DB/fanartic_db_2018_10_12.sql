@@ -11,38 +11,11 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 12/10/2018 23:38:25
+ Date: 13/10/2018 03:49:13
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for brand_history
--- ----------------------------
-DROP TABLE IF EXISTS `brand_history`;
-CREATE TABLE `brand_history`  (
-  `bh_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `b_id` int(10) UNSIGNED NOT NULL,
-  `year` int(5) NULL DEFAULT NULL,
-  `figure` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `head` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `description` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
-  PRIMARY KEY (`bh_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Table structure for brand_news
--- ----------------------------
-DROP TABLE IF EXISTS `brand_news`;
-CREATE TABLE `brand_news`  (
-  `bn_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `b_id` int(10) NULL DEFAULT NULL,
-  `figure` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
-  `date` date NULL DEFAULT NULL,
-  `news` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
-  PRIMARY KEY (`bn_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for country_duties
@@ -304,219 +277,13 @@ CREATE TABLE `customer_recent_product`  (
   `recent_date` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 279 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 281 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of customer_recent_product
 -- ----------------------------
-INSERT INTO `customer_recent_product` VALUES (71, 16, 158, '2018/07/31 02:21:40', NULL);
-INSERT INTO `customer_recent_product` VALUES (72, 16, 172, '2018/07/31 02:21:48', NULL);
-INSERT INTO `customer_recent_product` VALUES (73, 16, 158, '2018/08/03 21:52:26', NULL);
-INSERT INTO `customer_recent_product` VALUES (74, 16, 158, '2018/08/03 22:15:52', NULL);
-INSERT INTO `customer_recent_product` VALUES (75, 16, 158, '2018/08/03 22:20:18', NULL);
-INSERT INTO `customer_recent_product` VALUES (76, 16, 159, '2018/08/03 22:20:25', NULL);
-INSERT INTO `customer_recent_product` VALUES (77, 16, 172, '2018/08/03 22:20:28', NULL);
-INSERT INTO `customer_recent_product` VALUES (78, 16, 173, '2018/08/03 22:20:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (79, 16, 157, '2018/08/03 22:21:01', NULL);
-INSERT INTO `customer_recent_product` VALUES (80, 16, 174, '2018/08/03 22:21:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (81, 16, 167, '2018/08/03 22:21:13', NULL);
-INSERT INTO `customer_recent_product` VALUES (82, 16, 170, '2018/08/03 22:21:26', NULL);
-INSERT INTO `customer_recent_product` VALUES (83, 16, 176, '2018/08/03 22:22:31', NULL);
-INSERT INTO `customer_recent_product` VALUES (84, 16, 158, '2018/08/03 22:23:52', NULL);
-INSERT INTO `customer_recent_product` VALUES (85, 16, 158, '2018/08/04 00:08:09', NULL);
-INSERT INTO `customer_recent_product` VALUES (86, 16, 164, '2018/08/04 00:08:22', NULL);
-INSERT INTO `customer_recent_product` VALUES (87, 16, 172, '2018/08/04 00:23:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (88, 16, 158, '2018/08/10 10:41:40', NULL);
-INSERT INTO `customer_recent_product` VALUES (89, 16, 159, '2018/08/10 12:49:26', NULL);
-INSERT INTO `customer_recent_product` VALUES (90, 21, 158, '2018/08/14 15:30:21', NULL);
-INSERT INTO `customer_recent_product` VALUES (91, 21, 158, '2018/08/14 15:30:54', NULL);
-INSERT INTO `customer_recent_product` VALUES (92, 21, 158, '2018/08/14 15:31:50', NULL);
-INSERT INTO `customer_recent_product` VALUES (93, 21, 159, '2018/08/14 15:34:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (94, 21, 164, '2018/08/20 17:00:04', NULL);
-INSERT INTO `customer_recent_product` VALUES (95, 21, 164, '2018/08/20 17:00:13', NULL);
-INSERT INTO `customer_recent_product` VALUES (96, 21, 158, '2018/08/20 17:01:56', NULL);
-INSERT INTO `customer_recent_product` VALUES (97, 21, 159, '2018/09/13 13:00:23', NULL);
-INSERT INTO `customer_recent_product` VALUES (98, 21, 159, '2018/09/13 13:08:13', NULL);
-INSERT INTO `customer_recent_product` VALUES (99, 21, 159, '2018/09/13 13:08:15', NULL);
-INSERT INTO `customer_recent_product` VALUES (100, 21, 158, '2018/09/13 17:18:42', NULL);
-INSERT INTO `customer_recent_product` VALUES (101, 21, 158, '2018/09/13 17:53:11', NULL);
-INSERT INTO `customer_recent_product` VALUES (102, 21, 158, '2018/09/13 18:08:47', NULL);
-INSERT INTO `customer_recent_product` VALUES (103, 21, 159, '2018/09/13 23:22:16', NULL);
-INSERT INTO `customer_recent_product` VALUES (104, 21, 159, '2018/09/13 23:22:21', NULL);
-INSERT INTO `customer_recent_product` VALUES (105, 21, 159, '2018/09/13 23:22:27', NULL);
-INSERT INTO `customer_recent_product` VALUES (106, 21, 159, '2018/09/13 23:23:37', NULL);
-INSERT INTO `customer_recent_product` VALUES (107, 21, 159, '2018/09/13 23:23:57', NULL);
-INSERT INTO `customer_recent_product` VALUES (108, 21, 159, '2018/09/13 23:24:07', NULL);
-INSERT INTO `customer_recent_product` VALUES (109, 21, 159, '2018/09/13 23:24:22', NULL);
-INSERT INTO `customer_recent_product` VALUES (110, 21, 159, '2018/09/13 23:24:43', NULL);
-INSERT INTO `customer_recent_product` VALUES (111, 21, 159, '2018/09/13 23:25:03', NULL);
-INSERT INTO `customer_recent_product` VALUES (112, 21, 159, '2018/09/13 23:26:04', NULL);
-INSERT INTO `customer_recent_product` VALUES (113, 21, 159, '2018/09/13 23:26:21', NULL);
-INSERT INTO `customer_recent_product` VALUES (114, 21, 159, '2018/09/13 23:26:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (115, 21, 159, '2018/09/13 23:26:57', NULL);
-INSERT INTO `customer_recent_product` VALUES (116, 21, 159, '2018/09/13 23:27:24', NULL);
-INSERT INTO `customer_recent_product` VALUES (117, 21, 159, '2018/09/13 23:27:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (118, 21, 159, '2018/09/13 23:27:42', NULL);
-INSERT INTO `customer_recent_product` VALUES (119, 21, 159, '2018/09/13 23:28:34', NULL);
-INSERT INTO `customer_recent_product` VALUES (120, 21, 159, '2018/09/13 23:37:50', NULL);
-INSERT INTO `customer_recent_product` VALUES (121, 21, 159, '2018/09/13 23:38:03', NULL);
-INSERT INTO `customer_recent_product` VALUES (122, 21, 159, '2018/09/13 23:38:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (123, 21, 159, '2018/09/13 23:38:38', NULL);
-INSERT INTO `customer_recent_product` VALUES (124, 21, 159, '2018/09/13 23:38:55', NULL);
-INSERT INTO `customer_recent_product` VALUES (125, 21, 159, '2018/09/13 23:39:20', NULL);
-INSERT INTO `customer_recent_product` VALUES (126, 21, 159, '2018/09/13 23:39:37', NULL);
-INSERT INTO `customer_recent_product` VALUES (127, 21, 159, '2018/09/13 23:39:40', NULL);
-INSERT INTO `customer_recent_product` VALUES (128, 21, 159, '2018/09/13 23:41:03', NULL);
-INSERT INTO `customer_recent_product` VALUES (129, 21, 159, '2018/09/13 23:42:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (130, 21, 159, '2018/09/13 23:43:58', NULL);
-INSERT INTO `customer_recent_product` VALUES (131, 21, 159, '2018/09/13 23:44:19', NULL);
-INSERT INTO `customer_recent_product` VALUES (132, 21, 159, '2018/09/13 23:44:23', NULL);
-INSERT INTO `customer_recent_product` VALUES (133, 21, 159, '2018/09/13 23:44:25', NULL);
-INSERT INTO `customer_recent_product` VALUES (134, 21, 159, '2018/09/13 23:44:29', NULL);
-INSERT INTO `customer_recent_product` VALUES (135, 21, 159, '2018/09/13 23:46:00', NULL);
-INSERT INTO `customer_recent_product` VALUES (136, 21, 159, '2018/09/13 23:46:26', NULL);
-INSERT INTO `customer_recent_product` VALUES (137, 21, 159, '2018/09/13 23:46:53', NULL);
-INSERT INTO `customer_recent_product` VALUES (138, 21, 159, '2018/09/13 23:46:58', NULL);
-INSERT INTO `customer_recent_product` VALUES (139, 21, 159, '2018/09/13 23:48:16', NULL);
-INSERT INTO `customer_recent_product` VALUES (140, 21, 159, '2018/09/13 23:49:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (141, 21, 159, '2018/09/13 23:49:51', NULL);
-INSERT INTO `customer_recent_product` VALUES (142, 21, 159, '2018/09/13 23:50:03', NULL);
-INSERT INTO `customer_recent_product` VALUES (143, 21, 159, '2018/09/13 23:50:50', NULL);
-INSERT INTO `customer_recent_product` VALUES (144, 21, 159, '2018/09/13 23:51:08', NULL);
-INSERT INTO `customer_recent_product` VALUES (145, 21, 159, '2018/09/13 23:51:17', NULL);
-INSERT INTO `customer_recent_product` VALUES (146, 21, 159, '2018/09/13 23:51:39', NULL);
-INSERT INTO `customer_recent_product` VALUES (147, 21, 159, '2018/09/13 23:51:44', NULL);
-INSERT INTO `customer_recent_product` VALUES (148, 21, 159, '2018/09/13 23:51:53', NULL);
-INSERT INTO `customer_recent_product` VALUES (149, 21, 159, '2018/09/13 23:52:39', NULL);
-INSERT INTO `customer_recent_product` VALUES (150, 21, 159, '2018/09/13 23:52:43', NULL);
-INSERT INTO `customer_recent_product` VALUES (151, 21, 159, '2018/09/13 23:56:28', NULL);
-INSERT INTO `customer_recent_product` VALUES (152, 21, 159, '2018/09/13 23:57:02', NULL);
-INSERT INTO `customer_recent_product` VALUES (153, 21, 159, '2018/09/13 23:58:22', NULL);
-INSERT INTO `customer_recent_product` VALUES (154, 21, 159, '2018/09/13 23:59:57', NULL);
-INSERT INTO `customer_recent_product` VALUES (155, 21, 159, '2018/09/14 00:01:13', NULL);
-INSERT INTO `customer_recent_product` VALUES (156, 21, 164, '2018/09/14 00:01:30', NULL);
-INSERT INTO `customer_recent_product` VALUES (157, 21, 173, '2018/09/14 02:53:09', NULL);
-INSERT INTO `customer_recent_product` VALUES (158, 21, 157, '2018/09/14 02:53:18', NULL);
-INSERT INTO `customer_recent_product` VALUES (159, 21, 157, '2018/09/14 02:53:27', NULL);
-INSERT INTO `customer_recent_product` VALUES (160, 21, 158, '2018/09/14 11:44:04', NULL);
-INSERT INTO `customer_recent_product` VALUES (161, 21, 169, '2018/09/15 01:02:41', NULL);
-INSERT INTO `customer_recent_product` VALUES (162, 21, 169, '2018/09/15 01:02:59', NULL);
-INSERT INTO `customer_recent_product` VALUES (163, 21, 165, '2018/09/15 01:03:09', NULL);
-INSERT INTO `customer_recent_product` VALUES (164, 21, 158, '2018/09/15 02:03:43', NULL);
-INSERT INTO `customer_recent_product` VALUES (165, 21, 159, '2018/09/15 02:12:08', NULL);
-INSERT INTO `customer_recent_product` VALUES (166, 21, 173, '2018/09/15 02:12:19', NULL);
-INSERT INTO `customer_recent_product` VALUES (167, 21, 173, '2018/09/15 02:12:35', NULL);
-INSERT INTO `customer_recent_product` VALUES (168, 21, 173, '2018/09/15 02:16:20', NULL);
-INSERT INTO `customer_recent_product` VALUES (169, 21, 173, '2018/09/15 02:16:26', NULL);
-INSERT INTO `customer_recent_product` VALUES (170, 21, 173, '2018/09/15 02:17:53', NULL);
-INSERT INTO `customer_recent_product` VALUES (171, 21, 173, '2018/09/15 02:19:25', NULL);
-INSERT INTO `customer_recent_product` VALUES (172, 21, 173, '2018/09/15 02:19:28', NULL);
-INSERT INTO `customer_recent_product` VALUES (173, 21, 173, '2018/09/15 02:19:39', NULL);
-INSERT INTO `customer_recent_product` VALUES (174, 21, 173, '2018/09/15 02:19:41', NULL);
-INSERT INTO `customer_recent_product` VALUES (175, 21, 173, '2018/09/15 02:20:22', NULL);
-INSERT INTO `customer_recent_product` VALUES (176, 21, 173, '2018/09/15 02:20:33', NULL);
-INSERT INTO `customer_recent_product` VALUES (177, 21, 173, '2018/09/15 02:20:35', NULL);
-INSERT INTO `customer_recent_product` VALUES (178, 21, 173, '2018/09/15 02:20:36', NULL);
-INSERT INTO `customer_recent_product` VALUES (179, 21, 173, '2018/09/15 02:20:52', NULL);
-INSERT INTO `customer_recent_product` VALUES (180, 21, 173, '2018/09/15 02:21:31', NULL);
-INSERT INTO `customer_recent_product` VALUES (181, 21, 165, '2018/09/15 02:21:39', NULL);
-INSERT INTO `customer_recent_product` VALUES (182, 21, 165, '2018/09/15 02:21:47', NULL);
-INSERT INTO `customer_recent_product` VALUES (183, 21, 165, '2018/09/15 02:21:53', NULL);
-INSERT INTO `customer_recent_product` VALUES (184, 21, 165, '2018/09/15 02:22:29', NULL);
-INSERT INTO `customer_recent_product` VALUES (185, 21, 165, '2018/09/15 02:22:37', NULL);
-INSERT INTO `customer_recent_product` VALUES (186, 21, 165, '2018/09/15 02:23:13', NULL);
-INSERT INTO `customer_recent_product` VALUES (187, 21, 165, '2018/09/15 02:23:15', NULL);
-INSERT INTO `customer_recent_product` VALUES (188, 21, 165, '2018/09/15 02:23:24', NULL);
-INSERT INTO `customer_recent_product` VALUES (189, 21, 165, '2018/09/15 02:23:31', NULL);
-INSERT INTO `customer_recent_product` VALUES (190, 21, 165, '2018/09/15 02:23:43', NULL);
-INSERT INTO `customer_recent_product` VALUES (191, 21, 165, '2018/09/15 02:23:50', NULL);
-INSERT INTO `customer_recent_product` VALUES (192, 21, 165, '2018/09/15 02:24:23', NULL);
-INSERT INTO `customer_recent_product` VALUES (193, 21, 165, '2018/09/15 02:24:25', NULL);
-INSERT INTO `customer_recent_product` VALUES (194, 21, 165, '2018/09/15 02:25:28', NULL);
-INSERT INTO `customer_recent_product` VALUES (195, 21, 165, '2018/09/15 02:26:21', NULL);
-INSERT INTO `customer_recent_product` VALUES (196, 21, 165, '2018/09/15 02:27:26', NULL);
-INSERT INTO `customer_recent_product` VALUES (197, 21, 165, '2018/09/15 02:27:55', NULL);
-INSERT INTO `customer_recent_product` VALUES (198, 21, 165, '2018/09/15 02:28:22', NULL);
-INSERT INTO `customer_recent_product` VALUES (199, 21, 165, '2018/09/15 02:28:26', NULL);
-INSERT INTO `customer_recent_product` VALUES (200, 21, 165, '2018/09/15 02:28:56', NULL);
-INSERT INTO `customer_recent_product` VALUES (201, 21, 165, '2018/09/15 02:29:22', NULL);
-INSERT INTO `customer_recent_product` VALUES (202, 21, 165, '2018/09/15 02:30:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (203, 21, 165, '2018/09/15 02:31:28', NULL);
-INSERT INTO `customer_recent_product` VALUES (204, 21, 165, '2018/09/15 02:31:38', NULL);
-INSERT INTO `customer_recent_product` VALUES (205, 21, 165, '2018/09/15 02:32:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (206, 21, 165, '2018/09/15 02:32:18', NULL);
-INSERT INTO `customer_recent_product` VALUES (207, 21, 165, '2018/09/15 02:32:28', NULL);
-INSERT INTO `customer_recent_product` VALUES (208, 21, 165, '2018/09/15 02:32:45', NULL);
-INSERT INTO `customer_recent_product` VALUES (209, 21, 165, '2018/09/15 02:33:41', NULL);
-INSERT INTO `customer_recent_product` VALUES (210, 21, 165, '2018/09/15 02:34:51', NULL);
-INSERT INTO `customer_recent_product` VALUES (211, 21, 165, '2018/09/15 02:35:37', NULL);
-INSERT INTO `customer_recent_product` VALUES (212, 21, 165, '2018/09/15 02:37:59', NULL);
-INSERT INTO `customer_recent_product` VALUES (213, 21, 165, '2018/09/15 02:38:24', NULL);
-INSERT INTO `customer_recent_product` VALUES (214, 21, 165, '2018/09/15 02:38:38', NULL);
-INSERT INTO `customer_recent_product` VALUES (215, 21, 165, '2018/09/15 02:38:41', NULL);
-INSERT INTO `customer_recent_product` VALUES (216, 21, 165, '2018/09/15 02:38:42', NULL);
-INSERT INTO `customer_recent_product` VALUES (217, 21, 158, '2018/09/25 15:27:42', NULL);
-INSERT INTO `customer_recent_product` VALUES (218, 21, 158, '2018/09/25 15:28:59', NULL);
-INSERT INTO `customer_recent_product` VALUES (219, 21, 158, '2018/09/25 15:32:15', NULL);
-INSERT INTO `customer_recent_product` VALUES (220, 21, 158, '2018/09/25 15:33:03', NULL);
-INSERT INTO `customer_recent_product` VALUES (221, 21, 158, '2018/09/25 15:34:40', NULL);
-INSERT INTO `customer_recent_product` VALUES (222, 21, 158, '2018/09/26 14:27:35', NULL);
-INSERT INTO `customer_recent_product` VALUES (223, 21, 159, '2018/09/26 19:31:08', NULL);
-INSERT INTO `customer_recent_product` VALUES (224, 21, 164, '2018/09/26 19:44:57', NULL);
-INSERT INTO `customer_recent_product` VALUES (225, 16, 158, '2018/10/09 23:18:02', NULL);
-INSERT INTO `customer_recent_product` VALUES (226, 16, 169, '2018/10/09 23:18:23', NULL);
-INSERT INTO `customer_recent_product` VALUES (227, 16, 158, '2018/10/09 23:57:15', NULL);
-INSERT INTO `customer_recent_product` VALUES (228, 16, 158, '2018/10/10 00:27:07', NULL);
-INSERT INTO `customer_recent_product` VALUES (229, 16, 158, '2018/10/10 00:35:00', NULL);
-INSERT INTO `customer_recent_product` VALUES (230, 16, 158, '2018/10/10 00:37:00', NULL);
-INSERT INTO `customer_recent_product` VALUES (231, 16, 158, '2018/10/10 00:38:15', NULL);
-INSERT INTO `customer_recent_product` VALUES (232, 16, 158, '2018/10/10 00:46:09', NULL);
-INSERT INTO `customer_recent_product` VALUES (233, 16, 158, '2018/10/10 00:57:13', NULL);
-INSERT INTO `customer_recent_product` VALUES (234, 16, 158, '2018/10/10 00:57:39', NULL);
-INSERT INTO `customer_recent_product` VALUES (235, 16, 158, '2018/10/10 01:50:50', NULL);
-INSERT INTO `customer_recent_product` VALUES (236, 16, 158, '2018/10/10 01:52:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (237, 16, 158, '2018/10/10 01:53:12', NULL);
-INSERT INTO `customer_recent_product` VALUES (238, 16, 158, '2018/10/10 01:53:31', NULL);
-INSERT INTO `customer_recent_product` VALUES (239, 16, 158, '2018/10/10 01:53:56', NULL);
-INSERT INTO `customer_recent_product` VALUES (240, 16, 158, '2018/10/10 01:54:45', NULL);
-INSERT INTO `customer_recent_product` VALUES (241, 16, 158, '2018/10/10 01:56:53', NULL);
-INSERT INTO `customer_recent_product` VALUES (242, 16, 158, '2018/10/10 01:57:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (243, 16, 158, '2018/10/10 02:03:53', NULL);
-INSERT INTO `customer_recent_product` VALUES (244, 16, 158, '2018/10/10 02:05:04', NULL);
-INSERT INTO `customer_recent_product` VALUES (245, 16, 158, '2018/10/10 02:05:42', NULL);
-INSERT INTO `customer_recent_product` VALUES (246, 16, 158, '2018/10/10 02:16:14', NULL);
-INSERT INTO `customer_recent_product` VALUES (247, 16, 158, '2018/10/10 02:16:49', NULL);
-INSERT INTO `customer_recent_product` VALUES (248, 16, 158, '2018/10/10 02:17:09', NULL);
-INSERT INTO `customer_recent_product` VALUES (249, 16, 158, '2018/10/10 02:17:57', NULL);
-INSERT INTO `customer_recent_product` VALUES (250, 16, 158, '2018/10/10 02:18:06', NULL);
-INSERT INTO `customer_recent_product` VALUES (251, 16, 158, '2018/10/10 02:19:05', NULL);
-INSERT INTO `customer_recent_product` VALUES (252, 16, 158, '2018/10/10 02:19:14', NULL);
-INSERT INTO `customer_recent_product` VALUES (253, 16, 158, '2018/10/10 02:19:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (254, 16, 158, '2018/10/10 02:22:15', NULL);
-INSERT INTO `customer_recent_product` VALUES (255, 16, 158, '2018/10/10 02:39:51', NULL);
-INSERT INTO `customer_recent_product` VALUES (256, 16, 158, '2018/10/10 02:39:56', NULL);
-INSERT INTO `customer_recent_product` VALUES (257, 16, 158, '2018/10/10 02:41:40', NULL);
-INSERT INTO `customer_recent_product` VALUES (258, 16, 158, '2018/10/10 02:42:44', NULL);
-INSERT INTO `customer_recent_product` VALUES (259, 16, 158, '2018/10/10 02:45:06', NULL);
-INSERT INTO `customer_recent_product` VALUES (260, 16, 158, '2018/10/10 02:50:45', NULL);
-INSERT INTO `customer_recent_product` VALUES (261, 16, 158, '2018/10/10 02:51:16', NULL);
-INSERT INTO `customer_recent_product` VALUES (262, 16, 158, '2018/10/10 02:51:41', NULL);
-INSERT INTO `customer_recent_product` VALUES (263, 16, 158, '2018/10/10 02:51:58', NULL);
-INSERT INTO `customer_recent_product` VALUES (264, 16, 158, '2018/10/10 02:53:36', NULL);
-INSERT INTO `customer_recent_product` VALUES (265, 16, 158, '2018/10/10 02:54:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (266, 16, 158, '2018/10/10 02:54:32', NULL);
-INSERT INTO `customer_recent_product` VALUES (267, 16, 158, '2018/10/10 02:55:28', NULL);
-INSERT INTO `customer_recent_product` VALUES (268, 16, 158, '2018/10/10 02:57:10', NULL);
-INSERT INTO `customer_recent_product` VALUES (269, 16, 158, '2018/10/10 02:59:25', NULL);
-INSERT INTO `customer_recent_product` VALUES (270, 16, 158, '2018/10/10 03:00:41', NULL);
-INSERT INTO `customer_recent_product` VALUES (271, 16, 158, '2018/10/10 03:02:07', NULL);
-INSERT INTO `customer_recent_product` VALUES (272, 16, 159, '2018/10/10 03:07:37', NULL);
-INSERT INTO `customer_recent_product` VALUES (273, 16, 159, '2018/10/10 03:07:57', NULL);
-INSERT INTO `customer_recent_product` VALUES (274, 16, 159, '2018/10/10 03:11:34', NULL);
-INSERT INTO `customer_recent_product` VALUES (275, 16, 159, '2018/10/10 03:12:21', NULL);
-INSERT INTO `customer_recent_product` VALUES (276, 16, 158, '2018/10/10 03:12:45', NULL);
-INSERT INTO `customer_recent_product` VALUES (277, 16, 158, '2018/10/10 03:14:05', NULL);
-INSERT INTO `customer_recent_product` VALUES (278, 16, 164, '2018/10/10 03:53:50', NULL);
+INSERT INTO `customer_recent_product` VALUES (279, 16, 185, '2018/10/13 03:24:15', NULL);
+INSERT INTO `customer_recent_product` VALUES (280, 16, 185, '2018/10/13 03:24:26', NULL);
 
 -- ----------------------------
 -- Table structure for customer_score
@@ -618,7 +385,7 @@ CREATE TABLE `customers`  (
 -- ----------------------------
 -- Records of customers
 -- ----------------------------
-INSERT INTO `customers` VALUES (16, NULL, NULL, 'gfhdfh', 'hokelucpy@outlook.com', 'kan', 'hoke', 'ddd', 'aaa', '$2y$10$9sNU9.MHIsQZStMVEs5b7eG3GGK72RdmL7ZvZstt0sm4aU7gjV6be', '080-0000-0000', '140-0005', NULL, NULL, NULL, '東京都', '品川区広町', '11-001', NULL, NULL, NULL, '1960-01-01', NULL, NULL, NULL, 'mall_01', 'HLICmjX3AYi5A0dmIDumTHXrEQI9ChCFMXhb7Ugq', 1, NULL, NULL, 'LCPmo4Aj7G7K2dP30nDMI9FGgwpfjtAIgniAijwyJJaWBwqTChFwajbf2Hjs', NULL, '2018-10-09 23:50:01', NULL);
+INSERT INTO `customers` VALUES (16, NULL, NULL, 'gfhdfh', 'hokelucpy@outlook.com', 'kan', 'hoke', 'ddd', 'aaa', '$2y$10$9sNU9.MHIsQZStMVEs5b7eG3GGK72RdmL7ZvZstt0sm4aU7gjV6be', '080-0000-0000', '140-0005', NULL, NULL, NULL, '東京都', '品川区広町', '11-001', NULL, NULL, NULL, '1960-01-01', NULL, NULL, NULL, 'Mall_01', 'HLICmjX3AYi5A0dmIDumTHXrEQI9ChCFMXhb7Ugq', 1, NULL, NULL, 'LCPmo4Aj7G7K2dP30nDMI9FGgwpfjtAIgniAijwyJJaWBwqTChFwajbf2Hjs', NULL, '2018-10-13 03:22:49', NULL);
 INSERT INTO `customers` VALUES (17, NULL, NULL, 'fghfdh', 'sky.dragon1988@hotmail.com', 'jon', 'gh', NULL, NULL, '$2y$10$BUN7x6qqX.mxtgAr2krA5eXYsqtYoMlNQL7QoymKkaIrCxt7voVMK', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'HLICmjX3AYi5A0dmIDumTHXrEQI9ChCFMXhb7Ugq', 0, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `customers` VALUES (18, NULL, NULL, 'fghfg', 'hokelucpy@hotmail.com', 'aaa', 'fgh', NULL, NULL, '$2y$10$LrFyj39eCxr5GhoMcKSRAeXb/e49XiXEsckJ7MqYJ7zLFTFX77Uhm', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'HLICmjX3AYi5A0dmIDumTHXrEQI9ChCFMXhb7Ugq', 0, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `customers` VALUES (19, NULL, NULL, 'fghfg', 'hokelucpy@outlook.com', 'cccc', 'fgh', NULL, NULL, '$2y$10$aOLHGTxINkaMMq9ONC7BA.gvFB7KxVnJjj9zfOmkdE8JWbzfaW6O2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'HLICmjX3AYi5A0dmIDumTHXrEQI9ChCFMXhb7Ugq', 0, NULL, NULL, NULL, NULL, NULL, NULL);
@@ -768,7 +535,12 @@ CREATE TABLE `fan_product`  (
   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`product_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 185 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 186 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of fan_product
+-- ----------------------------
+INSERT INTO `fan_product` VALUES (185, '1', NULL, 1, 20, NULL, NULL, 'Test', 'product_name_kana', NULL, '0', '1', '1', NULL, NULL, NULL, NULL, NULL, NULL, '1', 2, NULL, 2, NULL, 0, 15, 0, 45, NULL, NULL, NULL, '16/**/17/**/18/**/19', '2018-10-13 02:36:59', '2018-10-13 02:36:59', NULL);
 
 -- ----------------------------
 -- Table structure for fan_product_image
@@ -784,7 +556,12 @@ CREATE TABLE `fan_product_image`  (
   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`image_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 303 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 304 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of fan_product_image
+-- ----------------------------
+INSERT INTO `fan_product_image` VALUES (303, 185, 2, 1, '', '2018-10-13 02:37:00', '2018-10-13 02:37:00', NULL);
 
 -- ----------------------------
 -- Table structure for fan_product_master_image
@@ -799,7 +576,12 @@ CREATE TABLE `fan_product_master_image`  (
   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`master_image_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 211 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 212 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of fan_product_master_image
+-- ----------------------------
+INSERT INTO `fan_product_master_image` VALUES (211, 185, 'master_image_2_185_1539365820_1.jpg', 2, '2018-10-13 01:36:15', '2018-10-13 01:36:15', NULL);
 
 -- ----------------------------
 -- Table structure for fan_product_sku
@@ -816,7 +598,16 @@ CREATE TABLE `fan_product_sku`  (
   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`sku_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 573 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 578 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of fan_product_sku
+-- ----------------------------
+INSERT INTO `fan_product_sku` VALUES (573, 185, 1, 1, 1, 2, '2018-10-13 02:36:59', '2018-10-13 02:36:59', NULL);
+INSERT INTO `fan_product_sku` VALUES (574, 185, 2, 16, 1, 2, '2018-10-13 02:36:59', '2018-10-13 02:36:59', NULL);
+INSERT INTO `fan_product_sku` VALUES (575, 185, 2, 17, 1, 2, '2018-10-13 02:36:59', '2018-10-13 02:36:59', NULL);
+INSERT INTO `fan_product_sku` VALUES (576, 185, 2, 18, 1, 2, '2018-10-13 02:36:59', '2018-10-13 02:36:59', NULL);
+INSERT INTO `fan_product_sku` VALUES (577, 185, 2, 19, 1, 2, '2018-10-13 02:37:00', '2018-10-13 02:37:00', NULL);
 
 -- ----------------------------
 -- Table structure for fan_product_stock_management
@@ -837,7 +628,15 @@ CREATE TABLE `fan_product_stock_management`  (
   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`product_stock_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 465 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 469 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of fan_product_stock_management
+-- ----------------------------
+INSERT INTO `fan_product_stock_management` VALUES (465, 185, 5, 2, 573, 574, 15000, 15000, 15000, NULL, '2018-10-13 02:37:00', '2018-10-13 02:37:00', NULL);
+INSERT INTO `fan_product_stock_management` VALUES (466, 185, 5, 2, 573, 575, 15000, 15000, 15000, NULL, '2018-10-13 02:37:00', '2018-10-13 02:37:00', NULL);
+INSERT INTO `fan_product_stock_management` VALUES (467, 185, 5, 2, 573, 576, 15000, 15000, 15000, NULL, '2018-10-13 02:37:00', '2018-10-13 02:37:00', NULL);
+INSERT INTO `fan_product_stock_management` VALUES (468, 185, 5, 2, 573, 577, 15000, 15000, 15000, NULL, '2018-10-13 02:37:00', '2018-10-13 02:37:00', NULL);
 
 -- ----------------------------
 -- Table structure for fee_type
@@ -1613,7 +1412,7 @@ CREATE TABLE `master_brand`  (
 -- ----------------------------
 -- Records of master_brand
 -- ----------------------------
-INSERT INTO `master_brand` VALUES (1, 'firreee', 'firreee', '', 'wewe', '122', 'efa4', 'sdfsdfdsf', '2018-10-04', '2018-10-04', NULL);
+INSERT INTO `master_brand` VALUES (1, 'firreee', 'firreee', 'brand_5bc0cb28baad7.jpg', 'wewe', '122', 'efa4', 'sdfsdfdsf', '2018-10-13', '2018-10-04', NULL);
 INSERT INTO `master_brand` VALUES (2, '08sircus', '08sircus', NULL, 'Kiminori Morishita', '2019', 'Japan', 'アパレルメーカーにてチーフデザイナーとして数々のブランドを手がけてきたKiminori Morishitaによるブランド。2010年春夏シーズンにパリにてファーストコレクションを発表。計算されたパターンで、静かながら強いコレクションを展開している。ブランド名は英国の称号であるSIRと、CUSTOMERから成る造語。', '2018-10-04', NULL, '2018-10-04');
 INSERT INTO `master_brand` VALUES (3, '14th Addiction?', '14th_addiction', NULL, 'TERUKI', '2007', 'Japan', '元KEMRiiのデザイナーTERUKIが2007年に創立したブランド。バリ島にあるアトリエにてコレクションを制作している。\r', '2018-10-04', NULL, '2018-10-04');
 INSERT INTO `master_brand` VALUES (4, '1piu1uguale3', '1piu1uguale3', 'brand_5bb5c15be8e40.jpg', 'Tomohiro Ozawa', '2011', 'Japan', 'メンズファッションブランド。世界各国に存在する至高の素材、美しい資材により構成され、限定数量だけ生み出される特別なコレクションである。', '2018-10-04', NULL, NULL);
@@ -2127,7 +1926,13 @@ CREATE TABLE `master_brand_designer`  (
   `brand_id` int(11) NULL DEFAULT NULL,
   `designer_id` int(11) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of master_brand_designer
+-- ----------------------------
+INSERT INTO `master_brand_designer` VALUES (26, 1, 9);
+INSERT INTO `master_brand_designer` VALUES (27, 1, 10);
 
 -- ----------------------------
 -- Table structure for master_category
@@ -2150,7 +1955,7 @@ CREATE TABLE `master_category`  (
 -- ----------------------------
 INSERT INTO `master_category` VALUES (1, 0, NULL, 'メンズ', 'MENS', '2018-07-06 04:09:13', '2018-07-06 04:09:13', NULL);
 INSERT INTO `master_category` VALUES (2, 0, NULL, 'レディース', 'LADIES', '2018-07-06 04:12:59', '2018-07-06 04:12:59', NULL);
-INSERT INTO `master_category` VALUES (3, 1, 1, 'H.外', 'H.OUTER', '2018-07-06 04:13:29', '2018-07-06 04:13:29', NULL);
+INSERT INTO `master_category` VALUES (3, 1, 8, 'H.外', 'H.OUTER', '2018-07-06 04:13:29', '2018-10-13 02:18:43', NULL);
 INSERT INTO `master_category` VALUES (4, 1, 1, 'L.外', 'L.OUTER', '2018-07-06 04:15:29', '2018-07-06 04:15:29', NULL);
 INSERT INTO `master_category` VALUES (5, 1, 1, 'シャツ', 'SHIRT', '2018-07-06 04:15:53', '2018-07-06 04:15:53', NULL);
 INSERT INTO `master_category` VALUES (6, 1, 1, 'ニット/カージガン', 'KNIT-CARDIGAN', '2018-07-06 04:16:12', '2018-07-06 04:16:12', NULL);
@@ -3093,7 +2898,13 @@ CREATE TABLE `master_history`  (
   `updated_at` date NULL DEFAULT NULL,
   `created_at` date NULL DEFAULT NULL,
   PRIMARY KEY (`bh_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of master_history
+-- ----------------------------
+INSERT INTO `master_history` VALUES (1, 1, 1950, 'history_1_5bc0c594c4a61.jpg', 'Foundation', 'Test', '2018-10-13', '2018-10-13');
+INSERT INTO `master_history` VALUES (2, 1, 1975, 'history_1_5bc0c5ae8d896.jpg', 'Spreadout', 'Test', '2018-10-13', '2018-10-13');
 
 -- ----------------------------
 -- Table structure for master_mall
@@ -3115,6 +2926,26 @@ CREATE TABLE `master_mall`  (
 -- Records of master_mall
 -- ----------------------------
 INSERT INTO `master_mall` VALUES (30, 'Mall_01', 'Mall_01', NULL, 0, '2018-10-12 23:28:10', '2018-10-12 23:28:10', NULL);
+
+-- ----------------------------
+-- Table structure for master_news
+-- ----------------------------
+DROP TABLE IF EXISTS `master_news`;
+CREATE TABLE `master_news`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `b_id` int(10) NULL DEFAULT NULL,
+  `figure` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `date` date NULL DEFAULT NULL,
+  `news` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+  `created_at` date NULL DEFAULT NULL,
+  `updated_at` date NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of master_news
+-- ----------------------------
+INSERT INTO `master_news` VALUES (2, 1, 'news_1_5bc0c75cf3f1b.jpg', '2018-09-25', 'New Product', '2018-10-13', '2018-10-13');
 
 -- ----------------------------
 -- Table structure for master_notifycustomer
@@ -3351,7 +3182,12 @@ CREATE TABLE `merchant_shipping`  (
   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`shipping_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of merchant_shipping
+-- ----------------------------
+INSERT INTO `merchant_shipping` VALUES (45, 2, 1, 'Deliver_Mode_01', 'Deliver_Mode_01', 'Tokyu', 'Test Deliver Mode', '1', '10', '', 0, 1, 'Test_01', '2018-10-12 11:59:57', '2018-10-12 11:59:57', NULL);
 
 -- ----------------------------
 -- Table structure for merchant_shipping_price
@@ -3367,7 +3203,7 @@ CREATE TABLE `merchant_shipping_price`  (
   `updated_at` timestamp(0) NULL DEFAULT NULL,
   `deleted_at` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`shipping_price_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of merchant_shipping_price
@@ -3382,6 +3218,8 @@ INSERT INTO `merchant_shipping_price` VALUES (22, 43, 2, '4', '4', NULL, NULL, N
 INSERT INTO `merchant_shipping_price` VALUES (23, 43, 2, '5', '5', NULL, NULL, NULL);
 INSERT INTO `merchant_shipping_price` VALUES (24, 43, 2, '6', '6', NULL, NULL, NULL);
 INSERT INTO `merchant_shipping_price` VALUES (25, 44, 4, '1000', '描写？？', NULL, NULL, NULL);
+INSERT INTO `merchant_shipping_price` VALUES (26, 45, 2, '10', 'Home', NULL, NULL, NULL);
+INSERT INTO `merchant_shipping_price` VALUES (27, 45, 2, '20', 'Abroad', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for migrations
