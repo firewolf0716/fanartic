@@ -15,7 +15,7 @@ class CartService
     {
         $carts = session('cart');
         if($carts == null || $carts == ''){
-            $carts = array();  
+            $carts = array();
         }
         foreach($carts as $i => $cart){
             if($cart['product'] == $cartEntry['product']){
@@ -39,7 +39,7 @@ class CartService
         $cartitems = session('cart');
         if($cartitems == null)
             $cartitems = array();
-        
+
         // $cartitems = Cart::getItems(Auth::id());
         $images = array();
         $colorname = array();
@@ -73,7 +73,7 @@ class CartService
             $count += $item['count'];
         }
         $total['sum'] = $sum; $total['count'] = $count;
-        return compact('cartitems', 'total', 'count', 'images', 'colorname', 'sizename', 
+        return compact('cartitems', 'total', 'count', 'images', 'colorname', 'sizename',
                 'cartbrands', 'products', 'stocks', 'colorobjs', 'sizeobjs');
     }
 }

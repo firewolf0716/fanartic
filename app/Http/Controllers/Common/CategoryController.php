@@ -41,6 +41,7 @@ use App\Services\MallService;
 use App\Services\StockService;
 use App\Services\ProductService;
 use App\Services\SkuService;
+use App\Services\RecentItemService;
 
 class CategoryController extends Controller
 {
@@ -64,7 +65,8 @@ class CategoryController extends Controller
         $recent = null;
         $images = null;
         if (Auth::check()) {
-            $recent = Customers::get_recent(Auth::id());
+            //$recent = Customers::get_recent(Auth::id());
+            $recent = RecentItemService::getRecentItems(Auth::id());
             $images = array();
             foreach ($recent as $product) {
                 $imagerec = Products::get_master_images($product->product_id);
