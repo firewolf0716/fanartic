@@ -15,14 +15,44 @@
     <div class="product-list__column">
         <div class="product-list__column__content">
             <div class="l-column l-column--control is-nb">
-                <div class="l-column--control__col u-sp"><span class="c-select c-select--sort u-sp__full"
-                                                               data-productfilter__button=""><span
-                                class="c-select__box u-sp__full"><span class="c-select__box__inner">{{ __('customer.絞り込む') }}</span></span>
-        </span>
+                <div class="l-column--control__col u-sp">
+                    <span class="c-select c-select--sort u-sp__full" data-productfilter__button="">
+                        <span class="c-select__box u-sp__full">
+                            <span class="c-select__box__inner">{{ __('customer.絞り込む') }}</span>
+                        </span>
+                    </span>
                 </div>
-                <div class="l-column--control__col"><label class="c-select c-select--sort u-sp__full"><span
-                                class="c-select__box u-sp__full"><select name="" id=""><option
-                                        value="">{{ __('customer.並び替え') }}</option></select></span></label></div>
+                <div class="l-column--control__col">
+                    <label class="c-select c-select--sort u-sp__full">
+                        <span class="c-select__box u-sp__full">
+                            @php
+                                if(!isset($filterdate)) {
+                            @endphp
+                            <select name="" id="">
+                                <option value="">{{ __('customer.並び替え') }}</option>
+                            </select>
+                            @php
+                                }
+                            else {
+                                $today_active = '';
+                                $week_active = '';
+                                if($filterdate == NULL || $filterdate == 'today')
+                                    $today_active = 'selected';
+                                elseif($filterdate == 'week'){
+                                    $week_active = 'selected';
+                                }
+                            @endphp
+                            <select name="" class="form-control" id="product_date_option">
+                                <!-- <option value="">{{ __('customer.並び替え') }}</option> -->
+                                <option {{ $today_active }} value="today">today'new items</option>
+                                <option {{ $week_active }} value="week">week's new items</option>
+                            </select>
+                            @php
+                            }
+                            @endphp
+                        </span>
+                    </label>
+                </div>
             </div>
             <!--/.l-column l-column--control-->
             <div class="c-items c-items--04">
@@ -65,6 +95,8 @@
                                                 $url = '/'.$mallname.'/'.$brandname.'/item/men/'.$maincategory->category_name_en;
                                             } else if($listtype == 'brand_products'){
                                                 $url = '/brands/'.$brandid.'/men/'.$maincategory->category_name_en;
+                                            } else if($listtype == 'mall_new_products'){
+                                                $url .= '/'.$mallname.'/'.$brandname.'/item/'.$topid.'/'.$maincategory->category_name_en;
                                             }
                                         }
                                     @endphp
@@ -232,6 +264,11 @@
     </div>
     <!--/.product-list-->
     <!--/.l-content-->
+    <script>
+        $("#product_date_option").change(function(){
+            location.href = '?filterdate=' + $(this).val();
+        });
+    </script>
     <script>
         var hexDigits = new Array("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f");
 
