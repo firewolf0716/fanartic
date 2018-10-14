@@ -57,6 +57,14 @@ class MallController extends Controller
             ->with('listtype', "malls");
     }
 
+    public function save_top_category_session(Request $request){
+        $order = Input::get('value');
+        $result = $request->session()->put('cate_type', $order);
+        $value = $request->session()->get('cate_type');
+        echo json_encode($value);
+    }
+
+
     /**
      * @param $mallname
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

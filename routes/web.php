@@ -20,7 +20,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('switch', 'Controller@switch')->name('switch');
 Route::get('lang/{lang}', 'Common\LanguageController@switchLang')->name('lang.switch');
 Route::get('currency/{currency}', 'Common\CurrencyController@switchCurrency')->name('currency.switch');
-//Route::post('insert_session', 'Customer\CustomerController@save_top_category_session')->name('save_top_category_session');
+Route::post('insert_session', 'Common\MallController@save_top_category_session')->name('save_top_category_session');
 
 /*
 |--------------------------------------------------------------------------
