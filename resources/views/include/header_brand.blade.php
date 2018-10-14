@@ -22,7 +22,7 @@
                       id="top_women">{{ __('header.レディース') }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
-                        <li><a href="#">{{ __('common.新規') }}</a></li>
+                        <li><a href="{{ url($mallname.'/new__product/item/women') }}">{{ __('common.新規') }}</a></li>
                         <li><a href="{{ route('mall', ['mallname' => $mallname]) }}">{{ __('header.ブランド') }}</a>
 						</li>
                         @php $i=0; @endphp
@@ -48,7 +48,7 @@
             }}</span>
                 <div class="header__nav-primary__list">
                     <ul class="header__nav-primary__list__menu">
-                        <li class="active"><a href="#">{{ __('common.新規') }}</a></li>
+                        <li class="active"><a href="{{ url($mallname.'/new__product/item/men') }}">{{ __('common.新規') }}</a></li>
                         <li><a href="{{ route('mall', ['mallname' => $mallname]) }}">{{ __('header.ブランド') }}</a></li>
                         @php $i=0; @endphp
                         @foreach($men_categories as $key => $mencategory)

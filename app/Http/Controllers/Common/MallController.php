@@ -110,96 +110,121 @@ class MallController extends Controller
      * @param null $categoryid
      * @return mixed
      */
-    public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null)
-    {
-        $mall = MallService::get_mall_byname($mallname);
-        $brand = BrandService::get_brand_byname($brandname);
-        $topcategorys = CategoryService::getTopCategorys();
-        $topcategory = null;
-        if ($topid == null) {
-            $topcategory = $topcategorys[0];
-        } else {
-            if ($topid == "men") {
-                $topcategory = Categorys::find(1);
-            } else if ($topid == "women") {
-                $topcategory = Categorys::find(2);
-            }
-        }
-        $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
-        $subcategorys = array();
-        foreach ($maincategorys as $maincategory) {
-            $result = CategoryService::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
-            $subcategorys[$maincategory->category_id] = $result;
-        }
-        $colors = Colors::get();
-        $sizes = null;
-        $mcategory = null;
-        if ($mainid != null) {
-            $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
-            $sizecategory_id = $mcategory->category_size_id;
-            $sizes = SizeCategory::find($sizecategory_id)->sizes;
-        }
-        $scategory = null;
-        if ($categoryid != null) {
-            $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
-        }
+     public function mall_product_list($mallname, $brandname, $topid = null, $mainid = null, $categoryid = null)
+      {
+          $filterdate = null;
+          $is_new_product = false;
+          $mall = MallService::get_mall_byname($mallname);
+          if($brandname == 'new__product'){
+              $is_new_product = true;
+              $filterdate = 'today';
+          }
+          $brandinfo = null;
+          if(!$is_new_product){
+              $brand = BrandService::get_brand_byname($brandname);
+              $brandinfo = $brand->brand_id;
+          }
+          $topcategorys = CategoryService::getTopCategorys();
+          $topcategory = null;
 
-        $products = null;
-        $filtercategory = $topcategory->category_id;
-        $categorylevel = 1;
-        if ($mcategory != null) {
-            $filtercategory = $mcategory->category_id;
-            $categorylevel = 2;
-        }
-        if ($scategory != null) {
-            $filtercategory = $scategory->category_id;
-            $categorylevel = 3;
-        }
-        $filtersize = null;
-        $filtercolor = null;
-        $rangemin = null;
-        $rangemax = null;
-        if (isset($_GET['sizeid']) && $_GET['sizeid'] != '') {
-            $filtersize = $_GET['sizeid'];
-        }
-        if (isset($_GET['colorid']) && $_GET['colorid'] != '') {
-            $filtercolor = $_GET['colorid'];
-        }
-        if (isset($_GET['rangemin']) && $_GET['rangemin'] != '') {
-            $rangemin = $_GET['rangemin'];
-        }
-        if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
-            $rangemax = $_GET['rangemax'];
-        }
-        $products = ProductService::get_product_filter_mall($mall->mall_id, $brand->brand_id, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+          if (session('cate_type')){
+              if(session('cate_type') == 'women')
+                  $topcategory = Categorys::find(2);
+              else if(session('cate_type') == 'men'){
+                  $topcategory = Categorys::find(1);
+              }
+          } else {
+              $topcategory = $topcategorys[1];
+          }
 
-        $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
-        $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
+          $maincategorys = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
+          $subcategorys = array();
+          foreach ($maincategorys as $maincategory) {
+              $result = CategoryService::getSubCategorys_mall_frommain($mall->mall_id, $maincategory->category_id);
+              $subcategorys[$maincategory->category_id] = $result;
+          }
+          $colors = Colors::get();
+          $sizes = null;
+          $mcategory = null;
+          if ($mainid != null) {;
+              $mcategory = CategoryService::get_category_byname($topcategory->category_id, str_replace('-', '/', $mainid));
+              $sizecategory_id = $mcategory->category_size_id;
+              $sizes = SizeCategory::find($sizecategory_id)->sizes;
+          }
+          $scategory = null;
+          if ($categoryid != null) {
+              $scategory = CategoryService::get_category_byname($mcategory->category_id, str_replace('-', '/', $categoryid));
+          }
 
-        $brands = MatchService::get_brands($mall->mall_id);
+          $products = null;
+          $filtercategory = $topcategory->category_id;
+          $categorylevel = 1;
+          if ($mcategory != null) {
+              $filtercategory = $mcategory->category_id;
+              $categorylevel = 2;
+          }
+          if ($scategory != null) {
+              $filtercategory = $scategory->category_id;
+              $categorylevel = 3;
+          }
+          $filtersize = null;
+          $filtercolor = null;
+          $rangemin = null;
+          $rangemax = null;
+          if (isset($_GET['sizeid']) && $_GET['sizeid'] != '') {
+              $filtersize = $_GET['sizeid'];
+          }
+          if (isset($_GET['colorid']) && $_GET['colorid'] != '') {
+              $filtercolor = $_GET['colorid'];
+          }
+          if (isset($_GET['rangemin']) && $_GET['rangemin'] != '') {
+              $rangemin = $_GET['rangemin'];
+          }
+          if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
+              $rangemax = $_GET['rangemax'];
+          }
+          if (isset($_GET['filterdate'])) {
+              $filterdate = $_GET['filterdate'];
+          }
+          $products = ProductService::get_product_filter_mall($mall->mall_id, $brandinfo, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax, $filterdate);
+          // $mencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[0]->category_id);
+          // $womencategories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategorys[1]->category_id);
+          $categories = CategoryService::getMainCategorys_mall($mall->mall_id, $topcategory->category_id);
 
-        $customerid = null;
-        if (Auth::check()) {
-            $customerid = Auth::id();
-        }
+          if(!$is_new_product){
+              $brands = MatchService::get_brands($mall->mall_id);
+              $listype = "mall_brand_products";
+          } else {
+              $listype = "mall_new_products";
+          }
 
-        $view = view('customer.products.product_list')->with('topcategory', $topcategory)
-            ->with('maincategorys', $maincategorys)
-            ->with('mcategory', $mcategory)
-            ->with('scategory', $scategory)
-            ->with('subcategorys', $subcategorys)
-            ->with('sizes', $sizes)
-            ->with('colors', $colors)
-            ->with('products', $products)
-            ->with('mencategories', $mencategories)
-            ->with('womencategories', $womencategories)
-            ->with('brands', $brands)
-            ->with('mallname', $mallname)
-            ->with('customerid', $customerid)
-            ->with('brandname', $brandname)
-            ->with('listtype', "mall_brand_products");
-        return $this->set_recent($view);
-    }
+          $customerid = null;
+          if (Auth::check()) {
+              $customerid = Auth::id();
+          }
+
+          $view = view('customer.products.product_list')->with('topcategory', $topcategory)
+              ->with('maincategorys', $maincategorys)
+              ->with('mcategory', $mcategory)
+              ->with('scategory', $scategory)
+              ->with('subcategorys', $subcategorys)
+              ->with('sizes', $sizes)
+              ->with('colors', $colors)
+              ->with('products', $products)
+              // ->with('mencategories', $mencategories)
+              // ->with('womencategories', $womencategories)
+              ->with('mallname', $mallname)
+              ->with('customerid', $customerid)
+              ->with('brandname', $brandname)
+              ->with('listtype', $listype);
+          if(!$is_new_product){
+              $view = $view->with('brands', $brands);
+          } else {
+              $view = $view->with('topid', $topid)
+                           ->with('filterdate', $filterdate);
+          }
+          return $this->set_recent($view);
+      }
 
     public function set_recent($view)
     {

@@ -143,7 +143,7 @@ class CategoryController extends Controller
         if (isset($_GET['rangemax']) && $_GET['rangemax'] != '') {
             $rangemax = $_GET['rangemax'];
         }
-        $products = ProductService::get_product_filter_mall($mall->mall_id, null, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax);
+        $products = ProductService::get_product_filter_mall($mall->mall_id, null, $categorylevel, $filtercategory, $filtersize, $filtercolor, $rangemin, $rangemax, null);
 
         $prices = array(); $images = array();
         foreach ($products as $product) {

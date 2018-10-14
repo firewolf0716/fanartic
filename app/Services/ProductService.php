@@ -26,7 +26,7 @@ class ProductService
 
     }
 
-    public static function get_product_filter_mall($mallid, $brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax)
+    public static function get_product_filter_mall($mallid, $brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax, $filterdate)
     {
         $sql = Products::leftJoin('master_brand', 'master_brand.brand_id', '=', 'fan_product.product_brand_id')
             ->leftJoin('fan_product_stock_management', 'fan_product_stock_management.product_id', '=', 'fan_product.product_id')
@@ -77,6 +77,19 @@ class ProductService
         if (isset($rangemax) && $rangemax != '' && $rangemax != '500000') {
             $sql = $sql->where('fan_product_stock_management.product_price_sale', '<=', $rangemax);
         }
-        return $sql->groupBy('fan_product.product_id')->get();
+        if( !empty($filterdate)){
+             $today = date("Y-m-d");
+            if ( $filterdate == 'today') {
+                    $sql = $sql->where('fan_product.created_at', 'like', $today."%");
+            } elseif($filterdate == "week"){
+                    $week_ago = date('Y-m-d', strtotime('-1 week'));
+                    $sql = $sql->whereDate('fan_product.created_at', '<=', $today."%")
+                                ->whereDate('fan_product.created_at', '>=', $week_ago."%");
+            }
+        }
+        $sql->groupBy('fan_product.product_id');
+        if(!empty($filterdate))
+            $sql = $sql->orderBy('fan_product.created_at', 'desc');
+        return $sql->get();
     }
 }
