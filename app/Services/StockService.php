@@ -29,4 +29,8 @@ class StockService
         $result['max'] = $max;
         return $result;
     }
+    public static function update_stock($proid, $colorid, $sizeid, $entry){
+        ProductStock::where('product_id', $proid)->where('product_sku_color_id', $colorid)->where('product_sku_size_id', $sizeid)
+            ->update($entry);
+    }
 }

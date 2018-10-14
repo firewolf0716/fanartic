@@ -47,6 +47,8 @@ class CartService
         $stocks = array();
         $cartbrands = array();
         $products = array();
+        $colorobjs = array();
+        $sizeobjs = array();
         $sum = 0; $count = 0;
         // dd($cartitems);
         foreach ($cartitems as $i => $item) {
@@ -54,10 +56,12 @@ class CartService
             $cartbrands[$i] = Brands::find($products[$i]->product_brand_id)->brand_name;
             $sku_color = ProductSKU::find($item['color']);
             $color_obj = Colors::find($sku_color->sku_type_id);
+            $colorobjs[$i] = $sku_color;
             $colorname[$i] = $color_obj->color_name;
 
             $sku_size = ProductSKU::find($item['size']);
             $size_obj = Sizes::find($sku_size->sku_type_id);
+            $sizeobjs[$i] = $sku_size;
             $sizename[$i] = $size_obj->size_name;
 
             $image = Products::get_cart_image($item['product'], $color_obj->color_id)->image_name;
@@ -68,6 +72,8 @@ class CartService
             $sum += $stocks[$i]->product_price_sale * $item['count'];
             $count += $item['count'];
         }
-        return compact('cartitems', 'sum', 'count', 'images', 'colorname', 'sizename', 'cartbrands', 'products', 'stocks');
+        $total['sum'] = $sum; $total['count'] = $count;
+        return compact('cartitems', 'total', 'count', 'images', 'colorname', 'sizename', 
+                'cartbrands', 'products', 'stocks', 'colorobjs', 'sizeobjs');
     }
 }

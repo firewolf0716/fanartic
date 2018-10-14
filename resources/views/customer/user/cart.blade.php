@@ -24,14 +24,14 @@
                                         </div>
                                         <!--/.c-item__column__figure-->
                                         <div class="c-item__column__data">
-                                            <h3 class="c-item__name">{{$cartbrands[$i]}}</h3>
+                                            <h3 class="c-item__name">{{ $cartbrands[$i] }}</h3>
                                             <ul class="c-item__data">
                                                 <li>{{ $products[$i]->product_name }}</li>
                                                 <li>{{ __('customer.カラー') }}：{{$colorname[$i]}}</li>
                                                 <li>{{ __('customer.サイズ') }}：{{$sizename[$i]}}</li>
                                             </ul>
                                             <div class="c-item__price u-sp">
-                                                <strong>&yen;{{number_format($stocks[$i]->product_price_sale)}}</strong></div>
+                                                <strong>&yen;{{ number_format($stocks[$i]->product_price_sale) }}</strong></div>
                                         </div>
                                         <!--/.c-item__column__data-->
                                     </div>
@@ -67,7 +67,7 @@
                 </form>
                 <dl class="cart__total">
                     <dt>{{ __('customer.商品合計') }}（{{number_format($count)}}{{ __('customer.点') }}）</dt>
-                    <dd><strong>¥{{number_format($sum)}}</strong></dd>
+                    <dd><strong>¥{{number_format($total['sum'])}}</strong></dd>
                 </dl>
                 <!--/.cart__total-->
                 @else
@@ -81,7 +81,7 @@
                         {{--<p class="cart__shipping__delivery">{{ __('customer.送料無料でお届けします。
                         <p class="cart__shipping__quantity">{{ __('customer.商品合計') }}（ {{number_format($count)}}点）</p>
 ') }}</p>--}}
-                        <p class="cart__shipping__price"><strong>¥{{number_format($sum)}}</strong></p>
+                        <p class="cart__shipping__price"><strong>¥{{number_format($total['sum'])}}</strong></p>
                         <p class="cart__shipping__point">{{ __('customer.獲得ポイント') }}：2,000{{ __('customer.ポイント') }}</p>
                         <div class="cart__shipping__button">
                             <a href="{{url('user/checkflowinfo')}}" class="c-button c-button--submit c-button--full">
