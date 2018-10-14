@@ -39,13 +39,10 @@ use Session;
 class MerchantproductController extends Controller
 {
     public $status_list = array(
-            array("blue", "処理された"),
-            array("green" , "コンプリート"),
-            array("yellow" , "開いた"),
-            array("red" ,  "失敗"),
-            array("purple" , "辞退"),
-            array("grey" , "再順序付けされた"),
-            array("dark" , "キャンセル"),
+            array("blue", "予約 => 受注(予約)販売のみ"),
+            array("green" , "注文受付(受注)"),
+            array("yellow" , "支払い済み(入金)"),
+            array("red" ,  "配送済み(発送)"),
         );  
 
     public function __construct()
