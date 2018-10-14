@@ -42,6 +42,7 @@ use App\Services\MallService;
 use App\Services\StockService;
 use App\Services\ProductService;
 use App\Services\SkuService;
+use App\Services\RecentItemService;
 
 class MallController extends Controller
 {
@@ -71,7 +72,8 @@ class MallController extends Controller
             $images = null;
             $email = null;
             if (Auth::check()) {
-                $recent = Customers::get_recent(Auth::id());
+                //$recent = Customers::get_recent(Auth::id());
+                $recent = RecentItemService::getRecentItems(Auth::id());
                 $images = array();
                 foreach ($recent as $product) {
                     $imagerec = Products::get_master_images($product->product_id);
@@ -196,7 +198,8 @@ class MallController extends Controller
         $recent = null;
         $images = null;
         if (Auth::check()) {
-            $recent = Customers::get_recent(Auth::id());
+            //$recent = Customers::get_recent(Auth::id());
+            $recent = RecentItemService::getRecentItems(Auth::id());
             $images = array();
             foreach ($recent as $product) {
                 $imagerec = Products::get_master_images($product->product_id);
@@ -211,10 +214,10 @@ class MallController extends Controller
     {
         $brand = BrandService::get_brand_byname($brandname);
         if (!$brand) return redirect(route($mallname));
-        $histories   = $brand->histories; 
-        $designers   = $brand->designers; 
+        $histories   = $brand->histories;
+        $designers   = $brand->designers;
         $newses      = $brand->newses;
-        
+
         $view = view('customer.brand_top')
             ->with('brand', $brand)
             ->with('brand_id', $brand->brand_id)

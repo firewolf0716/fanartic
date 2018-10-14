@@ -41,6 +41,7 @@ use App\Services\MallService;
 use App\Services\StockService;
 use App\Services\ProductService;
 use App\Services\SkuService;
+use App\Services\RecentItemService;
 
 class ProductController extends Controller
 {
@@ -103,8 +104,16 @@ class ProductController extends Controller
 
         if (Auth::check()) {
             $customerid = Auth::id();
-            Customers::add_recent($customerid, $productid);
+            //Customers::add_recent($customerid, $productid);
+            $order = array(
+                'customer_id' => $customerid,
+                'recent_product_id' => $productid,
+                'recent_date' => date('Y/m/d H:i:s')
+            );
+            RecentItemService::addRecentItem($order);
         }
+
+
 
         return view('customer.products.product_detail')
             ->with('product', $product)
