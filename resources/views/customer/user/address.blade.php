@@ -26,7 +26,7 @@
                         <br>〒{{$address->address_postalcode}}
                             @php
                                 if($address->country == 'JP'){
-                                    echo "〒".$address->zipcode."\n";
+                                    echo $address->zipcode."\n";
                                     echo $address->province_jp.$address->city_jp.$address->address_jp;
                                 } else {
                                     echo $countries[$address->country].' '.$address->city.' '.$address->address_ex;

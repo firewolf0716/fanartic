@@ -14,7 +14,13 @@ use App\Models\Customers;
 use App\Models\Products;
 use App\Models\ProductSKU;
 use App\Models\Sizes;
-
+use App\Models\Brands;
+use App\Models\CustomerCard;
+use App\Models\ProductStock;
+use App\Services\StockService;
+use App\Services\CartService;
+use App\Services\ReceiptService;
+use App\Services\ScoreService;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
@@ -22,6 +28,7 @@ use Illuminate\Support\Facades\Input;
 use Stripe\Charge;
 use Stripe\Customer;
 use Stripe\Stripe;
+use App\Models\CustomerBuyHistory;
 
 class MFlowController extends Controller
 {
@@ -44,7 +51,7 @@ class MFlowController extends Controller
 
         $cards = Customers::get_cards(Auth::id());
 
-        $total = Cart::getSum(Auth::id());
+        $total = session('cartsum') !== null ? session('cartsum') : 0;
 
         return $this->layout_init(view('customer.checkflow.input'), 1)
             ->with('addresses', $addresses)
@@ -56,6 +63,7 @@ class MFlowController extends Controller
     public function checkflowinfoPost(Request $request)
     {
         $address = $request->input('address');
+        // dd($address);
         if ($address == 'addressNew') {
             $request->merge(['phone' => $request->input('tel1') . '-' . $request->input('tel2') . '-' . $request->input('tel3')]);
             $request->merge(['customer_id' => Auth::id()]);
@@ -87,7 +95,6 @@ class MFlowController extends Controller
             Session::put('calc_address', $address);
             $addressData = CustomerAddress::find($address);
         }
-
         // 関税 part
         if ($addressData != 'JP') {
             $dutyCounty = DutyCountry::where('country', $addressData->country)->first();
@@ -131,22 +138,6 @@ class MFlowController extends Controller
 
     public function checkflowconfirm()
     {
-        $cartitems = Cart::getItems(Auth::id());
-
-        $images = array();
-        $colorname = array();
-        $sizename = array();
-        foreach ($cartitems as $item) {
-            $sku_color = ProductSKU::find($item->product_sku_color_id);
-            $colorname[$item->id] = Colors::find($sku_color->sku_type_id);
-
-            $sku_size = ProductSKU::find($item->product_sku_size_id);
-            $sizename[$item->id] = Sizes::find($sku_color->sku_type_id);
-
-            $image = Products::get_cart_image($item->cart_productid, $colorname[$item->id]->color_id)->image_name;
-            $images[$item->id] = $image;
-        }
-
         $address = CustomerAddress::find(Session::get('calc_address'));
         $credit = Session::get('calc_credit');
         $locale = session('applocale');
@@ -158,19 +149,14 @@ class MFlowController extends Controller
             $creditobj = Customers::get_card($credit);
         }
 
-        $total = Cart::getSum(Auth::id());
         if (Session::get('calc_duty')) {
             $total['sum'] += $total['sum'] * Session::get('calc_duty') / 100;
         }
         return $this->layout_init(view('customer.checkflow.confirm'), 1)
-            ->with('cartitems', $cartitems)
             ->with('address', $address)
             ->with('countries', $countries)
             ->with('creditobj', $creditobj)
-            ->with('total', $total)
-            ->with('images', $images)
-            ->with('colorname', $colorname)
-            ->with('sizename', $sizename);
+            ->with(CartService::cartParams());
     }
 
     public function process_payment($creditid, $amt)
@@ -180,7 +166,7 @@ class MFlowController extends Controller
 
         } else {
             try {
-                $card = Customers::get_card($creditid)->first();
+                $card = CustomerCard::find($creditid);
                 $cu = Customer::retrieve($card->card_token);
                 $charge = Charge::create(array(
                     'customer' => $cu->id,
@@ -197,55 +183,63 @@ class MFlowController extends Controller
     public function confirm_order()
     {
         $maxgroup = Customers::max_history_group() + 1;
-        $cartitems = Cart::getItems(Auth::id());
-        $address = Session::get('calc_address');
+        extract(CartService::cartParams());
+        // dd($products);
+        $address = CustomerAddress::find(Session::get('calc_address'));
         $credit = Session::get('calc_credit');
-        $total = Cart::getSum(Auth::id());
+        // $total = Cart::getSum(Auth::id());
         if (Session::get('calc_duty')) {
             $total['sum'] += $total['sum'] * Session::get('calc_duty') / 100;
         }
+        // dd($colorobjs);
         $payresult = $this->process_payment($credit, $total['sum']);
         if ($payresult) {
-            foreach ($cartitems as $item) {
+            foreach ($cartitems as $i => $item) {
+                $buyhistory = new CustomerBuyHistory();
+                $buyhistory->history_customerid = Auth::id();
+                $buyhistory->history_productid = $products[$i]->product_id;
+                $buyhistory->history_merchantid = $products[$i]->product_merchant_id;
+                $buyhistory->history_skucolorid = $colorobjs[$i]->cart_skucolorid;
+                $buyhistory->history_skusizeid = $sizeobjs[$i]->cart_skusizeid;
+                $buyhistory->history_amount = $total['sum'];
+                $buyhistory->history_price = $stocks[$i]->product_price_sale;
+                $buyhistory->history_address = $address->id;
+                $buyhistory->history_card = $credit;
+                $buyhistory->history_status = 2;
+                $buyhistory->history_group = $maxgroup;
+                $buyhistory->history_date = date('Y/m/d H:i:s');
+                $buyhistory->save();
+                $historyid = $buyhistory->id;
+
                 $entry = array(
-                    'history_customerid' => $item->cart_customerid,
-                    'history_productid' => $item->cart_productid,
-                    'history_merchantid' => $item->product_merchant_id,
-                    'history_skucolorid' => $item->cart_skucolorid,
-                    'history_skusizeid' => $item->cart_skusizeid,
-                    'history_amount' => $item->cart_amount,
-                    'history_price' => $item->product_price_sale,
+                    'history_customerid' => Auth::id(),
+                    'history_productid' => $products[$i]->product_id,
+                    'history_merchantid' => $products[$i]->product_merchant_id,
+                    'history_skucolorid' => $colorobjs[$i]->sku_id,
+                    'history_skusizeid' => $sizeobjs[$i]->sku_id,
+                    'history_amount' => $total['sum'],
+                    'history_price' => $stocks[$i]->product_price_sale,
                     'history_address' => $address->id,
                     'history_card' => $credit,
                     'history_status' => 2,
                     'history_group' => $maxgroup,
                     'history_date' => date('Y/m/d H:i:s')
                 );
-                $historyid = Customers::add_history($entry);
+                $receiptid = ReceiptService::add_receipt($entry);
+                ReceiptService::add_receipt_detail($entry, $historyid, $receiptid);
 
-                $receiptid = Customers::add_receipt($entry);
-                Customers::add_receipt_detail($entry, $historyid, $receiptid);
-
-                $product = Products::get_product($item->cart_productid);
-                $scoreentry = array(
-                    'customer_id' => Auth::id(),
-                    'brand_id' => $product->product_brand_id,
-                    'score_value' => 1000,
-                    'score_action' => 1,
-                    'score_status' => 1,
-                    'score_type' => 1,
-                );
-                Customers::record_score($scoreentry);
+                $product = $products[$i];
+                ScoreService::addScore(1000, $product->product_brand_id, 1, 1);
             }
             //remove from cart
-            Cart::clear_cart(Auth::id());
+            session(['cart' => null]);
             //remove from stock
-            foreach ($cartitems as $item) {
-                $remain = $item->product_count - $item->cart_amount;
+            foreach ($cartitems as $i => $item) {
+                $remain = $stocks[$i]->product_count - $item['count'];
                 $entry = array(
                     'product_count' => $remain
                 );
-                Customers::update_remain($item->product_id, $item->product_sku_color_id, $item->product_sku_size_id, $entry);
+                StockService::update_stock($item['product'], $colorobjs[$i]->sku_id, $sizeobjs[$i]->sku_id, $entry);
             }
         }
         return $this->layout_init(view('customer.checkflow.final'), 1)->with('payresult', $payresult);

@@ -8,6 +8,9 @@ class CustomerScore extends AppModel
 {
     protected $table = 'customer_score';
     protected $primaryKey = 'id';
+    protected $fillable = [
+        'customer_id', 
+    ];
 
     public function brand()
     {
