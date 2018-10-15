@@ -37,7 +37,7 @@
                                 </li>
                             @endif
                         @endforeach
-                        <li><a href="#">{{ __('common.SALE') }}</a></li>
+                        <li><a href="{{ url($mallname.'/sale__product/item/women') }}">{{ __('common.SALE') }}</a></li>
                         <span class="slide-line"></span>
                     </ul>
                 </div>
@@ -63,7 +63,7 @@
                                 </li>
                             @endif
                         @endforeach
-                        <li><a href="#">{{ __('common.SALE') }}</a></li>
+                        <li><a href="{{ url($mallname.'/sale__product/item/men') }}">{{ __('common.SALE') }}</a></li>
                         <span class="slide-line"></span>
                     </ul>
                 </div>

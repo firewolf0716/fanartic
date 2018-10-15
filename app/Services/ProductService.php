@@ -14,11 +14,14 @@ class ProductService
         return $product;
     }
 
-    public static function get_product_filter_mall($mallid, $brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax)
+    public static function get_product_filter_mall($mallid, $brandid, $categorylevel, $category_id, $size, $color, $rangemin, $rangemax, $filterdate)
     {
-        if (is_null($brandid)) 
-            $filtered_products = Products::get();
-        else     
+        if (is_null($brandid))
+            if(empty($filterdate))
+                $filtered_products = Products::get();
+            else
+                $filtered_products = Products::orderBy('fan_product.created_at', 'desc')->get();
+        else
             $filtered_products = Brands::find($brandid)->products;
 
         if ($categorylevel == 1 || $categorylevel == 2) {
@@ -44,13 +47,23 @@ class ProductService
                             ->whereIn('stocks.skusize.sku_type_id', $colors);
         }
 
-        if (isset($rangemin) && !empty($rangemin)) 
+        if (isset($rangemin) && !empty($rangemin))
             $filtered_products = $filtered_products
                             ->where('stocks.product_price_sale', '>=', $rangemin);
-           
-        if (isset($rangemax) && !empty($rangemax) && $rangemax != '500000') 
+
+        if (isset($rangemax) && !empty($rangemax) && $rangemax != '500000')
             $filtered_products = $filtered_products
                             ->where('stocks.product_price_sale', '<=', $rangemax);
+        if( !empty($filterdate)){
+             $today = date("Y-m-d");
+            if ( $filterdate == 'today') {
+                    $filtered_products = $filtered_products->where('fan_product.created_at', 'like', $today."%");
+            } elseif($filterdate == "week"){
+                    $week_ago = date('Y-m-d', strtotime('-1 week'));
+                    $filtered_products = $filtered_products->where('fan_product.created_at', '<=', $today."%")
+                                ->where('fan_product.created_at', '>=', $week_ago."%");
+            }
+        }
 
         return $filtered_products;
     }
