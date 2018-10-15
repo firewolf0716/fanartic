@@ -99,13 +99,13 @@ class Controller extends BaseController
     public function layout_init($view, $gender)
     {
         $topcategorys = CategoryService::getTopCategorys();
-        $mencategories = CategoryService::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = CategoryService::getMainCategorys($topcategorys[1]->category_id);
-        $maincategorys = CategoryService::getMainCategorys($topcategorys[0]->category_id);
+        $mencategories = CategoryService::getChildCategorys($topcategorys[0]->category_id);
+        $womencategories = CategoryService::getChildCategorys($topcategorys[1]->category_id);
+        $maincategorys = CategoryService::getChildCategorys($topcategorys[0]->category_id);
         $tcategory = $topcategorys[0];
         if ($gender == 2) {
             $tcategory = $topcategorys[1];
-            $maincategorys = CategoryService::getMainCategorys($topcategorys[1]->category_id);
+            $maincategorys = CategoryService::getChildCategorys($topcategorys[1]->category_id);
         }
 
         $brands = Brands::get();
@@ -137,8 +137,8 @@ class Controller extends BaseController
     public function setMainCategory($view)
     {
         $topcategorys = CategoryService::getTopCategorys();
-        $mencategories = CategoryService::getMainCategorys($topcategorys[0]->category_id);
-        $womencategories = CategoryService::getMainCategorys($topcategorys[1]->category_id);
+        $mencategories = CategoryService::getChildCategorys($topcategorys[0]->category_id);
+        $womencategories = CategoryService::getChildCategorys($topcategorys[1]->category_id);
         // return $view->with()
     }
 }

@@ -85,7 +85,7 @@ class CategoryController extends Controller
     }
     
     public function listmain($topid) {
-        $categorys = CategoryService::getMainCategorys($topid);
+        $categorys = CategoryService::getChildCategorys($topid);
         $topcategory = Categorys::find($topid);
         return view('admin.category.list')->with('categorys', $categorys)
                                         ->with('categorylevel', 2)
@@ -96,7 +96,7 @@ class CategoryController extends Controller
     }
 
     public function list($topid, $mainid) {
-        $categorys = CategoryService::getSubCategorys($mainid);
+        $categorys = CategoryService::getChildCategorys($mainid);
         $topcategory = Categorys::find($topid);
         $maincategory = Categorys::find($mainid);
         return view('admin.category.list')->with('categorys', $categorys)
@@ -113,12 +113,12 @@ class CategoryController extends Controller
     }
 
     public function getMainCategorys($topCategoryId) {
-        $mainCategorys = CategoryService::getMainCategorys($topCategoryId);
+        $mainCategorys = CategoryService::getChildCategorys($topCategoryId);
         return $mainCategorys;
     }
     
     public function getSubCategorys($mainCategoryId) {
-        $mainCategorys = CategoryService::getSubCategorys($mainCategoryId);
+        $mainCategorys = CategoryService::getChildCategorys($mainCategoryId);
         return $mainCategorys;
     }
 
@@ -206,7 +206,7 @@ class CategoryController extends Controller
         }
 
         if ($parent_category_id == 0) {
-            $subCategorys = CategoryService::getMainCategorys($id);
+            $subCategorys = CategoryService::getChildCategorys($id);
             foreach ($subCategorys as $subCategory) {
                 Categorys::find($subCategory->category_id)->delete();
                 MatchService::remove_malls($subCategory->category_id);

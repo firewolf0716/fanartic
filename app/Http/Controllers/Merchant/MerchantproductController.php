@@ -86,7 +86,7 @@ class MerchantproductController extends Controller
         } else {
             $brands = Brands::get();
         }
-        $events = Events::get();
+        $events = Event::get();
         $colors = Colors::get();
         $productstates = ProductStates::get();
         $sizeCategorys = SizeCategory::get();
@@ -95,8 +95,9 @@ class MerchantproductController extends Controller
         $selectedColors = explode("/**/", $product->product_color);
         $selectedSizes = explode("/**/", $product->product_size);
 
-        $main_category_id = CategoryService::getMainCategoryID($product->product_category_id);
-        $top_category_id = CategoryService::getTopCategoryID($product->product_category_id);
+        $main_category_id = CategoryService::getParentCategory($product->product_category_id)->category_id;
+        $top_category_id = CategoryService::getParentCategory($main_category_id)->category_id;
+        
         $master_images = Products::get_master_images($product->product_id);
 
         $product_size_id = Products::get_product_size_id($id);

@@ -56,8 +56,8 @@ class CheckMall
 
         // 1 => men, 2 => women
 
-        $men_categories = CategoryService::getMainCategorys(1);
-        $women_categories = CategoryService::getMainCategorys(2);
+        $men_categories = CategoryService::getChildCategorys(1);
+        $women_categories = CategoryService::getChildCategorys(2);
 
         View::share(compact('mallname', 'brands', 'men_categories', 'women_categories'));
 
