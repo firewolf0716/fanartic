@@ -13,4 +13,9 @@ class Malls extends AppModel
     protected $guarded = array('mall_id');
     protected $table = 'master_mall';
     protected $primaryKey = 'mall_id';
+
+    public function categorys()
+    {
+        return $this->hasMany(MallCategorys::class, "mall_id");
+    }
 }

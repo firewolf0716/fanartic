@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Categorys;
+use App\Models\MallCategorys;
+use App\Models\Malls;
 use DB;
 
 class CategoryService
@@ -10,14 +12,10 @@ class CategoryService
     public function getTopCagetory($topid){
         $topcategorys = CategoryService::getTopCategorys();
         $topcategory = null;
-        if ($topid == null) {
-            $topcategory = $topcategorys[0];
-        } else {
-            if ($topid == "men") {
-                $topcategory = Categorys::find(1);
-            } else if ($topid == "women") {
-                $topcategory = Categorys::find(2);
-            }
+        if ($topid == null) $topcategory = $topcategorys[0];
+        else {
+            if ($topid == "men") $topcategory = Categorys::find(1);
+            else if ($topid == "women") $topcategory = Categorys::find(2);
         }
     }
     
@@ -33,50 +31,28 @@ class CategoryService
                 $q->where('category_parent_id', '')
                     ->orWhere('category_parent_id', '0')
                     ->orWhere('category_parent_id', null);
-            })
-            ->get();
+            })->get();
     }
 
-    public static function getMainCategorys($topcategoryid)
+    public static function getChildCategorys($parent_id)
     {
-        return Categorys::where('category_parent_id', $topcategoryid)
-            ->orderBy('category_id', 'ASC')
-            ->get();
-    }
-
-    public static function getSubCategorys($maincategoryid)
-    {
-        return Categorys::where('category_parent_id', $maincategoryid)
-            ->orderBy('category_id', 'ASC')
-            ->get();
+        return Categorys::find($parent_id)->subs;
     }
 
     public static function getParentCategory($id)
     {
-        $parent_id = Categorys::where('category_id', $id)->first()->category_parent_id;
-        return Categorys::where('category_id', $parent_id)->first();
-    }
-
-    public static function getMainCategoryID($id)
-    {
-        return CategoryService::getParentCategory($id)->category_id;
-    }
-
-    public static function getTopCategoryID($id)
-    {
-        $mainCategoryId = CategoryService::getMainCategoryID($id);
-        return CategoryService::getParentCategory($mainCategoryId)->category_id;
+        return Categorys::find($id)->parent;
     }
 
     public static function getSubCategoryIDs($id)
     {
         $result = Array();
-        $subCategorys = CategoryService::getSubCategorys($id);
+        $subCategorys = CategoryService::getChildCategorys($id);
         foreach ($subCategorys as $subCategory) {
-            $subSubCategorys = CategoryService::getSubCategorys($subCategory->category_id);
-            if (count($subSubCategorys) == 0) {
+            $subSubCategorys = CategoryService::getChildCategorys($subCategory->category_id);
+            if (count($subSubCategorys) == 0) 
                 array_push($result, $subCategory->category_id);
-            } else {
+            else {
                 foreach ($subSubCategorys as $subSubCategory) {
                     array_push($result, $subSubCategory->category_id);
                 }
@@ -87,16 +63,30 @@ class CategoryService
 
     public static function get_categorys_for_mall($mall_id)
     {
-        $query = "SELECT master_category.category_id, master_category.category_name, master_category.category_name_en
-        , top_category_table.category_name AS top_category_name, top_category_table.category_name_en AS top_category_name_en
-        , main_category_table.category_name AS main_category_name, main_category_table.category_name AS main_category_name FROM 
-         (SELECT * FROM master_category
-         WHERE master_category.category_id IN (SELECT category_id FROM mall_category_match WHERE mall_id = '$mall_id')) AS master_category
-         LEFT JOIN master_category AS main_category_table ON master_category.category_parent_id = main_category_table.category_id
-         LEFT JOIN master_category AS top_category_table ON main_category_table.category_parent_id = top_category_table.category_id
-         ORDER BY master_category.category_id, master_category.category_id, master_category.category_id";
-        $categorys = DB::select($query);
-        return $categorys;
+        $mall = Malls::find($mall_id);
+        $output = array();
+        $categorys = $mall->categorys;
+
+        foreach ($categorys as $category) {
+
+            $category_id = $category->category_id;
+            $sub_category = Categorys::find($category_id);
+            $main_category = $sub_category->parent;
+            $top_category = $main_category->parent;
+
+            $tmp_obj = new \stdClass();
+            $tmp_obj->category_id = $category->category_id;
+            $tmp_obj->category_name = $sub_category->category_name;
+            $tmp_obj->category_name_en = $sub_category->category_name_en;
+            $tmp_obj->main_category_name = $main_category->category_name;
+            $tmp_obj->main_category_name_en = $main_category->category_name_en;
+            $tmp_obj->top_category_name = $top_category->category_name;
+            $tmp_obj->top_category_name_en = $top_category->category_name_en;
+
+            $output[] = $tmp_obj;
+        }
+
+        return $output;
     }
 
     public static function getMainCategorys_mall($mallid, $topid)
@@ -139,27 +129,20 @@ class CategoryService
 
     public static function get_category_id($top_name, $main_name, $sub_name)
     {
-        $top_id = Categorys::where('category_name', $top_name)
+        $top = Categorys::where('category_name', $top_name)
             ->where(function ($q) {
                 $q->where('category_parent_id', '')
                     ->orWhere('category_parent_id', '0')
                     ->orWhere('category_parent_id', null);
-            })->first()->category_id;
-
-        $main_id = Categorys::where('category_name', $main_name)
-            ->where('category_parent_id', $top_id)->first()->category_id;
-
-        $sub_id = Categorys::where('category_name', $sub_name)
-            ->where('category_parent_id', $main_id)->first()->category_id;
-
+            })->first();
+        $main = $top->subs->where('category_name', $main_name)->first();
+        $sub_id = $main->subs->where('category_name', $sub_name)->first()->category_id;
         return $sub_id;
     }
 
     public static function get_category_byname($parentid, $childname)
     {
-        return DB::table('master_category')
-                ->where('category_parent_id', $parentid)
-                ->where('category_name_en', $childname)
-                ->first();
+        return Categorys::where('category_parent_id', $parentid)
+                ->where('category_name_en', $childname)->first();
     }
 }

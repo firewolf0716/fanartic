@@ -24,16 +24,29 @@ class Brands extends AppModel
     protected $guarded = array('brand_id');
     protected $table = 'master_brand';
     protected $primaryKey = 'brand_id';
+
     public function histories()
     {
         return $this->hasMany(History::class, 'b_id', 'brand_id');
     }
+
     public function newses()
     {
         return $this->hasMany(News::class, 'b_id', 'brand_id');
     }
+    
     public function designers()
     {
         return $this->belongsToMany(Designer::class, 'master_brand_designer', 'brand_id', 'designer_id');
+    }
+
+    public function mall()
+    {
+        return $this->belongsToMany(Brands::class, 'mall_brand_match', "brand_id", 'mall_id');
+    }   
+
+    public function products()
+    {
+        return $this->hasMany(Products::class, "product_brand_id");
     }
 }
