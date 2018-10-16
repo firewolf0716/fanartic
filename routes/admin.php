@@ -182,4 +182,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin','middleware' => 'auth:
 	Route::get('designer/edit/{id}','DesignerController@edit');
 	Route::post('designer/editpost','DesignerController@editpost');
 	Route::get('designer/delete/{id}','DesignerController@delete');
+
+    Route::resource('tempostar','TempostarController',['names' => 'tempostar']);
 });

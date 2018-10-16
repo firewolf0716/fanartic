@@ -15,7 +15,7 @@ class setTempostar extends Command
      *
      * @var string
      */
-    protected $signature = 'set:zaiko';
+    protected $signature = 'set:tempostar';
 
     /**
      * The console command description.

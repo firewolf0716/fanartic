@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Components;
+namespace App\Components\Zaiko;
 
 use App\Models\Currency;
 use App\Models\Products;
@@ -41,7 +41,6 @@ class TempostarComponent
             'host' => $infomation[0],
             'username' => $infomation[1],
             'password' => $infomation[2],
-
             /** optional config settings */
             'port' => 21,
             'root' => '/',
@@ -98,27 +97,43 @@ class TempostarComponent
             foreach ($records as $index => $dataRow) {
                 // dataRow
                 // 0 商品コード, 1想定在庫数, 2更新モード, 3更新対象
-                if($line == 0) {
+                if ($line == 0) {
                     $head = $dataRow;
                     $line++;
                     continue;
                 }
                 for ($i = 0; $i < count($dataRow); ++$i) {
+                    switch ($head[$i]) {
+                        case '商品コード':
+                            $product_code = $dataRow[$i];
+                            break;
+                        case '想定在庫数':
+                            $product_stock = $dataRow[$i];
+                            break;
+                        case '保留在庫数':
+                            break;
+                        case '倉庫コード':
+                            break;
+                        case '良品在庫数':
+                            break;
+                        case '不良在庫数':
+                            break;
+                        case '更新モード':
+                            $update_mode = $dataRow[$i];
+                            break;
+                        case '更新対象':
+                            //1: 想定在庫数のみ更新
+                            //2: 実在庫数(想定在庫数も更新)
+                            //3: 実在庫のみを更新(想定在庫はそのまま)
+                            $update_scope = $dataRow[$i];
+                            break;
+                    }
                 }
-                // 商品コード
-                $product_code = $dataRow[0];
-                // 想定在庫数
-                $product_stock = $dataRow[1];
-                // 更新モード
-                $product_stock = $dataRow[2];
-                // 更新対象
-                //1: 想定在庫数のみ更新
-                //2: 実在庫数(想定在庫数も更新)
-                //3: 実在庫のみを更新(想定在庫はそのまま)
-                $product_stock = $dataRow[3];
+
+                dd($product_code);
 
                 $product = ProductService::getByCode($product_code);
-                if(!empty($product->id)) {
+                if (!empty($product->id)) {
                     // 在庫数更新
                 }
 
@@ -130,15 +145,18 @@ class TempostarComponent
     /**
      *
      * set Stock Information via FTP (在庫更新)
+     * @param $code
+     * @param $stock
+     * @throws
      *
      * 追加：売上が上がったタイミングで呼ぶ(決済完了時)
      * 減算：キャンセルが上がったタイミングで呼ぶ(キャンセル時)
      *
      */
-    public function setStock($product_code, $stock)
+    public function setStock($code, $stock)
     {
         $data = [
-            $product_code,
+            $code,
             $stock,
             "",
             "",
@@ -148,20 +166,9 @@ class TempostarComponent
             "1",
         ];
 
-        // 空のCSVオブジェクトを作成
-        $csv = Writer::createFromFileObject(new \SplTempFileObject());
-
-        $csv->setEnclosure('"');
-
-        // レコード追加
-        $csv->insertOne($this->stockHeader);
-        $csv->insertOne($data);
-
-        // CSVで保存（時間でファイルを作っています）
-        $response = $this->ftp->write('stock/stock' . time() . 'utf8.csv', $csv->__toString());
+        $response = $this->uploadCsv($data, 'stock/stock' . time() . 'utf8.csv');
 
         dd($response);
-
     }
 
     /**
@@ -178,11 +185,38 @@ class TempostarComponent
 
     /**
      * set Sales Information via FTP
+     * @param $code
+     * @param $order_id
+     *
+     * 追加：売上が上がったタイミングで呼ぶ(決済完了時)
+     * 減算：キャンセルが上がったタイミングで呼ぶ(キャンセル時)
      *
      */
-    public function setOrder()
+    public function setOrder($code, $order_id)
     {
-        // 受注があった商品を回す
+        // 受注があった商品の受注を取得
+
+        // csv化
+        $data = [];
+
         // csvアップロード
+        $response = $this->uploadCsv($data, 'stock/stock' . time() . 'utf8.csv');
+    }
+
+    public function uploadCsv($csvFile, $path)
+    {
+        // 空のCSVオブジェクトを作成
+        $csv = Writer::createFromFileObject(new \SplTempFileObject());
+
+        $csv->setEnclosure('"');
+
+        // レコード追加
+        $csv->insertOne($this->stockHeader);
+        $csv->insertOne($csvFile);
+
+        // CSVで保存（時間でファイルを作っています）
+        $response = $this->ftp->write($path, $csv->__toString());
+
+        return $response;
     }
 }
