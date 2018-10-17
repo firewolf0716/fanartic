@@ -33,6 +33,7 @@ use App\Services\SkuService;
 use App\Services\MatchService;
 use App\Services\StockService;
 use App\Services\OrderService;
+use App\Services\ProductService;
 use DB;
 use Session;
 
@@ -98,10 +99,10 @@ class MerchantproductController extends Controller
         $main_category_id = CategoryService::getParentCategory($product->product_category_id)->category_id;
         $top_category_id = CategoryService::getParentCategory($main_category_id)->category_id;
         
-        $master_images = Products::get_master_images($product->product_id);
+        $master_images = ProductMasterImage::get_master_images($product->product_id);
 
-        $product_size_id = Products::get_product_size_id($id);
-        $product_stock_info = Products::get_product_stock_info($id)->first();
+        $product_size_id = ProductSKU::get_product_size_id($id);
+        $product_stock_info = ProductStock::get_product_stock_info($id)->first();
         $topCategorys = CategoryService::getTopCategorys();
 
         $size_category = Sizes::find($selectedSizes[0])->size_category_id;
@@ -269,7 +270,7 @@ class MerchantproductController extends Controller
                 'created_at' => Input::get('create_date'),
                 'updated_at' => Input::get('update_date')
             );
-            $master_image_id = Products::insert_master_image($entry);
+            $master_image_id = ProductMasterImage::insert_master_image($entry);
 
             // product images
             if (Input::has('product_color')) {
@@ -301,11 +302,11 @@ class MerchantproductController extends Controller
     {
         $merchant_id = Auth::id();
         $productid = Input::get('product_id');
-        $master_images = Products::get_master_images($productid);
+        $master_images = ProductMasterImage::get_master_images($productid);
         // Before info
         $current_product_info = Products::get_product($productid);
         $current_product_colors = explode('/**/', $current_product_info->product_color);
-        $current_product_master_images = Products::get_master_images($productid);
+        $current_product_master_images = ProductMasterImage::get_master_images($productid);
         // $current_product_sizes = collect(Products::get_product_sizes($productid))->toArray();
         $current_product_sizes = explode('/**/', $current_product_info->product_size);
         // product color string
@@ -368,12 +369,12 @@ class MerchantproductController extends Controller
         $removed_colors = array_diff($current_product_colors, $product_colors);
 
         // Master Image Update
-        $current_master_images = Products::get_master_images($productid);
+        $current_master_images = ProductMasterImage::get_master_images($productid);
         foreach ($current_master_images as $master_image) {
             $file_update = Input::file('product_image_' . $master_image->master_image_id);
             $uploadSuccess_new = '';
             // foreach($removed_colors as $product_color_id) {
-            //     Products::delete_product_image($productid, $merchant_id, $product_color_id);
+            //     ProductImage::delete_product_image($productid, $merchant_id, $product_color_id);
             // }
 
             $image_name = '';
@@ -439,10 +440,10 @@ class MerchantproductController extends Controller
             }
         }
         // delete master image for removed color
-        $all_product_images = Products::get_images($productid);
+        $all_product_images = ProductImage::get_images($productid);
         foreach ($all_product_images as $product_image) {
             if (in_array($product_image->color_id, $product_colors) == false) {
-                Products::delete_product_image($productid, $merchant_id, $product_image->color_id);
+                ProductImage::delete_product_image($productid, $merchant_id, $product_image->color_id);
             }
         }
         // add SKU Color 
@@ -598,7 +599,7 @@ class MerchantproductController extends Controller
                 }
             }
 
-            $images = Products::get_master_images($product->product_id);
+            $images = ProductMasterImage::get_master_images($product->product_id);
             if (count($images) == 0) {
                 $images = '';
             }
@@ -677,11 +678,12 @@ class MerchantproductController extends Controller
         $selectedColors = explode("/**/", $product->product_color);
         $images = Array();
         foreach ($selectedColors as $selectedColor) {
-            $color_image = Products::get_image($product->product_id, $selectedColor);
+            $color_image = ProductImage::get_image($product->product_id, $selectedColor);
             array_push($images, $color_image);
         }
 
-        $production_sku_infos = Products::get_product_stock_full_info($id);
+        $production_sku_infos = ProductService::get_product_stock_full_info($id);
+
         return view('merchant.product.product_edit_sku')->with('merchant_id', $merchant_id)
             ->with('images', $images)
             ->with('product_id', $id)
@@ -692,7 +694,7 @@ class MerchantproductController extends Controller
     {
         $product_id = Input::get('product_id');
         $merchant_id = Input::get('merchant_id');
-        $product_images = Products::get_images($product_id);
+        $product_images = ProductImage::get_images($product_id);
 
         foreach ($product_images as $proruct_image) {
             $new_image = Input::file('product_image_' . $proruct_image->image_id);
@@ -705,10 +707,10 @@ class MerchantproductController extends Controller
                 . "_" . strval($proruct_image->color_id) . "." . strtolower($new_image->getClientOriginalExtension());
             $uploadSuccess_new = $new_image->move($newdestinationPath, $newFileName);
 
-            Products::set_image_path($proruct_image->image_id, $newFileName);
+            ProductImage::set_image_path($proruct_image->image_id, $newFileName);
         }
 
-        $production_sku_infos = Products::get_product_stock_info($product_id);
+        $production_sku_infos = ProductStock::get_product_stock_info($product_id);
         foreach ($production_sku_infos as $production_sku_info) {
             $product_count = Input::get('product_count_' . $production_sku_info->product_stock_id);
             $product_count_endless = Input::get('product_count_endless_' . $production_sku_info->product_stock_id);
@@ -716,7 +718,7 @@ class MerchantproductController extends Controller
             $product_price_ref = Input::get('product_price_ref_' . $production_sku_info->product_stock_id);
             $product_price_law = Input::get('product_price_law_' . $production_sku_info->product_stock_id);
 
-            Products::set_stock_info($production_sku_info->product_stock_id, $product_count, $product_count_endless, $product_price_sale, $product_price_ref, $product_price_law);
+            ProductStock::set_stock_info($production_sku_info->product_stock_id, $product_count, $product_count_endless, $product_price_sale, $product_price_ref, $product_price_law);
         }
 
         return $this->manage(1);
@@ -1081,7 +1083,7 @@ class MerchantproductController extends Controller
     public function shipping()
     {
         $merchant_id = Auth::id();
-        $cashProducts = Products::get_products_search($merchant_id, '3', '', '', '', '0', '');
+        $cashProducts = ProductService::get_products_search($merchant_id, '3', '', '', '', '0', '');
 
         return view('merchant.product.product_shipping')->with('merchant_id', $merchant_id)
             ->with('cashProducts', $cashProducts)
@@ -1126,7 +1128,7 @@ class MerchantproductController extends Controller
             $duration_range = Input::get('duration_range');
         }
 
-        $cashProducts = Products::get_products_search($merchant_id, $product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range);
+        $cashProducts = ProductService::get_products_search($merchant_id, $product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range);
 
         if ($product_status == '2') {
             return view('merchant.product.product_cash_on_delivery')->with('merchant_id', $merchant_id)
@@ -1179,7 +1181,7 @@ class MerchantproductController extends Controller
                     continue;
                 }
 
-                Products::update_product_count($merchant_id, $product_id, $product_color, $product_size, $product_count);
+                ProductService::update_product_count($merchant_id, $product_id, $product_color, $product_size, $product_count);
             }
 
             fclose($handle);
@@ -1196,7 +1198,7 @@ class MerchantproductController extends Controller
     //     $products = Products::get_products_search($merchant_id, $product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range);
 
     //     foreach ($products as $product) {
-    //         $master_images = Products::get_master_images($product->product_id);
+    //         $master_images = $images = ProductMasterImage::get_master_images($product->product_id);
     //         if (count($master_images) == 0) {
     //             $master_images = '';
     //         }

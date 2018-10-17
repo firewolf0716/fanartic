@@ -7,6 +7,7 @@ use App\Models\Customers;
 use App\Models\Products;
 use App\Models\ProductSKU;
 use App\Models\Sizes;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -32,7 +33,7 @@ class HistoryController extends Controller
                 $sku_size = ProductSku::find($item->product_sku_size_id);
                 $sizename[$item->id] = Sizes::find($sku_size->sku_type_id);
 
-                $image = Products::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
+                $image = ProductImage::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
                 $images[$item->id] = $image;
             }
             $total[$group->history_group] = Customers::get_sum_bygroup($group->history_group);
@@ -62,7 +63,7 @@ class HistoryController extends Controller
             $sku_size = ProductSku::find($item->product_sku_size_id);
             $sizename[$item->id] = Sizes::get_size($sku_color->sku_type_id);
 
-            $image = Products::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
+            $image = ProductImage::get_cart_image($item->history_productid, $colorname[$item->id]->color_id)->image_name;
             $images[$item->id] = $image;
         }
         $total['sum'] = Customers::get_sum_bygroup($group->history_group);

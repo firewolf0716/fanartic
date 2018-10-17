@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Products;
+use DB;
 use App\Models\Brands;
+use App\Models\Products;
+use App\Models\ProductStock;
+use App\Models\Receipts;
 use App\Services\CategoryService;
 
 class ProductService
@@ -66,5 +69,37 @@ class ProductService
         }
 
         return $filtered_products;
+    }
+
+    public static function get_product_stock_full_info($product_id)
+    {
+        $output = array();
+        $stocks = Products::find($product_id)->stocks;
+        foreach ($stocks as $stock) {
+            $stock->color_name = Colors::find($stock->skucolor->sku_type_id)->color_name;
+            $stock->size_name = Sizes::find($stock->skusize->sku_type_id)->size_name;
+            $output[] = $stock;            
+        }
+        return $output;
+    }
+
+    public static function update_product_count($merchant_id, $product_id, $product_color, $product_size, $product_count)
+    {
+        $stocks = Products::find($product_id)->stocks;
+        foreach ($stocks as $stock) {
+            $color_name = $stock->skucolor->color->color_name;
+            $size_name = $stock->skusize->size->size_name;
+            if ($color_name == $product_color && $size_name == $product_size) 
+                $product_stock_id = $stock->product_stock_id;
+        }
+        $result = ProductStock::where('product_stock_id', $product_stock_id)
+            ->update(['product_count' => $product_count]);
+        return $result;
+    }
+
+    public static function get_products_search($merchant_id, $product_status, $free_word, $min_price, $max_price, $duration_setting, $duration_range)
+    {
+        $receipts = Receipts::get_receipt_from_merchant_status($merchant_id, $product_status);
+        return $receipts;
     }
 }

@@ -32,4 +32,20 @@ class ProductStock extends AppModel
     public function skusize(){
         return $this->belongsTo(ProductSKU::class, "product_sku_size_id");
     }
+
+    public static function get_product_stock_info($product_id)
+    {
+        return ProductStock::where('product_id', $product_id)->get();
+        return $stocks;
+    }
+
+    public static function set_stock_info($product_stock_id, $product_count, $product_count_endless, $product_price_sale, $product_price_ref, $product_price_law)
+    {
+        return ProductStock::where('product_stock_id', $product_stock_id)
+            ->update(['product_count' => $product_count,
+                'product_count_endless' => $product_count_endless,
+                'product_price_sale' => $product_price_sale,
+                'product_price_ref' => $product_price_ref,
+                'product_price_law' => $product_price_law]);
+    }
 }

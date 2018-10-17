@@ -34,6 +34,8 @@ use App\Models\MallBrands;
 use App\Models\States;
 use App\Models\CustomerUser;
 use App\Models\CustomerAddress;
+use App\Models\ProductImage;
+use App\Models\ProductMasterImage;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\MatchService;
@@ -92,12 +94,12 @@ class ProductController extends Controller
         }
 
         $price = StockService::get_price_range($product->product_id);
-        $imagerec = Products::get_master_images($product->product_id);
+        $imagerec = ProductMasterImage::get_master_images($product->product_id);
         $skuimages = array();
         foreach ($imagerec as $image) {
             $each = array();
             foreach ($skucolor as $skucolor_id) {
-                $each[$skucolor_id->sku_id] = Products::get_image($productid, $skucolor_id->sku_type_id);
+                $each[$skucolor_id->sku_id] = ProductImage::get_image($productid, $skucolor_id->sku_type_id);
             }
             $skuimages[$image->master_image_id] = $each;
         }

@@ -35,6 +35,7 @@ use App\Models\MallBrands;
 use App\Models\States;
 use App\Models\CustomerUser;
 use App\Models\CustomerAddress;
+use App\Models\ProductMasterImage;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\MatchService;
@@ -84,7 +85,7 @@ class MallController extends Controller
                 $recent = RecentItemService::getRecentItems(Auth::id());
                 $images = array();
                 foreach ($recent as $product) {
-                    $imagerec = Products::get_master_images($product->product_id);
+                    $imagerec = ProductMasterImage::get_master_images($product->product_id);
                     // dd($imagerec);
                     $images[$product->product_id] = $imagerec;
                 }
@@ -235,7 +236,7 @@ class MallController extends Controller
             $recent = RecentItemService::getRecentItems(Auth::id());
             $images = array();
             foreach ($recent as $product) {
-                $imagerec = Products::get_master_images($product->product_id);
+                $imagerec = ProductMasterImage::get_master_images($product->product_id);
                 // dd($imagerec);
                 $images[$product->product_id] = $imagerec;
             }

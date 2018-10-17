@@ -12,4 +12,12 @@ class ReceiptStock extends AppModel
 {
     protected $table = 'receipt_stock';
     protected $primaryKey = 'id';
+
+    public function skucolor(){
+        return $this->belongsTo(ProductSKU::class, "product_sku_color_id");
+    }
+
+    public function skusize(){
+        return $this->belongsTo(ProductSKU::class, "product_sku_size_id");
+    }
 }

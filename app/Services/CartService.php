@@ -7,6 +7,7 @@ use App\Models\Sizes;
 use App\Models\Products;
 use App\Models\ProductSKU;
 use App\Models\Brands;
+use App\Models\ProductImage;
 use App\Services\StockService;
 
 class CartService
@@ -64,7 +65,7 @@ class CartService
             $sizeobjs[$i] = $sku_size;
             $sizename[$i] = $size_obj->size_name;
 
-            $image = Products::get_cart_image($item['product'], $color_obj->color_id)->image_name;
+            $image = ProductImage::get_cart_image($item['product'], $color_obj->color_id)->image_name;
             $images[$i] = $image;
 
             $stocks[$i] = StockService::get_for_product($item['product'], $item['color'], $item['size']);

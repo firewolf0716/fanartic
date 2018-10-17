@@ -16,6 +16,7 @@ use App\Models\Brands;
 use App\Models\Customers;
 use App\Models\Products;
 use App\Models\CustomerUser;
+use App\Models\ProductMasterImage;
 use App\Services\CategoryService;
 use App\Services\RecentItemService;
 
@@ -69,7 +70,7 @@ class Controller extends BaseController
             $recent = RecentItemService::getRecentItems(Auth::id());
             $images = array();
             foreach ($recent as $product) {
-                $imagerec = Products::get_master_images($product->product_id);
+                $imagerec = ProductMasterImage::get_master_images($product->product_id);
                 // dd($imagerec);
                 $images[$product->product_id] = $imagerec;
             }
