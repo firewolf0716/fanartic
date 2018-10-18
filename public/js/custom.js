@@ -1577,7 +1577,7 @@ if (typeof NProgress != 'undefined') {
 		
 			var cb = function(start, end, label) {
 			  console.log(start.toISOString(), end.toISOString(), label);
-			  $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+			  //$('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 			};
 
 			var optionSet1 = {

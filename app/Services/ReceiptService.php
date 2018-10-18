@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Session;
 use Hash;
+use DB;
 
 use App\Models\Brands;
 use App\Models\CustomerAddress;
@@ -81,7 +82,7 @@ class ReceiptService
         //save devliery setting
         $delivery = MerchantShipping::get_merchant_shipping($product->product_merchant_id, $product->shipping_id);
 
-        $rep_delivery = new ReceiptShipping();        
+        $rep_delivery = new ReceiptShipping();
         $rep_delivery->merchant_id = $delivery->merchant_id;
         $rep_delivery->shipping_state = $delivery->shipping_state;
         $rep_delivery->shipping_name = $delivery->shipping_name;
@@ -95,7 +96,7 @@ class ReceiptService
         $rep_delivery->shipping_limit_date = $delivery->shipping_limit_date;
         $rep_delivery->shipping_limit_duration = $delivery->shipping_limit_duration;
         $rep_delivery->save();
-        
+
         $delivery_id = $rep_delivery->id;
         date_default_timezone_set('Asia/Tokyo');
 
@@ -109,7 +110,7 @@ class ReceiptService
         $receipt->date_juchu = date('Y/m/d H:i:s');
         $receipt->status = '2';
         $receipt->save();
-        
+
         return $receipt->id;
     }
 
@@ -177,5 +178,49 @@ class ReceiptService
         $detail->tax_flag = $product->product_taxflag;
         $detail->tax_rate = '8.0';
         $detail->save();
+    }
+
+    public static function get_count_receipt($date){
+        return Receipts::where('created_at', 'like', $date."%")->count();
+    }
+
+    public static function get_count_receipt_lastyear(){
+        $lastyear = date('Y-m-d', strtotime('-1 year'));
+        return Receipts::where('created_at', 'like', $lastyear."%")->count();
+    }
+
+    public static function __today(){
+        $today = date("Y-m-d");
+        return Receipts::where('created_at', 'like', $today."%");
+    }
+
+    public static function get_count_today_receipt(){
+        $query_builder = ReceiptService::__today();
+        //->where('status','=', '1')
+        return $query_builder->count();
+    }
+
+    public static function get_count_unshipping_receipt(){
+        $query_builder = ReceiptService::__today();
+        return $query_builder->where('status','!=', '3')->count();
+    }
+
+    public static function get_count_unsupported_receipt(){
+        $query_builder = ReceiptService::__today();
+        return $query_builder->where('status','=', '0')->orwhere('status','=', '1')->count();
+    }
+
+    public static function  get_where_price($where){
+        if ( $where  == 'today' )
+    	   $result = Receipts::where('receipts.created_at', 'like', date("Y-m-d").'%');
+        else if ( $where == 'this_month' )
+           $result = Receipts::where('receipts.created_at', 'like', date("Y-m").'%');
+
+        $result = $result -> where('status','=', '2')
+                            ->where('status','=', '3')
+                            ->join('receipt_detail', 'receipt_detail.receipt_id', '=', 'receipts.id')
+            				->join('receipt_stock', 'receipt_stock.id', '=', 'receipt_detail.stock_data')
+                            ->sum('receipt_stock.product_price_sale', '*', 'receipt_stock.product_count');
+        return $result;
     }
 }
