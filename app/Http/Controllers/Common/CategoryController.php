@@ -34,6 +34,7 @@ use App\Models\MallBrands;
 use App\Models\States;
 use App\Models\CustomerUser;
 use App\Models\CustomerAddress;
+use App\Models\ProductMasterImage;
 use App\Services\BrandService;
 use App\Services\CategoryService;
 use App\Services\MatchService;
@@ -69,7 +70,7 @@ class CategoryController extends Controller
             $recent = RecentItemService::getRecentItems(Auth::id());
             $images = array();
             foreach ($recent as $product) {
-                $imagerec = Products::get_master_images($product->product_id);
+                $imagerec = ProductMasterImage::get_master_images($product->product_id);
                 // dd($imagerec);
                 $images[$product->product_id] = $imagerec;
             }
@@ -150,7 +151,7 @@ class CategoryController extends Controller
             $price = StockService::get_price_range($product->product_id);
             $prices[$product->product_id] = $price;
 
-            $imagerec = Products::get_master_images($product->product_id);
+            $imagerec = ProductMasterImage::get_master_images($product->product_id);
             $images[$product->product_id] = $imagerec;
         }
 

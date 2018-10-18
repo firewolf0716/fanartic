@@ -94,20 +94,21 @@
                                 <tbody>
                                     @php $i = 0; @endphp
                                     @foreach ($cashProducts as $cashProduct)
-                                        @php $i += 1; @endphp
+                                        @php $i += 1; 
+                                        @endphp
                                         <tr>
                                             <td>{{$i}}</td>
-                                            <td>{{$cashProduct->product_code}}</td>
-                                            <td>{{$cashProduct->product_name}}</td>
-                                            <td>{{$cashProduct->product_amount}}</td>
-                                            <td>{{$cashProduct->product_price}}</td>
-                                            <td>{{$cashProduct->product_amount * $cashProduct->product_price}}</td>
-                                            <td>{{$cashProduct->customer_name_first}} {{$cashProduct->customer_name_second}}</td>
-                                            <td>{{$cashProduct->address_name}}</td>
+                                            <td>{{$cashProduct->detail->product->product_code}}</td>
+                                            <td>{{$cashProduct->detail->product->product_name}}</td>
+                                            <td>{{$cashProduct->detail->product_amt}}</td>
+                                            <td>{{$cashProduct->detail->stock->product_price_sale}}</td>
+                                            <td>{{$cashProduct->detail->product_amt * $cashProduct->detail->stock->product_price_sale}}</td>
+                                            <td>{{$cashProduct->customer->customer_name_first}} {{$cashProduct->customer->customer_name_second}}</td>
+                                            <td>{{$cashProduct->address->address_name}}</td>
                                             <td>{{$cashProduct->date_delivery}}</td>
                                             <td style="text-align:center">
-                                                <a href="#"><span class="glyphicon glyphicon-ok" onclick="accept({{$i}}, {{$cashProduct->receipt_id}})" aria-hidden="true"></span></a>
-                                                <a href="#"><span class="glyphicon glyphicon-remove" onclick="decline({{$i}}, {{$cashProduct->receipt_id}})" aria-hidden="true"></span></a>
+                                                <a href="#"><span class="glyphicon glyphicon-ok" onclick="accept({{$i}}, {{$cashProduct->id}})" aria-hidden="true"></span></a>
+                                                <a href="#"><span class="glyphicon glyphicon-remove" onclick="decline({{$i}}, {{$cashProduct->id}})" aria-hidden="true"></span></a>
                                             </td>
                                         </tr>
                                     @endforeach
