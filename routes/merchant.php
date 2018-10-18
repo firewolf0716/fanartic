@@ -39,6 +39,8 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' =>
     Route::get('/','DashBoardController@index');
     Route::get('dashboard', 'DashBoardController@index')->name('merchant.dashboard');
 
+    Route::post('get_receipt', 'DashBoardController@get_count_receipt_ajax')->name('merchant.get_count_receipt_ajax');
+
     //merchant product
     Route::get('product/add', 'MerchantproductController@add');
     Route::get('product/getscategory/{tcategory}', 'MerchantproductController@getscategory');
@@ -89,4 +91,3 @@ Route::group(['prefix' => 'merchant', 'namespace' => 'Merchant', 'middleware' =>
     Route::get('getcity', 'MerchantController@getcity');
     Route::post('editsetting', 'MerchantController@editsetting');
 });
-

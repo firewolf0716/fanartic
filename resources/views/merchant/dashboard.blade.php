@@ -27,7 +27,7 @@
                 <a href="">
                     <div class="tile-stats">
                         <h3><i class="fa fa-check-circle-o"></i>&emsp;本日の注文</h3>
-                        <div class="count">150<span class="small">件</span></div>
+                        <div class="count">{{ number_format($today_receipt_count) }} <span class="small">件</span></div>
                     </div>
                 </a>
             </div>
@@ -35,7 +35,7 @@
                 <a href="">
                     <div class="tile-stats tile-alert">
                         <h3><i class="fa fa-check-circle-o"></i>&emsp;未発送の注文</h3>
-                        <div class="count">30<span class="small">件</span></div>
+                        <div class="count">{{ number_format($unshipping_count) }}<span class="small">件</span></div>
                     </div>
                 </a>
             </div>
@@ -43,7 +43,7 @@
                 <a href="">
                     <div class="tile-stats">
                         <h3><i class="fa fa-check-circle-o"></i>&emsp;お問い合わせ（未対応）</h3>
-                        <div class="count">20<span class="small">件</span></div>
+                        <div class="count">{{ number_format($unsupported_count) }} <span class="small">件</span></div>
                     </div>
                 </a>
             </div>
@@ -51,7 +51,7 @@
                 <a href="">
                     <div class="tile-stats">
                         <h3><i class="fa fa-check-circle-o"></i>&emsp;本日の注文</h3>
-                        <div class="count">1,500 <span class="small">件</span></div>
+                        <div class="count">{{ number_format($today_receipt_count) }} <span class="small">件</span></div>
                     </div>
                 </a>
             </div>
@@ -61,8 +61,8 @@
             <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <a href="">
                     <div class="tile-stats">
-                        <h3><i class="fa fa-check-circle-o"></i>&emsp;10月2日の売上</h3>
-                        <div class="count">15,000,000<span class="small">円</span></div>
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;{{ date("m")}}月{{date("d") }}日の売上</h3>
+                        <div class="count">{{ number_format($today_price) }} <span class="small">円</span></div>
                         <p>&emsp;</p>
                     </div>
                 </a>
@@ -70,8 +70,8 @@
             <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <a href="">
                     <div class="tile-stats">
-                        <h3><i class="fa fa-check-circle-o"></i>&emsp;2018年10月の累計売上</h3>
-                        <div class="count">35,000,000<span class="small">円</span></div>
+                        <h3><i class="fa fa-check-circle-o"></i>&emsp;{{ date("Y") }}年{{ date("m") }}月の累計売上</h3>
+                        <div class="count">{{ number_format($this_month_price) }} <span class="small">円</span></div>
                         <p>&emsp;</p>
                     </div>
                 </a>
@@ -80,8 +80,8 @@
                 <a href="">
                     <div class="tile-stats">
                         <h3><i class="fa fa-check-circle-o"></i>&emsp;本日の注文</h3>
-                        <div class="count">150<span class="small">件</span></div>
-                        <p>前年比 -30.3%</p>
+                        <div class="count">{{ number_format($today_receipt_count) }} <span class="small">件</span></div>
+                        <p>前年比-{{ number_format($today_receipt_count / $lastyear_receipt_count * 100) }}%</p>
                     </div>
                 </a>
             </div>
@@ -98,7 +98,7 @@
                             <div id="reportrange" class="pull-right"
                                  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                <span></span> <b class="caret"></b>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -106,7 +106,7 @@
                     <div class="x_content">
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <div class="demo-container" style="height:280px">
-                                <div id="chart_plot_02" class="demo-placeholder"></div>
+                                <div id="weekly_progress_chart" class="demo-placeholder"></div>
                             </div>
                             <div class="tiles">
                                 <div class="col-md-4 tile">
@@ -219,7 +219,6 @@
             </div>
         </div>
     </div>
-
         <!-- jQuery -->
         <script src="{{ url('')}}/gvendor/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -270,4 +269,122 @@
     <script src="{{ URL::asset('gvendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{ URL::asset('js/custom.js') }}"></script>
+
+    <script>
+        var order = {
+            startDate: moment().subtract(29, 'days').format('YYYY-MM-DD'),
+            endDate: moment().format('YYYY-MM-DD'),
+        }
+        sendToServer(order);
+
+        function sendToServer(value){
+            $.ajax({
+               type: 'post',
+               data: {
+                   value: value,
+                   _token: "{{ csrf_token() }}"
+               },
+               url: "{{url('merchant/get_receipt')}}",
+               success: function (res_data) {
+                   console.log(res_data);
+                   var chart_data = [];
+                   res_data = JSON.parse(res_data);
+                   for (var d = new Date(value.startDate); d <= new Date(value.endDate); d.setDate(d.getDate() + 1)) {
+                        for(var i=0; i<=res_data.length-1; i++){
+                            if(res_data[i].date == d.format("Y-m-d"))
+                                chart_data.push([d.getTime(), res_data[i].count]);
+                        }
+                   }
+
+                   $.plot( $("#weekly_progress_chart"),
+           			[{
+           				label: "Email Sent",
+           				// data: JSON.parse(chart_data),
+                        data: chart_data,
+           				lines: {
+           					fillColor: "rgba(150, 202, 89, 0.12)"
+           				},
+           				points: {
+           					fillColor: "#fff" }
+           			}], chart_settings);
+               }
+           });
+        }
+
+        $('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+            var order = {
+                startDate: picker.startDate.format('YYYY-MM-DD'),
+                endDate: picker.endDate.format('YYYY-MM-DD'),
+            }
+            sendToServer(order);
+        });
+
+        var chart_settings = {
+			grid: {
+				show: true,
+				aboveData: true,
+				color: "#3f3f3f",
+				labelMargin: 10,
+				axisMargin: 0,
+				borderWidth: 0,
+				borderColor: null,
+				minBorderMargin: 5,
+				clickable: true,
+				hoverable: true,
+				autoHighlight: true,
+				mouseActiveRadius: 100
+			},
+			series: {
+				lines: {
+					show: true,
+					fill: true,
+					lineWidth: 2,
+					steps: false
+				},
+				points: {
+					show: true,
+					radius: 4.5,
+					symbol: "circle",
+					lineWidth: 3.0
+				}
+			},
+			legend: {
+				position: "ne",
+				margin: [0, -25],
+				noColumns: 0,
+				labelBoxBorderColor: null,
+				labelFormatter: function(label, series) {
+					return label + '&nbsp;&nbsp;';
+				},
+				width: 40,
+				height: 1
+			},
+			colors: ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'],
+			shadowSize: 0,
+			tooltip: true,
+			tooltipOpts: {
+				content: "%s: %y.0",
+				xDateFormat: "%d/%m",
+			shifts: {
+				x: -30,
+				y: -50
+			},
+			defaultTheme: false
+			},
+			yaxis: {
+				min: 0
+			},
+			xaxis: {
+				mode: "time",
+				minTickSize: [1, "day"],
+				timeformat: "%Y-%m-%d",
+				// min: chart_data[0][0],
+				// max: chart_data[29][0]
+			}
+		};
+
+    </script>
+
+
+
 @endsection

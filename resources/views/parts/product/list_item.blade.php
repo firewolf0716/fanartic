@@ -3,21 +3,21 @@
         <div class="c-item__column__figure">
             @php
                 $imageset = $product->masterImages;
-                
-                $file_get_path_0 = $imageset[0]->master_image_name;                                    
+
+                $file_get_path_0 = $imageset[0]->master_image_name;
                 $prod_path = url('').'/images/products/'.$file_get_path_0;
-                
+
                 $prod_path02 = NULL;
                 $file_get_path_1 = '';
                 try{
-                    $file_get_path_1 = $imageset[1]->master_image_name;                                    
+                    $file_get_path_1 = $imageset[1]->master_image_name;
                     if (isset($file_get_path_1)) {
                         $prod_path02 = url('').'/images/products/'.$file_get_path_1;
                     }
                 } catch(\Exception $ex){
-                    
+
                 }
-                
+
             @endphp
             <figure class="c-item__figure">
                 <a href="{{ route('product.detail', [$mallname, $product->product_id]) }}"
